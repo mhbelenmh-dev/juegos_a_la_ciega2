@@ -5,110 +5,40 @@
     <title>Entrenamiento Flash Memory Pro</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>♞</text></svg>">
     
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
     <link rel="stylesheet" href="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.css">
-    
     <link rel="stylesheet" href="styles.css">
 
     <style>
-        /* ESTILOS ESPECÍFICOS DE ESTE JUEGO */
-        body { 
-            font-family: 'Segoe UI', sans-serif; 
-            background-color: var(--bg-color); 
-            color: var(--text); 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            min-height: 100vh; 
-            margin: 0; 
-            padding: 20px; 
-            box-sizing: border-box;
-            user-select: none;
-        }
-
+        body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg-color); color: var(--text); display: flex; flex-direction: column; align-items: center; min-height: 100vh; margin: 0; padding: 20px; box-sizing: border-box; user-select: none; }
         h1 { color: var(--accent); margin-top: 0; margin-bottom: 25px; text-transform: uppercase; letter-spacing: 2px; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);}
 
-        /* Layout Principal a dos columnas CENTRADO */
-        #main-layout {
-            display: flex;
-            flex-direction: row;
-            gap: 30px; 
-            width: 100%;
-            max-width: 1200px;
-            justify-content: center; 
-            align-items: flex-start;
-        }
+        #main-layout { display: flex; flex-direction: row; gap: 30px; width: 100%; max-width: 1200px; justify-content: center; align-items: flex-start; }
+        @media (max-width: 900px) { #main-layout { flex-direction: column; align-items: center; } #sidebar { width: 100%; max-width: 450px; } }
 
-        @media (max-width: 900px) {
-            #main-layout { flex-direction: column; align-items: center; }
-            #sidebar { width: 100%; max-width: 450px; }
-        }
+        #game-area { display: flex; flex-direction: column; align-items: center; }
 
-        /* Columna Izquierda: Área de Juego */
-        #game-area {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        /* Cronómetro y Barra */
-        #timer-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-            width: 100%;
-            max-width: 400px;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
+        #timer-header { display: flex; justify-content: space-between; align-items: flex-end; width: 100%; max-width: 400px; margin-bottom: 5px; font-weight: bold; }
         #segundos-num { font-size: 2.2em; color: var(--accent); line-height: 1; }
         
         #barra-tiempo-container { width: 100%; max-width: 400px; height: 12px; background: #1a1917; border-radius: 6px; overflow: hidden; margin-bottom: 15px; display: none; }
         #barra-tiempo { height: 100%; width: 100%; background: var(--blue); transition: width linear; }
 
-        #boards-container {
-            display: flex;
-            flex-direction: row;
-            gap: 20px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
+        #boards-container { display: flex; flex-direction: row; gap: 20px; justify-content: center; flex-wrap: wrap; }
+        .board-wrapper { width: 400px; text-align: center; display: flex; flex-direction: column; align-items: center; }
 
-        .board-wrapper {
-            width: 400px; 
-            text-align: center;
-            display: flex; 
-            flex-direction: column; 
-            align-items: center;
-        }
-
-        .board-title {
-            font-size: 1.1em; font-weight: bold; margin-bottom: 10px; color: #888; text-transform: uppercase; letter-spacing: 1px;
-            opacity: 0; 
-            transition: opacity 0.3s;
-        }
+        .board-title { font-size: 1.1em; font-weight: bold; margin-bottom: 10px; color: #888; text-transform: uppercase; letter-spacing: 1px; opacity: 0; transition: opacity 0.3s; }
         .visible { opacity: 1; }
 
         .chess-board { width: 100%; border: 6px solid #3d3a37; border-radius: 4px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); box-sizing: border-box; background: #262421; }
 
-        /* Columna Derecha: Panel Lateral */
-        #sidebar {
-            flex: 0 0 350px;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
+        #sidebar { flex: 0 0 350px; display: flex; flex-direction: column; gap: 20px; }
 
-        .panel-box {
-            background: var(--panel-bg);
-            padding: 25px;
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-            border: 1px solid #444;
-        }
-
+        .panel-box { background: var(--panel-bg); padding: 25px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); border: 1px solid #444; }
         .panel-title { font-weight: bold; color: var(--accent); margin-bottom: 15px; font-size: 1.2em; text-transform: uppercase; letter-spacing: 1px; text-align: center;}
 
-        /* Mensajes de Estado */
         #status-panel { text-align: center; min-height: 60px; display: flex; align-items: center; justify-content: center; background: #1a1917; border-radius: 6px; padding: 10px; margin-bottom: 20px; border: 1px solid #333;}
         .mensaje { font-size: 1.3em; font-weight: bold; line-height: 1.4; }
         .text-ready { color: #888; }
@@ -117,7 +47,6 @@
         .text-win { color: var(--success); }
         .text-fail { color: var(--danger); }
 
-        /* Controles */
         select { background: #262421; color: #fff; border: 1px solid #555; padding: 12px; border-radius: 6px; font-size: 1.1em; width: 100%; cursor: pointer; outline: none;}
         select:focus { border-color: var(--accent); }
 
@@ -129,13 +58,11 @@
         .btn-comprobar { background: var(--success); color: white; padding: 15px; font-size: 1.3em; box-shadow: 0 4px 0 #4a751b; }
         .btn-comprobar:hover { background: #76b82a; transform: translateY(-2px); box-shadow: 0 6px 0 #4a751b; }
 
-        /* Estadísticas */
         .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .stat-card { background: #262421; padding: 15px; border-radius: 6px; text-align: center; border: 1px solid #3d3a37; }
         .stat-value { display: block; font-size: 2em; font-weight: bold; }
         .stat-label { font-size: 0.8em; color: #888; text-transform: uppercase; margin-top: 5px; display: block;}
 
-        /* Feedback Bordes */
         .border-fail { border-color: var(--danger) !important; }
         .border-win { border-color: var(--success) !important; }
     </style>
@@ -147,7 +74,6 @@
     <div id="main-layout">
         
         <div id="game-area">
-            
             <div id="timer-header" class="oculto">
                 <span style="font-size: 0.9em; color: #888; text-transform: uppercase;">TIEMPO RESTANTE</span>
                 <span id="segundos-num">6s</span>
@@ -201,6 +127,7 @@
                         <span class="stat-label">Aciertos</span>
                     </div>
                 </div>
+                <a href="index.html" style="text-decoration:none;"><button style="background:#444; color:white; width:100%; margin-top:20px; padding:10px; box-shadow: 0 4px 0 #222;">⬅ Menú Principal</button></a>
             </div>
         </div>
 
@@ -209,234 +136,109 @@
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
-    
     <script src="utils.js"></script>
 
     <script>
-        var userBoard = null;
-        var solutionBoard = null;
-        var solucionFEN = ''; 
-        var tiempoFlash = 6000; // 6 Segundos
-        var pieceThemeUrl = 'https://chessboardjs.com/img/chesspieces/wikipedia/{piece}.png';
-        var intervaloNum = null;
-        
-        // Estadísticas
-        var rondasJugadas = 0;
-        var aciertos = 0;
+        var userBoard = null; var solutionBoard = null; var solucionFEN = ''; var tiempoFlash = 6000; var pieceThemeUrl = 'https://chessboardjs.com/img/chesspieces/wikipedia/{piece}.png'; var intervaloNum = null;
+        var rondasJugadas = 0; var aciertos = 0;
 
-        // Iniciar tablero vacío al cargar la página
-        userBoard = Chessboard('myBoard', {
-            position: 'empty',
-            draggable: false,
-            sparePieces: false,
-            pieceTheme: pieceThemeUrl
-        });
+        window.onload = () => {
+            userBoard = Chessboard('myBoard', { position: 'empty', draggable: false, sparePieces: false, pieceTheme: pieceThemeUrl });
+            let p = obtenerPerfil();
+            rondasJugadas = p.flashJugados || 0; aciertos = p.flashAciertos || 0;
+            document.getElementById('stat-rondas').innerText = rondasJugadas; document.getElementById('stat-aciertos').innerText = aciertos;
+        };
 
         function empezarRonda() {
-            // Reset de UI
-            document.getElementById('solution-container').classList.add('oculto');
-            document.getElementById('user-title').classList.remove('visible');
-            document.getElementById('myBoard').classList.remove('border-fail', 'border-win');
-
-            document.getElementById('btn-start').classList.add('oculto');
-            document.getElementById('btn-check').classList.add('oculto');
-            document.getElementById('piezas-count').disabled = true;
+            document.getElementById('solution-container').classList.add('oculto'); document.getElementById('user-title').classList.remove('visible');
+            document.getElementById('myBoard').classList.remove('border-fail', 'border-win'); document.getElementById('btn-start').classList.add('oculto');
+            document.getElementById('btn-check').classList.add('oculto'); document.getElementById('piezas-count').disabled = true;
             
-            // Generar Posición
             let numPiezas = parseInt(document.getElementById('piezas-count').value);
             solucionFEN = generarPosicionAleatoria(numPiezas);
             
             if (userBoard) userBoard.destroy();
-            userBoard = Chessboard('myBoard', {
-                position: solucionFEN,
-                draggable: false,
-                sparePieces: false,
-                showNotation: true,
-                pieceTheme: pieceThemeUrl
-            });
+            userBoard = Chessboard('myBoard', { position: solucionFEN, draggable: false, sparePieces: false, showNotation: true, pieceTheme: pieceThemeUrl });
 
-            // Mensajes
-            let msg = document.getElementById('msg');
-            msg.innerText = "¡MEMORIZA LA POSICIÓN!";
-            msg.className = "mensaje text-mem";
+            let msg = document.getElementById('msg'); msg.innerText = "¡MEMORIZA LA POSICIÓN!"; msg.className = "mensaje text-mem";
+            document.getElementById('timer-header').classList.remove('oculto'); let barContainer = document.getElementById('barra-tiempo-container');
+            let barra = document.getElementById('barra-tiempo'); barContainer.style.display = 'block'; barra.style.transition = 'none'; barra.style.width = '100%';
             
-            // UI del Tiempo y Barra
-            document.getElementById('timer-header').classList.remove('oculto');
-            let barContainer = document.getElementById('barra-tiempo-container');
-            let barra = document.getElementById('barra-tiempo');
-            barContainer.style.display = 'block';
-            barra.style.transition = 'none';
-            barra.style.width = '100%';
-            
-            // Cronómetro Numérico y Sonidos
-            let t = tiempoFlash / 1000;
-            const displayNum = document.getElementById('segundos-num');
-            displayNum.innerText = t + "s";
-            displayNum.style.color = "var(--accent)";
-
-            reproducirSonido('tick'); // Tick inicial
+            let t = tiempoFlash / 1000; const displayNum = document.getElementById('segundos-num'); displayNum.innerText = t + "s"; displayNum.style.color = "var(--accent)";
+            reproducirSonido('tick'); 
 
             if (intervaloNum) clearInterval(intervaloNum);
             intervaloNum = setInterval(() => {
                 t--;
-                if (t > 0) {
-                    displayNum.innerText = t + "s";
-                    reproducirSonido('tick'); // Tick en cada segundo restante
-                    if (t <= 1) displayNum.style.color = "var(--danger)"; // Rojo en el último segundo
-                } else if (t === 0) {
-                    displayNum.innerText = "0s";
-                }
+                if (t > 0) { displayNum.innerText = t + "s"; reproducirSonido('tick'); if (t <= 1) displayNum.style.color = "var(--danger)"; } 
+                else if (t === 0) { displayNum.innerText = "0s"; }
                 if (t <= 0) clearInterval(intervaloNum);
             }, 1000);
 
-            // Animación Barra
-            setTimeout(() => {
-                barra.style.transition = `width ${tiempoFlash}ms linear`;
-                barra.style.width = '0%';
-            }, 50);
-
-            // Transición a fase de reconstrucción
-            setTimeout(() => {
-                faseReconstruccion();
-            }, tiempoFlash);
+            setTimeout(() => { barra.style.transition = `width ${tiempoFlash}ms linear`; barra.style.width = '0%'; }, 50);
+            setTimeout(() => { faseReconstruccion(); }, tiempoFlash);
         }
 
         function faseReconstruccion() {
-            let msg = document.getElementById('msg');
-            msg.innerText = "¡RECONSTRUYE!\nArrastra las piezas al tablero.";
-            msg.className = "mensaje text-build";
-            
-            // Ocultar Cronómetro y Barra
-            document.getElementById('timer-header').classList.add('oculto');
-            document.getElementById('barra-tiempo-container').style.display = 'none';
+            let msg = document.getElementById('msg'); msg.innerText = "¡RECONSTRUYE!\\nArrastra las piezas al tablero."; msg.className = "mensaje text-build";
+            document.getElementById('timer-header').classList.add('oculto'); document.getElementById('barra-tiempo-container').style.display = 'none';
             document.getElementById('user-title').classList.add('visible');
 
             if (userBoard) userBoard.destroy();
-            userBoard = Chessboard('myBoard', {
-                position: 'empty',
-                draggable: true,
-                dropOffBoard: 'trash',
-                sparePieces: true,
-                showNotation: true,
-                pieceTheme: pieceThemeUrl
-            });
-
+            userBoard = Chessboard('myBoard', { position: 'empty', draggable: true, dropOffBoard: 'trash', sparePieces: true, showNotation: true, pieceTheme: pieceThemeUrl });
             document.getElementById('btn-check').classList.remove('oculto');
         }
 
         function comprobar() {
-            rondasJugadas++;
-            document.getElementById('stat-rondas').innerText = rondasJugadas;
-
-            let fenUsuario = userBoard.fen();
-            let colocacionSolucion = solucionFEN.split(' ')[0];
-            let colocacionUsuario = fenUsuario.split(' ')[0];
-
+            let fenUsuario = userBoard.fen(); let colocacionSolucion = solucionFEN.split(' ')[0]; let colocacionUsuario = fenUsuario.split(' ')[0];
             let msg = document.getElementById('msg');
 
+            // --- GUARDADO DE ESTADÍSTICAS ---
+            rondasJugadas++;
+            actualizarEstadisticaGlobal('flashJugados', 1, true);
+            document.getElementById('stat-rondas').innerText = rondasJugadas;
+
             if (colocacionUsuario === colocacionSolucion) {
-                // REPRODUCE SONIDO DE ÉXITO
                 reproducirSonido('correcto');
-                
                 aciertos++;
+                actualizarEstadisticaGlobal('flashAciertos', 1, true);
+                registrarXP('medio', true); // XP Acierto
+                
                 document.getElementById('stat-aciertos').innerText = aciertos;
-                
-                msg.innerText = "✅ ¡PERFECTO!\nMemoria fotográfica.";
-                msg.className = "mensaje text-win";
+                msg.innerText = "✅ ¡PERFECTO!\\nMemoria fotográfica."; msg.className = "mensaje text-win";
                 document.getElementById('myBoard').classList.add('border-win');
-                
-                userBoard = Chessboard('myBoard', {
-                    position: fenUsuario,
-                    draggable: false,
-                    showNotation: true,
-                    pieceTheme: pieceThemeUrl
-                });
-
+                userBoard = Chessboard('myBoard', { position: fenUsuario, draggable: false, showNotation: true, pieceTheme: pieceThemeUrl });
             } else {
-                // REPRODUCE SONIDO DE ERROR
                 reproducirSonido('incorrecto');
+                registrarXP('medio', false); // XP Fallo
                 
-                msg.innerText = "❌ DIFERENCIAS DETECTADAS\nCompara con la solución.";
-                msg.className = "mensaje text-fail";
+                msg.innerText = "❌ DIFERENCIAS DETECTADAS\\nCompara con la solución."; msg.className = "mensaje text-fail";
                 document.getElementById('myBoard').classList.add('border-fail');
-
-                // Mostrar panel de solución
                 document.getElementById('solution-container').classList.remove('oculto');
 
-                // Recargar tablero de usuario deshabilitando el arrastre
-                userBoard.destroy();
-                userBoard = Chessboard('myBoard', {
-                    position: fenUsuario,
-                    draggable: false, 
-                    showNotation: true,
-                    pieceTheme: pieceThemeUrl
-                });
-
-                // Cargar tablero de solución
-                setTimeout(() => {
-                    userBoard.resize(); 
-                    if (solutionBoard) solutionBoard.destroy();
-                    solutionBoard = Chessboard('solutionBoard', {
-                        position: solucionFEN,
-                        draggable: false,
-                        showNotation: true,
-                        pieceTheme: pieceThemeUrl
-                    });
-                }, 50);
+                userBoard.destroy(); userBoard = Chessboard('myBoard', { position: fenUsuario, draggable: false, showNotation: true, pieceTheme: pieceThemeUrl });
+                setTimeout(() => { userBoard.resize(); if (solutionBoard) solutionBoard.destroy(); solutionBoard = Chessboard('solutionBoard', { position: solucionFEN, draggable: false, showNotation: true, pieceTheme: pieceThemeUrl }); }, 50);
             }
+            // --------------------------------
 
-            // Cambiar botones
             document.getElementById('btn-check').classList.add('oculto');
-            setTimeout(() => {
-                let btnStart = document.getElementById('btn-start');
-                btnStart.innerText = "SIGUIENTE RONDA";
-                btnStart.classList.remove('oculto');
-                document.getElementById('piezas-count').disabled = false;
-            }, 200);
+            setTimeout(() => { let btnStart = document.getElementById('btn-start'); btnStart.innerText = "SIGUIENTE RONDA"; btnStart.classList.remove('oculto'); document.getElementById('piezas-count').disabled = false; }, 200);
         }
 
-        // --- LÓGICA DE GENERACIÓN DE POSICIONES ---
         function generarPosicionAleatoria(nPiezas) {
-            let g = new Chess();
-            g.clear();
-            const piezasTipo = ['p', 'n', 'b', 'r', 'q'];
-            let ocupadas = new Set();
-
-            let k1 = casAleatoria();
-            g.put({ type: 'k', color: 'w' }, k1);
-            ocupadas.add(k1);
-            
-            let k2 = casAleatoria();
-            while (distanciaRey(k1, k2) <= 1 || ocupadas.has(k2)) { k2 = casAleatoria(); }
-            g.put({ type: 'k', color: 'b' }, k2);
-            ocupadas.add(k2);
-
+            let g = new Chess(); g.clear(); const piezasTipo = ['p', 'n', 'b', 'r', 'q']; let ocupadas = new Set();
+            let k1 = casAleatoria(); g.put({ type: 'k', color: 'w' }, k1); ocupadas.add(k1);
+            let k2 = casAleatoria(); while (distanciaRey(k1, k2) <= 1 || ocupadas.has(k2)) { k2 = casAleatoria(); }
+            g.put({ type: 'k', color: 'b' }, k2); ocupadas.add(k2);
             for (let i = 0; i < nPiezas; i++) {
-                let cas = casAleatoria();
-                while (ocupadas.has(cas)) { cas = casAleatoria(); }
-                
-                let tipo = piezasTipo[Math.floor(Math.random() * piezasTipo.length)];
-                let color = Math.random() > 0.5 ? 'w' : 'b';
-                
+                let cas = casAleatoria(); while (ocupadas.has(cas)) { cas = casAleatoria(); }
+                let tipo = piezasTipo[Math.floor(Math.random() * piezasTipo.length)]; let color = Math.random() > 0.5 ? 'w' : 'b';
                 if (tipo === 'p' && (cas.includes('1') || cas.includes('8'))) tipo = 'n';
-
-                g.put({ type: tipo, color: color }, cas);
-                ocupadas.add(cas);
-            }
-            return g.fen();
+                g.put({ type: tipo, color: color }, cas); ocupadas.add(cas);
+            } return g.fen();
         }
-
-        function casAleatoria() {
-            const c = ['a','b','c','d','e','f','g','h'];
-            const f = [1,2,3,4,5,6,7,8];
-            return c[Math.floor(Math.random()*8)] + f[Math.floor(Math.random()*8)];
-        }
-
-        function distanciaRey(c1, c2) {
-            let x1 = c1.charCodeAt(0), y1 = parseInt(c1[1]);
-            let x2 = c2.charCodeAt(0), y2 = parseInt(c2[1]);
-            return Math.max(Math.abs(x1-x2), Math.abs(y1-y2));
-        }
+        function casAleatoria() { const c = ['a','b','c','d','e','f','g','h']; const f = [1,2,3,4,5,6,7,8]; return c[Math.floor(Math.random()*8)] + f[Math.floor(Math.random()*8)]; }
+        function distanciaRey(c1, c2) { let x1 = c1.charCodeAt(0), y1 = parseInt(c1[1]); let x2 = c2.charCodeAt(0), y2 = parseInt(c2[1]); return Math.max(Math.abs(x1-x2), Math.abs(y1-y2)); }
     </script>
 </body>
 </html>

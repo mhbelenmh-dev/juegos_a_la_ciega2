@@ -5,12 +5,13 @@
     <title>Puzzle Storm 8.0: Modo Examen</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>♞</text></svg>">
     
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
     <link rel="stylesheet" href="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.css">
-    
     <link rel="stylesheet" href="styles.css">
 
     <style>
-        /* ESTILOS ESPECÍFICOS DE ESTE JUEGO */
         body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg-color); color: var(--text); text-align: center; display: flex; flex-direction: column; align-items: center; min-height: 100vh; margin: 0; }
         h1 { color: var(--accent); margin-bottom: 5px; }
         
@@ -33,6 +34,7 @@
         button.rojo { background: var(--danger); } 
         button.azul { background: var(--blue); }
         button.azul:hover { background: #4fa3f0; }
+        button.gris { background: #444; } button.gris:hover { background: #555; }
         
         #mensaje-final h2 { font-size: 3em; color: var(--accent); margin: 0; }
         #mensaje-final p { font-size: 1.5em; color: #fff; }
@@ -45,12 +47,14 @@
 <body>
 
     <div id="pantalla-carga" class="info-box">
-        <h1 style="color: var(--text);">⚡ Puzzle Storm 12.0 ⚡</h1>
+        <h1 style="color: var(--text);">⚡ Puzzle Storm Tiempo ⚡</h1>
         <p style="color: #aaa;">¿Qué base de datos quieres usar?</p>
         <button id="btn-defecto" class="btn-secundario">🎮 Usar la base del juego</button>
         <hr style="border: 1px solid #444; margin: 20px 0;">
         <p style="font-size: 0.9em; color: #888;">O sube tu propio archivo <strong>.json</strong>:</p>
         <input type="file" id="archivoInput" accept=".json">
+        <br><br>
+        <a href="index.html" style="text-decoration:none;"><button class="gris">⬅ Volver al Menú</button></a>
     </div>
 
     <div id="pantalla-inicio" class="pantalla-overlay oculto">
@@ -61,6 +65,7 @@
             <li>🚀 <strong>Objetivo:</strong> Llegar lo más lejos posible.</li>
         </ul>
         <button onclick="empezarPartida()">¡EMPEZAR!</button>
+        <a href="index.html" style="text-decoration:none;"><button class="gris">⬅ Menú</button></a>
     </div>
 
     <div id="pantalla-fin" class="pantalla-overlay oculto">
@@ -71,6 +76,7 @@
             <div style="margin-top: 20px;">
                 <button class="rojo" onclick="location.reload()">Jugar de Nuevo</button>
                 <button id="btn-repaso" class="azul oculto" onclick="iniciarRepaso()">🔍 Revisar Fallos (<span id="countFallos">0</span>)</button>
+                <a href="index.html" style="text-decoration:none;"><button class="gris">⬅ Menú</button></a>
             </div>
         </div>
     </div>
@@ -96,14 +102,13 @@
         <div id="repaso-controles">
             <button class="azul" onclick="verSolucion()">💡 Ver Solución</button>
             <button onclick="siguienteRepaso()">Siguiente ➡</button>
-            <button class="rojo" onclick="location.reload()">Salir</button>
+            <a href="index.html" style="text-decoration:none;"><button class="rojo">Salir</button></a>
         </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.2/chess.js"></script>
-    
     <script src="utils.js"></script>
 
     <script>
@@ -116,16 +121,15 @@
         let puntos = 0; let racha = 0; let tiempoRestante = TIEMPO_INICIAL; let intervaloReloj = null; let juegoActivo = false;
         let indiceRepasoActual = 0; let enModoRepaso = false;
 
-        // --- CARGA MODULAR DE BASE DE DATOS ---
         inicializarCargaBaseDatos('mis_puzzles.json', 'btn-defecto', 'archivoInput', function(data) {
-            todosLosPuzzles = data;
-            iniciarPantallaJuego();
+            todosLosPuzzles = data; iniciarPantallaJuego();
         });
 
         function iniciarPantallaJuego() {
             document.getElementById('pantalla-carga').classList.add('oculto');
             document.getElementById('pantalla-inicio').classList.remove('oculto');
             board = Chessboard('tablero', { draggable: true, position: 'start', pieceTheme: 'https://chessboardjs.com/img/chesspieces/wikipedia/{piece}.png', onDragStart: onDragStart, onDrop: onDrop, onSnapEnd: onSnapEnd });
+            let p = obtenerPerfil(); eloActual = p.eloNormal || 1700; 
         }
 
         function empezarPartida() {
@@ -138,14 +142,8 @@
         function arrancarReloj() {
             actualizarRelojVisual();
             intervaloReloj = setInterval(() => { 
-                tiempoRestante--; 
-                actualizarRelojVisual(); 
-                
-                // Efecto de sonido de estrés si quedan 10 segundos o menos
-                if (tiempoRestante <= 10 && tiempoRestante > 0) {
-                    reproducirSonido('tick');
-                }
-                
+                tiempoRestante--; actualizarRelojVisual(); 
+                if (tiempoRestante <= 10 && tiempoRestante > 0) { reproducirSonido('tick'); }
                 if (tiempoRestante <= 0) finDelJuego(); 
             }, 1000);
         }
@@ -154,8 +152,7 @@
             if (tiempoRestante < 0) tiempoRestante = 0;
             let minutos = Math.floor(tiempoRestante / 60); let segundos = tiempoRestante % 60;
             document.getElementById('timerDisplay').innerText = `${minutos.toString().padStart(2, '0')}:${segundos.toString().padStart(2, '0')}`;
-            if (tiempoRestante < 30) document.getElementById('timerDisplay').style.color = 'var(--danger)';
-            else document.getElementById('timerDisplay').style.color = 'var(--accent)';
+            if (tiempoRestante < 30) document.getElementById('timerDisplay').style.color = 'var(--danger)'; else document.getElementById('timerDisplay').style.color = 'var(--accent)';
         }
 
         function cargarNuevoPuzzle() {
@@ -172,34 +169,24 @@
             document.getElementById('eloDisplay').innerText = eloActual;
         }
 
-        function hacerMovimiento(moveString) {
-            let from = moveString.substring(0,2); let to = moveString.substring(2,4); let promotion = moveString.length > 4 ? moveString.substring(4,5) : 'q';
-            game.move({ from: from, to: to, promotion: promotion });
-        }
+        function hacerMovimiento(moveString) { let from = moveString.substring(0,2); let to = moveString.substring(2,4); let promotion = moveString.length > 4 ? moveString.substring(4,5) : 'q'; game.move({ from: from, to: to, promotion: promotion }); }
 
-        function onDragStart(source, piece) {
-            if (!juegoActivo || game.game_over()) return false;
-            if ((game.turn() === 'w' && piece.search(/^b/) !== -1) || (game.turn() === 'b' && piece.search(/^w/) !== -1)) return false;
-        }
+        function onDragStart(source, piece) { if (!juegoActivo || game.game_over()) return false; if ((game.turn() === 'w' && piece.search(/^b/) !== -1) || (game.turn() === 'b' && piece.search(/^w/) !== -1)) return false; }
 
         function onDrop(source, target) {
             if (!juegoActivo) return 'snapback';
             let move = game.move({ from: source, to: target, promotion: 'q' }); if (move === null) return 'snapback';
-            let miMovimiento = source + target; if (move.promotion) miMovimiento += move.promotion;
-            let solucionCorrecta = puzzleActual.moves[indiceMovimiento];
+            let miMovimiento = source + target; if (move.promotion) miMovimiento += move.promotion; let solucionCorrecta = puzzleActual.moves[indiceMovimiento];
 
             if (miMovimiento === solucionCorrecta) {
-                // REPRODUCE SONIDO ACELERADO PARA LAS PIEZAS INTERMEDIAS
                 if (indiceMovimiento < puzzleActual.moves.length - 1) reproducirSonido('correcto');
-                
                 puntos++; document.getElementById('puntosDisplay').innerText = puntos; indiceMovimiento++;
                 if (indiceMovimiento < puzzleActual.moves.length) {
                     setTimeout(() => { hacerMovimiento(puzzleActual.moves[indiceMovimiento]); board.position(game.fen()); indiceMovimiento++; if (indiceMovimiento >= puzzleActual.moves.length) puzzleCompletado(); }, 200);
                 } else { puzzleCompletado(); }
             } else {
-                // REPRODUCE SONIDO DE ERROR
                 reproducirSonido('incorrecto');
-                
+                registrarXP('avanzado', false); // XP FALLO
                 puzzlesFallados.push(puzzleActual); tiempoRestante -= PENALIZACION; actualizarRelojVisual();
                 let timer = document.getElementById('timerDisplay'); timer.classList.add('tiempo-menos'); setTimeout(() => timer.classList.remove('tiempo-menos'), 100);
                 document.getElementById('status').innerText = `❌ FALLO - SALTANDO AL SIGUIENTE`; document.getElementById('status').className = "incorrecto";
@@ -209,9 +196,9 @@
         }
 
         function puzzleCompletado() {
-            // REPRODUCE SONIDO DE ÉXITO
             reproducirSonido('correcto');
-            
+            registrarXP('avanzado', true); // XP ACIERTO
+
             racha++; document.getElementById('rachaDisplay').innerText = racha;
             if (eloActual < 2000) eloActual += 35; else eloActual += 20;
             let mensajeBonus = "";
@@ -225,34 +212,19 @@
         }
 
         function finDelJuego() {
-            juegoActivo = false; clearInterval(intervaloReloj);
+            juegoActivo = false; clearInterval(intervaloReloj); reproducirSonido('fin');
             
-            // REPRODUCE SONIDO DE FIN
-            reproducirSonido('fin');
-            
+            // SUBIDA A FIREBASE (STORM TIEMPO)
+            actualizarEstadisticaGlobal('stormTiempoMax', puntos, false);
+
             document.getElementById('scoreFinal').innerText = puntos; document.getElementById('eloFinal').innerText = eloActual;
             document.getElementById('pantalla-fin').classList.remove('oculto');
             if (puzzlesFallados.length > 0) { document.getElementById('btn-repaso').classList.remove('oculto'); document.getElementById('countFallos').innerText = puzzlesFallados.length; }
         }
         
-        function iniciarRepaso() {
-            document.getElementById('pantalla-fin').classList.add('oculto'); document.getElementById('interfaz-repaso').classList.remove('oculto');
-            if (!boardRepaso) { boardRepaso = Chessboard('tablero-repaso', { position: 'start', pieceTheme: 'https://chessboardjs.com/img/chesspieces/wikipedia/{piece}.png' }); }
-            indiceRepasoActual = 0; document.getElementById('repasoTotal').innerText = puzzlesFallados.length; cargarPuzzleRepaso();
-        }
-        
-        function cargarPuzzleRepaso() {
-            if (indiceRepasoActual >= puzzlesFallados.length) { alert("¡Repaso terminado!"); location.reload(); return; }
-            let puzzle = puzzlesFallados[indiceRepasoActual];
-            document.getElementById('repasoIndex').innerText = indiceRepasoActual + 1; document.getElementById('status-repaso').innerText = `Nivel: ${puzzle.rating} | Intenta encontrar la jugada`;
-            game.load(puzzle.fen); hacerMovimiento(puzzle.moves[0]); boardRepaso.orientation(game.turn() === 'w' ? 'white' : 'black'); boardRepaso.position(game.fen());
-        }
-        
-        function verSolucion() {
-            let puzzle = puzzlesFallados[indiceRepasoActual]; let solucion = puzzle.moves[1];
-            hacerMovimiento(solucion); boardRepaso.position(game.fen()); document.getElementById('status-repaso').innerText = `Solución: ${solucion}`;
-        }
-        
+        function iniciarRepaso() { document.getElementById('pantalla-fin').classList.add('oculto'); document.getElementById('interfaz-repaso').classList.remove('oculto'); if (!boardRepaso) { boardRepaso = Chessboard('tablero-repaso', { position: 'start', pieceTheme: 'https://chessboardjs.com/img/chesspieces/wikipedia/{piece}.png' }); } indiceRepasoActual = 0; document.getElementById('repasoTotal').innerText = puzzlesFallados.length; cargarPuzzleRepaso(); }
+        function cargarPuzzleRepaso() { if (indiceRepasoActual >= puzzlesFallados.length) { alert("¡Repaso terminado!"); location.reload(); return; } let puzzle = puzzlesFallados[indiceRepasoActual]; document.getElementById('repasoIndex').innerText = indiceRepasoActual + 1; document.getElementById('status-repaso').innerText = `Nivel: ${puzzle.rating} | Intenta encontrar la jugada`; game.load(puzzle.fen); hacerMovimiento(puzzle.moves[0]); boardRepaso.orientation(game.turn() === 'w' ? 'white' : 'black'); boardRepaso.position(game.fen()); }
+        function verSolucion() { let puzzle = puzzlesFallados[indiceRepasoActual]; let solucion = puzzle.moves[1]; hacerMovimiento(solucion); boardRepaso.position(game.fen()); document.getElementById('status-repaso').innerText = `Solución: ${solucion}`; }
         function siguienteRepaso() { indiceRepasoActual++; cargarPuzzleRepaso(); }
         function onSnapEnd() { board.position(game.fen()); }
     </script>

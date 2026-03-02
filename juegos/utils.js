@@ -76,55 +76,63 @@ try {
 }
 
 // =======================================================
-// === GESTOR DE PERFIL Y ATRIBUTOS ======================
+// === GESTOR DE PERFIL Y ATRIBUTOS INDIVIDUALES =========
 // =======================================================
-const PERFIL_KEY = 'chess_gym_profile'; 
 
-// NUEVO: Estructura de datos ampliada
+// Ya no hay nombres aleatorios. Todo a cero para los nuevos.
 const PERFIL_DEFAULT = { 
-    uid: "jugador_" + Math.floor(Math.random() * 999999999), 
-    nombreJugador: "Anonimo_" + Math.floor(Math.random() * 1000), 
-    
-    // 1. ELO Táctico
-    eloNormal: 1700,        
-    eloCiego: 1700,      
-    
-    // 2. Experiencia (Gimnasio)
-    xpTotal: 0,
-    xpAciertos: 0,
-    xpFallos: 0,
-
-    // 3. Precisión Visual (Intentos y Aciertos)
+    uid: "", 
+    nombreJugador: "Jugador", 
+    eloNormal: 1700, eloCiego: 1700,      
+    xpTotal: 0, xpAciertos: 0, xpFallos: 0,
     radarJugados: 0, radarAciertos: 0,
     flashJugados: 0, flashAciertos: 0,
     memoriaJugados: 0, memoriaAciertos: 0,
     lecturaJugados: 0, lecturaAciertos: 0,
-
-    // 4. Récords de Competición
-    arcadeGlobalMax: 0, // Unifica Teclado y Voz
-    stormTiempoMax: 0
+    arcadeGlobalMax: 0, stormTiempoMax: 0
 };
 
 function obtenerPerfil() {
     try {
-        let perfilStr = localStorage.getItem(PERFIL_KEY);
-        if (!perfilStr) return PERFIL_DEFAULT;
+        // Miramos quién está conectado ahora mismo
+        let uid = localStorage.getItem('current_user_uid');
+        if (!uid) return PERFIL_DEFAULT; // Si no hay nadie, devolvemos todo vacío
+        
+        // Buscamos LA CAJA FUERTE EXACTA de este usuario
+        let localKey = 'chess_gym_profile_' + uid;
+        let perfilStr = localStorage.getItem(localKey);
+        
+        if (!perfilStr) {
+            // Si es su primera vez, le preparamos sus atributos a 0
+            let nuevoPerfil = { ...PERFIL_DEFAULT };
+            nuevoPerfil.uid = uid;
+            nuevoPerfil.nombreJugador = localStorage.getItem('current_user_name') || "Jugador";
+            return nuevoPerfil;
+        }
+        
         let perfilObj = JSON.parse(perfilStr);
-        if (!perfilObj.uid) perfilObj.uid = "jugador_" + Math.floor(Math.random() * 999999999);
         return { ...PERFIL_DEFAULT, ...perfilObj }; 
     } catch(e) {
-        localStorage.removeItem(PERFIL_KEY);
         return PERFIL_DEFAULT;
     }
 }
 
 function guardarPerfil(perfil) { 
     try {
-        localStorage.setItem(PERFIL_KEY, JSON.stringify(perfil));
+        let uid = localStorage.getItem('current_user_uid');
+        if (!uid) return;
+
+        // Guardamos en la caja fuerte de su PC
+        let localKey = 'chess_gym_profile_' + uid;
+        localStorage.setItem(localKey, JSON.stringify(perfil));
+        
+        // Y HACEMOS BACKUP EN LA NUBE (En su carpeta privada)
+        if (typeof firebase !== 'undefined' && firebase.database) {
+            firebase.database().ref('users/' + uid).set(perfil);
+        }
     } catch(e) {}
 }
 
-// --- FUNCIÓN 1: ACTUALIZAR ESTADÍSTICAS Y RÉCORDS ---
 function actualizarEstadisticaGlobal(campo, valor, esAcumulativo = false) {
     try {
         let perfil = obtenerPerfil();
@@ -134,16 +142,15 @@ function actualizarEstadisticaGlobal(campo, valor, esAcumulativo = false) {
             perfil[campo] = (perfil[campo] || 0) + valor;
         } else {
             if (campo.includes('elo')) {
-                perfil[campo] = valor; // El ELO puede subir o bajar
+                perfil[campo] = valor; 
             } else if (valor > (perfil[campo] || 0)) {
                 perfil[campo] = valor; 
-                esNuevoRecord = true; // Récord superado
+                esNuevoRecord = true; 
             }
         }
         
         guardarPerfil(perfil);
 
-        // Subidas a las tablas de récords
         if (esNuevoRecord) {
             if (campo === 'arcadeGlobalMax') subirAFirebase('rankings/arcade', valor);
             if (campo === 'stormTiempoMax') subirAFirebase('rankings/stormTiempo', valor);
@@ -151,11 +158,6 @@ function actualizarEstadisticaGlobal(campo, valor, esAcumulativo = false) {
     } catch (e) { console.warn("Error al guardar estadística", e); }
 }
 
-// --- FUNCIÓN 2: MOTOR DE EXPERIENCIA (XP) ---
-/**
- * @param {string} dificultad - 'basico', 'medio', 'avanzado', 'maestro'
- * @param {boolean} exito - true si acierta, false si falla
- */
 function registrarXP(dificultad, exito) {
     let pts = 0;
     if (dificultad === 'basico') pts = exito ? 2 : 1;
@@ -167,12 +169,10 @@ function registrarXP(dificultad, exito) {
     if (exito) actualizarEstadisticaGlobal('xpAciertos', pts, true);
     else actualizarEstadisticaGlobal('xpFallos', pts, true);
 
-    // Cada vez que ganamos XP, actualizamos nuestro lugar en el ranking de Constancia
     let perfil = obtenerPerfil();
     subirAFirebase('rankings/xp', perfil.xpTotal);
 }
 
-// --- FUNCIÓN DE APOYO PARA FIREBASE ---
 function subirAFirebase(rutaRef, puntuacion) {
     try {
         if (typeof firebase !== 'undefined') {

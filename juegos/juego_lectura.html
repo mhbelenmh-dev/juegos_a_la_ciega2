@@ -5,13 +5,14 @@
     <title>Lectura y Visualización</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>♞</text></svg>">
     
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
     <link rel="stylesheet" href="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.css">
-    
     <link rel="stylesheet" href="styles.css">
 
     <style>
-        /* ESTILOS ESPECÍFICOS DE ESTE JUEGO */
-        body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg-color); color: var(--text); display: flex; flex-direction: column; align-items: center; min-height: 100vh; margin: 0; user-select: none; }
+        body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg-color); color: var(--text); display: flex; flex-direction: column; align-items: center; min-height: 100vh; margin: 0; user-select: none; padding: 20px;}
         h1 { color: var(--accent); margin-top: 20px; text-transform: uppercase; letter-spacing: 2px; }
         
         .screen { display: none; width: 100%; max-width: 800px; flex-direction: column; align-items: center; }
@@ -20,7 +21,7 @@
         select { padding: 10px; font-size: 1.1em; background: #222; color: #fff; border: 1px solid #555; border-radius: 5px; margin: 15px 0; width: 100%; box-sizing: border-box; cursor: pointer; outline: none; }
         select:focus { border-color: var(--accent); }
         
-        #pgn-container { background: #eee; color: #111; padding: 30px; border-radius: 8px; font-size: 1.4em; line-height: 1.6; font-family: 'Georgia', serif; width: 80%; box-shadow: 0 10px 30px rgba(0,0,0,0.5); margin-bottom: 30px; max-height: 400px; overflow-y: auto; text-align: left; }
+        #pgn-container { background: #eee; color: #111; padding: 30px; border-radius: 8px; font-size: 1.4em; line-height: 1.6; font-family: 'Georgia', serif; width: 100%; box-shadow: 0 10px 30px rgba(0,0,0,0.5); margin-bottom: 30px; max-height: 400px; overflow-y: auto; text-align: left; }
         
         #game-area { display: flex; justify-content: center; gap: 30px; margin-top: 20px; width: 100%; max-width: 1200px; align-items: flex-start; }
         .board-wrapper { width: 450px; text-align: center; display: flex; flex-direction: column; align-items: center; }
@@ -29,7 +30,7 @@
         
         #solution-container { display: none; }
         
-        .btn { background: var(--blue); color: white; border: none; padding: 15px 40px; font-size: 1.2em; border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.2s; margin-top: 20px; box-shadow: 0 4px 0 #20629c;}
+        .btn { background: var(--blue); color: white; border: none; padding: 15px 40px; font-size: 1.2em; border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.2s; margin-top: 20px; box-shadow: 0 4px 0 #20629c; width: 100%;}
         .btn:hover { transform: translateY(-2px); filter: brightness(1.1); box-shadow: 0 6px 0 #20629c;}
         .btn:active { transform: translateY(2px); box-shadow: 0 2px 0 #20629c; }
         .btn-check { background: var(--accent); color: #000; box-shadow: 0 4px 0 #b39500; }
@@ -39,6 +40,11 @@
         #myBoard .board-b72b1 { border: 2px solid #444; }
         .border-fail .board-b72b1 { border: 5px solid var(--danger) !important; }
         .border-win .board-b72b1 { border: 5px solid var(--success) !important; }
+
+        @media (max-width: 950px) {
+            #game-area { flex-direction: column; align-items: center; }
+            .board-wrapper { width: 100%; max-width: 450px; }
+        }
     </style>
 </head>
 <body>
@@ -46,12 +52,12 @@
     <h1>📖 Lector de Mente</h1>
 
     <div id="screen-menu" class="screen active">
-        <div id="pantalla-carga" style="display: block;">
+        <div id="pantalla-carga" style="display: block; width: 100%; text-align: center; max-width: 500px;">
             <p style="color: #aaa;">¿Qué base de datos quieres usar?</p>
             <button id="btn-defecto" class="btn-secundario">🎮 Usar la base del juego</button>
             <hr style="border: 1px solid #444; margin: 20px 0;">
             <p style="font-size: 0.9em; color: #888; text-align: left; margin-bottom: 5px;">O sube tu propio archivo <strong>.json</strong>:</p>
-            <input type="file" id="archivoInput" accept=".json">            
+            <input type="file" id="archivoInput" accept=".json" style="width:100%; max-width: 300px;">            
             
             <div id="opciones-juego" class="oculto" style="margin-top: 20px; text-align: left;">
                 <hr style="border: 1px solid #444; margin: 20px 0;">
@@ -63,11 +69,15 @@
                 </select>
                 <button id="btn-comenzar" class="btn" style="width: 100%; margin-top: 10px;" onclick="iniciarLectura()">EMPEZAR</button>
             </div>
+            
+            <a href="index.html" style="text-decoration:none;">
+                <button class="btn" style="background:#444; box-shadow: 0 4px 0 #222; margin-top: 30px;">⬅ Volver al Menú</button>
+            </a>
         </div>
     </div>
 
     <div id="screen-read" class="screen">
-        <div style="color: #aaa; margin-bottom: 10px;">Visualiza la posición final en tu mente:</div>
+        <div style="color: #aaa; margin-bottom: 10px; font-size: 1.2em;">Visualiza la posición final en tu mente:</div>
         <div id="pgn-container"></div>
         <button class="btn" onclick="pasarAConstruccion()">¡LISTO! IR AL TABLERO</button>
     </div>
@@ -84,26 +94,25 @@
                 <div id="solutionBoard" style="width: 100%"></div>
             </div>
         </div>
-        <button id="btn-check" class="btn btn-check" onclick="comprobar()">COMPROBAR</button>
-        <button id="btn-next" class="btn" onclick="volverMenu()" style="display:none; background:#444; box-shadow: 0 4px 0 #222;">OTRA PARTIDA</button>
+        
+        <div style="width: 100%; max-width: 450px; display: flex; flex-direction: column; gap: 10px; margin-top: 20px;">
+            <button id="btn-check" class="btn btn-check" style="margin-top:0;" onclick="comprobar()">COMPROBAR</button>
+            <button id="btn-next" class="btn" onclick="volverMenu()" style="display:none; margin-top:0; background:var(--blue); box-shadow: 0 4px 0 #20629c;">OTRA PARTIDA</button>
+            <a href="index.html" style="text-decoration:none;">
+                <button class="btn" style="background:#444; box-shadow: 0 4px 0 #222; margin-top:0;">⬅ Volver al Menú</button>
+            </a>
+        </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
-    
     <script src="utils.js"></script>
 
     <script>
-        let partidas = [];
-        let jugadasMeta = 15;
-        let fenObjetivo = "";
-        let userBoard = null;
-        let solutionBoard = null;
+        let partidas = []; let jugadasMeta = 15; let fenObjetivo = ""; let userBoard = null; let solutionBoard = null;
         const pieceThemeUrl = 'https://chessboardjs.com/img/chesspieces/wikipedia/{piece}.png';
 
-        // --- CARGA MODULAR DE BASE DE DATOS ---
-        // Fíjate que aquí pasamos 'visualizacion.json'
         inicializarCargaBaseDatos('visualizacion.json', 'btn-defecto', 'archivoInput', function(data) {
             partidas = data; 
             document.getElementById('btn-defecto').innerText = "✅ Base cargada";
@@ -135,7 +144,7 @@
 
         function pasarAConstruccion() {
             mostrarPantalla('screen-build'); 
-            document.getElementById('btn-check').style.display = 'inline-block'; 
+            document.getElementById('btn-check').style.display = 'block'; 
             document.getElementById('btn-next').style.display = 'none'; 
             $('#myBoard').removeClass('border-fail border-win');
             
@@ -146,20 +155,25 @@
         function comprobar() {
             let colocacionUser = userBoard.fen().split(' ')[0]; let colocacionObj = fenObjetivo.split(' ')[0];
             
+            actualizarEstadisticaGlobal('lecturaJugados', 1, true); // Guarda intento global
+
             if (colocacionUser === colocacionObj) {
-                // REPRODUCE SONIDO DE ÉXITO
                 reproducirSonido('correcto');
                 document.getElementById('msg').innerText = "✅ ¡PERFECTO! Memoria impecable."; $('#myBoard').addClass('border-win');
+                actualizarEstadisticaGlobal('lecturaAciertos', 1, true);
+                registrarXP('avanzado', true); // XP Acierto
             } else {
-                // REPRODUCE SONIDO DE ERROR
                 reproducirSonido('incorrecto');
                 document.getElementById('msg').innerText = "❌ DIFERENCIAS DETECTADAS"; $('#myBoard').addClass('border-fail');
                 document.getElementById('solution-container').style.display = 'flex'; document.getElementById('user-title').classList.add('visible');
+                
+                registrarXP('avanzado', false); // XP Fallo
+                
                 if(solutionBoard) solutionBoard.destroy();
                 setTimeout(() => { solutionBoard = Chessboard('solutionBoard', { position: fenObjetivo, draggable: false, pieceTheme: pieceThemeUrl }); }, 100);
             }
             
-            document.getElementById('btn-check').style.display = 'none'; document.getElementById('btn-next').style.display = 'inline-block';
+            document.getElementById('btn-check').style.display = 'none'; document.getElementById('btn-next').style.display = 'block';
             let currentFen = userBoard.fen(); userBoard.destroy(); userBoard = Chessboard('myBoard', { position: currentFen, draggable: false, pieceTheme: pieceThemeUrl });
         }
     </script>

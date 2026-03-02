@@ -5,6 +5,9 @@
     <title>Gimnasio Mental: A Ciegas</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>♞</text></svg>">
     
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    
     <link rel="stylesheet" href="styles.css">
 
     <style>
@@ -76,6 +79,7 @@
         <button class="menu-btn" onclick="cambiarEjercicio(2)">2. Extremos Diagonales</button>
         <button class="menu-btn" onclick="cambiarEjercicio(3)">3. Ruta del Caballo</button>
         <button class="menu-btn" onclick="cambiarEjercicio(4)">4. Ruta del Caballo 2.0</button>
+        <a href="index.html" style="text-decoration:none; margin-top:auto;"><button class="btn-accion" style="background: #444;">⬅ Volver al Menú</button></a>
     </div>
 
     <div id="contenido">
@@ -165,7 +169,7 @@
         }
 
         // ==========================================
-        // EJERCICIO 1: COLOR
+        // EJERCICIO 1: COLOR (Nivel: BÁSICO)
         // ==========================================
         let ej1_cas = "";
         function iniciarEj1() {
@@ -181,15 +185,17 @@
             if (eleccion === real) {
                 reproducirSonido('correcto');
                 mostrarStatus(`✅ ¡Correcto! ${ej1_cas} es ${real}.`, "correcto");
-                setTimeout(() => { iniciarEj1(); }, 100);
+                registrarXP('basico', true); // <--- SUMA 2 PUNTOS XP
+                setTimeout(() => { iniciarEj1(); }, 500);
             } else {
                 reproducirSonido('incorrecto');
                 mostrarStatus(`❌ Fallo. ${ej1_cas} es ${real}.`, "incorrecto");
+                registrarXP('basico', false); // <--- SUMA 1 PUNTO XP (Esfuerzo)
             }
         }
 
         // ==========================================
-        // EJERCICIO 2: DIAGONALES
+        // EJERCICIO 2: DIAGONALES (Nivel: MEDIO)
         // ==========================================
         let ej2_cas = "";
         let ej2_soluciones = [];
@@ -221,17 +227,18 @@
             if (s1 === s2 && s2 !== "") {
                 reproducirSonido('correcto');
                 mostrarStatus("✅ ¡Perfecto! Visualización correcta.", "correcto");
-                setTimeout(() => {iniciarEj2(); }, 150);
+                registrarXP('medio', true); // <--- SUMA 4 PUNTOS XP
+                setTimeout(() => {iniciarEj2(); }, 800);
             } else {
                 reproducirSonido('incorrecto');
                 mostrarStatus(`❌ Faltan, sobran o estan mal. Vuelvelo a intentar `, "incorrecto");
+                registrarXP('medio', false); // <--- SUMA 2 PUNTOS XP
             }
         }
 
         // ==========================================
         // EJERCICIO 3: CABALLO SIMPLE
         // ==========================================
-        
         let ej3_ini = "", ej3_fin = "";
         function iniciarEj3() {
             ej3_ini = casAleatoria();
@@ -244,7 +251,8 @@
             document.getElementById('ej3-input').focus();
         }
         function verificarEj3() {
-            validarCaminoCaballo('ej3-input', ej3_ini, ej3_fin, new Set(), iniciarEj3);
+            // El false indica que no hay artillería, así que es nivel "avanzado"
+            validarCaminoCaballo('ej3-input', ej3_ini, ej3_fin, new Set(), iniciarEj3, false);
         }
 
         // ==========================================
@@ -321,12 +329,15 @@
         }
 
         function verificarEj4() {
+            // El true indica que HAY artillería, así que es nivel "maestro"
             validarCaminoCaballo('ej4-input', ej4_ini, ej4_fin, ej4_baneadas, iniciarEj4, true);
         }
 
-        // --- LÓGICA COMPARTIDA ---
+        // --- LÓGICA COMPARTIDA (AHORA CON SISTEMA XP) ---
 
         function validarCaminoCaballo(inputId, inicio, fin, prohibidas, callbackExito, modoArtilleria = false) {
+            let dificultad = modoArtilleria ? 'maestro' : 'avanzado';
+            
             let val = document.getElementById(inputId).value.toLowerCase();
             let ruta = val.match(/[a-h][1-8]/g) || [];
             let full = [inicio, ...ruta, fin];
@@ -336,24 +347,32 @@
                 
                 let c1 = de.charCodeAt(0), r1 = parseInt(de.charAt(1));
                 let c2 = a.charCodeAt(0), r2 = parseInt(a.charAt(1));
+                
+                // Comprobar si el salto de caballo es válido matemáticamente
                 if(!((Math.abs(c1-c2)===1 && Math.abs(r1-r2)===2) || (Math.abs(c1-c2)===2 && Math.abs(r1-r2)===1))) {
                     reproducirSonido('incorrecto');
                     mostrarStatus(`❌ Movimiento ilegal de caballo: ${de} a ${a}.`, "incorrecto");
+                    registrarXP(dificultad, false); // <--- REGISTRA FALLO EN EXPERIENCIA
                     return;
                 }
                 
+                // Comprobar si la casilla está vigilada (solo importa en el Ej4)
                 if(prohibidas.has(a)) {
                     reproducirSonido('incorrecto');
                     let atacante = ej4_enemigos.find(e => esAtacadoPor(e, a));
                     let msg = atacante ? `vigilada por ${atacante.nombre} (${atacante.cas})` : "casilla prohibida";
                     mostrarStatus(`❌ ¡TE HAN VISTO! ${a.toUpperCase()} está ${msg}.`, "incorrecto");
+                    registrarXP(dificultad, false); // <--- REGISTRA FALLO EN EXPERIENCIA
                     return;
                 }
             }
             
+            // Si pasamos todo el bucle sin que retorne, la ruta es perfecta
             reproducirSonido('correcto');
             mostrarStatus(`✅ ¡MISIÓN CUMPLIDA! Ruta válida en ${full.length-1} saltos.`, "correcto");
-            setTimeout(() => {callbackExito(); }, 300);
+            registrarXP(dificultad, true); // <--- REGISTRA ACIERTO EN EXPERIENCIA
+            
+            setTimeout(() => { callbackExito(); }, 1200); // Damos 1 seg para que lea el mensaje
         }
 
         function validarRutaBFS(start, end, block) {

@@ -59,12 +59,9 @@
 
     <div id="pantalla-juego" class="oculto">
         <div id="main-layout">
-            
             <div id="tablero-wrapper">
                 <div id="tablero"></div>
-                <div id="status-box">
-                    <div id="status">Cargando...</div>
-                </div>
+                <div id="status-box"><div id="status">Cargando...</div></div>
             </div>
 
             <div id="sidebar">
@@ -83,36 +80,23 @@
                 </div>
 
                 <div class="panel-box" style="padding: 15px;">
+                    <a href="index.html" style="text-decoration:none;"><button class="btn-skip" style="background:#444; box-shadow: 0 4px 0 #222; margin-bottom:10px;">⬅ Menú Principal</button></a>
                     <button class="btn-skip" onclick="saltarPuzzle()">⏭️ Saltar Puzzle (-5 pts)</button>
-                    <div style="font-size: 0.85em; color: #777; margin-top: 15px; text-align: center;">
-                        <p style="margin: 0 0 5px 0;">💡 <strong>Consejo:</strong> Cada 5 aciertos seguidos obtienes un bonus enorme de puntos.</p>
-                        <p style="margin: 0;">Si fallas, la racha vuelve a cero.</p>
-                    </div>
                 </div>
             </div>
-
         </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.2/chess.js"></script>
-    
     <script src="utils.js"></script>
 
     <script>
-        let todosLosPuzzles = {}; 
-        let eloActual = 1700;
-        let puzzleActual = null;
-        let game = new Chess();
-        let board = null;
-        let racha = 0;
-        let indiceMovimiento = 0; 
+        let todosLosPuzzles = {}; let eloActual = 1700; let puzzleActual = null; let game = new Chess(); let board = null; let racha = 0; let indiceMovimiento = 0; 
 
-        // --- CARGA MODULAR DE BASE DE DATOS ---
         inicializarCargaBaseDatos('mis_puzzles.json', 'btn-defecto', 'archivoInput', function(data) {
-            todosLosPuzzles = data; 
-            iniciarPantallaJuego();
+            todosLosPuzzles = data; iniciarPantallaJuego();
         });
 
         function iniciarPantallaJuego() {
@@ -122,140 +106,73 @@
         }
 
         function iniciarJuego() {
-            board = Chessboard('tablero', {
-                draggable: true, position: 'start', pieceTheme: 'https://chessboardjs.com/img/chesspieces/wikipedia/{piece}.png',
-                onDragStart: onDragStart, onDrop: onDrop, onSnapEnd: onSnapEnd
-            });
-            
-            // Cargar el ELO que tenemos guardado en el perfil al entrar
+            board = Chessboard('tablero', { draggable: true, position: 'start', pieceTheme: 'https://chessboardjs.com/img/chesspieces/wikipedia/{piece}.png', onDragStart: onDragStart, onDrop: onDrop, onSnapEnd: onSnapEnd });
             let perfilActual = obtenerPerfil();
-            eloActual = perfilActual.eloStorm || 1700;
-            
+            eloActual = perfilActual.eloNormal || 1700; // ELO Normal
             cargarNuevoPuzzle();
         }
 
         function cargarNuevoPuzzle() {
-            document.getElementById('status').innerText = "Pensando...";
-            document.getElementById('status').className = "";
-            
+            document.getElementById('status').innerText = "Pensando..."; document.getElementById('status').className = "";
             let rango = (Math.floor(eloActual / 50) * 50).toString();
-            if (eloActual > 2500) rango = "2500";
-            if (!todosLosPuzzles[rango]) rango = "1700"; 
-
+            if (eloActual > 2500) rango = "2500"; if (!todosLosPuzzles[rango]) rango = "1700"; 
             let lista = todosLosPuzzles[rango];
-            if(!lista || lista.length === 0) { alert("Error: No encuentro puzzles en esta base de datos."); return; }
-
             puzzleActual = lista[Math.floor(Math.random() * lista.length)];
             if (typeof puzzleActual.moves === 'string') puzzleActual.moves = puzzleActual.moves.split(' ');
-
-            indiceMovimiento = 0;
-            game.load(puzzleActual.fen);
-            
-            hacerMovimiento(puzzleActual.moves[indiceMovimiento]);
-            indiceMovimiento++; 
-
+            indiceMovimiento = 0; game.load(puzzleActual.fen);
+            hacerMovimiento(puzzleActual.moves[indiceMovimiento]); indiceMovimiento++; 
             let colorJugador = game.turn() === 'w' ? 'white' : 'black';
-            board.orientation(colorJugador);
-            board.position(game.fen());
-
+            board.orientation(colorJugador); board.position(game.fen());
             document.getElementById('status').innerHTML = `Juegan <strong style="color:var(--accent);">${colorJugador === 'white' ? 'BLANCAS' : 'NEGRAS'}</strong> | Nivel: ${puzzleActual.rating}`;
-            
-            let rDisplay = document.getElementById('ratingDisplay');
-            rDisplay.innerText = eloActual;
-            rDisplay.classList.remove('puntos-grandes');
+            let rDisplay = document.getElementById('ratingDisplay'); rDisplay.innerText = eloActual; rDisplay.classList.remove('puntos-grandes');
         }
 
-        function hacerMovimiento(moveString) {
-            let from = moveString.substring(0,2); let to = moveString.substring(2,4); let promotion = moveString.length > 4 ? moveString.substring(4,5) : 'q';
-            game.move({ from: from, to: to, promotion: promotion });
-        }
+        function hacerMovimiento(moveString) { let from = moveString.substring(0,2); let to = moveString.substring(2,4); let promotion = moveString.length > 4 ? moveString.substring(4,5) : 'q'; game.move({ from: from, to: to, promotion: promotion }); }
 
-        function onDragStart (source, piece) {
-            if (game.game_over()) return false;
-            if ((game.turn() === 'w' && piece.search(/^b/) !== -1) || (game.turn() === 'b' && piece.search(/^w/) !== -1)) return false;
-        }
+        function onDragStart (source, piece) { if (game.game_over()) return false; if ((game.turn() === 'w' && piece.search(/^b/) !== -1) || (game.turn() === 'b' && piece.search(/^w/) !== -1)) return false; }
 
         function onDrop (source, target) {
-            let move = game.move({ from: source, to: target, promotion: 'q' });
-            if (move === null) return 'snapback';
-
-            let miMovimiento = source + target; if (move.promotion) miMovimiento += move.promotion; 
-            let solucionCorrecta = puzzleActual.moves[indiceMovimiento];
+            let move = game.move({ from: source, to: target, promotion: 'q' }); if (move === null) return 'snapback';
+            let miMovimiento = source + target; if (move.promotion) miMovimiento += move.promotion; let solucionCorrecta = puzzleActual.moves[indiceMovimiento];
 
             if (miMovimiento === solucionCorrecta) {
                 if (indiceMovimiento < puzzleActual.moves.length - 1) reproducirSonido('correcto');
-                
                 indiceMovimiento++; 
                 if (indiceMovimiento < puzzleActual.moves.length) {
-                    document.getElementById('status').innerText = "¡Buena jugada! Remata el puzzle...";
-                    document.getElementById('status').className = "correcto";
-                    setTimeout(() => {
-                        hacerMovimiento(puzzleActual.moves[indiceMovimiento]);
-                        board.position(game.fen());
-                        indiceMovimiento++; 
-                        if (indiceMovimiento >= puzzleActual.moves.length) puzzleFinalizado();
-                    }, 250); 
+                    document.getElementById('status').innerText = "¡Buena jugada! Remata el puzzle..."; document.getElementById('status').className = "correcto";
+                    setTimeout(() => { hacerMovimiento(puzzleActual.moves[indiceMovimiento]); board.position(game.fen()); indiceMovimiento++; if (indiceMovimiento >= puzzleActual.moves.length) puzzleFinalizado(); }, 250); 
                 } else { puzzleFinalizado(); }
             } else {
-                reproducirSonido('incorrecto');
-                game.undo(); 
-                document.getElementById('status').innerText = "❌ Incorrecto. Vuelve a intentarlo.";
-                document.getElementById('status').className = "incorrecto";
-                eloActual -= 10; 
-                racha = 0; 
-                document.getElementById('rachaDisplay').innerText = racha;
-                document.getElementById('ratingDisplay').innerText = eloActual;
+                reproducirSonido('incorrecto'); game.undo(); 
+                document.getElementById('status').innerText = "❌ Incorrecto. Vuelve a intentarlo."; document.getElementById('status').className = "incorrecto";
+                eloActual -= 10; racha = 0; document.getElementById('rachaDisplay').innerText = racha; document.getElementById('ratingDisplay').innerText = eloActual;
                 
-                actualizarEstadisticaGlobal('eloStorm', eloActual, false);
+                actualizarEstadisticaGlobal('eloNormal', eloActual, false);
+                registrarXP('avanzado', false); // XP POR FALLO
                 return 'snapback'; 
             }
         }
 
         function puzzleFinalizado() {
             reproducirSonido('fin');
-            
-            let puntosBase = 15;
-            let bonusRacha = racha * 5; 
-            let totalPuntos = puntosBase + bonusRacha;
-
+            let puntosBase = 15; let bonusRacha = racha * 5; let totalPuntos = puntosBase + bonusRacha;
             if ((racha + 1) % 5 === 0) totalPuntos += 10;
-
-            racha++;
-            eloActual += totalPuntos;
+            racha++; eloActual += totalPuntos; document.getElementById('rachaDisplay').innerText = racha;
             
-            document.getElementById('rachaDisplay').innerText = racha;
+            actualizarEstadisticaGlobal('eloNormal', eloActual, false);
+            registrarXP('avanzado', true); // XP POR ACIERTO
             
-            // --- GUARDAR EN EL PERFIL Y EN LA NUBE (PROTEGIDO) ---
-            actualizarEstadisticaGlobal('eloStorm', eloActual, false);
-            actualizarEstadisticaGlobal('rachaStormMax', racha, false);
-            // ------------------------------------------------
-            
-            let ratingDOM = document.getElementById('ratingDisplay');
-            ratingDOM.innerText = eloActual;
-            ratingDOM.classList.add('puntos-grandes');
-            
-            let mensaje = `✅ ¡CORRECTO! +${totalPuntos}`;
-            if (racha > 1) mensaje += ` (Racha x${racha})`;
-            
-            let statusDOM = document.getElementById('status');
-            statusDOM.innerText = mensaje;
-            statusDOM.className = "correcto puntos-grandes";
-
-            // Pasamos al siguiente puzzle automáticamente
-            setTimeout(() => {
-                statusDOM.classList.remove('puntos-grandes');
-                cargarNuevoPuzzle();
-            }, 800);
+            let ratingDOM = document.getElementById('ratingDisplay'); ratingDOM.innerText = eloActual; ratingDOM.classList.add('puntos-grandes');
+            let mensaje = `✅ ¡CORRECTO! +${totalPuntos}`; if (racha > 1) mensaje += ` (Racha x${racha})`;
+            let statusDOM = document.getElementById('status'); statusDOM.innerText = mensaje; statusDOM.className = "correcto puntos-grandes";
+            setTimeout(() => { statusDOM.classList.remove('puntos-grandes'); cargarNuevoPuzzle(); }, 800);
         }
 
         function saltarPuzzle() {
             reproducirSonido('incorrecto');
-            
-            eloActual -= 5;
-            racha = 0;
-            document.getElementById('rachaDisplay').innerText = racha;
-            
-            actualizarEstadisticaGlobal('eloStorm', eloActual, false);
+            eloActual -= 5; racha = 0; document.getElementById('rachaDisplay').innerText = racha;
+            actualizarEstadisticaGlobal('eloNormal', eloActual, false);
+            registrarXP('avanzado', false); // XP POR SALTAR
             cargarNuevoPuzzle();
         }
 
