@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Puzzle Storm: A la Ciega Pro</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>♞</text></svg>">
+    <link rel="stylesheet" href="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.css">
+    <style>
+        :root {
+            --bg-color: #262421;
+            --panel-bg: #302e2c;
+            --accent: #e5bf00;
+            --success: #629924;
+            --blue: #3692e7;
+            --danger: #cc3333;
+            --text: #bababa;
+        }
+
+        body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg-color); color: var(--text); margin: 0; display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 20px; box-sizing: border-box; }
+        h1 { color: var(--accent); margin-bottom: 30px; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
+        
+        /* Layout Principal a dos columnas */
+        #main-layout {
+            display: flex;
+            flex-direction: row;
+            gap: 40px;
+            width: 100%;
+            max-width: 950px;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        @media (max-width: 800px) {
+            #main-layout { flex-direction: column; align-items: center; }
+            #sidebar { width: 100%; max-width: 450px; }
+            #tablero-wrapper { width: 100%; max-width: 450px; }
+        }
+
+        /* Columna Izquierda: Terminal y Tablero */
+        #tablero-wrapper {
+            flex: 0 0 450px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        #descripcion-posicion { 
+            background: #1a1917; 
+            padding: 25px; 
+            border-radius: 8px; 
+            width: 100%; 
+            box-sizing: border-box;
+            text-align: left; 
+            font-family: 'Consolas', 'Courier New', monospace; 
+            font-size: 1.1em; 
+            line-height: 1.6; 
+            border: 1px solid #444; 
+            border-left: 5px solid var(--blue);
+            box-shadow: inset 0 0 15px rgba(0,0,0,0.8); 
+        }
+
+        .bando-titulo { font-weight: bold; color: var(--blue); margin-bottom: 5px; display: block; text-transform: uppercase;}
+        .bando-titulo.negras { color: var(--danger); margin-top: 15px; }
+        .lista-piezas { color: #eee; word-wrap: break-word; }
+
+        #tablero-container { width: 100%; max-width: 450px; border: 6px solid #3d3a37; border-radius: 4px; box-sizing: border-box; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        #tablero { width: 100%; }
+
+        #input-container { display: flex; gap: 10px; width: 100%; }
+        #jugadaInput { 
+            flex-grow: 1; padding: 15px; font-size: 1.2em; border-radius: 6px; 
+            border: 2px solid #555; background: #1e1e1e; color: white; text-align: center; outline: none; transition: 0.3s;
+        }
+        #jugadaInput:focus { border-color: var(--accent); box-shadow: 0 0 10px rgba(229, 191, 0, 0.2); }
+        #btn-enviar { background: var(--blue); padding: 0 25px; box-shadow: 0 4px 0 #20629c; margin: 0; }
+        #btn-enviar:hover { background: #4fa3f0; transform: translateY(-2px); box-shadow: 0 6px 0 #20629c; }
+
+        #status { font-weight: bold; font-size: 1.2em; min-height: 30px; white-space: pre-wrap; text-align: center; margin-top: 10px;}
+        .correcto { color: var(--success); }
+        .incorrecto { color: var(--danger); }
+
+        /* Columna Derecha: Panel Lateral */
+        #sidebar {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            width: 350px;
+        }
+
+        .panel-box {
+            background: var(--panel-bg);
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            border: 1px solid #444;
+        }
+
+        .panel-title { font-weight: bold; color: var(--accent); margin-bottom: 15px; font-size: 1.2em; text-transform: uppercase; letter-spacing: 1px;}
+
+        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .stat-card { background: #262421; padding: 15px; border-radius: 6px; text-align: center; border: 1px solid #3d3a37; }
+        .stat-value { display: block; font-size: 2em; color: var(--text); font-weight: bold; }
+        .stat-label { font-size: 0.8em; color: #888; text-transform: uppercase; margin-top: 5px; display: block;}
+
+        .val-rating { color: var(--blue); }
+        .val-racha { color: var(--accent); }
+
+        #ultimo-movimiento { background: #4a4643; color: var(--accent); padding: 15px; border-radius: 6px; text-align: center; border: 1px solid #666; }
+
+        button { background: var(--success); color: white; border: none; padding: 15px 20px; font-size: 1.1em; border-radius: 6px; cursor: pointer; font-weight: bold; transition: 0.2s; width: 100%; box-shadow: 0 4px 0 #4a751b; }
+        button:hover { background: #76b82a; transform: translateY(-2px); box-shadow: 0 6px 0 #4a751b; }
+        button:active { transform: translateY(2px); box-shadow: 0 2px 0 #4a751b; }
+        
+        .btn-skip { background: var(--danger); box-shadow: 0 4px 0 #8a1f1f; margin-top: 10px; }
+        .btn-skip:hover { background: #e63939; box-shadow: 0 6px 0 #8a1f1f; }
+
+        .btn-secundario { background: var(--blue); box-shadow: 0 4px 0 #20629c; margin-bottom: 20px;}
+        .btn-secundario:hover { background: #4fa3f0; }
+
+        input[type="file"] { margin-bottom: 10px; background: #262421; padding: 10px; border-radius: 5px; width: 100%; box-sizing: border-box; border: 1px solid #555;}
+        
+        #pantalla-carga { background: var(--panel-bg); padding: 40px; border-radius: 10px; margin-top: 20px; max-width: 500px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .oculto { display: none !important; }
+    </style>
+</head>
+<body>
+
+    <h1>👁️ Ajedrez a la Ciega 👁️</h1>
+
+    <div id="pantalla-carga">
+        <h2 style="color: var(--text); margin-top: 0;">Configuración</h2>
+        <p style="color: #aaa;">¿Qué base de datos quieres usar?</p>
+        <button id="btn-defecto" class="btn-secundario">🎮 Usar la base del juego</button>
+        <hr style="border: 1px solid #444; margin: 25px 0;">
+        <p style="font-size: 0.9em; color: #888; text-align: left; margin-bottom: 5px;">O sube tu propio archivo <strong>.json</strong>:</p>
+        <input type="file" id="archivoInput" accept=".json">
+    </div>
+    
+    <div id="interfaz-juego" class="oculto">
+        <div id="main-layout">
+            
+            <div id="tablero-wrapper">
+                
+                <div id="descripcion-posicion">
+                    <span class="bando-titulo">Blancas:</span> <span id="txt-blancas" class="lista-piezas">...</span>
+                    <span class="bando-titulo negras">Negras:</span> <span id="txt-negras" class="lista-piezas">...</span>
+                    <div style="margin-top: 15px; font-style: italic; color: #888; font-size: 0.9em;">
+                        * Juegan <span id="turno-texto" style="color: #fff; font-weight: bold; text-transform: uppercase;">...</span>
+                    </div>
+                </div>
+
+                <div id="tablero-container" class="oculto">
+                    <div id="tablero"></div>
+                </div>
+
+                <div id="input-container">
+                    <input type="text" id="jugadaInput" placeholder="Tu jugada (ej: Ce5, h4...)" autocomplete="off">
+                    <button id="btn-enviar" onclick="verificarJugada()">Enviar</button>
+                </div>
+                
+                <div id="status"></div>
+            </div>
+
+            <div id="sidebar">
+                <div class="panel-box">
+                    <div class="panel-title">Tus Estadísticas</div>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <span id="eloDisplay" class="stat-value val-rating">1700</span>
+                            <span class="stat-label">Rating</span>
+                        </div>
+                        <div class="stat-card">
+                            <span id="score" class="stat-value val-racha">0</span>
+                            <span class="stat-label">Aciertos</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-box">
+                    <div id="ultimo-movimiento" class="oculto"></div>
+                    
+                    <button id="btn-rendirse" class="btn-skip" onclick="rendirse()">🏳️ Ver Solución</button>
+                    <button id="btn-siguiente" class="oculto" onclick="cargarNuevoPuzzle()">Siguiente Puzzle ➡</button>
+                    
+                    <div style="font-size: 0.85em; color: #777; margin-top: 15px; text-align: center;">
+                        <p style="margin: 0;">Visualiza las piezas en tu cabeza. Escribe la jugada y pulsa Enter.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.2/chess.js"></script>
+
+    <script>
+        let todosLosPuzzles = {};
+        let eloActual = 1700;
+        let puzzleActual = null;
+        let game = new Chess();
+        let board = null;
+        let aciertos = 0;
+        let puzzleResuelto = false;
+        let indiceMovimiento = 0; 
+
+        document.getElementById('btn-defecto').addEventListener('click', function() {
+            let boton = this; boton.innerText = "Cargando..."; 
+            fetch('mis_puzzles.json').then(response => {
+                if (!response.ok) throw new Error('No se encontró el archivo'); return response.json();
+            }).then(data => {
+                todosLosPuzzles = data; iniciarPantallaJuego();
+            }).catch(error => {
+                alert("⚠️ Error: No se pudo cargar el archivo automático."); boton.innerText = "🎮 Usar la base del juego";
+            });
+        });
+
+        document.getElementById('archivoInput').addEventListener('change', function(e) {
+            const archivo = e.target.files[0]; if (!archivo) return;
+            const lector = new FileReader();
+            lector.onload = function(e) { todosLosPuzzles = JSON.parse(e.target.result); iniciarPantallaJuego(); };
+            lector.readAsText(archivo);
+        });
+
+        function iniciarPantallaJuego() {
+            document.getElementById('pantalla-carga').classList.add('oculto');
+            document.getElementById('interfaz-juego').classList.remove('oculto');
+            board = Chessboard('tablero', { pieceTheme: 'https://chessboardjs.com/img/chesspieces/wikipedia/{piece}.png' });
+            cargarNuevoPuzzle(); 
+        }
+        
+        document.getElementById("jugadaInput").addEventListener("keyup", function(event) { if (event.key === "Enter") verificarJugada(); });
+
+        function cargarNuevoPuzzle() {
+            puzzleResuelto = false; indiceMovimiento = 0; 
+            
+            // Limpieza de UI
+            document.getElementById('status').innerText = "";
+            document.getElementById('ultimo-movimiento').classList.add('oculto');
+            
+            document.getElementById('jugadaInput').value = ""; 
+            document.getElementById('jugadaInput').disabled = false; 
+            document.getElementById('jugadaInput').focus();
+            
+            // Mostrar texto, ocultar tablero
+            document.getElementById('descripcion-posicion').classList.remove('oculto');
+            document.getElementById('tablero-container').classList.add('oculto'); 
+            
+            document.getElementById('btn-siguiente').classList.add('oculto');
+            document.getElementById('btn-rendirse').classList.remove('oculto');
+            document.getElementById('input-container').classList.remove('oculto');
+
+            let rango = (Math.floor(eloActual / 50) * 50).toString();
+            if (eloActual > 2500) rango = "2500";
+            if (!todosLosPuzzles[rango]) rango = "1700";
+            
+            let lista = todosLosPuzzles[rango];
+            puzzleActual = lista[Math.floor(Math.random() * lista.length)];
+            if (typeof puzzleActual.moves === 'string') puzzleActual.moves = puzzleActual.moves.split(' ');
+
+            game.load(puzzleActual.fen);
+            let moveRival = puzzleActual.moves[0];
+            hacerMovimiento(moveRival);
+            indiceMovimiento++; 
+
+            generarTextoPosicion(game.fen()); 
+            actualizarTurnoVisual();
+        }
+
+        function generarTextoPosicion(fen) {
+            let partes = fen.split(' ')[0]; let filas = partes.split('/'); let blancas = []; let negras = [];
+            const columnas = ['a','b','c','d','e','f','g','h'];
+            for (let i = 0; i < 8; i++) {
+                let filaNum = 8 - i; let colIndex = 0; let contenidoFila = filas[i];
+                for (let j = 0; j < contenidoFila.length; j++) {
+                    let char = contenidoFila[j];
+                    if (!isNaN(char)) { colIndex += parseInt(char); } else {
+                        let casilla = columnas[colIndex] + filaNum;
+                        let esBlanca = (char === char.toUpperCase());
+                        let tipo = char.toLowerCase(); let nombrePieza = "";
+                        switch(tipo) { case 'p': nombrePieza = "P"; break; case 'r': nombrePieza = "T"; break; case 'n': nombrePieza = "C"; break; case 'b': nombrePieza = "A"; break; case 'q': nombrePieza = "D"; break; case 'k': nombrePieza = "R"; break; }
+                        let textoPieza = nombrePieza + casilla; 
+                        if (esBlanca) blancas.push(textoPieza); else negras.push(textoPieza);
+                        colIndex++;
+                    }
+                }
+            }
+            blancas.sort(); negras.sort();
+            document.getElementById('txt-blancas').innerText = blancas.join(', '); document.getElementById('txt-negras').innerText = negras.join(', ');
+        }
+
+        function verificarJugada() {
+            if (puzzleResuelto) return;
+            let textoUsuario = document.getElementById('jugadaInput').value.trim(); if (!textoUsuario) return;
+            let jugadaParaChessJS = textoUsuario.replace(/^R/, 'K').replace(/^D/, 'Q').replace(/^T/, 'R').replace(/^A/, 'B').replace(/^C/, 'N');
+            let move = game.move(jugadaParaChessJS);
+            if (move === null) { let intento2 = jugadaParaChessJS.charAt(0).toUpperCase() + jugadaParaChessJS.slice(1); move = game.move(intento2); }
+            if (move === null) { document.getElementById('status').innerText = "❌ Jugada ilegal o no entendida (Usa: Ce5, h4...)"; document.getElementById('status').className = "incorrecto"; return; }
+
+            let movimientoHecho = move.from + move.to; if (move.promotion) movimientoHecho += move.promotion;
+            let solucionCorrecta = puzzleActual.moves[indiceMovimiento];
+
+            if (movimientoHecho === solucionCorrecta) {
+                indiceMovimiento++; document.getElementById('jugadaInput').value = ""; 
+                if (indiceMovimiento < puzzleActual.moves.length) {
+                    let jugadaRival = puzzleActual.moves[indiceMovimiento]; let jugadaRivalSan = hacerMovimiento(jugadaRival); indiceMovimiento++;
+                    
+                    let divUltimo = document.getElementById('ultimo-movimiento'); 
+                    divUltimo.classList.remove('oculto'); 
+                    divUltimo.innerHTML = `✅ ¡Bien! El rival responde:<br><strong style="font-size:1.4em; color:#fff;">${jugadaRivalSan}</strong><br>¿Qué haces?`;
+                    
+                    generarTextoPosicion(game.fen());
+                } else { aciertos++; eloActual += 15; mostrarResultado(true, "✅ ¡Puzzle Completado!"); }
+            } else {
+                eloActual -= 10; game.undo(); 
+                let solucionTexto = generarSolucionCompleta();
+                mostrarResultado(false, `❌ Fallaste. Tú dijiste ${textoUsuario}.\n\nSolución correcta:\n${solucionTexto}`);
+            }
+        }
+
+        function generarSolucionCompleta() {
+            let tempGame = new Chess(); tempGame.load(puzzleActual.fen); 
+            let moveRival = puzzleActual.moves[0]; let from = moveRival.substring(0,2); let to = moveRival.substring(2,4); let promo = moveRival.length > 4 ? moveRival.substring(4,5) : 'q';
+            tempGame.move({ from: from, to: to, promotion: promo });
+            let listaSolucion = [];
+            for (let i = 1; i < puzzleActual.moves.length; i++) {
+                let rawMove = puzzleActual.moves[i]; let f = rawMove.substring(0,2); let t = rawMove.substring(2,4); let p = rawMove.length > 4 ? rawMove.substring(4,5) : 'q';
+                let moveObj = tempGame.move({ from: f, to: t, promotion: p });
+                if (moveObj) {
+                    let numero = "";
+                    if (tempGame.turn() === 'b') { let moveNumber = Math.ceil(tempGame.history().length / 2); numero = moveNumber + ". "; }
+                    listaSolucion.push(numero + moveObj.san);
+                }
+            }
+            return listaSolucion.join(" ");
+        }
+
+        function hacerMovimiento(moveString) {
+            let from = moveString.substring(0,2); let to = moveString.substring(2,4); let promotion = moveString.length > 4 ? moveString.substring(4,5) : 'q';
+            let move = game.move({ from: from, to: to, promotion: promotion }); return move ? move.san : moveString; 
+        }
+
+        function rendirse() { let solucionTexto = generarSolucionCompleta(); mostrarResultado(false, `Te has rendido.\nSolución completa:\n${solucionTexto}`); }
+
+        function mostrarResultado(esCorrecto, mensaje) {
+            puzzleResuelto = true; 
+            document.getElementById('status').innerText = mensaje; 
+            document.getElementById('status').className = esCorrecto ? "correcto" : "incorrecto";
+            document.getElementById('score').innerText = aciertos; 
+            document.getElementById('eloDisplay').innerText = eloActual;
+            
+            // Ocultar texto y mostrar tablero
+            document.getElementById('descripcion-posicion').classList.add('oculto');
+            document.getElementById('tablero-container').classList.remove('oculto'); 
+            
+            board.position(game.fen()); 
+            board.orientation(game.turn() === 'w' ? 'white' : 'black');
+            setTimeout(function() { board.resize(); }, 50);
+            
+            document.getElementById('btn-rendirse').classList.add('oculto'); 
+            document.getElementById('btn-siguiente').classList.remove('oculto');
+            document.getElementById('input-container').classList.add('oculto'); 
+            document.getElementById('ultimo-movimiento').classList.add('oculto');
+        }
+
+        function actualizarTurnoVisual() { 
+            let turno = game.turn() === 'w' ? 'BLANCAS' : 'NEGRAS'; 
+            document.getElementById('turno-texto').innerText = turno; 
+        }
+    </script>
+</body>
+</html>

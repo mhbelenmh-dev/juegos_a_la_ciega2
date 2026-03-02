@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>ARCADE BLIND CHESS - UPDATE</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>♞</text></svg>">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Roboto:wght@400;700&display=swap');
+
+        body { 
+            font-family: 'Roboto', sans-serif; 
+            background-color: #111; 
+            color: #fff; 
+            margin: 0; 
+            height: 100vh; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            overflow: hidden;
+            user-select: none;
+        }
+
+        /* --- HUD (Panel Superior) --- */
+        #hud {
+            width: 100%;
+            padding: 20px;
+            background: linear-gradient(180deg, #1a1a1a 0%, #000 100%);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            border-bottom: 3px solid #333;
+            box-shadow: 0 0 20px rgba(0,0,0,0.8);
+            z-index: 100;
+        }
+
+        .hud-box { text-align: center; }
+        .hud-label { font-size: 0.8em; color: #888; text-transform: uppercase; letter-spacing: 2px; }
+        .hud-value { font-family: 'Black Ops One', cursive; font-size: 2.5em; color: #fff; text-shadow: 0 0 10px rgba(255,255,255,0.3); }
+        
+        #timer-val { color: #e5bf00; }
+        .danger { color: #ff3333 !important; animation: latido 0.5s infinite; }
+        
+        #multiplier { color: #3692e7; font-size: 1.5em; font-weight: bold; opacity: 0; transition: 0.3s; }
+        .racha-activa { opacity: 1 !important; transform: scale(1.2); }
+
+        /* --- ÁREA DE JUEGO --- */
+        #game-area {
+            flex-grow: 1;
+            width: 100%;
+            max-width: 700px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        /* PANTALLAS */
+        .screen {
+            width: 100%; height: 100%;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        .active { display: flex; }
+
+        h1 { font-family: 'Black Ops One', cursive; font-size: 4em; margin: 0; color: #e5bf00; letter-spacing: 5px; text-shadow: 4px 4px 0 #000; }
+        h2 { color: #aaa; margin-bottom: 40px; }
+
+        .big-btn {
+            background: #e5bf00; color: #000; font-family: 'Black Ops One', cursive;
+            font-size: 2em; padding: 20px 60px; border: none; border-radius: 10px;
+            cursor: pointer; transition: 0.2s; box-shadow: 0 5px 0 #b39500;
+            text-transform: uppercase;
+        }
+        .big-btn:active { transform: translateY(5px); box-shadow: none; }
+        .big-btn:hover { background: #ffde33; }
+
+        /* --- ELEMENTOS DEL JUEGO --- */
+        .pregunta-box { 
+            background: #222; border: 2px solid #444; border-radius: 15px; 
+            padding: 30px; width: 90%; margin-bottom: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .tipo-ejercicio { color: #3692e7; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; display: block; }
+        .target { font-size: 4em; font-weight: bold; margin: 10px 0; color: #fff; }
+        
+        /* Inputs y Botones */
+        input[type="text"] {
+            background: #111; border: 2px solid #555; color: #e5bf00; 
+            font-size: 2em; padding: 15px; text-align: center; width: 80%; border-radius: 10px;
+            text-transform: uppercase; outline: none;
+        }
+        input[type="text"]:focus { border-color: #e5bf00; box-shadow: 0 0 15px rgba(229, 191, 0, 0.3); }
+
+        .color-btns { display: flex; gap: 30px; justify-content: center; width: 100%; }
+        .btn-chess { 
+            width: 120px; height: 120px; border-radius: 15px; font-weight: bold; font-size: 1.2em; 
+            cursor: pointer; border: 4px solid #555; transition: 0.1s;
+        }
+        .btn-chess:active { transform: scale(0.95); }
+        .btn-w { background: #fff; color: #000; border-color: #ccc; }
+        .btn-b { background: #000; color: #fff; border-color: #333; }
+
+        /* Feedback Visual */
+        #feedback-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; opacity: 0; transition: opacity 0.2s; z-index: 50;
+        }
+        .flash-green { background: rgba(98, 153, 36, 0.3); }
+        .flash-red { background: rgba(255, 51, 51, 0.3); }
+
+        @keyframes latido { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
+        @keyframes shake { 0% { transform: translateX(0); } 25% { transform: translateX(-10px); } 75% { transform: translateX(10px); } 100% { transform: translateX(0); } }
+        .shake-anim { animation: shake 0.3s; }
+
+    </style>
+</head>
+<body>
+
+    <div id="hud">
+        <div class="hud-box">
+            <div class="hud-label">Puntos</div>
+            <div id="score-val" class="hud-value">0</div>
+        </div>
+        <div class="hud-box">
+            <div class="hud-label">Tiempo</div>
+            <div id="timer-val" class="hud-value">120</div> </div>
+        <div class="hud-box">
+            <div class="hud-label">Racha</div>
+            <div id="multiplier">x1</div>
+        </div>
+    </div>
+
+    <div id="game-area">
+        <div id="feedback-overlay"></div>
+
+        <div id="start-screen" class="screen active">
+            <h1>BLIND ARCADE</h1>
+            <h2>Supervivencia Estratégica</h2>
+            <p style="color:#888; max-width: 400px; margin-bottom: 30px; line-height: 1.6;">
+                Inicio: <strong style="color:#e5bf00">2 Minutos</strong>.<br>
+                Acierta para ganar tiempo extra.<br>
+                Fallo: <span style="color:#ff3333">-10 segundos</span>.<br>
+                ¡No falles y jugarás para siempre!
+            </p>
+            <div style="margin-bottom: 20px; font-size: 1.2em;">Récord: <strong id="high-score" style="color:#e5bf00">0</strong></div>
+            <button class="big-btn" onclick="Game.start()">JUGAR</button>
+        </div>
+
+        <div id="play-screen" class="screen">
+            <div class="pregunta-box">
+                <span id="q-type" class="tipo-ejercicio">TIPO EJERCICIO</span>
+                <div id="q-content" class="target">--</div>
+                <div id="q-extra" style="color: #bbb; margin-bottom: 15px; font-size: 1.2em;"></div>
+            </div>
+            
+            <div id="input-container" style="width: 100%; display: flex; justify-content: center;"></div>
+        </div>
+
+        <div id="gameover-screen" class="screen">
+            <h1 style="color: #ff3333">GAME OVER</h1>
+            <div style="font-size: 1.5em; margin: 20px;">Puntuación Final</div>
+            <div id="final-score" style="font-size: 5em; font-family: 'Black Ops One'; color: #fff;">0</div>
+            <button class="big-btn" onclick="Game.reset()">REINTENTAR</button>
+        </div>
+    </div>
+
+    <script>
+        const Game = {
+            score: 0,
+            time: 120, // CAMBIO: 2 Minutos iniciales
+            streak: 0,
+            timerInterval: null,
+            currentExercise: null,
+            isPlaying: false,
+
+            // CAMBIO: Configuración de TIEMPOS y PUNTOS balanceada
+            types: [
+                { id: 'color', name: 'Color de Casilla', pts: 50, bonus: 3 },       // +3s (Muy rápido)
+                { id: 'diag', name: 'Diagonales', pts: 300, bonus: 15 },            // +15s (Para pensar)
+                { id: 'knight', name: 'Ruta de Caballo', pts: 500, bonus: 25 },     // +25s (Ruta tranquila)
+                { id: 'artillery', name: 'Ruta de Caballo 2.0', pts: 1000, bonus: 45 } // +45s (Mucho tiempo)
+            ],
+
+            start: function() {
+                this.score = 0;
+                this.time = 120; // CAMBIO: Reset a 120
+                this.streak = 0;
+                this.isPlaying = true;
+                
+                document.getElementById('start-screen').classList.remove('active');
+                document.getElementById('gameover-screen').classList.remove('active');
+                document.getElementById('play-screen').classList.add('active');
+                
+                this.updateHUD();
+                this.timerInterval = setInterval(() => this.tick(), 1000);
+                this.nextRound();
+            },
+
+            tick: function() {
+                this.time--;
+                this.updateHUD();
+                if (this.time <= 0) this.gameOver();
+            },
+
+            nextRound: function() {
+                if (!this.isPlaying) return;
+
+                let rand = Math.random();
+                let typeIdx = 0;
+                // Probabilidades ajustadas: menos color, más diagonales/caballo
+                if (rand < 0.3) typeIdx = 0;      // 30% Color
+                else if (rand < 0.6) typeIdx = 1; // 30% Diagonales
+                else if (rand < 0.85) typeIdx = 2; // 25% Caballo
+                else typeIdx = 3;                 // 15% Artillería (Más frecuente ahora que hay tiempo)
+
+                this.currentExercise = this.generateExercise(this.types[typeIdx].id);
+                this.renderExercise();
+            },
+
+            generateExercise: function(typeId) {
+                const cols = ['a','b','c','d','e','f','g','h'];
+                const randCas = () => cols[Math.floor(Math.random()*8)] + (Math.floor(Math.random()*8)+1);
+                
+                let data = { type: typeId };
+
+                if (typeId === 'color') {
+                    data.target = randCas();
+                    let c = data.target.charCodeAt(0)-96, f = parseInt(data.target.charAt(1));
+                    data.answer = ((c+f)%2===0) ? 'negra' : 'blanca';
+                } 
+                else if (typeId === 'diag') {
+                    data.target = randCas();
+                    let f = data.target.charCodeAt(0)-96, r = parseInt(data.target.charAt(1));
+                    let sol = [];
+                    [[1,1],[-1,1],[1,-1],[-1,-1]].forEach(d => {
+                        let cf=f, cr=r;
+                        while(cf+d[0]>=1 && cf+d[0]<=8 && cr+d[1]>=1 && cr+d[1]<=8) { cf+=d[0]; cr+=d[1]; }
+                        if(cf!==f || cr!==r) sol.push(String.fromCharCode(96+cf)+cr);
+                    });
+                    data.answer = sol;
+                }
+                else if (typeId === 'knight') {
+                    let start = randCas(), end = randCas();
+                    while(start === end) end = randCas();
+                    data.start = start; data.end = end;
+                }
+                else if (typeId === 'artillery') {
+                    let ok = false;
+                    while(!ok) {
+                        data.start = randCas(); data.end = randCas();
+                        if(data.start === data.end) continue;
+                        
+                        data.enemies = [];
+                        let dama = cols[Math.floor(Math.random()*4)+2] + (Math.floor(Math.random()*4)+3);
+                        data.enemies.push({n:'Dama', c:dama, t:'q'});
+                        
+                        let banned = new Set();
+                        data.enemies.forEach(e => {
+                            let c = e.c.charCodeAt(0)-96, f = parseInt(e.c.charAt(1));
+                            banned.add(e.c);
+                            [[0,1],[0,-1],[1,0],[-1,0],[1,1],[1,-1],[-1,1],[-1,-1]].forEach(d => {
+                                let nc=c+d[0], nf=f+d[1];
+                                while(nc>=1 && nc<=8 && nf>=1 && nf<=8) {
+                                    banned.add(String.fromCharCode(96+nc)+nf); nc+=d[0]; nf+=d[1];
+                                }
+                            });
+                        });
+                        data.banned = banned;
+                        if(!banned.has(data.start) && !banned.has(data.end) && this.checkBFS(data.start, data.end, banned)) ok = true;
+                    }
+                }
+                return data;
+            },
+
+            checkBFS: function(s, e, ban) {
+                let q=[s], v=new Set([s]);
+                while(q.length){
+                    let curr=q.shift();
+                    if(curr===e) return true;
+                    let c=curr.charCodeAt(0)-96, f=parseInt(curr.charAt(1));
+                    [[2,1],[2,-1],[-2,1],[-2,-1],[1,2],[1,-2],[-1,2],[-1,-2]].forEach(m=>{
+                        let nc=c+m[0], nf=f+m[1];
+                        if(nc>=1&&nc<=8&&nf>=1&&nf<=8){
+                            let n=String.fromCharCode(96+nc)+nf;
+                            if(!v.has(n)&&!ban.has(n)){ v.add(n); q.push(n); }
+                        }
+                    });
+                }
+                return false;
+            },
+
+            renderExercise: function() {
+                const ex = this.currentExercise;
+                const typeInfo = this.types.find(t => t.id === ex.type);
+                
+                document.getElementById('q-type').innerText = typeInfo.name + ` (+${typeInfo.bonus}s)`; // Mostrar bonus
+                
+                let contentHTML = '', inputHTML = '', extraHTML = '';
+
+                if (ex.type === 'color') {
+                    contentHTML = ex.target.toUpperCase();
+                    inputHTML = `
+                        <div class="color-btns">
+                            <button class="btn-chess btn-b" onclick="Game.check('negra')">NEGRA</button>
+                            <button class="btn-chess btn-w" onclick="Game.check('blanca')">BLANCA</button>
+                        </div>`;
+                } 
+                else if (ex.type === 'diag') {
+                    contentHTML = ex.target.toUpperCase();
+                    extraHTML = "(Escribe los extremos: ejemplo c3 Solucion: a1 h8 a5 e1)";
+                    inputHTML = `<input type="text" id="ans-input" placeholder="a1 h8 a5 e1" onkeydown="if(event.key==='Enter') Game.check(this.value)">`;
+                }
+                else if (ex.type === 'knight') {
+                    contentHTML = `${ex.start.toUpperCase()} ➡ ${ex.end.toUpperCase()}`;
+                    extraHTML = "(Ruta simple Ejemplo: de a2 a b4 Solucion: c3 d5)";
+                    inputHTML = `<input type="text" id="ans-input" placeholder="c3 d5" onkeydown="if(event.key==='Enter') Game.check(this.value)">`;
+                }
+                else if (ex.type === 'artillery') {
+                    contentHTML = `${ex.start.toUpperCase()} ➡ ${ex.end.toUpperCase()}`;
+                    let enemyStr = ex.enemies.map(e => `${e.n} en ${e.c.toUpperCase()}`).join(', ');
+                    extraHTML = `⚠️ ${enemyStr}`;
+                    extraHTML += "<br> (Ruta De Caballo 2.0 Ejemplo: de a2 a b4 con Df4 Solucion: c3 d5)";
+
+                    inputHTML = `<input type="text" id="ans-input" placeholder="c3 d5" onkeydown="if(event.key==='Enter') Game.check(this.value)">`;
+                }
+
+                document.getElementById('q-content').innerHTML = contentHTML;
+                document.getElementById('q-extra').innerHTML = extraHTML;
+                document.getElementById('input-container').innerHTML = inputHTML;
+
+                if(document.getElementById('ans-input')) document.getElementById('ans-input').focus();
+            },
+
+            check: function(userVal) {
+                if (!this.isPlaying) return;
+                
+                let isCorrect = false;
+                const ex = this.currentExercise;
+
+                if (ex.type === 'color') {
+                    isCorrect = (userVal === ex.answer);
+                }
+                else if (ex.type === 'diag') {
+                    let userArr = userVal.toLowerCase().match(/[a-h][1-8]/g) || [];
+                    let ansArr = ex.answer;
+                    isCorrect = (userArr.sort().join(',') === ansArr.sort().join(',') && userArr.length > 0);
+                }
+                else if (ex.type === 'knight' || ex.type === 'artillery') {
+                    console.log("============== INICIANDO VALIDACIÓN ==============");
+                    console.log("1. Texto crudo introducido:", userVal);
+                    
+                    let userRoute = userVal.toLowerCase().match(/[a-h][1-8]/g) || [];
+                    console.log("2. Casillas detectadas en el input:", userRoute);
+                    console.log(`3. Objetivo del nivel -> Inicio: ${ex.start} | Fin: ${ex.end}`);
+
+                    let full = [ex.start, ...userRoute, ex.end];
+                    console.log("4. Ruta completa a evaluar (Inicio + Input + Fin):", full);
+                    
+                    isCorrect = true;
+                    
+                    if (userRoute.length === 0) {
+                        console.warn("⚠️ AVISO: La ruta introducida está vacía. Fallo automático (según código original).");
+                        isCorrect = false;
+                    }
+
+                    for(let i=0; i<full.length-1; i++) {
+                        console.log(`\n--- Evaluando Salto ${i+1}: de ${full[i]} a ${full[i+1]} ---`);
+                        
+                        let c1=full[i].charCodeAt(0), r1=parseInt(full[i].charAt(1));
+                        let c2=full[i+1].charCodeAt(0), r2=parseInt(full[i+1].charAt(1));
+                        
+                        let dC=Math.abs(c1-c2), dR=Math.abs(r1-r2);
+                        console.log(`Distancia en Columnas (dC): ${dC} | Distancia en Filas (dR): ${dR}`);
+                        
+                        let esSaltoL = ((dC===1 && dR===2) || (dC===2 && dR===1));
+                        console.log(`¿Es un salto en "L" matemático?:`, esSaltoL);
+                        
+                        if(!esSaltoL) {
+                            console.error(`❌ FALLO: El movimiento de ${full[i]} a ${full[i+1]} NO es válido.`);
+                            isCorrect = false;
+                        }
+
+                        if(ex.type === 'artillery') {
+                            let esCasillaProhibida = ex.banned.has(full[i+1]);
+                            console.log(`¿La casilla ${full[i+1]} está amenazada?:`, esCasillaProhibida);
+                            if(esCasillaProhibida) {
+                                console.error(`💥 FALLO ARTILLERÍA: La casilla ${full[i+1]} está en la lista de baneadas!`);
+                                console.log("Casillas baneadas actuales:", Array.from(ex.banned));
+                                isCorrect = false;
+                            }
+                        }
+                    }
+                    console.log("\n>>> RESULTADO FINAL DEL EJERCICIO:", isCorrect ? "CORRECTO ✅" : "INCORRECTO ❌");
+                    console.log("==================================================");
+                }
+
+                if (isCorrect) this.processCorrect();
+                else this.processWrong();
+                
+                this.nextRound();
+            },
+
+            processCorrect: function() {
+                this.streak++;
+                let mult = Math.floor(this.streak / 3) + 1;
+                if(mult > 5) mult = 5;
+
+                const typeInfo = this.types.find(t => t.id === this.currentExercise.type);
+                
+                this.time += typeInfo.bonus; // TIEMPO EXTRA
+                this.score += (typeInfo.pts * mult);
+
+                this.flash('green');
+                this.updateHUD();
+            },
+
+            processWrong: function() {
+                this.streak = 0;
+                this.time -= 10; // PENALIZACIÓN
+                this.flash('red');
+                document.getElementById('game-area').classList.add('shake-anim');
+                setTimeout(()=>document.getElementById('game-area').classList.remove('shake-anim'), 300);
+                this.updateHUD();
+            },
+
+            flash: function(color) {
+                const overlay = document.getElementById('feedback-overlay');
+                overlay.className = color === 'green' ? 'flash-green' : 'flash-red';
+                overlay.style.opacity = 1;
+                setTimeout(() => overlay.style.opacity = 0, 200);
+            },
+
+            updateHUD: function() {
+                document.getElementById('score-val').innerText = this.score;
+                const timerEl = document.getElementById('timer-val');
+                timerEl.innerText = this.time;
+                
+                if (this.time <= 15) timerEl.classList.add('danger');
+                else timerEl.classList.remove('danger');
+
+                const multEl = document.getElementById('multiplier');
+                let mult = Math.floor(this.streak / 3) + 1;
+                if(mult > 1) {
+                    multEl.innerText = 'x' + mult;
+                    multEl.classList.add('racha-activa');
+                } else {
+                    multEl.innerText = '';
+                    multEl.classList.remove('racha-activa');
+                }
+            },
+
+            gameOver: function() {
+                this.isPlaying = false;
+                clearInterval(this.timerInterval);
+                
+                let highScore = localStorage.getItem('blind_arcade_hs') || 0;
+                if (this.score > highScore) {
+                    highScore = this.score;
+                    localStorage.setItem('blind_arcade_hs', highScore);
+                }
+
+                document.getElementById('play-screen').classList.remove('active');
+                document.getElementById('gameover-screen').classList.add('active');
+                document.getElementById('final-score').innerText = this.score;
+            },
+
+            reset: function() {
+                document.getElementById('gameover-screen').classList.remove('active');
+                document.getElementById('start-screen').classList.add('active');
+                this.loadHighScore();
+            },
+
+            loadHighScore: function() {
+                let hs = localStorage.getItem('blind_arcade_hs') || 0;
+                document.getElementById('high-score').innerText = hs;
+            }
+        };
+
+        window.onload = () => Game.loadHighScore();
+
+    </script>
+</body>
+</html>

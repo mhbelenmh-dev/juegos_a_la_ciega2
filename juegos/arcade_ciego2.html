@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>ARCADE BLIND MASTER - VERSIÓN FINAL PRO</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>♞</text></svg>">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Roboto:wght@400;700&display=swap');
+        body { font-family: 'Roboto', sans-serif; background-color: #111; color: #fff; margin: 0; height: 100vh; display: flex; flex-direction: column; align-items: center; overflow: hidden; }
+        #hud { width: 100%; padding: 20px; background: #000; display: flex; justify-content: space-around; border-bottom: 3px solid #333; }
+        .hud-value { font-family: 'Black Ops One', cursive; font-size: 2.5em; color: #e5bf00; }
+        #game-area { flex-grow: 1; width: 100%; max-width: 800px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+        .screen { display: none; flex-direction: column; align-items: center; width: 100%; }
+        .active { display: flex; }
+        .target { font-size: 6em; font-weight: bold; margin: 10px 0; color: #fff; text-shadow: 0 0 20px rgba(255,255,255,0.3); }
+        .big-btn { background: #e5bf00; color: #000; font-family: 'Black Ops One', cursive; font-size: 2em; padding: 20px 60px; border: none; border-radius: 10px; cursor: pointer; margin: 10px; }
+        .skip-btn { background: #444; color: #fff; font-size: 1.2em; padding: 10px 30px; border: 1px solid #666; cursor: pointer; border-radius: 5px; margin-top: 20px; }
+        #last-heard { color: #666; font-style: italic; margin-top: 10px; font-size: 1.2em; min-height: 1.5em; }
+    </style>
+</head>
+<body>
+
+    <div id="hud">
+        <div class="hud-box"><div id="score-val" class="hud-value">0</div><div>Puntos</div></div>
+        <div class="hud-box"><div id="timer-val" class="hud-value">120</div><div>Tiempo</div></div>
+    </div>
+
+    <div id="game-area">
+        <div id="start-screen" class="screen active">
+            <h1>ENTRENADOR CIEGO PRO</h1>
+            <p>+15s por acierto | -3s por fallo</p>
+            <p>Dí "repite" para volver a oír el ejercicio.</p>
+            <button class="big-btn" onclick="Game.start()">JUGAR</button>
+        </div>
+
+        <div id="play-screen" class="screen">
+            <div id="q-type" style="color:#3692e7; font-weight: bold; letter-spacing: 2px;">--</div>
+            <div id="q-content" class="target">--</div>
+            <div id="mic-status" style="color:#629924; font-weight:bold;">🎤 Escuchando...</div>
+            <div id="last-heard">Oigo: ...</div>
+            <button class="skip-btn" onclick="Game.skip()">⏭️ SALTAR (-5s)</button>
+        </div>
+
+        <div id="gameover-screen" class="screen">
+            <h1 style="color: #ff3333">FIN</h1>
+            <div id="final-score" style="font-size: 5em;">0</div>
+            <button class="big-btn" onclick="location.reload()">REINTENTAR</button>
+        </div>
+    </div>
+
+    <script>
+        function compararSimilitud(s1, s2) {
+            let m = s1.length, n = s2.length;
+            let d = Array.from(Array(m + 1), () => new Array(n + 1));
+            for (let i = 0; i <= m; i++) d[i][0] = i;
+            for (let j = 0; j <= n; j++) d[0][j] = j;
+            for (let j = 1; j <= n; j++) {
+                for (let i = 1; i <= m; i++) {
+                    let cost = (s1[i - 1] === s2[j - 1]) ? 0 : 1;
+                    d[i][j] = Math.min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + cost);
+                }
+            }
+            return 1 - (d[m][n] / Math.max(m, n));
+        }
+
+        const Voice = {
+            synth: window.speechSynthesis,
+            recog: null,
+            validas: ["anna", "bela", "cesar", "david", "eva", "felix", "gustavo", "hector", "blanca", "negra", "uno", "dos", "tres", "cuatro", "cinco", "seis", "siete", "ocho", "repite", "repitelo", "jugar", "empezar"],
+
+            init() {
+                const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+                this.recog = new SpeechRec();
+                this.recog.lang = 'es-ES';
+                this.recog.continuous = true;
+                this.recog.interimResults = true;
+
+                this.recog.onresult = (e) => {
+                    let fullText = '';
+                    for (let i = e.resultIndex; i < e.results.length; ++i) {
+                        fullText += e.results[i][0].transcript;
+                    }
+                    Game.processVoice(fullText.toLowerCase().trim());
+                };
+                this.recog.onend = () => { if(Game.isPlaying) this.recog.start(); };
+            },
+
+            say(text) {
+                this.synth.cancel();
+                let clean = text.toLowerCase();
+                const nombres = { 'a': 'Anna', 'b': 'Bela', 'c': 'César', 'd': 'David', 'e': 'Eva', 'f': 'Félix', 'g': 'Gustavo', 'h': 'Héctor' };
+                clean = clean.replace(/([a-h])([1-8])/g, (m, l, n) => nombres[l] + " " + n + " ");
+                const u = new SpeechSynthesisUtterance(clean);
+                u.lang = 'es-ES'; u.rate = 1.0;
+                this.synth.speak(u);
+            }
+        };
+
+        const Game = {
+            score: 0, time: 120, isPlaying: false, current: null,
+            initMenu() {
+                Voice.init();
+                this.isListening = true;
+                Voice.recog.start(); // El micro empieza a escuchar desde que carga la web
+            },            
+            start() {
+                Voice.init(); this.isPlaying = true;
+                document.getElementById('start-screen').classList.remove('active');
+                document.getElementById('play-screen').classList.add('active');
+                Voice.recog.start();
+                this.reloj = setInterval(() => {
+                    if(this.isPlaying) { 
+                        this.time--;
+                        document.getElementById('timer-val').innerText = this.time;
+                        if(this.time <= 0) this.end(); 
+                    }
+                }, 1000);
+                this.next();
+            },
+
+            next() {
+                const r = Math.random();
+                if (r < 0.33) this.genColor();
+                else if (r < 0.66) this.genDiag();
+                else this.genKnight();
+            },
+
+            genColor() {
+                const l = "abcdefgh"[Math.floor(Math.random()*8)];
+                const n = Math.floor(Math.random()*8)+1;
+                this.current = { type: 'color', label: 'Color de casilla', target: l + n, ans: ((l.charCodeAt(0)-96 + n)%2===0) ? 'negra' : 'blanca' };
+                this.render();
+            },
+
+            genDiag() {
+                const cas = "abcdefgh"[Math.floor(Math.random()*8)] + (Math.floor(Math.random()*8)+1);
+                let f = cas.charCodeAt(0)-96, r = parseInt(cas.charAt(1));
+                let sol = [];
+                [[1,1],[-1,1],[1,-1],[-1,-1]].forEach(d => {
+                    let cf=f, cr=r;
+                    while(cf+d[0]>=1 && cf+d[0]<=8 && cr+d[1]>=1 && cr+d[1]<=8) { cf+=d[0]; cr+=d[1]; }
+                    if(cf!==f || cr!==r) sol.push(String.fromCharCode(96+cf)+cr);
+                });
+                this.current = { type: 'diag', label: 'Diagonales', target: cas, ans: sol };
+                this.render();
+            },
+
+            genKnight() {
+                const s = "abcdefgh"[Math.floor(Math.random()*8)] + (Math.floor(Math.random()*8)+1);
+                const e = "abcdefgh"[Math.floor(Math.random()*8)] + (Math.floor(Math.random()*8)+1);
+                this.current = { type: 'knight', label: 'Circuito de caballo', target: s, end: e };
+                this.render();
+            },
+
+            render() {
+                document.getElementById('q-type').innerText = this.current.label.toUpperCase();
+                let txt = this.current.type === 'knight' ? this.current.target.toUpperCase() + " a " + this.current.end.toUpperCase() : this.current.target.toUpperCase();
+                document.getElementById('q-content').innerText = txt;
+                this.anunciar();
+            },
+
+            anunciar() {
+                let msg = "Ejercicio de " + this.current.label + ". ";
+                msg += (this.current.type === 'knight') ? (this.current.target + " a " + this.current.end) : this.current.target;
+                Voice.say(msg);
+            },
+
+            skip() { this.time -= 5; Voice.say("Saltado"); this.next(); },
+
+processVoice(text) {
+                // 1. Quitamos el 'return' de aquí arriba para que SIEMPRE analice las palabras
+                let palabras = text.split(/\s+/);
+                let filtradas = palabras.map(p => {
+                    let mejor = { sim: 0, clave: "" };
+                    Voice.validas.forEach(v => {
+                        let s = compararSimilitud(p, v);
+                        if (s > mejor.sim) { mejor.sim = s; mejor.clave = v; }
+                    });
+                    return mejor.sim > 0.7 ? mejor.clave : "";
+                }).filter(p => p !== "");
+               
+                // --- COMANDO JUGAR ---
+                // Si el juego no ha empezado y dices "Jugar", se activa el start()
+                if (!this.isPlaying && (filtradas.includes("jugar") || filtradas.includes("empezar"))) {
+                    this.start();
+                    return;
+                }
+
+                // 2. Y PONEMOS EL BLOQUEO AQUÍ. 
+                // Si no estamos jugando y no ha dicho "jugar", no hace nada más.
+                if (!this.isPlaying) return; 
+
+                document.getElementById('last-heard').innerText = "Oigo: " + filtradas.join(' ');
+
+                // --- LÓGICA DE REPITE SIN TARTAMUDEO ---
+                if (filtradas.includes("repite") || filtradas.includes("repitelo")) {
+                    Voice.recog.stop(); 
+                    this.anunciar(); 
+                    setTimeout(() => { if(this.isPlaying) Voice.recog.start(); }, 300); 
+                    return; 
+                }
+
+                let dec = filtradas.join(' ');
+                const mapa = { "anna": "a", "bela": "b", "cesar": "c", "david": "d", "eva": "e", "felix": "f", "gustavo": "g", "hector": "h", "uno": "1", "dos": "2", "tres": "3", "cuatro": "4", "cinco": "5", "seis": "6", "siete": "7", "ocho": "8" };
+                for (let [n, l] of Object.entries(mapa)) { dec = dec.replace(new RegExp("\\b" + n + "\\b", "g"), l); }
+                dec = dec.replace(/\s+/g, '');
+
+                if (this.current.type === 'color') {
+                    if (dec.includes("blanca") || dec.includes("blanco")) this.check(this.current.ans === 'blanca');
+                    else if (dec.includes("negra") || dec.includes("negro")) this.check(this.current.ans === 'negra');
+                } else {
+                    let coords = dec.match(/[a-h][1-8]/g) || [];
+                    let uniq = [...new Set(coords)];
+                    if (this.current.type === 'diag') {
+                        if (this.current.ans.length === 1) { if (uniq.includes(this.current.ans[0])) this.check(true); }
+                        else { if (uniq.filter(c => this.current.ans.includes(c)).length === this.current.ans.length) this.check(true); }
+                    } else if (this.current.type === 'knight') {
+                        if (uniq.includes(this.current.end)) this.check(true);
+                    }
+                }
+            },
+            check(isCorrect) {
+                this.isPlaying = false; 
+                Voice.recog.stop(); 
+                if (isCorrect) { 
+                    this.score += 100; 
+                    this.time += 15; // +15 SEGUNDOS POR ACIERTO
+                    Voice.say("Bien"); 
+                }
+                else { 
+                    this.time -= 3; // -3 SEGUNDOS POR FALLO
+                    Voice.say("Mal"); 
+                }
+                document.getElementById('score-val').innerText = this.score;
+                setTimeout(() => { if(this.time > 0) { this.isPlaying = true; Voice.recog.start(); this.next(); } }, 150);
+            },
+
+            end() {
+                this.isPlaying = false; Voice.recog.stop(); Voice.say("Fin");
+                document.getElementById('play-screen').classList.remove('active');
+                document.getElementById('gameover-screen').classList.add('active');
+                document.getElementById('final-score').innerText = this.score;
+            }
+        };
+    </script>
+</body>
+</html>

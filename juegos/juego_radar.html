@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Radar: Autoverificación Pro</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>♞</text></svg>">
+    <link rel="stylesheet" href="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.css">
+    <style>
+        :root {
+            --bg-color: #262421;
+            --panel-bg: #302e2c;
+            --accent: #e5bf00;
+            --success: #629924;
+            --blue: #3692e7;
+            --danger: #cc3333;
+            --text: #bababa;
+        }
+
+        body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg-color); color: var(--text); margin: 0; display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 20px; box-sizing: border-box; }
+        h1 { color: var(--accent); margin-bottom: 30px; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
+        
+        #main-layout {
+            display: flex;
+            flex-direction: row;
+            gap: 40px;
+            width: 100%;
+            max-width: 900px;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        @media (max-width: 800px) {
+            #main-layout { flex-direction: column; align-items: center; }
+            #sidebar { width: 100%; max-width: 450px; }
+        }
+
+        #tablero-wrapper {
+            flex: 0 0 450px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+
+        #tablero-container { width: 450px; height: 450px; position: relative; border: 6px solid #3d3a37; border-radius: 4px; background: #262421; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        #tablero { width: 100%; height: 100%; transition: opacity 0.2s; }
+        #cortina { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(38, 36, 33, 0.98); display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 20; }
+        
+        #barra-tiempo-container { width: 100%; height: 12px; background: #1a1917; border-radius: 6px; overflow: hidden; margin-bottom: 15px; }
+        #barra-tiempo { height: 100%; width: 100%; background: var(--accent); transition: width linear; }
+
+        #sidebar { flex: 1; display: flex; flex-direction: column; gap: 20px; width: 350px; }
+
+        .panel-box {
+            background: var(--panel-bg); padding: 25px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); border: 1px solid #444; min-height: 150px; display: flex; flex-direction: column; justify-content: center;
+        }
+
+        .panel-title { font-weight: bold; color: var(--accent); margin-bottom: 15px; font-size: 1.2em; text-transform: uppercase; letter-spacing: 1px; text-align: center;}
+
+        #texto-pregunta { color: #fff; font-size: 1.2em; margin-bottom: 20px; font-weight: bold; text-align: center; line-height: 1.4;}
+        .casilla-destacada { color: #262421; background: var(--accent); padding: 2px 8px; border-radius: 4px; font-size: 1.2em;}
+        
+        #grid-numeros { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+        .btn-numero { background: #262421; color: white; width: 60px; height: 60px; border: 2px solid #555; font-size: 1.5em; border-radius: 8px; cursor: pointer; transition: 0.2s; font-weight: bold;}
+        .btn-numero:hover { background: var(--blue); border-color: var(--blue); transform: scale(1.1); box-shadow: 0 4px 10px rgba(54, 146, 231, 0.4);}
+
+        #instrucciones { text-align: center; color: #888; font-size: 1.1em; line-height: 1.5; }
+
+        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .stat-card { background: #262421; padding: 15px; border-radius: 6px; text-align: center; border: 1px solid #3d3a37; }
+        .stat-value { display: block; font-size: 2.5em; color: var(--blue); font-weight: bold; }
+        .stat-label { font-size: 0.8em; color: #888; text-transform: uppercase; margin-top: 5px; display: block;}
+
+        button { border: none; border-radius: 6px; cursor: pointer; font-weight: bold; transition: 0.2s; }
+        .btn-inicio { background: var(--accent); color: #262421; font-size: 1.5em; padding: 20px 40px; border: 2px solid #fff; box-shadow: 0 4px 0 #b39500; }
+        .btn-inicio:hover { background: #ffe03d; transform: translateY(-2px); box-shadow: 0 6px 0 #b39500; }
+        .btn-inicio:active { transform: translateY(2px); box-shadow: 0 2px 0 #b39500; }
+        
+        .btn-siguiente { background: var(--success); color: white; padding: 15px 40px; font-size: 1.2em; width: 100%; box-shadow: 0 4px 0 #4a751b; margin-top: 15px;}
+        .btn-siguiente:hover { background: #76b82a; transform: translateY(-2px); box-shadow: 0 6px 0 #4a751b;}
+        
+        .btn-secundario { background: var(--blue); margin-bottom: 20px; font-size: 18px; padding: 15px 30px; color: white;}
+        .btn-secundario:hover { background: #4fa3f0; }
+
+        input[type="file"] { margin-bottom: 10px; background: #262421; padding: 10px; border-radius: 5px; width: 100%; box-sizing: border-box; border: 1px solid #555; color: white;}
+        
+        .oculto { display: none !important; }
+        #pantalla-carga { background: var(--panel-bg); padding: 40px; border-radius: 10px; margin-top: 20px; max-width: 500px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        
+        /* Efectos visuales de Radar */
+        .highlight-target { box-shadow: inset 0 0 0 5px rgba(54, 146, 231, 0.9) !important; background-color: rgba(54, 146, 231, 0.4) !important; } 
+        .highlight-center { box-shadow: inset 0 0 0 5px rgba(229, 191, 0, 1) !important; background-color: rgba(229, 191, 0, 0.5) !important; } 
+    </style>
+</head>
+<body>
+
+    <div id="pantalla-carga">
+        <h1 style="margin-top: 0;">📡 Radar Visual</h1>
+        <p style="color: #aaa;">¿Qué base de datos quieres usar?</p>
+        <button id="btn-defecto" class="btn-secundario">🎮 Usar la base del juego</button>
+        <hr style="border: 1px solid #444; margin: 25px 0;">
+        <p style="font-size: 0.9em; color: #888; text-align: left; margin-bottom: 5px;">O sube tu propio archivo <strong>.json</strong>:</p>
+        <input type="file" id="archivoInput" accept=".json">    
+    </div>
+
+    <div id="contenedor-juego" class="oculto">
+        <h1 style="display: none;">Radar</h1>
+        
+        <div id="main-layout">
+            
+            <div id="tablero-wrapper">
+                <div id="barra-tiempo-container"><div id="barra-tiempo" style="width: 100%;"></div></div>
+                <div id="tablero-container">
+                    <div id="tablero"></div>
+                    <div id="cortina">
+                        <div id="contenido-cortina">
+                            <button class="btn-inicio" onclick="empezarRonda()">ESCANEAR (3s)</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="sidebar">
+                
+                <div class="panel-box">
+                    <div class="panel-title">Panel de Control</div>
+                    
+                    <div id="instrucciones">
+                        Pulsa <strong>ESCANEAR</strong>. Cuenta cuántas piezas de todo el tablero <strong>atacan o defienden</strong> la casilla que se te indicará.
+                    </div>
+
+                    <div id="zona-respuesta" class="oculto">
+                        <div id="texto-pregunta">¿Cuántas piezas tocan / vigilan la casilla <br><br><span id="casilla-target" class="casilla-destacada">E4</span> ?</div>
+                        <div id="grid-numeros"></div>
+                    </div>
+
+                    <div id="zona-resultado" class="oculto" style="width: 100%; text-align: center;">
+                        <div id="status" style="font-size: 1.1em; color: #ddd; margin-bottom: 10px; line-height: 1.5;"></div>
+                        <button id="btn-next" class="btn-siguiente" onclick="resetearInterfaz()">SIGUIENTE ESCANEO ➡</button>
+                    </div>
+                </div>
+
+                <div class="panel-box">
+                    <div class="panel-title">Estadísticas</div>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <span id="radares-completados" class="stat-value">0</span>
+                            <span class="stat-label">Jugados</span>
+                        </div>
+                        <div class="stat-card">
+                            <span id="radares-aciertos" class="stat-value" style="color: var(--success);">0</span>
+                            <span class="stat-label">Aciertos</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
+
+    <script>
+        let todosLosPuzzles = {};
+        let puzzleActual = null;
+        let game = new Chess();
+        let board = null;
+        let tiempoRadar = 3000; 
+        let temporizador = null;
+        let casillaObjetivo = "";
+        
+        let radaresCompletados = 0;
+        let radaresAciertos = 0;
+
+        document.getElementById('btn-defecto').addEventListener('click', function() {
+            let boton = this; boton.innerText = "Cargando..."; 
+            fetch('mis_puzzles.json').then(response => {
+                if (!response.ok) throw new Error('No se encontró el archivo'); return response.json();
+            }).then(data => { todosLosPuzzles = data; iniciarPantallaJuego(); })
+            .catch(error => { alert("⚠️ Error."); boton.innerText = "🎮 Usar la base del juego"; });
+        });
+
+        document.getElementById('archivoInput').addEventListener('change', function(e) {
+            const archivo = e.target.files[0]; if (!archivo) return;
+            const lector = new FileReader();
+            lector.onload = function(e) { todosLosPuzzles = JSON.parse(e.target.result); iniciarPantallaJuego(); };
+            lector.readAsText(archivo);
+        });
+
+        function iniciarPantallaJuego() {
+            document.getElementById('pantalla-carga').classList.add('oculto');
+            document.getElementById('contenedor-juego').classList.remove('oculto');
+            board = Chessboard('tablero', { position: 'start', pieceTheme: 'https://chessboardjs.com/img/chesspieces/wikipedia/{piece}.png' });
+        }
+
+        function resetearInterfaz() {
+            document.getElementById('cortina').classList.remove('oculto');
+            document.getElementById('tablero').style.opacity = '1';
+            document.getElementById('contenido-cortina').innerHTML = `<button class="btn-inicio" onclick="empezarRonda()">ESCANEAR (3s)</button>`;
+            
+            document.getElementById('zona-respuesta').classList.add('oculto');
+            document.getElementById('zona-resultado').classList.add('oculto');
+            document.getElementById('instrucciones').classList.remove('oculto');
+            
+            let barra = document.getElementById('barra-tiempo');
+            barra.style.transition = 'none'; barra.style.width = '100%';
+            $('#tablero .square-55d63').removeClass('highlight-target highlight-center');
+        }
+
+        function empezarRonda() {
+            cargarPosicionAleatoria();
+            document.getElementById('cortina').classList.add('oculto');
+            document.getElementById('instrucciones').classList.add('oculto'); 
+            
+            let barra = document.getElementById('barra-tiempo');
+            setTimeout(() => { barra.style.transition = `width ${tiempoRadar}ms linear`; barra.style.width = '0%'; }, 50);
+            
+            if (temporizador) clearTimeout(temporizador);
+            temporizador = setTimeout(() => { lanzarPregunta(); }, tiempoRadar);
+        }
+
+        function cargarPosicionAleatoria() {
+            let listas = Object.values(todosLosPuzzles); let listaPlana = listas.flat();
+            if (listaPlana.length === 0) return; 
+            puzzleActual = listaPlana[Math.floor(Math.random() * listaPlana.length)];
+            game.load(puzzleActual.fen); board.position(game.fen());
+        }
+
+        function lanzarPregunta() {
+            casillaObjetivo = seleccionarCasillaActivaSegura();
+            document.getElementById('cortina').classList.remove('oculto');
+            document.getElementById('tablero').style.opacity = '0'; 
+            document.getElementById('contenido-cortina').innerHTML = ""; 
+            document.getElementById('casilla-target').innerText = casillaObjetivo.toUpperCase();
+            
+            let htmlBotones = "";
+            for(let i=0; i<=5; i++) {
+                let etiqueta = i === 5 ? "5+" : i;
+                htmlBotones += `<button class="btn-numero" onclick="revelar(${i})">${etiqueta}</button>`;
+            }
+            document.getElementById('grid-numeros').innerHTML = htmlBotones;
+            document.getElementById('zona-respuesta').classList.remove('oculto');
+        }
+
+        // --- LÓGICA DE VISIÓN DE AJEDREZ ---
+        
+        function caminoDespejado(c1, f1, c2, f2) {
+            let dc = Math.sign(c2 - c1);
+            let df = Math.sign(f2 - f1);
+            let c = c1 + dc;
+            let f = f1 + df;
+            
+            while (c !== c2 || f !== f2) {
+                let casIntermedia = String.fromCharCode(c + 97) + (f + 1);
+                if (game.get(casIntermedia) !== null) return false; // Hay una pieza bloqueando
+                c += dc;
+                f += df;
+            }
+            return true;
+        }
+
+        function piezaAtacaCasilla(origen, destino) {
+            if (origen === destino) return false;
+            let pieza = game.get(origen);
+            if (!pieza) return false;
+
+            let c1 = origen.charCodeAt(0) - 97; let f1 = parseInt(origen[1]) - 1;
+            let c2 = destino.charCodeAt(0) - 97; let f2 = parseInt(destino[1]) - 1;
+            
+            let dc = c2 - c1; let absDc = Math.abs(dc);
+            let df = f2 - f1; let absDf = Math.abs(df);
+
+            switch (pieza.type) {
+                case 'p':
+                    let direccion = pieza.color === 'w' ? 1 : -1;
+                    return absDc === 1 && df === direccion;
+                case 'n':
+                    return (absDc === 1 && absDf === 2) || (absDc === 2 && absDf === 1);
+                case 'k':
+                    return absDc <= 1 && absDf <= 1;
+                case 'r':
+                    if (c1 !== c2 && f1 !== f2) return false;
+                    return caminoDespejado(c1, f1, c2, f2);
+                case 'b':
+                    if (absDc !== absDf) return false;
+                    return caminoDespejado(c1, f1, c2, f2);
+                case 'q':
+                    if (c1 !== c2 && f1 !== f2 && absDc !== absDf) return false;
+                    return caminoDespejado(c1, f1, c2, f2);
+                default:
+                    return false;
+            }
+        }
+
+        function revelar(respuestaUsuario) {
+            document.getElementById('cortina').classList.add('oculto'); 
+            document.getElementById('tablero').style.opacity = '1';
+            
+            let $board = $('#tablero'); 
+            $board.find('.square-55d63').removeClass('highlight-target highlight-center'); 
+
+            let casillasAtacantes = [];
+            const columnas = ['a','b','c','d','e','f','g','h'];
+            const filas = ['1','2','3','4','5','6','7','8'];
+            
+            // Escanear todo el tablero comprobando quién mira a la casilla objetivo
+            for (let c of columnas) {
+                for (let f of filas) {
+                    let cas = c + f;
+                    if (piezaAtacaCasilla(cas, casillaObjetivo)) {
+                        casillasAtacantes.push(cas);
+                    }
+                }
+            }
+            
+            let piezasQueTocan = casillasAtacantes.length;
+
+            // Iluminar la casilla central y las piezas que la atacan
+            $board.find('.square-' + casillaObjetivo).addClass('highlight-center');
+            casillasAtacantes.forEach(cas => {
+                $board.find('.square-' + cas).addClass('highlight-target');
+            });
+            
+            // Validación
+            let esCorrecto = (respuestaUsuario === 5 && piezasQueTocan >= 5) || (respuestaUsuario === piezasQueTocan);
+            let htmlStatus = "";
+            let txtRespuesta = respuestaUsuario === 5 ? "5 o más" : respuestaUsuario;
+            
+            if (esCorrecto) {
+                radaresAciertos++;
+                document.getElementById('radares-aciertos').innerText = radaresAciertos;
+                htmlStatus = `<strong style="color:var(--success); font-size:1.4em;">✅ ¡CORRECTO!</strong><br>Había ${piezasQueTocan} pieza(s) vigilando la casilla.`;
+            } else {
+                htmlStatus = `<strong style="color:var(--danger); font-size:1.4em;">❌ FALLO</strong><br>Tú dijiste ${txtRespuesta}, pero hay ${piezasQueTocan} pieza(s) vigilándola.`;
+            }
+            
+            document.getElementById('status').innerHTML = htmlStatus;
+            document.getElementById('zona-respuesta').classList.add('oculto'); 
+            document.getElementById('zona-resultado').classList.remove('oculto');
+
+            radaresCompletados++;
+            document.getElementById('radares-completados').innerText = radaresCompletados;
+        }
+
+        function seleccionarCasillaActivaSegura() {
+            let candidatos = []; const columnas = ['a','b','c','d','e','f','g','h']; const filas = ['1','2','3','4','5','6','7','8'];
+            for (let c of columnas) {
+                for (let f of filas) {
+                    let casilla = c + f; let pieza = game.get(casilla);
+                    if (pieza !== null) candidatos.push(casilla);
+                }
+            }
+            candidatos.push('e4', 'd4', 'e5', 'd5'); // Añadir el centro por si acaso
+            return candidatos[Math.floor(Math.random() * candidatos.length)];
+        }
+    </script>
+</body>
+</html>
