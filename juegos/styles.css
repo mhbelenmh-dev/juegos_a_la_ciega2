@@ -1,0 +1,55 @@
+/* styles.css - Estilos globales para la suite de ajedrez */
+
+:root {
+    --bg-color: #262421;
+    --panel-bg: #302e2c;
+    --accent: #e5bf00;
+    --success: #629924;
+    --blue: #3692e7;
+    --danger: #cc3333;
+    --text: #bababa;
+}
+
+/* Clases de utilidad */
+.oculto { 
+    display: none !important; 
+}
+
+.correcto { color: var(--success); }
+.incorrecto { color: var(--danger); }
+
+/* Pantalla de carga (común en casi todos los juegos) */
+#pantalla-carga { 
+    background: var(--panel-bg); 
+    padding: 40px; 
+    border-radius: 10px; 
+    margin-top: 20px; 
+    max-width: 500px; 
+    text-align: center; 
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5); 
+}
+
+/* Estilos de botones secundarios y inputs compartidos */
+.btn-secundario { 
+    background: var(--blue); 
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    border-radius: 6px;
+    transition: 0.2s;
+}
+.btn-secundario:hover { 
+    background: #4fa3f0; 
+}
+
+input[type="file"] { 
+    margin-bottom: 10px; 
+    background: #262421; 
+    color: white;
+    padding: 10px; 
+    border-radius: 5px; 
+    width: 100%; 
+    box-sizing: border-box; 
+    border: 1px solid #555;
+}

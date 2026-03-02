@@ -4,18 +4,13 @@
     <meta charset="UTF-8">
     <title>Radar: Autoverificación Pro</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>♞</text></svg>">
+    
     <link rel="stylesheet" href="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.css">
-    <style>
-        :root {
-            --bg-color: #262421;
-            --panel-bg: #302e2c;
-            --accent: #e5bf00;
-            --success: #629924;
-            --blue: #3692e7;
-            --danger: #cc3333;
-            --text: #bababa;
-        }
+    
+    <link rel="stylesheet" href="styles.css">
 
+    <style>
+        /* ESTILOS ESPECÍFICOS DE ESTE JUEGO */
         body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg-color); color: var(--text); margin: 0; display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 20px; box-sizing: border-box; }
         h1 { color: var(--accent); margin-bottom: 30px; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
         
@@ -79,14 +74,6 @@
         .btn-siguiente { background: var(--success); color: white; padding: 15px 40px; font-size: 1.2em; width: 100%; box-shadow: 0 4px 0 #4a751b; margin-top: 15px;}
         .btn-siguiente:hover { background: #76b82a; transform: translateY(-2px); box-shadow: 0 6px 0 #4a751b;}
         
-        .btn-secundario { background: var(--blue); margin-bottom: 20px; font-size: 18px; padding: 15px 30px; color: white;}
-        .btn-secundario:hover { background: #4fa3f0; }
-
-        input[type="file"] { margin-bottom: 10px; background: #262421; padding: 10px; border-radius: 5px; width: 100%; box-sizing: border-box; border: 1px solid #555; color: white;}
-        
-        .oculto { display: none !important; }
-        #pantalla-carga { background: var(--panel-bg); padding: 40px; border-radius: 10px; margin-top: 20px; max-width: 500px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        
         /* Efectos visuales de Radar */
         .highlight-target { box-shadow: inset 0 0 0 5px rgba(54, 146, 231, 0.9) !important; background-color: rgba(54, 146, 231, 0.4) !important; } 
         .highlight-center { box-shadow: inset 0 0 0 5px rgba(229, 191, 0, 1) !important; background-color: rgba(229, 191, 0, 0.5) !important; } 
@@ -95,7 +82,7 @@
 <body>
 
     <div id="pantalla-carga">
-        <h1 style="margin-top: 0;">📡 Radar Visual</h1>
+        <h1 style="margin-top: 0; color: var(--text);">📡 Radar Visual</h1>
         <p style="color: #aaa;">¿Qué base de datos quieres usar?</p>
         <button id="btn-defecto" class="btn-secundario">🎮 Usar la base del juego</button>
         <hr style="border: 1px solid #444; margin: 25px 0;">
@@ -162,6 +149,8 @@
     <script src="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
 
+    <script src="utils.js"></script>
+
     <script>
         let todosLosPuzzles = {};
         let puzzleActual = null;
@@ -174,19 +163,10 @@
         let radaresCompletados = 0;
         let radaresAciertos = 0;
 
-        document.getElementById('btn-defecto').addEventListener('click', function() {
-            let boton = this; boton.innerText = "Cargando..."; 
-            fetch('mis_puzzles.json').then(response => {
-                if (!response.ok) throw new Error('No se encontró el archivo'); return response.json();
-            }).then(data => { todosLosPuzzles = data; iniciarPantallaJuego(); })
-            .catch(error => { alert("⚠️ Error."); boton.innerText = "🎮 Usar la base del juego"; });
-        });
-
-        document.getElementById('archivoInput').addEventListener('change', function(e) {
-            const archivo = e.target.files[0]; if (!archivo) return;
-            const lector = new FileReader();
-            lector.onload = function(e) { todosLosPuzzles = JSON.parse(e.target.result); iniciarPantallaJuego(); };
-            lector.readAsText(archivo);
+        // --- CARGA MODULAR DE BASE DE DATOS ---
+        inicializarCargaBaseDatos('mis_puzzles.json', 'btn-defecto', 'archivoInput', function(data) {
+            todosLosPuzzles = data; 
+            iniciarPantallaJuego(); 
         });
 
         function iniciarPantallaJuego() {
@@ -305,7 +285,6 @@
             const columnas = ['a','b','c','d','e','f','g','h'];
             const filas = ['1','2','3','4','5','6','7','8'];
             
-            // Escanear todo el tablero comprobando quién mira a la casilla objetivo
             for (let c of columnas) {
                 for (let f of filas) {
                     let cas = c + f;
@@ -317,22 +296,26 @@
             
             let piezasQueTocan = casillasAtacantes.length;
 
-            // Iluminar la casilla central y las piezas que la atacan
             $board.find('.square-' + casillaObjetivo).addClass('highlight-center');
             casillasAtacantes.forEach(cas => {
                 $board.find('.square-' + cas).addClass('highlight-target');
             });
             
-            // Validación
             let esCorrecto = (respuestaUsuario === 5 && piezasQueTocan >= 5) || (respuestaUsuario === piezasQueTocan);
             let htmlStatus = "";
             let txtRespuesta = respuestaUsuario === 5 ? "5 o más" : respuestaUsuario;
             
             if (esCorrecto) {
+                // REPRODUCE SONIDO DE ÉXITO
+                reproducirSonido('correcto');
+                
                 radaresAciertos++;
                 document.getElementById('radares-aciertos').innerText = radaresAciertos;
                 htmlStatus = `<strong style="color:var(--success); font-size:1.4em;">✅ ¡CORRECTO!</strong><br>Había ${piezasQueTocan} pieza(s) vigilando la casilla.`;
             } else {
+                // REPRODUCE SONIDO DE ERROR
+                reproducirSonido('incorrecto');
+                
                 htmlStatus = `<strong style="color:var(--danger); font-size:1.4em;">❌ FALLO</strong><br>Tú dijiste ${txtRespuesta}, pero hay ${piezasQueTocan} pieza(s) vigilándola.`;
             }
             
@@ -352,7 +335,7 @@
                     if (pieza !== null) candidatos.push(casilla);
                 }
             }
-            candidatos.push('e4', 'd4', 'e5', 'd5'); // Añadir el centro por si acaso
+            candidatos.push('e4', 'd4', 'e5', 'd5'); 
             return candidatos[Math.floor(Math.random() * candidatos.length)];
         }
     </script>

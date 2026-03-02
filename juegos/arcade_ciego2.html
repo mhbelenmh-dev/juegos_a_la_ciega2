@@ -6,9 +6,13 @@
     <title>ARCADE BLIND MASTER - VERSIÓN FINAL PRO</title>
     <link rel="icon"
         href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>♞</text></svg>">
+    
+    <link rel="stylesheet" href="styles.css">
+
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Roboto:wght@400;700&display=swap');
 
+        /* ESTILOS ESPECÍFICOS DE ARCADE 2 */
         body {
             font-family: 'Roboto', sans-serif;
             background-color: #111;
@@ -33,7 +37,7 @@
         .hud-value {
             font-family: 'Black Ops One', cursive;
             font-size: 2.5em;
-            color: #e5bf00;
+            color: var(--accent);
         }
 
         #game-area {
@@ -67,7 +71,7 @@
         }
 
         .big-btn {
-            background: #e5bf00;
+            background: var(--accent);
             color: #000;
             font-family: 'Black Ops One', cursive;
             font-size: 2em;
@@ -96,6 +100,8 @@
             font-size: 1.2em;
             min-height: 1.5em;
         }
+        
+        .danger { color: var(--danger) !important; }
     </style>
 </head>
 
@@ -121,19 +127,21 @@
         </div>
 
         <div id="play-screen" class="screen">
-            <div id="q-type" style="color:#3692e7; font-weight: bold; letter-spacing: 2px;">--</div>
+            <div id="q-type" style="color:var(--blue); font-weight: bold; letter-spacing: 2px;">--</div>
             <div id="q-content" class="target">--</div>
-            <div id="mic-status" style="color:#629924; font-weight:bold;">🎤 Escuchando...</div>
+            <div id="mic-status" style="color:var(--success); font-weight:bold;">🎤 Escuchando...</div>
             <div id="last-heard">Oigo: ...</div>
             <button class="skip-btn" onclick="Game.skip()">⏭️ SALTAR (-5s)</button>
         </div>
 
         <div id="gameover-screen" class="screen">
-            <h1 style="color: #ff3333">FIN</h1>
+            <h1 style="color: var(--danger)">FIN</h1>
             <div id="final-score" style="font-size: 5em;">0</div>
             <button class="big-btn" onclick="location.reload()">REINTENTAR</button>
         </div>
     </div>
+
+    <script src="utils.js"></script>
 
     <script>
         function compararSimilitud(s1, s2) {
@@ -188,7 +196,7 @@
             initMenu() {
                 Voice.init();
                 this.isListening = true;
-                Voice.recog.start(); // El micro empieza a escuchar desde que carga la web
+                Voice.recog.start(); 
             },
             start() {
                 Voice.init(); this.isPlaying = true;
@@ -198,7 +206,17 @@
                 this.reloj = setInterval(() => {
                     if (this.isPlaying) {
                         this.time--;
-                        document.getElementById('timer-val').innerText = this.time;
+                        let timerVal = document.getElementById('timer-val');
+                        timerVal.innerText = this.time;
+                        
+                        // EFECTO DE TENSIÓN
+                        if (this.time <= 10 && this.time > 0) {
+                            reproducirSonido('tick');
+                            timerVal.classList.add('danger');
+                        } else {
+                            timerVal.classList.remove('danger');
+                        }
+                        
                         if (this.time <= 0) this.end();
                     }
                 }, 1000);
@@ -252,10 +270,14 @@
                 Voice.say(msg);
             },
 
-            skip() { this.time -= 5; Voice.say("Saltado"); this.next(); },
+            skip() { 
+                reproducirSonido('incorrecto');
+                this.time -= 5; 
+                Voice.say("Saltado"); 
+                this.next(); 
+            },
 
             processVoice(text) {
-                // 1. Quitamos el 'return' de aquí arriba para que SIEMPRE analice las palabras
                 let palabras = text.split(/\s+/);
                 let filtradas = palabras.map(p => {
                     let mejor = { sim: 0, clave: "" };
@@ -266,20 +288,15 @@
                     return mejor.sim > 0.7 ? mejor.clave : "";
                 }).filter(p => p !== "");
 
-                // --- COMANDO JUGAR ---
-                // Si el juego no ha empezado y dices "Jugar", se activa el start()
                 if (!this.isPlaying && (filtradas.includes("jugar") || filtradas.includes("empezar"))) {
                     this.start();
                     return;
                 }
 
-                // 2. Y PONEMOS EL BLOQUEO AQUÍ. 
-                // Si no estamos jugando y no ha dicho "jugar", no hace nada más.
                 if (!this.isPlaying) return;
 
                 document.getElementById('last-heard').innerText = "Oigo: " + filtradas.join(' ');
 
-                // --- LÓGICA DE REPITE SIN TARTAMUDEO ---
                 if (filtradas.includes("repite") || filtradas.includes("repitelo")) {
                     Voice.recog.stop();
                     this.anunciar();
@@ -306,16 +323,19 @@
                     }
                 }
             },
+            
             check(isCorrect) {
                 this.isPlaying = false;
                 Voice.recog.stop();
                 if (isCorrect) {
+                    reproducirSonido('correcto');
                     this.score += 100;
-                    this.time += 15; // +15 SEGUNDOS POR ACIERTO
+                    this.time += 15; 
                     Voice.say("Bien");
                 }
                 else {
-                    this.time -= 3; // -3 SEGUNDOS POR FALLO
+                    reproducirSonido('incorrecto');
+                    this.time -= 3; 
                     Voice.say("Mal");
                 }
                 document.getElementById('score-val').innerText = this.score;
@@ -323,6 +343,7 @@
             },
 
             end() {
+                reproducirSonido('fin');
                 this.isPlaying = false; Voice.recog.stop(); Voice.say("Fin");
                 document.getElementById('play-screen').classList.remove('active');
                 document.getElementById('gameover-screen').classList.add('active');

@@ -4,32 +4,41 @@
     <meta charset="UTF-8">
     <title>Lectura y Visualización</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>♞</text></svg>">
-    <link rel="stylesheet" href="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.css">
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
     
+    <link rel="stylesheet" href="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.css">
+    
+    <link rel="stylesheet" href="styles.css">
+
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background-color: #262421; color: #bababa; display: flex; flex-direction: column; align-items: center; min-height: 100vh; margin: 0; user-select: none; }
-        h1 { color: #e5bf00; margin-top: 20px; text-transform: uppercase; letter-spacing: 2px; }
+        /* ESTILOS ESPECÍFICOS DE ESTE JUEGO */
+        body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg-color); color: var(--text); display: flex; flex-direction: column; align-items: center; min-height: 100vh; margin: 0; user-select: none; }
+        h1 { color: var(--accent); margin-top: 20px; text-transform: uppercase; letter-spacing: 2px; }
+        
         .screen { display: none; width: 100%; max-width: 800px; flex-direction: column; align-items: center; }
         .active { display: flex; }
-        .menu-box { background: #302e2c; padding: 40px; border-radius: 15px; text-align: center; border: 1px solid #444; width: 80%; max-width: 500px;}
-        select, input[type="file"] { padding: 10px; font-size: 1.1em; background: #222; color: #fff; border: 1px solid #555; border-radius: 5px; margin: 15px 0; width: 80%; }
+        
+        select { padding: 10px; font-size: 1.1em; background: #222; color: #fff; border: 1px solid #555; border-radius: 5px; margin: 15px 0; width: 100%; box-sizing: border-box; cursor: pointer; outline: none; }
+        select:focus { border-color: var(--accent); }
+        
         #pgn-container { background: #eee; color: #111; padding: 30px; border-radius: 8px; font-size: 1.4em; line-height: 1.6; font-family: 'Georgia', serif; width: 80%; box-shadow: 0 10px 30px rgba(0,0,0,0.5); margin-bottom: 30px; max-height: 400px; overflow-y: auto; text-align: left; }
+        
         #game-area { display: flex; justify-content: center; gap: 30px; margin-top: 20px; width: 100%; max-width: 1200px; align-items: flex-start; }
         .board-wrapper { width: 450px; text-align: center; display: flex; flex-direction: column; align-items: center; }
         .board-title { font-size: 1.2em; font-weight: bold; margin-bottom: 10px; color: #888; opacity: 0; transition: opacity 0.3s; }
         .visible { opacity: 1; }
+        
         #solution-container { display: none; }
-        .btn { background: #3692e7; color: white; border: none; padding: 15px 40px; font-size: 1.2em; border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.2s; margin-top: 20px; }
-        .btn:hover { transform: translateY(-2px); filter: brightness(1.1); }
-        .btn-check { background: #e5bf00; color: #000; }
-        .btn-secundario { background: #3498db; margin-bottom: 20px; font-size: 18px; padding: 15px 30px;}
-        .btn-secundario:hover { background: #2980b9; }
+        
+        .btn { background: var(--blue); color: white; border: none; padding: 15px 40px; font-size: 1.2em; border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.2s; margin-top: 20px; box-shadow: 0 4px 0 #20629c;}
+        .btn:hover { transform: translateY(-2px); filter: brightness(1.1); box-shadow: 0 6px 0 #20629c;}
+        .btn:active { transform: translateY(2px); box-shadow: 0 2px 0 #20629c; }
+        .btn-check { background: var(--accent); color: #000; box-shadow: 0 4px 0 #b39500; }
+        .btn-check:hover { box-shadow: 0 6px 0 #b39500; }
+        .btn-check:active { box-shadow: 0 2px 0 #b39500; }
+        
         #myBoard .board-b72b1 { border: 2px solid #444; }
-        .border-fail .board-b72b1 { border: 5px solid #ff5555 !important; }
-        .border-win .board-b72b1 { border: 5px solid #629924 !important; }
+        .border-fail .board-b72b1 { border: 5px solid var(--danger) !important; }
+        .border-win .board-b72b1 { border: 5px solid var(--success) !important; }
     </style>
 </head>
 <body>
@@ -37,22 +46,22 @@
     <h1>📖 Lector de Mente</h1>
 
     <div id="screen-menu" class="screen active">
-        <div class="menu-box">
-            <p>¿Qué base de datos quieres usar?</p>
+        <div id="pantalla-carga" style="display: block;">
+            <p style="color: #aaa;">¿Qué base de datos quieres usar?</p>
             <button id="btn-defecto" class="btn-secundario">🎮 Usar la base del juego</button>
             <hr style="border: 1px solid #444; margin: 20px 0;">
-            <p style="font-size: 0.9em;">O sube tu propio archivo <strong>.json</strong>:</p>
+            <p style="font-size: 0.9em; color: #888; text-align: left; margin-bottom: 5px;">O sube tu propio archivo <strong>.json</strong>:</p>
             <input type="file" id="archivoInput" accept=".json">            
             
-            <div id="opciones-juego" style="display:none; margin-top: 20px;">
-                <p>Profundidad de lectura:</p>
+            <div id="opciones-juego" class="oculto" style="margin-top: 20px; text-align: left;">
+                <hr style="border: 1px solid #444; margin: 20px 0;">
+                <p style="color: var(--accent); font-weight: bold; margin-bottom: 5px;">Profundidad de lectura:</p>
                 <select id="move-count">
                     <option value="10">10 Jugadas</option>
                     <option value="15" selected>15 Jugadas</option>
                     <option value="20">20 Jugadas</option>
                 </select>
-                <br>
-                <button id="btn-comenzar" class="btn" onclick="iniciarLectura()">EMPEZAR</button>
+                <button id="btn-comenzar" class="btn" style="width: 100%; margin-top: 10px;" onclick="iniciarLectura()">EMPEZAR</button>
             </div>
         </div>
     </div>
@@ -64,20 +73,26 @@
     </div>
 
     <div id="screen-build" class="screen" style="max-width: 1200px;">
-        <div id="msg" style="font-size: 1.5em; color: #e5bf00; margin-bottom: 10px;">Reconstruye la posición final</div>
+        <div id="msg" style="font-size: 1.5em; color: var(--accent); margin-bottom: 10px;">Reconstruye la posición final</div>
         <div id="game-area">
             <div id="user-container" class="board-wrapper">
                 <div id="user-title" class="board-title">TU RECONSTRUCCIÓN</div>
                 <div id="myBoard" style="width: 100%"></div>
             </div>
             <div id="solution-container" class="board-wrapper">
-                <div class="board-title visible" style="color: #629924;">POSICIÓN REAL</div>
+                <div class="board-title visible" style="color: var(--success);">POSICIÓN REAL</div>
                 <div id="solutionBoard" style="width: 100%"></div>
             </div>
         </div>
         <button id="btn-check" class="btn btn-check" onclick="comprobar()">COMPROBAR</button>
-        <button id="btn-next" class="btn" onclick="volverMenu()" style="display:none; background:#444;">OTRA PARTIDA</button>
+        <button id="btn-next" class="btn" onclick="volverMenu()" style="display:none; background:#444; box-shadow: 0 4px 0 #222;">OTRA PARTIDA</button>
     </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
+    
+    <script src="utils.js"></script>
 
     <script>
         let partidas = [];
@@ -87,28 +102,12 @@
         let solutionBoard = null;
         const pieceThemeUrl = 'https://chessboardjs.com/img/chesspieces/wikipedia/{piece}.png';
 
-        document.getElementById('btn-defecto').addEventListener('click', function() {
-            let boton = this; boton.innerText = "Cargando..."; 
-            // Fíjate que aquí carga visualizacion.json
-            fetch('visualizacion.json').then(response => {
-                if (!response.ok) throw new Error('No se encontró el archivo'); return response.json();
-            }).then(data => {
-                partidas = data; 
-                boton.innerText = "✅ Base cargada";
-                document.getElementById('opciones-juego').style.display = 'block';
-            }).catch(error => {
-                alert("⚠️ Error: No se pudo cargar visualizacion.json."); boton.innerText = "🎮 Usar la base del juego";
-            });
-        });
-
-        document.getElementById('archivoInput').addEventListener('change', function(e) {
-            const archivo = e.target.files[0]; if (!archivo) return;
-            const lector = new FileReader();
-            lector.onload = function(e) {
-                partidas = JSON.parse(e.target.result);
-                document.getElementById('opciones-juego').style.display = 'block';
-            };
-            lector.readAsText(archivo);
+        // --- CARGA MODULAR DE BASE DE DATOS ---
+        // Fíjate que aquí pasamos 'visualizacion.json'
+        inicializarCargaBaseDatos('visualizacion.json', 'btn-defecto', 'archivoInput', function(data) {
+            partidas = data; 
+            document.getElementById('btn-defecto').innerText = "✅ Base cargada";
+            document.getElementById('opciones-juego').classList.remove('oculto');
         });
 
         function mostrarPantalla(id) {
@@ -117,7 +116,8 @@
         }
 
         function volverMenu() {
-            mostrarPantalla('screen-menu'); document.getElementById('solution-container').style.display = 'none';
+            mostrarPantalla('screen-menu'); 
+            document.getElementById('solution-container').style.display = 'none';
         }
 
         function iniciarLectura() {
@@ -134,21 +134,31 @@
         }
 
         function pasarAConstruccion() {
-            mostrarPantalla('screen-build'); document.getElementById('btn-check').style.display = 'inline-block'; document.getElementById('btn-next').style.display = 'none'; $('#myBoard').removeClass('border-fail border-win');
+            mostrarPantalla('screen-build'); 
+            document.getElementById('btn-check').style.display = 'inline-block'; 
+            document.getElementById('btn-next').style.display = 'none'; 
+            $('#myBoard').removeClass('border-fail border-win');
+            
             if(userBoard) userBoard.destroy();
             userBoard = Chessboard('myBoard', { position: 'start', draggable: true, dropOffBoard: 'trash', sparePieces: true, pieceTheme: pieceThemeUrl });
         }
 
         function comprobar() {
             let colocacionUser = userBoard.fen().split(' ')[0]; let colocacionObj = fenObjetivo.split(' ')[0];
+            
             if (colocacionUser === colocacionObj) {
+                // REPRODUCE SONIDO DE ÉXITO
+                reproducirSonido('correcto');
                 document.getElementById('msg').innerText = "✅ ¡PERFECTO! Memoria impecable."; $('#myBoard').addClass('border-win');
             } else {
+                // REPRODUCE SONIDO DE ERROR
+                reproducirSonido('incorrecto');
                 document.getElementById('msg').innerText = "❌ DIFERENCIAS DETECTADAS"; $('#myBoard').addClass('border-fail');
                 document.getElementById('solution-container').style.display = 'flex'; document.getElementById('user-title').classList.add('visible');
                 if(solutionBoard) solutionBoard.destroy();
                 setTimeout(() => { solutionBoard = Chessboard('solutionBoard', { position: fenObjetivo, draggable: false, pieceTheme: pieceThemeUrl }); }, 100);
             }
+            
             document.getElementById('btn-check').style.display = 'none'; document.getElementById('btn-next').style.display = 'inline-block';
             let currentFen = userBoard.fen(); userBoard.destroy(); userBoard = Chessboard('myBoard', { position: currentFen, draggable: false, pieceTheme: pieceThemeUrl });
         }

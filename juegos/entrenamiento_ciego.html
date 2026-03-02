@@ -4,9 +4,13 @@
     <meta charset="UTF-8">
     <title>Gimnasio Mental: A Ciegas</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>♞</text></svg>">
+    
+    <link rel="stylesheet" href="styles.css">
+
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background-color: #1e1e1e; color: #bababa; margin: 0; display: flex; height: 100vh; overflow: hidden; }
-        h1, h2 { color: #e5bf00; margin-top: 0; }
+        /* ESTILOS ESPECÍFICOS PARA EL GIMNASIO */
+        body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg-color); color: var(--text); margin: 0; display: flex; height: 100vh; overflow: hidden; }
+        h1, h2 { color: var(--accent); margin-top: 0; }
         
         /* MENÚ LATERAL */
         #sidebar {
@@ -17,8 +21,8 @@
             background: #333; color: #fff; border: 2px solid #444; padding: 15px; font-size: 1.1em;
             border-radius: 8px; cursor: pointer; text-align: left; transition: 0.2s; font-weight: bold;
         }
-        .menu-btn:hover { background: #444; border-color: #629924; }
-        .menu-btn.activo { background: #629924; border-color: #76b82a; }
+        .menu-btn:hover { background: #444; border-color: var(--success); }
+        .menu-btn.activo { background: var(--success); border-color: #76b82a; }
 
         /* ÁREA PRINCIPAL */
         #contenido {
@@ -32,27 +36,24 @@
         .instruccion { font-size: 1.3em; margin-bottom: 20px; color: #ddd; }
         
         input[type="text"] {
-            width: 80%; padding: 15px; font-size: 1.5em; text-align: center; background: #333; color: #e5bf00;
+            width: 80%; padding: 15px; font-size: 1.5em; text-align: center; background: #333; color: var(--accent);
             border: 2px solid #555; border-radius: 8px; margin-bottom: 20px; text-transform: lowercase;
         }
-        input[type="text"]:focus { outline: none; border-color: #e5bf00; }
+        input[type="text"]:focus { outline: none; border-color: var(--accent); }
 
-        .btn-accion { background: #3692e7; color: white; border: none; padding: 15px 30px; font-size: 1.3em; border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.2s; width: 100%; }
+        .btn-accion { background: var(--blue); color: white; border: none; padding: 15px 30px; font-size: 1.3em; border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.2s; width: 100%; }
         .btn-accion:hover { background: #4fa3f0; transform: scale(1.05); }
 
         #status { font-size: 1.4em; font-weight: bold; margin-top: 30px; min-height: 50px; padding: 10px; border-radius: 8px; }
-        .correcto { color: #629924; background: rgba(98, 153, 36, 0.1); }
-        .incorrecto { color: #ff5555; background: rgba(255, 85, 85, 0.1); }
 
-        /* EJERCICIO 1 (COLOR) - MODIFICADO */
+        /* EJERCICIO 1 (COLOR) */
         #botones-color { display: flex; justify-content: center; gap: 40px; margin-top: 30px; }
         .btn-casilla { width: 150px; height: 150px; border-radius: 15px; cursor: pointer; border: 4px solid #555; transition: 0.1s; font-size: 1.5em; font-weight: bold; }
-        .btn-casilla:hover { transform: scale(1.05); border-color: #e5bf00; }
-        /* Cambios aquí: Blanco puro y Negro puro */
+        .btn-casilla:hover { transform: scale(1.05); border-color: var(--accent); }
         .btn-negra { background-color: #000000; color: #ffffff; border-color: #333333; } 
         .btn-blanca { background-color: #ffffff; color: #000000; border-color: #cccccc; }
 
-        /* CONTENEDORES DE INFORMACIÓN (Rutas y Enemigos) */
+        /* CONTENEDORES DE INFORMACIÓN */
         .info-panel { 
             display: flex; align-items: center; justify-content: center; gap: 20px; 
             font-size: 2em; font-weight: bold; color: #fff; margin: 20px 0; 
@@ -64,11 +65,7 @@
         .enemigos-wrapper { margin-top: 20px; margin-bottom: 20px; }
         .enemigos-label { color: #888; font-size: 1em; display: block; margin-bottom: 5px; text-transform: uppercase; font-weight: bold; }
         .lista-piezas { font-size: 0.8em; color: #ddd; }
-        .pieza-item { color: #e5bf00; font-weight: bold; } 
-
-        .btn-secundario { background: none; border: none; color: #666; margin-top: 15px; cursor: pointer; font-size: 0.9em; text-decoration: underline; }
-        .btn-secundario:hover { color: #999; }
-
+        .pieza-item { color: var(--accent); font-weight: bold; } 
     </style>
 </head>
 <body>
@@ -79,7 +76,6 @@
         <button class="menu-btn" onclick="cambiarEjercicio(2)">2. Extremos Diagonales</button>
         <button class="menu-btn" onclick="cambiarEjercicio(3)">3. Ruta del Caballo</button>
         <button class="menu-btn" onclick="cambiarEjercicio(4)">4. Ruta del Caballo 2.0</button>
-        
     </div>
 
     <div id="contenido">
@@ -131,6 +127,8 @@
 
     </div>
 
+    <script src="utils.js"></script>
+
     <script>
         // --- UTILIDADES GLOBALES ---
         const columnas = ['a','b','c','d','e','f','g','h'];
@@ -181,9 +179,11 @@
             let real = esNegra ? 'negra' : 'blanca';
 
             if (eleccion === real) {
+                reproducirSonido('correcto');
                 mostrarStatus(`✅ ¡Correcto! ${ej1_cas} es ${real}.`, "correcto");
                 setTimeout(() => { iniciarEj1(); }, 100);
             } else {
+                reproducirSonido('incorrecto');
                 mostrarStatus(`❌ Fallo. ${ej1_cas} es ${real}.`, "incorrecto");
             }
         }
@@ -200,7 +200,6 @@
             document.getElementById('ej2-input').value = "";
             document.getElementById('ej2-input').focus();
             
-            // Calcular extremos
             let f = ej2_cas.charCodeAt(0) - 96;
             let r = parseInt(ej2_cas.charAt(1));
             ej2_soluciones = [];
@@ -220,10 +219,12 @@
             let s2 = user.slice().sort().join(',');
             
             if (s1 === s2 && s2 !== "") {
+                reproducirSonido('correcto');
                 mostrarStatus("✅ ¡Perfecto! Visualización correcta.", "correcto");
                 setTimeout(() => {iniciarEj2(); }, 150);
             } else {
-                mostrarStatus(`❌ Faltan, sobran o estan mal. Vuelvelo a intentar `, );
+                reproducirSonido('incorrecto');
+                mostrarStatus(`❌ Faltan, sobran o estan mal. Vuelvelo a intentar `, "incorrecto");
             }
         }
 
@@ -336,11 +337,13 @@
                 let c1 = de.charCodeAt(0), r1 = parseInt(de.charAt(1));
                 let c2 = a.charCodeAt(0), r2 = parseInt(a.charAt(1));
                 if(!((Math.abs(c1-c2)===1 && Math.abs(r1-r2)===2) || (Math.abs(c1-c2)===2 && Math.abs(r1-r2)===1))) {
+                    reproducirSonido('incorrecto');
                     mostrarStatus(`❌ Movimiento ilegal de caballo: ${de} a ${a}.`, "incorrecto");
                     return;
                 }
                 
                 if(prohibidas.has(a)) {
+                    reproducirSonido('incorrecto');
                     let atacante = ej4_enemigos.find(e => esAtacadoPor(e, a));
                     let msg = atacante ? `vigilada por ${atacante.nombre} (${atacante.cas})` : "casilla prohibida";
                     mostrarStatus(`❌ ¡TE HAN VISTO! ${a.toUpperCase()} está ${msg}.`, "incorrecto");
@@ -348,6 +351,7 @@
                 }
             }
             
+            reproducirSonido('correcto');
             mostrarStatus(`✅ ¡MISIÓN CUMPLIDA! Ruta válida en ${full.length-1} saltos.`, "correcto");
             setTimeout(() => {callbackExito(); }, 300);
         }
