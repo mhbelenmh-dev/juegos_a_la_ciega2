@@ -3,71 +3,284 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Menú de Juegos</title>
+    <title>Dashboard - Gimnasio de Ajedrez</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>♞</text></svg>">
+    
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #2c3e50;
-            color: #ecf0f1;
-            margin: 0;
-            padding: 40px 20px;
-            text-align: center;
+        :root {
+            --bg: #262421;
+            --panel: #302e2c;
+            --accent: #e5bf00;
+            --blue: #3692e7;
+            --green: #629924;
+            --red: #cc3333;
+            --text: #bababa;
         }
-        h1 {
-            margin-bottom: 40px;
-            font-size: 2.5em;
-            color: #f1c40f;
-        }
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-        .game-card {
-            background-color: #34495e;
-            padding: 20px;
-            border-radius: 10px;
-            text-decoration: none;
-            color: white;
-            font-size: 1.2em;
-            font-weight: bold;
-            transition: transform 0.2s, background-color 0.2s;
-            border: 2px solid #3498db;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-        }
-        .game-card:hover {
-            background-color: #3498db;
-            transform: translateY(-5px);
-            color: white;
-        }
+
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--bg); color: var(--text); margin: 0; padding: 40px 20px; text-align: center; }
+        h1 { margin-bottom: 20px; font-size: 2.5em; color: var(--accent); text-transform: uppercase; letter-spacing: 2px;}
+        h2 { color: #fff; margin-bottom: 20px; border-bottom: 2px solid #444; padding-bottom: 10px; max-width: 1100px; margin: 30px auto 20px auto; text-align: left;}
+        
+        /* DASHBOARD PERFIL INTERACTIVO */
+        #dashboard { background: var(--panel); max-width: 1100px; margin: 0 auto 30px auto; padding: 25px; border-radius: 12px; border: 2px solid #555; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .perfil-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #444; padding-bottom: 15px; margin-bottom: 20px;}
+        #input-nick { background: var(--bg); color: var(--accent); border: 2px solid #555; padding: 10px; border-radius: 6px; font-size: 1.2em; font-weight: bold; text-align: center; width: 250px; transition: 0.3s;}
+        #input-nick:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 10px rgba(229, 191, 0, 0.2);}
+        
+        .stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        
+        /* Tarjetas Desplegables */
+        .stat-box { background: var(--bg); border-radius: 8px; border: 1px solid #444; cursor: pointer; transition: 0.2s; overflow: hidden; }
+        .stat-box:hover { border-color: var(--blue); transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.4);}
+        .stat-main { padding: 20px; display: flex; flex-direction: column; align-items: center; position: relative;}
+        
+        .stat-title { font-size: 0.9em; color: #888; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; font-weight: bold;}
+        .stat-val { font-size: 2.5em; font-weight: bold; color: #fff; }
+        .flecha-desplegable { position: absolute; right: 20px; top: 50%; transform: translateY(-50%); color: #666; font-size: 1.2em; transition: 0.3s; }
+        
+        /* Contenido oculto de las tarjetas */
+        .stat-details { background: #1e1d1a; border-top: 1px solid #333; padding: 0 20px; max-height: 0; opacity: 0; transition: all 0.3s ease-out; overflow: hidden; }
+        .stat-box.abierto .stat-details { max-height: 200px; padding: 15px 20px; opacity: 1; }
+        .stat-box.abierto .flecha-desplegable { transform: translateY(-50%) rotate(180deg); color: var(--accent); }
+        .detail-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px dashed #333; color: #ccc; font-size: 1.1em;}
+        .detail-row:last-child { border-bottom: none; }
+        .detail-row strong { color: #fff; }
+
+        /* RANKINGS GLOBALES A TRES COLUMNAS */
+        .rankings-wrapper { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; max-width: 1100px; margin: 0 auto 40px auto; }
+        .ranking-container { background: #1a1917; border: 2px solid #444; border-radius: 12px; padding: 20px; }
+        .ranking-title { text-align: center; margin-top: 0; text-transform: uppercase; letter-spacing: 1px; font-size: 1.2em; padding-bottom: 10px; border-bottom: 1px solid #333;}
+        .top-player { display: flex; justify-content: space-between; padding: 10px 5px; border-bottom: 1px solid #2a2a2a; font-size: 1.1em; }
+        .top-player:nth-child(1) { color: #ffd700; font-weight: bold; font-size: 1.2em; background: rgba(255, 215, 0, 0.05); border-radius: 5px;}
+        .top-player:nth-child(2) { color: #c0c0c0; font-size: 1.15em; }
+        .top-player:nth-child(3) { color: #cd7f32; }
+
+        /* GRID DE JUEGOS */
+        .grid-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; max-width: 1100px; margin: 0 auto; }
+        .game-card { background-color: var(--panel); padding: 20px; border-radius: 10px; text-decoration: none; color: white; font-size: 1.2em; font-weight: bold; transition: 0.2s; border: 2px solid #444; display: flex; align-items: center; justify-content: center; min-height: 60px; box-shadow: 0 4px 6px rgba(0,0,0,0.3);}
+        .game-card:hover { border-color: var(--blue); background-color: #3b3835; transform: translateY(-5px); color: var(--blue);}
+
+        .db-box { background: var(--panel); padding: 20px; border-radius: 10px; display: inline-block; margin-top: 50px; border: 1px solid #444; }
     </style>
 </head>
 <body>
 
-    <h1>🎮 Menú de Minijuegos 🎮</h1>
+    <h1>🏆 Perfil Global y Entrenamiento 🏆</h1>
 
+    <div id="dashboard">
+        <div class="perfil-header">
+            <h3 style="margin:0; color: #fff; font-size: 1.5em;">Tus Atributos</h3>
+            <div>
+                <span style="color:#888; font-size: 0.9em; margin-right: 10px; text-transform: uppercase;">Alias de Jugador:</span>
+                <input type="text" id="input-nick" placeholder="Tu Nombre..." onchange="guardarNick(this.value)">
+            </div>
+        </div>
+        
+        <div class="stats-row">
+            <div class="stat-box" onclick="toggleTarjeta(this)">
+                <div class="stat-main">
+                    <div class="stat-title">Media ELO Táctico</div>
+                    <div id="stat-elo-medio" class="stat-val" style="color: var(--accent);">1700</div>
+                    <span class="flecha-desplegable">▼</span>
+                </div>
+                <div class="stat-details">
+                    <div class="detail-row"><span>👁️ Con Tablero (Storm)</span> <strong id="det-elo-normal" style="color: var(--accent);">1700</strong></div>
+                    <div class="detail-row"><span>🦇 A la Ciega</span> <strong id="det-elo-ciego">1700</strong></div>
+                </div>
+            </div>
+
+            <div class="stat-box" onclick="toggleTarjeta(this)">
+                <div class="stat-main">
+                    <div class="stat-title">Precisión Visual (Ojo)</div>
+                    <div id="stat-prec-global" class="stat-val" style="color: var(--blue);">0.0%</div>
+                    <span class="flecha-desplegable">▼</span>
+                </div>
+                <div class="stat-details">
+                    <div class="detail-row"><span>📡 Radar</span> <strong id="det-prec-radar" style="color: var(--blue);">0%</strong></div>
+                    <div class="detail-row"><span>📸 Flash Memory</span> <strong id="det-prec-flash">0%</strong></div>
+                    <div class="detail-row"><span>🧠 Memoria Pro</span> <strong id="det-prec-memoria">0%</strong></div>
+                    <div class="detail-row"><span>📖 Lector PGN</span> <strong id="det-prec-lectura">0%</strong></div>
+                </div>
+            </div>
+
+            <div class="stat-box" onclick="toggleTarjeta(this)">
+                <div class="stat-main">
+                    <div class="stat-title">Nivel de Gimnasio (XP)</div>
+                    <div id="stat-xp-total" class="stat-val" style="color: var(--green);">0</div>
+                    <span class="flecha-desplegable">▼</span>
+                </div>
+                <div class="stat-details">
+                    <div class="detail-row"><span>Puntos por Aciertos</span> <strong id="det-xp-aciertos" style="color: var(--green);">0</strong></div>
+                    <div class="detail-row"><span>Puntos por Esfuerzo (Fallos)</span> <strong id="det-xp-fallos">0</strong></div>
+                    <div class="detail-row"><span>Rango Actual</span> <strong id="det-rango" style="color: #fff;">Principiante</strong></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="rankings-wrapper">
+        <div class="ranking-container">
+            <h3 class="ranking-title" style="color: var(--green);">🌟 TOP 3 CONSTANCIA (XP)</h3>
+            <div id="ranking-xp">
+                <div style="color:#888; text-align:center;">Cargando...</div>
+            </div>
+        </div>
+
+        <div class="ranking-container">
+            <h3 class="ranking-title" style="color: var(--red);">🔥 TOP 3 ARCADE GLOBAL</h3>
+            <div id="ranking-supervivencia">
+                <div style="color:#888; text-align:center;">Cargando...</div>
+            </div>
+        </div>
+
+        <div class="ranking-container">
+            <h3 class="ranking-title" style="color: var(--blue);">⏱️ TOP 3 STORM TIEMPO</h3>
+            <div id="ranking-storm">
+                <div style="color:#888; text-align:center;">Cargando...</div>
+            </div>
+        </div>
+    </div>
+
+    <h2>🏋️ Fundamentos (Práctica)</h2>
     <div class="grid-container">
-        <a href="arcade_ciego.html" class="game-card">Arcade Ciego</a>
-        <a href="arcade_ciego2.html" class="game-card">Arcade Ciego 2</a>
-        <a href="entrenamiento_ciego.html" class="game-card">Entrenamiento Ciego</a>
-        <a href="juego.html" class="game-card">Juego Principal</a>
-        <a href="juego_ciego.html" class="game-card">Juego Ciego</a>
-        <a href="juego_flash.html" class="game-card">Juego Flash</a>
-        <a href="juego_lectura.html" class="game-card">Juego Lectura</a>
-        <a href="juego_memoria.html" class="game-card">Juego Memoria</a>
-        <a href="juego_memoria2.html" class="game-card">Juego Memoria</a>
-        <a href="juego_radar.html" class="game-card">Juego Radar</a>
-        <a href="juego_tiempo.html" class="game-card">Juego Tiempo</a>
+        <a href="entrenamiento_ciego.html" class="game-card">🏋️ Gimnasio Ciego (Base)</a>
     </div>
-<h2 style="margin-top: 40px; color: #f1c40f;">📂 Bases de Datos para descargar</h2>
-<div style="background: #34495e; padding: 20px; border-radius: 10px; display: inline-block;">
-    <p>Descarga estos archivos y súbelos dentro del juego:</p>
-    <a href="mis_puzzles.json" download style="color: #3498db; font-weight: bold;">📥 Descargar mis_puzzles.json</a>
-    <a href="memoria_gm.json" download style="color: #3498db; font-weight: bold;">📥 Descargar memoria_gm.json</a>
-    <a href="visualizacion.json" download style="color: #3498db; font-weight: bold;">📥 Descargar visualizacion.json</a>
+
+    <h2>🧠 Táctica y Cálculo</h2>
+    <div class="grid-container">
+        <a href="juego.html" class="game-card">⚡ Puzzle Storm (Racha)</a>
+        <a href="juego_ciego.html" class="game-card">🦇 Storm a Ciegas</a>
     </div>
+
+    <h2>👁️ Retención e Imagen Mnemónica</h2>
+    <div class="grid-container">
+        <a href="juego_radar.html" class="game-card">📡 Radar Visual</a>
+        <a href="juego_flash.html" class="game-card">📸 Flash Memory</a>
+        <a href="juego_memoria2.html" class="game-card">🧠 Memoria Pro</a>
+        <a href="juego_lectura.html" class="game-card">📖 Lector de Mente</a>
+    </div>
+
+    <h2>🕹️ Modo Arcade (Supervivencia)</h2>
+    <div class="grid-container">
+        <a href="juego_tiempo.html" class="game-card">⏱️ Puzzle Storm (Tiempo)</a>
+        <a href="arcade_ciego.html" class="game-card">⌨️ Arcade Ciego (Teclado)</a>
+        <a href="arcade_ciego2.html" class="game-card">🎤 Arcade Ciego (Voz)</a>
+    </div>
+
+    <div class="db-box">
+        <h3 style="margin-top:0; color:var(--accent);">📂 Bases de Datos</h3>
+        <a href="mis_puzzles.json" download style="color:var(--blue); text-decoration:none; font-weight:bold; margin: 0 10px;">📥 mis_puzzles.json</a>
+        <a href="memoria_gm.json" download style="color:var(--blue); text-decoration:none; font-weight:bold; margin: 0 10px;">📥 memoria_gm.json</a>
+        <a href="visualizacion.json" download style="color:var(--blue); text-decoration:none; font-weight:bold; margin: 0 10px;">📥 visualizacion.json</a>
+    </div>
+
+    <script src="utils.js"></script>
+
+    <script>
+        window.onload = () => {
+            const perfil = obtenerPerfil();
+            
+            // --- 1. CARGAR DATOS EN LA INTERFAZ ---
+            document.getElementById('input-nick').value = perfil.nombreJugador;
+            
+            // Cálculos ELO Combinado
+            let eloMedio = Math.round(((perfil.eloNormal || 1700) + (perfil.eloCiego || 1700)) / 2);
+            document.getElementById('stat-elo-medio').innerText = eloMedio;
+            document.getElementById('det-elo-normal').innerText = (perfil.eloNormal || 1700);
+            document.getElementById('det-elo-ciego').innerText = (perfil.eloCiego || 1700);
+
+            // Cálculos Precisión Visual (Global y Detalles)
+            let radarJ = perfil.radarJugados || 0; let radarA = perfil.radarAciertos || 0;
+            let flashJ = perfil.flashJugados || 0; let flashA = perfil.flashAciertos || 0;
+            let memJ = perfil.memoriaJugados || 0; let memA = perfil.memoriaAciertos || 0;
+            let lecJ = perfil.lecturaJugados || 0; let lecA = perfil.lecturaAciertos || 0;
+
+            let totalJugados = radarJ + flashJ + memJ + lecJ;
+            let totalAciertos = radarA + flashA + memA + lecA;
+            let precGlobal = totalJugados > 0 ? ((totalAciertos / totalJugados) * 100).toFixed(1) : "0.0";
+            
+            document.getElementById('stat-prec-global').innerText = precGlobal + "%";
+            document.getElementById('det-prec-radar').innerText = (radarJ > 0 ? ((radarA/radarJ)*100).toFixed(0) : "0") + "%";
+            document.getElementById('det-prec-flash').innerText = (flashJ > 0 ? ((flashA/flashJ)*100).toFixed(0) : "0") + "%";
+            document.getElementById('det-prec-memoria').innerText = (memJ > 0 ? ((memA/memJ)*100).toFixed(0) : "0") + "%";
+            document.getElementById('det-prec-lectura').innerText = (lecJ > 0 ? ((lecA/lecJ)*100).toFixed(0) : "0") + "%";
+
+            // Cálculos XP
+            document.getElementById('stat-xp-total').innerText = perfil.xpTotal || 0;
+            document.getElementById('det-xp-aciertos').innerText = perfil.xpAciertos || 0;
+            document.getElementById('det-xp-fallos').innerText = perfil.xpFallos || 0;
+
+            // Rango según XP
+            let xp = perfil.xpTotal || 0;
+            let rango = "Principiante";
+            if (xp > 500) rango = "Entusiasta";
+            if (xp > 1500) rango = "Táctico";
+            if (xp > 4000) rango = "Maestro Visual";
+            document.getElementById('det-rango').innerText = rango;
+
+            // --- 2. CARGAR RANKINGS DESDE FIREBASE ---
+            cargarRanking('rankings/xp', 'ranking-xp', 'XP');
+            cargarRanking('rankings/arcade', 'ranking-supervivencia', 'Pts');
+            cargarRanking('rankings/stormTiempo', 'ranking-storm', 'Pts');
+        };
+
+        // Guardar nombre y actualizarlo en la tabla de XP
+        function guardarNick(nuevoNombre) {
+            let perfil = obtenerPerfil();
+            if (nuevoNombre.trim() !== "") {
+                perfil.nombreJugador = nuevoNombre.trim();
+                guardarPerfil(perfil);
+                // Si cambiamos el nombre, mandamos la actualización a la tabla de XP automáticamente
+                if(typeof subirAFirebase === "function") {
+                    subirAFirebase('rankings/xp', perfil.xpTotal || 0);
+                }
+            }
+        }
+
+        // Función genérica para cargar los 3 rankings
+        function cargarRanking(rutaDb, idContenedor, sufijo) {
+            if (typeof firebase === 'undefined') {
+                document.getElementById(idContenedor).innerHTML = '<div style="color:#888; text-align:center;">Error de conexión.</div>';
+                return;
+            }
+
+            firebase.database().ref(rutaDb).orderByChild('puntos').limitToLast(3).on('value', (snapshot) => {
+                let html = '';
+                let jugadores = [];
+                snapshot.forEach((child) => { jugadores.push(child.val()); });
+                
+                // Invertimos porque Firebase devuelve de menor a mayor, y queremos el número 1 arriba
+                jugadores.reverse();
+
+                if (jugadores.length === 0) {
+                    html = '<div style="color:#888; text-align:center; padding: 10px;">Nadie ha jugado todavía.</div>';
+                } else {
+                    jugadores.forEach((j, index) => {
+                        let medalla = index === 0 ? '🥇' : index === 1 ? '🥈' : '🥉';
+                        html += `
+                            <div class="top-player">
+                                <span>${medalla} ${j.nombre}</span>
+                                <span>${j.puntos} ${sufijo}</span>
+                            </div>
+                        `;
+                    });
+                }
+                document.getElementById(idContenedor).innerHTML = html;
+            });
+        }
+
+        // Función para abrir/cerrar las tarjetas
+        function toggleTarjeta(elemento) {
+            if (elemento.classList.contains('abierto')) {
+                elemento.classList.remove('abierto');
+            } else {
+                document.querySelectorAll('.stat-box').forEach(box => box.classList.remove('abierto'));
+                elemento.classList.add('abierto');
+            }
+        }
+    </script>
 </body>
 </html>

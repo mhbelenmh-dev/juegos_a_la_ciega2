@@ -5,73 +5,27 @@
     <title>Mi Puzzle Storm - Modo Racha</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>♞</text></svg>">
     
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
     <link rel="stylesheet" href="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.css">
-    
     <link rel="stylesheet" href="styles.css">
 
     <style>
-        /* ESTILOS ESPECÍFICOS DE ESTE JUEGO */
         body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg-color); color: var(--text); margin: 0; display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 20px; box-sizing: border-box;}
         h1 { color: var(--accent); margin-bottom: 30px; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
         
-        /* Layout Principal a dos columnas */
-        #main-layout {
-            display: flex;
-            flex-direction: row;
-            gap: 40px;
-            width: 100%;
-            max-width: 900px;
-            justify-content: center;
-            align-items: flex-start;
-        }
+        #main-layout { display: flex; flex-direction: row; gap: 40px; width: 100%; max-width: 900px; justify-content: center; align-items: flex-start; }
+        @media (max-width: 800px) { #main-layout { flex-direction: column; align-items: center; } #sidebar { width: 100%; max-width: 420px; } }
 
-        @media (max-width: 800px) {
-            #main-layout { flex-direction: column; align-items: center; }
-            #sidebar { width: 100%; max-width: 420px; }
-        }
-
-        /* Columna Izquierda: Tablero */
-        #tablero-wrapper {
-            flex: 0 0 420px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
+        #tablero-wrapper { flex: 0 0 420px; display: flex; flex-direction: column; align-items: center; }
         #tablero { width: 420px; border: 6px solid #3d3a37; border-radius: 4px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         
-        #status-box {
-            width: 100%;
-            margin-top: 15px;
-            background: var(--panel-bg);
-            padding: 15px;
-            border-radius: 8px;
-            text-align: center;
-            box-sizing: border-box;
-            border: 1px solid #444;
-            min-height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+        #status-box { width: 100%; margin-top: 15px; background: var(--panel-bg); padding: 15px; border-radius: 8px; text-align: center; box-sizing: border-box; border: 1px solid #444; min-height: 60px; display: flex; align-items: center; justify-content: center; }
         #status { font-weight: bold; font-size: 1.2em; transition: 0.2s; }
 
-        /* Columna Derecha: Panel Lateral */
-        #sidebar {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            width: 350px;
-        }
-
-        .panel-box {
-            background: var(--panel-bg);
-            padding: 25px;
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-            border: 1px solid #444;
-        }
-
+        #sidebar { flex: 1; display: flex; flex-direction: column; gap: 20px; width: 350px; }
+        .panel-box { background: var(--panel-bg); padding: 25px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); border: 1px solid #444; }
         .panel-title { font-weight: bold; color: var(--accent); margin-bottom: 15px; font-size: 1.2em; text-transform: uppercase; letter-spacing: 1px;}
 
         .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
@@ -86,7 +40,6 @@
         .btn-skip:hover { background: #e63939; box-shadow: 0 6px 0 #8a1f1f; transform: translateY(-2px); }
         .btn-skip:active { box-shadow: 0 2px 0 #8a1f1f; transform: translateY(2px); }
         
-        /* Animación puntos */
         @keyframes subida { 0% { transform: scale(1); } 50% { transform: scale(1.2); color: #fff; } 100% { transform: scale(1); } }
         .puntos-grandes { animation: subida 0.4s ease-out; color: var(--accent); }
     </style>
@@ -98,11 +51,8 @@
     <div id="pantalla-carga">
         <h2 style="color: var(--text); margin-top: 0;">Configuración</h2>
         <p style="color: #aaa;">¿Qué base de datos quieres usar?</p>
-        
         <button id="btn-defecto" class="btn-secundario">🎮 Usar la base del juego</button>
-        
         <hr style="border: 1px solid #444; margin: 25px 0;">
-        
         <p style="font-size: 0.9em; color: #888; text-align: left; margin-bottom: 5px;">O sube tu propio archivo <strong>.json</strong>:</p>
         <input type="file" id="archivoInput" accept=".json">    
     </div>
@@ -176,6 +126,11 @@
                 draggable: true, position: 'start', pieceTheme: 'https://chessboardjs.com/img/chesspieces/wikipedia/{piece}.png',
                 onDragStart: onDragStart, onDrop: onDrop, onSnapEnd: onSnapEnd
             });
+            
+            // Cargar el ELO que tenemos guardado en el perfil al entrar
+            let perfilActual = obtenerPerfil();
+            eloActual = perfilActual.eloStorm || 1700;
+            
             cargarNuevoPuzzle();
         }
 
@@ -205,7 +160,6 @@
 
             document.getElementById('status').innerHTML = `Juegan <strong style="color:var(--accent);">${colorJugador === 'white' ? 'BLANCAS' : 'NEGRAS'}</strong> | Nivel: ${puzzleActual.rating}`;
             
-            // Animación al actualizar stats
             let rDisplay = document.getElementById('ratingDisplay');
             rDisplay.innerText = eloActual;
             rDisplay.classList.remove('puntos-grandes');
@@ -229,12 +183,11 @@
             let solucionCorrecta = puzzleActual.moves[indiceMovimiento];
 
             if (miMovimiento === solucionCorrecta) {
-                // REPRODUCE SONIDO ACELERADO (Intermedio)
                 if (indiceMovimiento < puzzleActual.moves.length - 1) reproducirSonido('correcto');
                 
                 indiceMovimiento++; 
                 if (indiceMovimiento < puzzleActual.moves.length) {
-                    document.getElementById('status').innerText = "¡Buena jugada! Sigue la secuencia...";
+                    document.getElementById('status').innerText = "¡Buena jugada! Remata el puzzle...";
                     document.getElementById('status').className = "correcto";
                     setTimeout(() => {
                         hacerMovimiento(puzzleActual.moves[indiceMovimiento]);
@@ -244,9 +197,7 @@
                     }, 250); 
                 } else { puzzleFinalizado(); }
             } else {
-                // REPRODUCE SONIDO DE ERROR
                 reproducirSonido('incorrecto');
-                
                 game.undo(); 
                 document.getElementById('status').innerText = "❌ Incorrecto. Vuelve a intentarlo.";
                 document.getElementById('status').className = "incorrecto";
@@ -254,12 +205,13 @@
                 racha = 0; 
                 document.getElementById('rachaDisplay').innerText = racha;
                 document.getElementById('ratingDisplay').innerText = eloActual;
+                
+                actualizarEstadisticaGlobal('eloStorm', eloActual, false);
                 return 'snapback'; 
             }
         }
 
         function puzzleFinalizado() {
-            // REPRODUCE SONIDO DE FIN/ÉXITO
             reproducirSonido('fin');
             
             let puntosBase = 15;
@@ -273,7 +225,11 @@
             
             document.getElementById('rachaDisplay').innerText = racha;
             
-            // Efecto visual en los stats
+            // --- GUARDAR EN EL PERFIL Y EN LA NUBE (PROTEGIDO) ---
+            actualizarEstadisticaGlobal('eloStorm', eloActual, false);
+            actualizarEstadisticaGlobal('rachaStormMax', racha, false);
+            // ------------------------------------------------
+            
             let ratingDOM = document.getElementById('ratingDisplay');
             ratingDOM.innerText = eloActual;
             ratingDOM.classList.add('puntos-grandes');
@@ -285,6 +241,7 @@
             statusDOM.innerText = mensaje;
             statusDOM.className = "correcto puntos-grandes";
 
+            // Pasamos al siguiente puzzle automáticamente
             setTimeout(() => {
                 statusDOM.classList.remove('puntos-grandes');
                 cargarNuevoPuzzle();
@@ -292,12 +249,13 @@
         }
 
         function saltarPuzzle() {
-            // REPRODUCE SONIDO DE ERROR AL SALTAR
             reproducirSonido('incorrecto');
             
             eloActual -= 5;
             racha = 0;
             document.getElementById('rachaDisplay').innerText = racha;
+            
+            actualizarEstadisticaGlobal('eloStorm', eloActual, false);
             cargarNuevoPuzzle();
         }
 
