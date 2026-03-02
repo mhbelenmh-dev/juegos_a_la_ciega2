@@ -53,3 +53,13 @@ input[type="file"] {
     box-sizing: border-box; 
     border: 1px solid #555;
 }
+/* ---------------------------------------------------
+   FIX MÓVIL: Evitar scroll al arrastrar piezas 
+--------------------------------------------------- */
+.board-b72b1, 
+.chess-board, 
+#tablero, 
+#myBoard, 
+#tablero-user {
+    touch-action: none !important;
+}

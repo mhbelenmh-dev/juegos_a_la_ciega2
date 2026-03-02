@@ -222,10 +222,57 @@
             if (puzzlesFallados.length > 0) { document.getElementById('btn-repaso').classList.remove('oculto'); document.getElementById('countFallos').innerText = puzzlesFallados.length; }
         }
         
-        function iniciarRepaso() { document.getElementById('pantalla-fin').classList.add('oculto'); document.getElementById('interfaz-repaso').classList.remove('oculto'); if (!boardRepaso) { boardRepaso = Chessboard('tablero-repaso', { position: 'start', pieceTheme: 'https://chessboardjs.com/img/chesspieces/wikipedia/{piece}.png' }); } indiceRepasoActual = 0; document.getElementById('repasoTotal').innerText = puzzlesFallados.length; cargarPuzzleRepaso(); }
-        function cargarPuzzleRepaso() { if (indiceRepasoActual >= puzzlesFallados.length) { alert("¡Repaso terminado!"); location.reload(); return; } let puzzle = puzzlesFallados[indiceRepasoActual]; document.getElementById('repasoIndex').innerText = indiceRepasoActual + 1; document.getElementById('status-repaso').innerText = `Nivel: ${puzzle.rating} | Intenta encontrar la jugada`; game.load(puzzle.fen); hacerMovimiento(puzzle.moves[0]); boardRepaso.orientation(game.turn() === 'w' ? 'white' : 'black'); boardRepaso.position(game.fen()); }
-        function verSolucion() { let puzzle = puzzlesFallados[indiceRepasoActual]; let solucion = puzzle.moves[1]; hacerMovimiento(solucion); boardRepaso.position(game.fen()); document.getElementById('status-repaso').innerText = `Solución: ${solucion}`; }
-        function siguienteRepaso() { indiceRepasoActual++; cargarPuzzleRepaso(); }
+        function iniciarRepaso() { 
+            document.getElementById('pantalla-fin').classList.add('oculto'); 
+            document.getElementById('interfaz-repaso').classList.remove('oculto'); 
+            if (!boardRepaso) { 
+                boardRepaso = Chessboard('tablero-repaso', { position: 'start', pieceTheme: 'https://chessboardjs.com/img/chesspieces/wikipedia/{piece}.png' }); 
+            } 
+            indiceRepasoActual = 0; 
+            document.getElementById('repasoTotal').innerText = puzzlesFallados.length; 
+            cargarPuzzleRepaso(); 
+        }
+
+        function cargarPuzzleRepaso() { 
+            if (indiceRepasoActual >= puzzlesFallados.length) { alert("¡Repaso terminado!"); location.reload(); return; } 
+            let puzzle = puzzlesFallados[indiceRepasoActual]; 
+            document.getElementById('repasoIndex').innerText = indiceRepasoActual + 1; 
+            document.getElementById('status-repaso').innerText = `Nivel: ${puzzle.rating} | Intenta encontrar la jugada`; 
+            
+            game.load(puzzle.fen); 
+            hacerMovimiento(puzzle.moves[0]); // Jugada inicial del rival
+            
+            boardRepaso.orientation(game.turn() === 'w' ? 'white' : 'black'); 
+            boardRepaso.position(game.fen()); 
+        }
+
+        // --- NUEVA FUNCIÓN MEJORADA DE VER SOLUCIÓN ---
+        function verSolucion() { 
+            let puzzle = puzzlesFallados[indiceRepasoActual]; 
+            let listaSolucion = [];
+            
+            // Recorremos todos los movimientos restantes desde el índice 1
+            for (let i = 1; i < puzzle.moves.length; i++) {
+                let m = puzzle.moves[i];
+                let from = m.substring(0,2); let to = m.substring(2,4); let promo = m.length > 4 ? m.substring(4,5) : 'q';
+                let moveObj = game.move({ from: from, to: to, promotion: promo });
+                
+                // Extraemos la Notación Algebraica (ej: Txh7+) si existe
+                if (moveObj) listaSolucion.push(moveObj.san);
+            }
+            
+            // Actualizamos el tablero a la posición final
+            boardRepaso.position(game.fen()); 
+            
+            // Mostramos toda la secuencia con flechas
+            document.getElementById('status-repaso').innerText = `Solución completa: ${listaSolucion.join(" ➔ ")}`; 
+        }
+
+        function siguienteRepaso() { 
+            indiceRepasoActual++; 
+            cargarPuzzleRepaso(); 
+        }
+
         function onSnapEnd() { board.position(game.fen()); }
     </script>
 </body>
