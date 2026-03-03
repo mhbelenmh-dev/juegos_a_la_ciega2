@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Gimnasio Mental: A Ciegas</title>
+    <title>Gimnasio Mental: A Ciegas - Modo Duelo</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>♞</text></svg>">
     
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
@@ -12,11 +12,9 @@
     <link rel="stylesheet" href="styles.css">
 
     <style>
-        /* ESTILOS ESPECÍFICOS PARA EL GIMNASIO */
         body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg-color); color: var(--text); margin: 0; display: flex; height: 100vh; overflow: hidden; }
         h1, h2 { color: var(--accent); margin-top: 0; }
         
-        /* MENÚ LATERAL */
         #sidebar {
             width: 300px; background-color: #262421; padding: 20px; box-shadow: 2px 0 5px rgba(0,0,0,0.5);
             display: flex; flex-direction: column; gap: 15px; z-index: 10;
@@ -28,44 +26,38 @@
         .menu-btn:hover { background: #444; border-color: var(--success); }
         .menu-btn.activo { background: var(--success); border-color: #76b82a; }
 
-        /* ÁREA PRINCIPAL */
         #contenido {
             flex-grow: 1; padding: 40px; display: flex; flex-direction: column; align-items: center; justify-content: center; overflow-y: auto;
         }
         .ejercicio { display: none; text-align: center; width: 100%; max-width: 650px; }
         .ejercicio.activo { display: block; }
 
-        /* ESTILOS COMUNES */
         .casilla-objetivo { font-size: 4em; color: #fff; font-weight: bold; margin: 20px 0; letter-spacing: 5px; text-transform: uppercase; }
         .instruccion { font-size: 1.3em; margin-bottom: 20px; color: #ddd; }
         
         input[type="text"] {
             width: 80%; padding: 15px; font-size: 1.5em; text-align: center; background: #333; color: var(--accent);
-            border: 2px solid #555; border-radius: 8px; margin-bottom: 20px; text-transform: lowercase;
+            border: 2px solid #555; border-radius: 8px; margin-bottom: 20px; text-transform: lowercase; outline: none;
         }
-        input[type="text"]:focus { outline: none; border-color: var(--accent); }
+        input[type="text"]:focus { border-color: var(--accent); }
 
         .btn-accion { background: var(--blue); color: white; border: none; padding: 15px 30px; font-size: 1.3em; border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.2s; width: 100%; }
         .btn-accion:hover { background: #4fa3f0; transform: scale(1.05); }
 
         #status { font-size: 1.4em; font-weight: bold; margin-top: 30px; min-height: 50px; padding: 10px; border-radius: 8px; }
 
-        /* EJERCICIO 1 (COLOR) */
         #botones-color { display: flex; justify-content: center; gap: 40px; margin-top: 30px; }
         .btn-casilla { width: 150px; height: 150px; border-radius: 15px; cursor: pointer; border: 4px solid #555; transition: 0.1s; font-size: 1.5em; font-weight: bold; }
         .btn-casilla:hover { transform: scale(1.05); border-color: var(--accent); }
-        .btn-negra { background-color: #000000; color: #ffffff; border-color: #333333; } 
-        .btn-blanca { background-color: #ffffff; color: #000000; border-color: #cccccc; }
+        .btn-negra { background-color: #000; color: #fff; } 
+        .btn-blanca { background-color: #fff; color: #000; }
 
-        /* CONTENEDORES DE INFORMACIÓN */
         .info-panel { 
             display: flex; align-items: center; justify-content: center; gap: 20px; 
             font-size: 2em; font-weight: bold; color: #fff; margin: 20px 0; 
             background: #2a2a2a; padding: 20px; border-radius: 10px; border: 1px solid #444; 
         }
         .flecha { color: #666; font-size: 0.6em; }
-
-        /* Estilos específicos para Ejercicio 4 */
         .enemigos-wrapper { margin-top: 20px; margin-bottom: 20px; }
         .enemigos-label { color: #888; font-size: 1em; display: block; margin-bottom: 5px; text-transform: uppercase; font-weight: bold; }
         .lista-piezas { font-size: 0.8em; color: #ddd; }
@@ -75,16 +67,15 @@
 <body>
 
     <div id="sidebar">
-        <h2>🧠 Entrenamiento a Ciegas</h2>
+        <h2 id="gym-title">🧠 Entrenamiento</h2>
         <button class="menu-btn activo" onclick="cambiarEjercicio(1)">1. Color de Casilla</button>
         <button class="menu-btn" onclick="cambiarEjercicio(2)">2. Extremos Diagonales</button>
         <button class="menu-btn" onclick="cambiarEjercicio(3)">3. Ruta del Caballo</button>
         <button class="menu-btn" onclick="cambiarEjercicio(4)">4. Ruta del Caballo 2.0</button>
-        <a href="index.html" style="text-decoration:none; margin-top:auto;"><button class="btn-accion" style="background: #444;">⬅ Volver al Menú</button></a>
+        <a id="btn-back" href="index.html" style="text-decoration:none; margin-top:auto;"><button class="btn-accion" style="background: #444;">⬅ Volver al Menú</button></a>
     </div>
 
     <div id="contenido">
-        
         <div id="ej1" class="ejercicio activo">
             <div class="instruccion">¿De qué color es esta casilla?</div>
             <div id="ej1-casilla" class="casilla-objetivo">E4</div>
@@ -102,7 +93,7 @@
         </div>
 
         <div id="ej3" class="ejercicio">
-            <div class="instruccion">Ruta de Caballo sin obstáculos:<br><span style="font-size: 0.7em; color: #888;">(Ej: De a2 a b4 Solucion: c3 d5)</span></div>
+            <div class="instruccion">Ruta de Caballo sin obstáculos:<br><span style="font-size: 0.7em; color: #888;">(De A a B en saltos L: c3 d5)</span></div>
             <div class="info-panel">
                 <span id="ej3-inicio">A1</span> <span class="flecha">➡</span> <span id="ej3-fin">D4</span>
             </div>
@@ -111,311 +102,170 @@
         </div>
 
         <div id="ej4" class="ejercicio">
-            <div class="instruccion">Ruta de Caballo con obstáculos:<br><span style="font-size: 0.8em; color: #888;">(Ej: De e8 a c7 con Dd3 Ah4 Solucion: g7 e6 )</span></div>
-            
+            <div class="instruccion">Ruta de Caballo con obstáculos:</div>
             <div class="info-panel">
                 <span id="ej4-inicio">--</span> <span class="flecha">➡</span> <span id="ej4-fin">--</span>
             </div>
-
             <div class="enemigos-wrapper">
                 <span class="enemigos-label">Piezas Vigilando:</span>
                 <div class="info-panel" style="font-size: 1.3em; padding: 15px; border-style: dashed;">
                     <span id="ej4-enemigos" class="lista-piezas">--</span>
                 </div>
             </div>
-
             <input type="text" id="ej4-input" placeholder="Respuesta..." autocomplete="off">
             <button class="btn-accion" onclick="verificarEj4()">Verificar Ruta</button>
         </div>
 
         <div id="status"></div>
-
     </div>
 
     <script src="utils.js"></script>
 
     <script>
-        // --- UTILIDADES GLOBALES ---
         const columnas = ['a','b','c','d','e','f','g','h'];
+        let puntosDuelo = 0;
         
-        function casAleatoria() {
-            return columnas[Math.floor(Math.random() * 8)] + (Math.floor(Math.random() * 8) + 1);
+        function casSincro() {
+            let cIdx = (DueloManager.enDuelo) ? DueloManager.obtenerIndiceSincronizado(8) : Math.floor(Math.random() * 8);
+            let fIdx = (DueloManager.enDuelo) ? DueloManager.obtenerIndiceSincronizado(8) : Math.floor(Math.random() * 8);
+            return columnas[cIdx] + (fIdx + 1);
         }
 
-        function limpiarStatus() {
-            const s = document.getElementById('status');
-            s.innerText = ""; s.className = "";
-        }
+        function limpiarStatus() { const s = document.getElementById('status'); s.innerText = ""; s.className = ""; }
+        function mostrarStatus(msg, tipo) { const s = document.getElementById('status'); s.innerHTML = msg; s.className = tipo; }
 
-        function mostrarStatus(msg, tipo) {
-            const s = document.getElementById('status');
-            s.innerHTML = msg;
-            s.className = tipo;
-        }
-
-        // --- NAVEGACIÓN ---
         function cambiarEjercicio(num) {
             document.querySelectorAll('.menu-btn').forEach(b => b.classList.remove('activo'));
             document.querySelectorAll('.ejercicio').forEach(e => e.classList.remove('activo'));
-            
             document.querySelectorAll('.menu-btn')[num-1].classList.add('activo');
             document.getElementById('ej' + num).classList.add('activo');
-            
             limpiarStatus();
-            
-            if(num === 1) iniciarEj1();
-            if(num === 2) iniciarEj2();
-            if(num === 3) iniciarEj3();
-            if(num === 4) iniciarEj4();
+            if(num === 1) iniciarEj1(); if(num === 2) iniciarEj2(); if(num === 3) iniciarEj3(); if(num === 4) iniciarEj4();
         }
 
-        // ==========================================
-        // EJERCICIO 1: COLOR (Nivel: BÁSICO)
-        // ==========================================
+        // --- EJERCICIO 1 ---
         let ej1_cas = "";
-        function iniciarEj1() {
-            ej1_cas = casAleatoria();
-            document.getElementById('ej1-casilla').innerText = ej1_cas;
-        }
+        function iniciarEj1() { ej1_cas = casSincro(); document.getElementById('ej1-casilla').innerText = ej1_cas; }
         function verificarEj1(eleccion) {
-            let col = ej1_cas.charCodeAt(0) - 96; 
-            let fil = parseInt(ej1_cas.charAt(1));
-            let esNegra = (col + fil) % 2 === 0;
-            let real = esNegra ? 'negra' : 'blanca';
-
+            let col = ej1_cas.charCodeAt(0) - 96; let fil = parseInt(ej1_cas.charAt(1));
+            let real = ((col + fil) % 2 === 0) ? 'negra' : 'blanca';
             if (eleccion === real) {
-                reproducirSonido('correcto');
-                mostrarStatus(`✅ ¡Correcto! ${ej1_cas} es ${real}.`, "correcto");
-                registrarXP('basico', true); // <--- SUMA 2 PUNTOS XP
-                setTimeout(() => { iniciarEj1(); }, 500);
-            } else {
-                reproducirSonido('incorrecto');
-                mostrarStatus(`❌ Fallo. ${ej1_cas} es ${real}.`, "incorrecto");
-                registrarXP('basico', false); // <--- SUMA 1 PUNTO XP (Esfuerzo)
-            }
+                reproducirSonido('correcto'); mostrarStatus("✅ Correcto", "correcto");
+                sumarPuntosDuelo(50, 'basico', true);
+                setTimeout(iniciarEj1, 600);
+            } else { reproducirSonido('incorrecto'); mostrarStatus("❌ Fallo", "incorrecto"); sumarPuntosDuelo(-10, 'basico', false); }
         }
 
-        // ==========================================
-        // EJERCICIO 2: DIAGONALES (Nivel: MEDIO)
-        // ==========================================
-        let ej2_cas = "";
-        let ej2_soluciones = [];
-        
+        // --- EJERCICIO 2 ---
+        let ej2_cas = "", ej2_soluciones = [];
         function iniciarEj2() {
-            ej2_cas = casAleatoria();
-            document.getElementById('ej2-casilla').innerText = ej2_cas;
-            document.getElementById('ej2-input').value = "";
-            document.getElementById('ej2-input').focus();
-            
-            let f = ej2_cas.charCodeAt(0) - 96;
-            let r = parseInt(ej2_cas.charAt(1));
-            ej2_soluciones = [];
-            let dirs = [[1,1], [-1,1], [1,-1], [-1,-1]];
-            dirs.forEach(d => {
-                let cf = f, cr = r;
-                while(cf+d[0]>=1 && cf+d[0]<=8 && cr+d[1]>=1 && cr+d[1]<=8) {
-                    cf += d[0]; cr += d[1];
-                }
+            ej2_cas = casSincro(); document.getElementById('ej2-casilla').innerText = ej2_cas;
+            document.getElementById('ej2-input').value = ""; document.getElementById('ej2-input').focus();
+            let f = ej2_cas.charCodeAt(0) - 96; let r = parseInt(ej2_cas.charAt(1)); ej2_soluciones = [];
+            [[1,1], [-1,1], [1,-1], [-1,-1]].forEach(d => {
+                let cf = f, cr = r; while(cf+d[0]>=1 && cf+d[0]<=8 && cr+d[1]>=1 && cr+d[1]<=8) { cf += d[0]; cr += d[1]; }
                 if(cf !== f || cr !== r) ej2_soluciones.push(String.fromCharCode(96+cf)+cr);
             });
         }
         function verificarEj2() {
             let input = document.getElementById('ej2-input').value.toLowerCase();
             let user = input.match(/[a-h][1-8]/g) || [];
-            let s1 = ej2_soluciones.slice().sort().join(',');
-            let s2 = user.slice().sort().join(',');
-            
-            if (s1 === s2 && s2 !== "") {
-                reproducirSonido('correcto');
-                mostrarStatus("✅ ¡Perfecto! Visualización correcta.", "correcto");
-                registrarXP('medio', true); // <--- SUMA 4 PUNTOS XP
-                setTimeout(() => {iniciarEj2(); }, 800);
-            } else {
-                reproducirSonido('incorrecto');
-                mostrarStatus(`❌ Faltan, sobran o estan mal. Vuelvelo a intentar `, "incorrecto");
-                registrarXP('medio', false); // <--- SUMA 2 PUNTOS XP
-            }
+            if (ej2_soluciones.slice().sort().join(',') === user.slice().sort().join(',') && user.length > 0) {
+                reproducirSonido('correcto'); mostrarStatus("✅ Perfecto", "correcto");
+                sumarPuntosDuelo(100, 'medio', true);
+                setTimeout(iniciarEj2, 800);
+            } else { reproducirSonido('incorrecto'); mostrarStatus("❌ Revisa", "incorrecto"); sumarPuntosDuelo(-20, 'medio', false); }
         }
 
-        // ==========================================
-        // EJERCICIO 3: CABALLO SIMPLE
-        // ==========================================
+        // --- EJERCICIO 3 ---
         let ej3_ini = "", ej3_fin = "";
         function iniciarEj3() {
-            ej3_ini = casAleatoria();
-            ej3_fin = casAleatoria();
-            while(ej3_fin === ej3_ini) ej3_fin = casAleatoria();
-            
+            ej3_ini = casSincro(); ej3_fin = casSincro(); while(ej3_fin === ej3_ini) ej3_fin = casSincro();
             document.getElementById('ej3-inicio').innerText = ej3_ini.toUpperCase();
             document.getElementById('ej3-fin').innerText = ej3_fin.toUpperCase();
-            document.getElementById('ej3-input').value = "";
-            document.getElementById('ej3-input').focus();
+            document.getElementById('ej3-input').value = ""; document.getElementById('ej3-input').focus();
         }
-        function verificarEj3() {
-            // El false indica que no hay artillería, así que es nivel "avanzado"
-            validarCaminoCaballo('ej3-input', ej3_ini, ej3_fin, new Set(), iniciarEj3, false);
-        }
+        function verificarEj3() { validarCamino('ej3-input', ej3_ini, ej3_fin, new Set(), iniciarEj3, 150, 'avanzado'); }
 
-        // ==========================================
-        // EJERCICIO 4: Ruta del Caballo 2.0
-        // ==========================================
-        let ej4_ini = "", ej4_fin = "";
-        let ej4_enemigos = [];
-        let ej4_baneadas = new Set();
-
+        // --- EJERCICIO 4 ---
+        let ej4_ini = "", ej4_fin = "", ej4_baneadas = new Set(), ej4_enemigos = [];
         function iniciarEj4() {
-            limpiarStatus();
-            document.getElementById('ej4-input').value = "";
-            document.getElementById('ej4-input').focus();
-            
+            limpiarStatus(); document.getElementById('ej4-input').value = ""; document.getElementById('ej4-input').focus();
             let exito = false;
-            let intentos = 0;
-            
-            while(!exito && intentos < 200) {
-                intentos++;
-                ej4_ini = casAleatoria();
-                ej4_fin = casAleatoria();
-                if(ej4_fin === ej4_ini) continue;
-
-                ej4_enemigos = generarEnemigos();
-                ej4_baneadas = calcularAtaques(ej4_enemigos);
-
-                if(ej4_baneadas.has(ej4_ini) || ej4_baneadas.has(ej4_fin)) continue;
-                if(validarRutaBFS(ej4_ini, ej4_fin, ej4_baneadas)) exito = true;
+            while(!exito) {
+                ej4_ini = casSincro(); ej4_fin = casSincro(); if(ej4_fin === ej4_ini) continue;
+                ej4_enemigos = genEnemigosSincro(); ej4_baneadas = calcAtaques(ej4_enemigos);
+                if(!ej4_baneadas.has(ej4_ini) && !ej4_baneadas.has(ej4_fin) && rutaBFS(ej4_ini, ej4_fin, ej4_baneadas)) exito = true;
             }
-
             document.getElementById('ej4-inicio').innerText = ej4_ini.toUpperCase();
             document.getElementById('ej4-fin').innerText = ej4_fin.toUpperCase();
-            
-            let html = ej4_enemigos.map(e => `<span class="pieza-item">${e.nombre}</span> en <strong style="color:#fff">${e.cas.toUpperCase()}</strong>`).join(' | ');
-            document.getElementById('ej4-enemigos').innerHTML = html;
+            document.getElementById('ej4-enemigos').innerHTML = ej4_enemigos.map(e => `<span class="pieza-item">${e.nombre}</span> en ${e.cas.toUpperCase()}`).join(' | ');
         }
-
-        function generarEnemigos() {
-            let res = [];
-            let casDama = columnas[Math.floor(Math.random()*4)+2] + (Math.floor(Math.random()*4)+3);
-            res.push({nombre: 'Dama', cas: casDama, tipo: 'q'});
-            
-            let extras = Math.random() > 0.5 ? 1 : 2;
-            let tipos = [{n:'Torre',t:'r'}, {n:'Alfil',t:'b'}];
-            for(let i=0; i<extras; i++) {
-                let p = tipos[Math.floor(Math.random()*tipos.length)];
-                let c = casAleatoria();
-                if(c !== casDama && c !== ej4_ini && c !== ej4_fin) {
-                    res.push({nombre: p.n, cas: c, tipo: p.t});
-                }
-            }
+        function genEnemigosSincro() {
+            let res = []; 
+            let cIdx = (DueloManager.enDuelo) ? DueloManager.obtenerIndiceSincronizado(4)+2 : Math.floor(Math.random()*4)+2;
+            let fIdx = (DueloManager.enDuelo) ? DueloManager.obtenerIndiceSincronizado(4)+3 : Math.floor(Math.random()*4)+3;
+            res.push({nombre: 'Dama', cas: columnas[cIdx]+fIdx, tipo: 'q'});
             return res;
         }
-
-        function calcularAtaques(lista) {
-            let setAtaques = new Set();
+        function calcAtaques(lista) {
+            let set = new Set();
             lista.forEach(p => {
-                let c = p.cas.charCodeAt(0)-96, f = parseInt(p.cas.charAt(1));
-                setAtaques.add(p.cas); 
-                
-                let dirs = [];
-                if(p.tipo === 'r' || p.tipo === 'q') dirs.push([0,1],[0,-1],[1,0],[-1,0]);
-                if(p.tipo === 'b' || p.tipo === 'q') dirs.push([1,1],[1,-1],[-1,1],[-1,-1]);
-
+                let c = p.cas.charCodeAt(0)-96, f = parseInt(p.cas.charAt(1)); set.add(p.cas);
+                let dirs = [[0,1],[0,-1],[1,0],[-1,0],[1,1],[1,-1],[-1,1],[-1,-1]];
                 dirs.forEach(d => {
-                    let nc = c+d[0], nf = f+d[1];
-                    while(nc>=1 && nc<=8 && nf>=1 && nf<=8) {
-                        setAtaques.add(String.fromCharCode(nc+96)+nf);
-                        nc += d[0]; nf += d[1];
-                    }
+                    let nc = c+d[0], nf = f+d[1]; while(nc>=1 && nc<=8 && nf>=1 && nf<=8) { set.add(String.fromCharCode(nc+96)+nf); nc += d[0]; nf += d[1]; }
                 });
-            });
-            return setAtaques;
+            }); return set;
+        }
+        function verificarEj4() { validarCamino('ej4-input', ej4_ini, ej4_fin, ej4_baneadas, iniciarEj4, 300, 'maestro'); }
+
+        // --- LÓGICA COMÚN ---
+        function sumarPuntosDuelo(cantidad, dif, acierto) {
+            if (!DueloManager.enDuelo) { registrarXP(dif, acierto); return; }
+            puntosDuelo = Math.max(0, puntosDuelo + cantidad);
+            DueloManager.enviarPuntos(puntosDuelo);
         }
 
-        function verificarEj4() {
-            // El true indica que HAY artillería, así que es nivel "maestro"
-            validarCaminoCaballo('ej4-input', ej4_ini, ej4_fin, ej4_baneadas, iniciarEj4, true);
-        }
-
-        // --- LÓGICA COMPARTIDA (AHORA CON SISTEMA XP) ---
-
-        function validarCaminoCaballo(inputId, inicio, fin, prohibidas, callbackExito, modoArtilleria = false) {
-            let dificultad = modoArtilleria ? 'maestro' : 'avanzado';
-            
-            let val = document.getElementById(inputId).value.toLowerCase();
-            let ruta = val.match(/[a-h][1-8]/g) || [];
-            let full = [inicio, ...ruta, fin];
-
+        function validarCamino(id, ini, fin, block, cb, pts, dif) {
+            let ruta = document.getElementById(id).value.toLowerCase().match(/[a-h][1-8]/g) || [];
+            let full = [ini, ...ruta, fin];
             for(let i=0; i<full.length-1; i++) {
-                let de = full[i], a = full[i+1];
-                
-                let c1 = de.charCodeAt(0), r1 = parseInt(de.charAt(1));
-                let c2 = a.charCodeAt(0), r2 = parseInt(a.charAt(1));
-                
-                // Comprobar si el salto de caballo es válido matemáticamente
+                let d = full[i], a = full[i+1];
+                let c1=d.charCodeAt(0), r1=parseInt(d.charAt(1)), c2=a.charCodeAt(0), r2=parseInt(a.charAt(1));
                 if(!((Math.abs(c1-c2)===1 && Math.abs(r1-r2)===2) || (Math.abs(c1-c2)===2 && Math.abs(r1-r2)===1))) {
-                    reproducirSonido('incorrecto');
-                    mostrarStatus(`❌ Movimiento ilegal de caballo: ${de} a ${a}.`, "incorrecto");
-                    registrarXP(dificultad, false); // <--- REGISTRA FALLO EN EXPERIENCIA
-                    return;
+                    reproducirSonido('incorrecto'); mostrarStatus("❌ Salto ilegal", "incorrecto"); sumarPuntosDuelo(-20, dif, false); return;
                 }
-                
-                // Comprobar si la casilla está vigilada (solo importa en el Ej4)
-                if(prohibidas.has(a)) {
-                    reproducirSonido('incorrecto');
-                    let atacante = ej4_enemigos.find(e => esAtacadoPor(e, a));
-                    let msg = atacante ? `vigilada por ${atacante.nombre} (${atacante.cas})` : "casilla prohibida";
-                    mostrarStatus(`❌ ¡TE HAN VISTO! ${a.toUpperCase()} está ${msg}.`, "incorrecto");
-                    registrarXP(dificultad, false); // <--- REGISTRA FALLO EN EXPERIENCIA
-                    return;
-                }
+                if(block.has(a)) { reproducirSonido('incorrecto'); mostrarStatus("❌ Casilla vigilada", "incorrecto"); sumarPuntosDuelo(-20, dif, false); return; }
             }
-            
-            // Si pasamos todo el bucle sin que retorne, la ruta es perfecta
-            reproducirSonido('correcto');
-            mostrarStatus(`✅ ¡MISIÓN CUMPLIDA! Ruta válida en ${full.length-1} saltos.`, "correcto");
-            registrarXP(dificultad, true); // <--- REGISTRA ACIERTO EN EXPERIENCIA
-            
-            setTimeout(() => { callbackExito(); }, 1200); // Damos 1 seg para que lea el mensaje
+            reproducirSonido('correcto'); mostrarStatus("✅ Ruta válida", "correcto"); sumarPuntosDuelo(pts, dif, true); setTimeout(cb, 1000);
         }
 
-        function validarRutaBFS(start, end, block) {
-            let q = [start], v = new Set([start]);
-            while(q.length > 0) {
-                let curr = q.shift();
-                if(curr === end) return true;
-                
+        function rutaBFS(s, e, b) {
+            let q = [s], v = new Set([s]);
+            while(q.length){
+                let curr = q.shift(); if(curr === e) return true;
                 let c = curr.charCodeAt(0)-96, f = parseInt(curr.charAt(1));
                 let m = [[2,1],[2,-1],[-2,1],[-2,-1],[1,2],[1,-2],[-1,2],[-1,-2]];
-                
-                for(let x of m) {
+                for(let x of m){
                     let nc = c+x[0], nf = f+x[1];
-                    if(nc>=1 && nc<=8 && nf>=1 && nf<=8) {
-                        let next = String.fromCharCode(nc+96)+nf;
-                        if(!v.has(next) && !block.has(next)) {
-                            v.add(next); q.push(next);
-                        }
+                    if(nc>=1 && nc<=8 && nf>=1 && nf<=8){
+                        let n = String.fromCharCode(nc+96)+nf; if(!v.has(n) && !b.has(n)){ v.add(n); q.push(n); }
                     }
                 }
+            } return false;
+        }
+
+        window.onload = () => {
+            if (DueloManager.enDuelo) {
+                document.getElementById('btn-back').style.display = 'none';
+                document.getElementById('gym-title').innerText = "⚔️ DUELO SINCRONIZADO";
+                // En duelo, si la sala es aleatoria, ambos empezarán en Ejercicio 1
+                cambiarEjercicio(1);
+            } else {
+                cambiarEjercicio(1);
             }
-            return false;
-        }
-
-        function esAtacadoPor(pieza, objetivo) {
-            if(pieza.cas === objetivo) return true;
-            let c1 = pieza.cas.charCodeAt(0)-96, f1 = parseInt(pieza.cas.charAt(1));
-            let c2 = objetivo.charCodeAt(0)-96, f2 = parseInt(objetivo.charAt(1));
-            let dC = Math.abs(c1-c2), dF = Math.abs(f1-f2);
-            
-            if(pieza.tipo === 'r') return c1===c2 || f1===f2;
-            if(pieza.tipo === 'b') return dC===dF;
-            if(pieza.tipo === 'q') return c1===c2 || f1===f2 || dC===dF;
-            return false;
-        }
-
-        document.getElementById("ej2-input").addEventListener("keypress", e => { if(e.key==="Enter") verificarEj2(); });
-        document.getElementById("ej3-input").addEventListener("keypress", e => { if(e.key==="Enter") verificarEj3(); });
-        document.getElementById("ej4-input").addEventListener("keypress", e => { if(e.key==="Enter") verificarEj4(); });
-
-        window.onload = () => cambiarEjercicio(1);
-
+        };
     </script>
 </body>
 </html>

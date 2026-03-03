@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>ARCADE BLIND MASTER - VOZ</title>
+    <title>ARCADE BLIND MASTER - VOZ (Duelo)</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>♞</text></svg>">
     
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
@@ -36,17 +36,17 @@
 
     <div id="hud">
         <div class="hud-box"><div id="score-val" class="hud-value">0</div><div>Puntos</div></div>
-        <div class="hud-box"><div id="timer-val" class="hud-value">120</div><div>Tiempo</div></div>
+        <div class="hud-box" id="timer-box"><div id="timer-val" class="hud-value">120</div><div>Tiempo</div></div>
     </div>
 
     <div id="game-area">
         <div id="start-screen" class="screen active">
-            <h1 style="color:var(--accent); font-family: 'Black Ops One'; font-size:3.5em; margin:0;">ARCADE VOZ</h1>
-            <p style="font-size: 1.2em;">+15s por acierto | -3s por fallo</p>
+            <h1 id="main-title" style="color:var(--accent); font-family: 'Black Ops One'; font-size:3.5em; margin:0;">ARCADE VOZ</h1>
+            <p id="sub-title" style="font-size: 1.2em;">+15s por acierto | -3s por fallo</p>
             <p style="color:#888;">Dí "repite" para volver a oír el ejercicio.</p>
-            <div style="margin-bottom: 20px; font-size: 1.2em;">Récord Arcade: <strong id="high-score" style="color:var(--accent)">0</strong></div>
-            <button class="big-btn" onclick="Game.start()">JUGAR</button>
-            <a href="index.html" style="text-decoration:none;"><button class="skip-btn" style="margin-top:10px;">⬅ Volver al Menú</button></a>
+            <div id="hs-box" style="margin-bottom: 20px; font-size: 1.2em;">Récord Arcade: <strong id="high-score" style="color:var(--accent)">0</strong></div>
+            <button id="btn-jugar-voz" class="big-btn" onclick="Game.start()">JUGAR</button>
+            <a id="btn-volver-voz" href="index.html" style="text-decoration:none;"><button class="skip-btn" style="margin-top:10px;">⬅ Volver al Menú</button></a>
         </div>
 
         <div id="play-screen" class="screen">
@@ -80,6 +80,7 @@
             validas: ["anna", "bela", "cesar", "david", "eva", "felix", "gustavo", "hector", "blanca", "negra", "uno", "dos", "tres", "cuatro", "cinco", "seis", "siete", "ocho", "repite", "repitelo", "jugar", "empezar"],
             init() {
                 const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+                if(!SpeechRec) { alert("Tu navegador no soporta reconocimiento de voz. Usa Chrome."); return; }
                 this.recog = new SpeechRec(); this.recog.lang = 'es-ES'; this.recog.continuous = true; this.recog.interimResults = true;
                 this.recog.onresult = (e) => { let fullText = ''; for (let i = e.resultIndex; i < e.results.length; ++i) { fullText += e.results[i][0].transcript; } Game.processVoice(fullText.toLowerCase().trim()); };
                 this.recog.onend = () => { if (Game.isPlaying) this.recog.start(); };
@@ -100,37 +101,55 @@
                 document.getElementById('start-screen').classList.remove('active');
                 document.getElementById('play-screen').classList.add('active');
                 Voice.recog.start();
-                this.reloj = setInterval(() => {
-                    if (this.isPlaying) {
-                        this.time--; let timerVal = document.getElementById('timer-val'); timerVal.innerText = this.time;
-                        if (this.time <= 10 && this.time > 0) { reproducirSonido('tick'); timerVal.classList.add('danger'); } else { timerVal.classList.remove('danger'); }
-                        if (this.time <= 0) this.end();
-                    }
-                }, 1000);
+                
+                // En duelo, el tiempo local no se usa, lo lleva la Arena arriba
+                if (DueloManager.enDuelo) {
+                    document.getElementById('timer-box').style.display = 'none';
+                } else {
+                    this.reloj = setInterval(() => {
+                        if (this.isPlaying) {
+                            this.time--; let timerVal = document.getElementById('timer-val'); timerVal.innerText = this.time;
+                            if (this.time <= 10 && this.time > 0) { reproducirSonido('tick'); timerVal.classList.add('danger'); } else { timerVal.classList.remove('danger'); }
+                            if (this.time <= 0) this.end();
+                        }
+                    }, 1000);
+                }
                 this.next();
             },
 
             next() {
-                const r = Math.random();
+                // SINCRONIZACIÓN DE TIPO DE EJERCICIO
+                let r = (DueloManager.enDuelo) ? DueloManager.obtenerIndiceSincronizado(100) / 100 : Math.random();
                 if (r < 0.33) this.genColor(); else if (r < 0.66) this.genDiag(); else this.genKnight();
             },
 
             genColor() {
-                const l = "abcdefgh"[Math.floor(Math.random() * 8)]; const n = Math.floor(Math.random() * 8) + 1;
-                this.current = { type: 'color', label: 'Color de casilla', target: l + n, ans: ((l.charCodeAt(0) - 96 + n) % 2 === 0) ? 'negra' : 'blanca' };
+                // SINCRONIZACIÓN DE CASILLA
+                let lIdx = (DueloManager.enDuelo) ? DueloManager.obtenerIndiceSincronizado(8) : Math.floor(Math.random() * 8);
+                let nVal = (DueloManager.enDuelo) ? DueloManager.obtenerIndiceSincronizado(8) + 1 : Math.floor(Math.random() * 8) + 1;
+                const l = "abcdefgh"[lIdx]; 
+                this.current = { type: 'color', label: 'Color de casilla', target: l + nVal, ans: ((l.charCodeAt(0) - 96 + nVal) % 2 === 0) ? 'negra' : 'blanca' };
                 this.render();
             },
 
             genDiag() {
-                const cas = "abcdefgh"[Math.floor(Math.random() * 8)] + (Math.floor(Math.random() * 8) + 1);
+                // SINCRONIZACIÓN DE CASILLA
+                let lIdx = (DueloManager.enDuelo) ? DueloManager.obtenerIndiceSincronizado(8) : Math.floor(Math.random() * 8);
+                let nVal = (DueloManager.enDuelo) ? DueloManager.obtenerIndiceSincronizado(8) + 1 : Math.floor(Math.random() * 8) + 1;
+                const cas = "abcdefgh"[lIdx] + nVal;
                 let f = cas.charCodeAt(0) - 96, r = parseInt(cas.charAt(1)); let sol = [];
                 [[1, 1], [-1, 1], [1, -1], [-1, -1]].forEach(d => { let cf = f, cr = r; while (cf + d[0] >= 1 && cf + d[0] <= 8 && cr + d[1] >= 1 && cr + d[1] <= 8) { cf += d[0]; cr += d[1]; } if (cf !== f || cr !== r) sol.push(String.fromCharCode(96 + cf) + cr); });
                 this.current = { type: 'diag', label: 'Diagonales', target: cas, ans: sol }; this.render();
             },
 
             genKnight() {
-                const s = "abcdefgh"[Math.floor(Math.random() * 8)] + (Math.floor(Math.random() * 8) + 1);
-                const e = "abcdefgh"[Math.floor(Math.random() * 8)] + (Math.floor(Math.random() * 8) + 1);
+                // SINCRONIZACIÓN DE ORIGEN Y DESTINO
+                let lIdx1 = (DueloManager.enDuelo) ? DueloManager.obtenerIndiceSincronizado(8) : Math.floor(Math.random() * 8);
+                let nVal1 = (DueloManager.enDuelo) ? DueloManager.obtenerIndiceSincronizado(8) + 1 : Math.floor(Math.random() * 8) + 1;
+                let lIdx2 = (DueloManager.enDuelo) ? DueloManager.obtenerIndiceSincronizado(8) : Math.floor(Math.random() * 8);
+                let nVal2 = (DueloManager.enDuelo) ? DueloManager.obtenerIndiceSincronizado(8) + 1 : Math.floor(Math.random() * 8) + 1;
+                const s = "abcdefgh"[lIdx1] + nVal1;
+                const e = "abcdefgh"[lIdx2] + nVal2;
                 this.current = { type: 'knight', label: 'Circuito de caballo', target: s, end: e }; this.render();
             },
 
@@ -143,11 +162,18 @@
             anunciar() { let msg = "Ejercicio de " + this.current.label + ". "; msg += (this.current.type === 'knight') ? (this.current.target + " a " + this.current.end) : this.current.target; Voice.say(msg); },
 
             skip() { 
-                reproducirSonido('incorrecto'); this.time -= 5; Voice.say("Saltado"); 
+                reproducirSonido('incorrecto'); 
+                if (DueloManager.enDuelo) {
+                    this.score = Math.max(0, this.score - 50); // Penalización de puntos en duelo
+                    DueloManager.enviarPuntos(this.score);
+                } else {
+                    this.time -= 5; 
+                }
+                Voice.say("Saltado"); 
                 
                 // XP POR FALLAR
                 let dif = this.current.type === 'color' ? 'basico' : this.current.type === 'diag' ? 'medio' : 'avanzado';
-                registrarXP(dif, false);
+                if (!DueloManager.enDuelo) registrarXP(dif, false);
 
                 this.next(); 
             },
@@ -188,28 +214,53 @@
                 
                 // SISTEMA XP
                 let dif = this.current.type === 'color' ? 'basico' : this.current.type === 'diag' ? 'medio' : 'avanzado';
-                registrarXP(dif, isCorrect);
+                if (!DueloManager.enDuelo) registrarXP(dif, isCorrect);
 
                 if (isCorrect) {
-                    reproducirSonido('correcto'); this.score += 100; this.time += 15; Voice.say("Bien");
+                    reproducirSonido('correcto'); this.score += 100; 
+                    if (!DueloManager.enDuelo) this.time += 15; 
+                    Voice.say("Bien");
                 } else {
-                    reproducirSonido('incorrecto'); this.time -= 3; Voice.say("Mal");
+                    reproducirSonido('incorrecto'); 
+                    if (DueloManager.enDuelo) {
+                        this.score = Math.max(0, this.score - 20); // Penalización de puntos en duelo
+                    } else {
+                        this.time -= 3; 
+                    }
+                    Voice.say("Mal");
                 }
+                
+                // ACTUALIZAR MARCADOR ARENA
+                DueloManager.enviarPuntos(this.score);
+
                 document.getElementById('score-val').innerText = this.score;
-                setTimeout(() => { if (this.time > 0) { this.isPlaying = true; Voice.recog.start(); this.next(); } }, 150);
+                setTimeout(() => { if (DueloManager.enDuelo || this.time > 0) { this.isPlaying = true; Voice.recog.start(); this.next(); } }, 150);
             },
 
             end() {
                 reproducirSonido('fin'); this.isPlaying = false; Voice.recog.stop(); Voice.say("Fin");
                 
-                // SUBIR AL RANKING UNIFICADO
-                actualizarEstadisticaGlobal('arcadeGlobalMax', this.score, false);
+                if (!DueloManager.enDuelo) {
+                    actualizarEstadisticaGlobal('arcadeGlobalMax', this.score, false);
+                }
 
                 document.getElementById('play-screen').classList.remove('active'); document.getElementById('gameover-screen').classList.add('active'); document.getElementById('final-score').innerText = this.score;
             }
         };
 
-        window.onload = () => { let p = obtenerPerfil(); document.getElementById('high-score').innerText = p.arcadeGlobalMax || 0; };
+        window.onload = () => { 
+            let p = obtenerPerfil(); document.getElementById('high-score').innerText = p.arcadeGlobalMax || 0; 
+            
+            // AUTO-ARRANQUE EN DUELO
+            if (DueloManager.enDuelo) {
+                document.getElementById('btn-volver-voz').style.display = 'none';
+                document.getElementById('hs-box').style.display = 'none';
+                document.getElementById('main-title').style.display = 'none';
+                document.getElementById('sub-title').innerText = "⚔️ MODO DUELO SINCRONIZADO";
+                // Pequeño retardo para dar tiempo a cargar el motor
+                setTimeout(() => { Game.start(); }, 1500);
+            }
+        };
     </script>
 </body>
 </html>

@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Lectura y Visualización</title>
+    <title>Lectura y Visualización - Modo Duelo</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>♞</text></svg>">
     
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
@@ -38,7 +38,7 @@
         .btn-check:hover { box-shadow: 0 6px 0 #b39500; }
         .btn-check:active { box-shadow: 0 2px 0 #b39500; }
         
-        #myBoard .board-b72b1 { border: 2px solid #444; }
+        #myBoard .board-b72b1 { border: 2px solid #444; touch-action: none !important; }
         .border-fail .board-b72b1 { border: 5px solid var(--danger) !important; }
         .border-win .board-b72b1 { border: 5px solid var(--success) !important; }
 
@@ -50,18 +50,18 @@
 </head>
 <body>
 
-    <h1>📖 Lector de Mente</h1>
+    <h1 id="main-title">📖 Lector de Mente</h1>
 
     <div id="screen-menu" class="screen active">
         <div id="pantalla-carga" style="display: block; width: 100%; text-align: center; max-width: 500px;">
             <p style="color: #aaa;">¿Qué base de datos quieres usar?</p>
             <button id="btn-defecto" class="btn-secundario">🎮 Usar la base del juego</button>
-            <hr style="border: 1px solid #444; margin: 20px 0;">
+            <hr style="border: 1px solid #444; margin: 25px 0;">
             <p style="font-size: 0.9em; color: #888; text-align: left; margin-bottom: 5px;">O sube tu propio archivo <strong>.json</strong>:</p>
             <input type="file" id="archivoInput" accept=".json" style="width:100%; max-width: 300px;">            
             
             <div id="opciones-juego" class="oculto" style="margin-top: 20px; text-align: left;">
-                <hr style="border: 1px solid #444; margin: 20px 0;">
+                <hr style="border: 1px solid #444; margin: 25px 0;">
                 <p style="color: var(--accent); font-weight: bold; margin-bottom: 5px;">Profundidad de lectura:</p>
                 <select id="move-count">
                     <option value="10">10 Jugadas</option>
@@ -71,7 +71,7 @@
                 <button id="btn-comenzar" class="btn" style="width: 100%; margin-top: 10px;" onclick="iniciarLectura()">EMPEZAR</button>
             </div>
             
-            <a href="index.html" style="text-decoration:none;">
+            <a id="btn-back-1" href="index.html" style="text-decoration:none;">
                 <button class="btn" style="background:#444; box-shadow: 0 4px 0 #222; margin-top: 30px;">⬅ Volver al Menú</button>
             </a>
         </div>
@@ -99,7 +99,7 @@
         <div style="width: 100%; max-width: 450px; display: flex; flex-direction: column; gap: 10px; margin-top: 20px;">
             <button id="btn-check" class="btn btn-check" style="margin-top:0;" onclick="comprobar()">COMPROBAR</button>
             <button id="btn-next" class="btn" onclick="volverMenu()" style="display:none; margin-top:0; background:var(--blue); box-shadow: 0 4px 0 #20629c;">OTRA PARTIDA</button>
-            <a href="index.html" style="text-decoration:none;">
+            <a id="btn-back-2" href="index.html" style="text-decoration:none;">
                 <button class="btn" style="background:#444; box-shadow: 0 4px 0 #222; margin-top:0;">⬅ Volver al Menú</button>
             </a>
         </div>
@@ -112,7 +112,24 @@
 
     <script>
         let partidas = []; let jugadasMeta = 15; let fenObjetivo = ""; let userBoard = null; let solutionBoard = null;
+        let aciertosDuelo = 0;
         const pieceThemeUrl = 'https://chessboardjs.com/img/chesspieces/wikipedia/{piece}.png';
+
+        window.onload = () => {
+            // AUTO-ARRANQUE EN DUELO
+            const params = new URLSearchParams(window.location.search);
+            if (params.get('duelo') === 'true') {
+                document.getElementById('btn-back-1').style.display = 'none';
+                document.getElementById('btn-back-2').style.display = 'none';
+                document.getElementById('main-title').style.display = 'none';
+                
+                // Esperamos a que cargue la base (gestionado por utils.js clic automático)
+                setTimeout(() => {
+                    let btnStart = document.getElementById('btn-comenzar');
+                    if(btnStart) btnStart.click();
+                }, 1500);
+            }
+        };
 
         inicializarCargaBaseDatos('visualizacion.json', 'btn-defecto', 'archivoInput', function(data) {
             partidas = data; 
@@ -126,21 +143,36 @@
         }
 
         function volverMenu() {
+            if (typeof DueloManager !== 'undefined' && DueloManager.enDuelo) {
+                // En duelo, cargamos otra partida inmediatamente
+                iniciarLectura();
+                return;
+            }
             mostrarPantalla('screen-menu'); 
             document.getElementById('solution-container').style.display = 'none';
         }
 
         function iniciarLectura() {
             jugadasMeta = parseInt(document.getElementById('move-count').value);
-            let pgnRaw = partidas[Math.floor(Math.random() * partidas.length)].pgn;
+            
+            // SINCRONIZACIÓN MAESTRA DE PARTIDA
+            let indiceElegido = (typeof DueloManager !== 'undefined' && DueloManager.enDuelo) 
+                                ? DueloManager.obtenerIndiceSincronizado(partidas.length) 
+                                : Math.floor(Math.random() * partidas.length);
+
+            let pgnRaw = partidas[indiceElegido].pgn;
             let tempGame = new Chess(); tempGame.load_pgn(pgnRaw); let history = tempGame.history();
+            
             let limite = Math.min(jugadasMeta * 2, history.length); let gameCortado = new Chess(); let textoVisible = "";
             for(let i=0; i<limite; i++) {
                 gameCortado.move(history[i]);
                 if (i % 2 === 0) textoVisible += `<strong>${(i/2)+1}.</strong> `;
                 textoVisible += history[i] + " ";
             }
-            fenObjetivo = gameCortado.fen(); document.getElementById('pgn-container').innerHTML = textoVisible; mostrarPantalla('screen-read');
+            fenObjetivo = gameCortado.fen(); 
+            document.getElementById('pgn-container').innerHTML = textoVisible; 
+            mostrarPantalla('screen-read');
+            document.getElementById('solution-container').style.display = 'none';
         }
 
         function pasarAConstruccion() {
@@ -156,25 +188,39 @@
         function comprobar() {
             let colocacionUser = userBoard.fen().split(' ')[0]; let colocacionObj = fenObjetivo.split(' ')[0];
             
-            actualizarEstadisticaGlobal('lecturaJugados', 1, true); // Guarda intento global
+            if (!DueloManager.enDuelo) {
+                actualizarEstadisticaGlobal('lecturaJugados', 1, true); 
+            }
 
             if (colocacionUser === colocacionObj) {
                 reproducirSonido('correcto');
                 document.getElementById('msg').innerText = "✅ ¡PERFECTO! Memoria impecable."; $('#myBoard').addClass('border-win');
-                actualizarEstadisticaGlobal('lecturaAciertos', 1, true);
-                registrarXP('avanzado', true); // XP Acierto
+                
+                if (!DueloManager.enDuelo) {
+                    actualizarEstadisticaGlobal('lecturaAciertos', 1, true);
+                    registrarXP('avanzado', true); 
+                } else {
+                    aciertosDuelo++;
+                    // ENVIAR PUNTOS A LA ARENA
+                    DueloManager.enviarPuntos(aciertosDuelo);
+                }
             } else {
                 reproducirSonido('incorrecto');
                 document.getElementById('msg').innerText = "❌ DIFERENCIAS DETECTADAS"; $('#myBoard').addClass('border-fail');
                 document.getElementById('solution-container').style.display = 'flex'; document.getElementById('user-title').classList.add('visible');
                 
-                registrarXP('avanzado', false); // XP Fallo
+                if (!DueloManager.enDuelo) {
+                    registrarXP('avanzado', false); 
+                }
                 
                 if(solutionBoard) solutionBoard.destroy();
                 setTimeout(() => { solutionBoard = Chessboard('solutionBoard', { position: fenObjetivo, draggable: false, pieceTheme: pieceThemeUrl }); }, 100);
             }
             
-            document.getElementById('btn-check').style.display = 'none'; document.getElementById('btn-next').style.display = 'block';
+            document.getElementById('btn-check').style.display = 'none'; 
+            document.getElementById('btn-next').style.display = 'block';
+            document.getElementById('btn-next').innerText = (typeof DueloManager !== 'undefined' && DueloManager.enDuelo) ? "SIGUIENTE RETO ➡" : "OTRA PARTIDA";
+            
             let currentFen = userBoard.fen(); userBoard.destroy(); userBoard = Chessboard('myBoard', { position: currentFen, draggable: false, pieceTheme: pieceThemeUrl });
         }
     </script>

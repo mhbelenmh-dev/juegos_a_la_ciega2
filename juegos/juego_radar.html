@@ -22,7 +22,7 @@
         #tablero-wrapper { flex: 0 0 450px; display: flex; flex-direction: column; align-items: center; width: 100%; }
 
         #tablero-container { width: 450px; height: 450px; position: relative; border: 6px solid #3d3a37; border-radius: 4px; background: #262421; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        #tablero { width: 100%; height: 100%; transition: opacity 0.2s; }
+        #tablero { width: 100%; height: 100%; transition: opacity 0.2s; touch-action: none !important; }
         #cortina { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(38, 36, 33, 0.98); display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 20; }
         
         #barra-tiempo-container { width: 100%; height: 12px; background: #1a1917; border-radius: 6px; overflow: hidden; margin-bottom: 15px; }
@@ -50,7 +50,6 @@
         button { border: none; border-radius: 6px; cursor: pointer; font-weight: bold; transition: 0.2s; }
         .btn-inicio { background: var(--accent); color: #262421; font-size: 1.5em; padding: 20px 40px; border: 2px solid #fff; box-shadow: 0 4px 0 #b39500; }
         .btn-inicio:hover { background: #ffe03d; transform: translateY(-2px); box-shadow: 0 6px 0 #b39500; }
-        .btn-inicio:active { transform: translateY(2px); box-shadow: 0 2px 0 #b39500; }
         
         .btn-siguiente { background: var(--success); color: white; padding: 15px 40px; font-size: 1.2em; width: 100%; box-shadow: 0 4px 0 #4a751b; margin-top: 15px;}
         .btn-siguiente:hover { background: #76b82a; transform: translateY(-2px); box-shadow: 0 6px 0 #4a751b;}
@@ -71,8 +70,6 @@
     </div>
 
     <div id="contenedor-juego" class="oculto">
-        <h1 style="display: none;">Radar</h1>
-        
         <div id="main-layout">
             <div id="tablero-wrapper">
                 <div id="barra-tiempo-container"><div id="barra-tiempo" style="width: 100%;"></div></div>
@@ -80,7 +77,7 @@
                     <div id="tablero"></div>
                     <div id="cortina">
                         <div id="contenido-cortina">
-                            <button class="btn-inicio" onclick="empezarRonda()">ESCANEAR (3s)</button>
+                            <button id="btn-empezar-radar" class="btn-inicio" onclick="empezarRonda()">ESCANEAR (3s)</button>
                         </div>
                     </div>
                 </div>
@@ -114,7 +111,7 @@
                             <span class="stat-label">Aciertos</span>
                         </div>
                     </div>
-                    <a href="index.html" style="text-decoration:none;"><button style="background:#444; color:white; width:100%; margin-top:20px; padding:10px; box-shadow: 0 4px 0 #222;">⬅ Menú Principal</button></a>
+                    <a id="btn-salir-radar" href="index.html" style="text-decoration:none;"><button style="background:#444; color:white; width:100%; margin-top:20px; padding:10px; box-shadow: 0 4px 0 #222;">⬅ Menú Principal</button></a>
                 </div>
             </div>
         </div>
@@ -133,12 +130,23 @@
             todosLosPuzzles = data; iniciarPantallaJuego(); 
         });
 
+        // LÓGICA DE AUTO-ARRANQUE EN DUELO
+        window.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            if (params.get('duelo') === 'true') {
+                setTimeout(() => {
+                    // Si estamos en duelo, lanzamos el primer escaneo tras cargar
+                    let btnScan = document.getElementById('btn-empezar-radar');
+                    if(btnScan) btnScan.click();
+                }, 1000);
+            }
+        });
+
         function iniciarPantallaJuego() {
             document.getElementById('pantalla-carga').classList.add('oculto');
             document.getElementById('contenedor-juego').classList.remove('oculto');
             board = Chessboard('tablero', { position: 'start', pieceTheme: 'https://chessboardjs.com/img/chesspieces/wikipedia/{piece}.png' });
             
-            // Cargar stats guardados
             let p = obtenerPerfil();
             radaresCompletados = p.radarJugados || 0;
             radaresAciertos = p.radarAciertos || 0;
@@ -166,7 +174,13 @@
         function cargarPosicionAleatoria() {
             let listas = Object.values(todosLosPuzzles); let listaPlana = listas.flat();
             if (listaPlana.length === 0) return; 
-            puzzleActual = listaPlana[Math.floor(Math.random() * listaPlana.length)];
+
+            // SINCRONIZACIÓN POR SEMILLA
+            let indiceElegido = (typeof DueloManager !== 'undefined' && DueloManager.enDuelo) 
+                                ? DueloManager.obtenerIndiceSincronizado(listaPlana.length) 
+                                : Math.floor(Math.random() * listaPlana.length);
+            
+            puzzleActual = listaPlana[indiceElegido];
             game.load(puzzleActual.fen); board.position(game.fen());
         }
 
@@ -213,26 +227,28 @@
             let esCorrecto = (respuestaUsuario === 5 && piezasQueTocan >= 5) || (respuestaUsuario === piezasQueTocan);
             let htmlStatus = ""; let txtRespuesta = respuestaUsuario === 5 ? "5 o más" : respuestaUsuario;
             
-            // --- GUARDADO DE ESTADÍSTICAS ---
             radaresCompletados++;
-            actualizarEstadisticaGlobal('radarJugados', 1, true);
+            if (!DueloManager.enDuelo) actualizarEstadisticaGlobal('radarJugados', 1, true);
             document.getElementById('radares-completados').innerText = radaresCompletados;
 
             if (esCorrecto) {
                 reproducirSonido('correcto');
                 radaresAciertos++;
-                actualizarEstadisticaGlobal('radarAciertos', 1, true);
-                registrarXP('medio', true); // XP por acertar
+                if (!DueloManager.enDuelo) {
+                    actualizarEstadisticaGlobal('radarAciertos', 1, true);
+                    registrarXP('medio', true);
+                }
+                
+                // ENVÍO DE PUNTOS AL MARCADOR DE DUELO
+                DueloManager.enviarPuntos(radaresAciertos);
                 
                 document.getElementById('radares-aciertos').innerText = radaresAciertos;
                 htmlStatus = `<strong style="color:var(--success); font-size:1.4em;">✅ ¡CORRECTO!</strong><br>Había ${piezasQueTocan} pieza(s) vigilando la casilla.`;
             } else {
                 reproducirSonido('incorrecto');
-                registrarXP('medio', false); // XP por esfuerzo
-                
+                if (!DueloManager.enDuelo) registrarXP('medio', false);
                 htmlStatus = `<strong style="color:var(--danger); font-size:1.4em;">❌ FALLO</strong><br>Tú dijiste ${txtRespuesta}, pero hay ${piezasQueTocan} pieza(s) vigilándola.`;
             }
-            // --------------------------------
             
             document.getElementById('status').innerHTML = htmlStatus;
             document.getElementById('zona-respuesta').classList.add('oculto'); document.getElementById('zona-resultado').classList.remove('oculto');
@@ -241,7 +257,14 @@
         function seleccionarCasillaActivaSegura() {
             let candidatos = []; const columnas = ['a','b','c','d','e','f','g','h']; const filas = ['1','2','3','4','5','6','7','8'];
             for (let c of columnas) { for (let f of filas) { let casilla = c + f; let pieza = game.get(casilla); if (pieza !== null) candidatos.push(casilla); } }
-            candidatos.push('e4', 'd4', 'e5', 'd5'); return candidatos[Math.floor(Math.random() * candidatos.length)];
+            candidatos.push('e4', 'd4', 'e5', 'd5'); 
+
+            // SINCRONIZACIÓN DE LA CASILLA PREGUNTADA
+            let indiceCasilla = (typeof DueloManager !== 'undefined' && DueloManager.enDuelo) 
+                                ? DueloManager.obtenerIndiceSincronizado(candidatos.length) 
+                                : Math.floor(Math.random() * candidatos.length);
+            
+            return candidatos[indiceCasilla];
         }
     </script>
 </body>

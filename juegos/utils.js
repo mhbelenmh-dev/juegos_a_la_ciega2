@@ -186,8 +186,7 @@ function subirAFirebase(rutaRef, puntuacion) {
             db.ref(rutaRef).child(perfil.uid).set(dataSubida);
         }
     } catch (e) {}
-}
-// ========================================================
+}// ========================================================
 // MOTOR MULTIJUGADOR DE DUELOS (Sincronización de Semilla)
 // ========================================================
 window.DueloManager = {
@@ -201,22 +200,26 @@ window.DueloManager = {
             this.enDuelo = true;
             this.sala = params.get('sala') || "sala_secreta";
             
-            // 1. Ocultar todos los botones de "Volver al menú" automáticamente
+            // Ocultar elementos de navegación para máxima inmersión
             setTimeout(() => {
-                document.querySelectorAll('a[href="index.html"], .btn-salir').forEach(el => el.style.display = 'none');
+                document.querySelectorAll('a[href="index.html"], .btn-skip, button:contains("Menú")').forEach(el => {
+                    if(!el.onclick || !el.onclick.toString().includes('saltarPuzzle')) {
+                        el.style.display = 'none';
+                    }
+                });
                 
-                // 2. Hacer clic automático en cargar base de datos (si existe el botón)
-                let btnBase = document.getElementById('btn-defecto') || document.getElementById('btn-cargar');
-                if(btnBase) btnBase.click();
-            }, 300);
+                // Carga automática de base de datos para evitar bloqueos de navegador
+                const btnBase = document.getElementById('btn-defecto') || document.getElementById('btn-cargar');
+                if(btnBase && btnBase.innerText !== "✅ Base cargada") btnBase.click();
+            }, 500);
         }
     },
 
-    // Genera la semilla matemática idéntica para ambos jugadores
     obtenerIndiceSincronizado: function(maximo) {
-        if (!this.enDuelo) return Math.floor(Math.random() * maximo); // Si no es duelo, es aleatorio normal
+        if (!this.enDuelo) return Math.floor(Math.random() * maximo);
         
         this.contador++;
+        // Usamos la sala + el número de ronda como semilla única
         let semilla = this.sala + "_" + this.contador;
         let hash = 0;
         for (let i = 0; i < semilla.length; i++) {
@@ -225,13 +228,10 @@ window.DueloManager = {
         return Math.abs(hash) % maximo;
     },
 
-    // Envía los puntos en vivo al marcador gigante de la Arena
     enviarPuntos: function(puntos) {
         if (this.enDuelo && window.self !== window.top) {
             window.parent.postMessage({ action: 'actualizarPuntos', puntos: puntos }, '*');
         }
     }
 };
-
-// Se activa solo en cuanto carga la página
 window.addEventListener('DOMContentLoaded', () => { DueloManager.iniciar(); });

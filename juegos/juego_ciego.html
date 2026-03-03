@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Puzzle Storm: A la Ciega Pro</title>
+    <title>Puzzle Storm: A la Ciega - Modo Duelo</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>♞</text></svg>">
     
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
@@ -27,12 +27,12 @@
         .lista-piezas { color: #eee; word-wrap: break-word; }
 
         #tablero-container { width: 100%; max-width: 450px; border: 6px solid #3d3a37; border-radius: 4px; box-sizing: border-box; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        #tablero { width: 100%; }
+        #tablero { width: 100%; touch-action: none !important; }
 
         #input-container { display: flex; gap: 10px; width: 100%; }
         #jugadaInput { flex-grow: 1; padding: 15px; font-size: 1.2em; border-radius: 6px; border: 2px solid #555; background: #1e1e1e; color: white; text-align: center; outline: none; transition: 0.3s; }
         #jugadaInput:focus { border-color: var(--accent); box-shadow: 0 0 10px rgba(229, 191, 0, 0.2); }
-        #btn-enviar { background: var(--blue); padding: 0 25px; box-shadow: 0 4px 0 #20629c; margin: 0; }
+        #btn-enviar { background: var(--blue); padding: 0 25px; box-shadow: 0 4px 0 #20629c; margin: 0; border: none; border-radius: 6px; color: white; font-weight: bold; cursor: pointer;}
         #btn-enviar:hover { background: #4fa3f0; transform: translateY(-2px); box-shadow: 0 6px 0 #20629c; }
 
         #status { font-weight: bold; font-size: 1.2em; min-height: 30px; white-space: pre-wrap; text-align: center; margin-top: 10px;}
@@ -62,7 +62,7 @@
 </head>
 <body>
 
-    <h1>👁️ Ajedrez a la Ciega 👁️</h1>
+    <h1 id="title-main">👁️ Ajedrez a la Ciega 👁️</h1>
 
     <div id="pantalla-carga">
         <h2 style="color: var(--text); margin-top: 0;">Configuración</h2>
@@ -75,7 +75,6 @@
     
     <div id="interfaz-juego" class="oculto">
         <div id="main-layout">
-            
             <div id="tablero-wrapper">
                 <div id="descripcion-posicion">
                     <span class="bando-titulo">Blancas:</span> <span id="txt-blancas" class="lista-piezas">...</span>
@@ -84,24 +83,21 @@
                         * Juegan <span id="turno-texto" style="color: #fff; font-weight: bold; text-transform: uppercase;">...</span>
                     </div>
                 </div>
-
                 <div id="tablero-container" class="oculto"><div id="tablero"></div></div>
-
                 <div id="input-container">
                     <input type="text" id="jugadaInput" placeholder="Tu jugada (ej: Ce5, h4...)" autocomplete="off">
                     <button id="btn-enviar" onclick="verificarJugada()">Enviar</button>
                 </div>
-                
                 <div id="status"></div>
             </div>
 
             <div id="sidebar">
                 <div class="panel-box">
-                    <div class="panel-title">Tus Estadísticas</div>
+                    <div class="panel-title">Estadísticas</div>
                     <div class="stats-grid">
                         <div class="stat-card">
                             <span id="eloDisplay" class="stat-value val-rating">1700</span>
-                            <span class="stat-label">Rating Ciego</span>
+                            <span class="stat-label">Nivel</span>
                         </div>
                         <div class="stat-card">
                             <span id="score" class="stat-value val-racha">0</span>
@@ -109,15 +105,13 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="panel-box">
                     <div id="ultimo-movimiento" class="oculto"></div>
                     <button id="btn-rendirse" class="btn-skip" onclick="rendirse()">🏳️ Ver Solución (-5 pts)</button>
                     <button id="btn-siguiente" class="oculto" onclick="cargarNuevoPuzzle()">Siguiente Puzzle ➡</button>
-                    <a href="index.html" style="text-decoration:none;"><button style="background:#444; box-shadow: 0 4px 0 #222; margin-top:15px;">⬅ Menú Principal</button></a>
+                    <a id="btn-volver" href="index.html" style="text-decoration:none;"><button style="background:#444; box-shadow: 0 4px 0 #222; margin-top:15px;">⬅ Menú Principal</button></a>
                 </div>
             </div>
-
         </div>
     </div>
 
@@ -127,21 +121,31 @@
     <script src="utils.js"></script>
 
     <script>
-        let todosLosPuzzles = {}; let eloActual = 1700; let puzzleActual = null; let game = new Chess(); let board = null; let aciertos = 0; let puzzleResuelto = false; let indiceMovimiento = 0; 
+        let todosLosPuzzles = {}; let eloActual = 1700; let puzzleActual = null; let game = new Chess(); let board = null; let aciertosTotal = 0; let puzzleResuelto = false; let indiceMovimiento = 0; 
+        let contadorDuelo = 0; let puntosDuelo = 0;
 
         inicializarCargaBaseDatos('mis_puzzles.json', 'btn-defecto', 'archivoInput', function(data) {
             todosLosPuzzles = data; iniciarPantallaJuego();
         });
+
+        window.onload = () => {
+            const params = new URLSearchParams(window.location.search);
+            if (params.get('duelo') === 'true') {
+                document.getElementById('btn-volver').style.display = 'none';
+                document.getElementById('title-main').style.display = 'none';
+            }
+        };
 
         function iniciarPantallaJuego() {
             document.getElementById('pantalla-carga').classList.add('oculto');
             document.getElementById('interfaz-juego').classList.remove('oculto');
             board = Chessboard('tablero', { pieceTheme: 'https://chessboardjs.com/img/chesspieces/wikipedia/{piece}.png' });
             
-            let perfilActual = obtenerPerfil();
-            eloActual = perfilActual.eloCiego || 1700; // Carga el ELO Ciego
-            document.getElementById('eloDisplay').innerText = eloActual;
-
+            if (!DueloManager.enDuelo) {
+                let p = obtenerPerfil();
+                eloActual = p.eloCiego || 1700;
+                document.getElementById('eloDisplay').innerText = eloActual;
+            }
             cargarNuevoPuzzle(); 
         }
         
@@ -155,10 +159,24 @@
             document.getElementById('descripcion-posicion').classList.remove('oculto'); document.getElementById('tablero-container').classList.add('oculto'); 
             document.getElementById('btn-siguiente').classList.add('oculto'); document.getElementById('btn-rendirse').classList.remove('oculto'); document.getElementById('input-container').classList.remove('oculto');
 
-            let rango = (Math.floor(eloActual / 50) * 50).toString();
-            if (eloActual > 2500) rango = "2500"; if (!todosLosPuzzles[rango]) rango = "1700";
-            let lista = todosLosPuzzles[rango]; puzzleActual = lista[Math.floor(Math.random() * lista.length)];
+            let rango = "1700";
+            if (DueloManager.enDuelo) {
+                contadorDuelo++;
+                let eloProgresivo = 1200 + Math.floor(contadorDuelo / 2) * 50;
+                rango = (Math.floor(Math.min(eloProgresivo, 2500) / 50) * 50).toString();
+                if (!todosLosPuzzles[rango]) rango = Object.keys(todosLosPuzzles)[0];
+                
+                let indiceSincro = DueloManager.obtenerIndiceSincronizado(todosLosPuzzles[rango].length);
+                puzzleActual = todosLosPuzzles[rango][indiceSincro];
+                eloActual = eloProgresivo;
+            } else {
+                rango = (Math.floor(eloActual / 50) * 50).toString();
+                if (eloActual > 2500) rango = "2500"; if (!todosLosPuzzles[rango]) rango = "1700";
+                let lista = todosLosPuzzles[rango]; puzzleActual = lista[Math.floor(Math.random() * lista.length)];
+            }
+
             if (typeof puzzleActual.moves === 'string') puzzleActual.moves = puzzleActual.moves.split(' ');
+            document.getElementById('eloDisplay').innerText = eloActual;
 
             game.load(puzzleActual.fen); let moveRival = puzzleActual.moves[0]; hacerMovimiento(moveRival); indiceMovimiento++; 
             generarTextoPosicion(game.fen()); actualizarTurnoVisual();
@@ -202,16 +220,27 @@
                     divUltimo.innerHTML = `✅ ¡Bien! El rival responde:<br><strong style="font-size:1.4em; color:#fff;">${jugadaRivalSan}</strong><br>¿Qué haces?`;
                     generarTextoPosicion(game.fen());
                 } else { 
-                    aciertos++; eloActual += 15; 
-                    actualizarEstadisticaGlobal('eloCiego', eloActual, false);
-                    registrarXP('maestro', true); // XP ACIERTO MAESTRO
+                    aciertosTotal++;
+                    if (DueloManager.enDuelo) {
+                        puntosDuelo += 15;
+                        DueloManager.enviarPuntos(puntosDuelo);
+                    } else {
+                        eloActual += 15;
+                        actualizarEstadisticaGlobal('eloCiego', eloActual, false);
+                        registrarXP('maestro', true);
+                    }
                     mostrarResultado(true, "✅ ¡Puzzle Completado!"); 
                 }
             } else {
                 reproducirSonido('incorrecto');
-                eloActual -= 10; game.undo(); 
-                actualizarEstadisticaGlobal('eloCiego', eloActual, false);
-                registrarXP('maestro', false); // XP FALLO
+                if (DueloManager.enDuelo) {
+                    puntosDuelo = Math.max(0, puntosDuelo - 10);
+                    DueloManager.enviarPuntos(puntosDuelo);
+                } else {
+                    eloActual -= 10; game.undo(); 
+                    actualizarEstadisticaGlobal('eloCiego', eloActual, false);
+                    registrarXP('maestro', false);
+                }
                 let solucionTexto = generarSolucionCompleta();
                 mostrarResultado(false, `❌ Fallaste. Tú dijiste ${textoUsuario}.\n\nSolución correcta:\n${solucionTexto}`);
             }
@@ -232,16 +261,22 @@
 
         function rendirse() { 
             reproducirSonido('incorrecto');
-            eloActual -= 5;
-            actualizarEstadisticaGlobal('eloCiego', eloActual, false);
-            registrarXP('maestro', false);
+            if (DueloManager.enDuelo) {
+                puntosDuelo = Math.max(0, puntosDuelo - 5);
+                DueloManager.enviarPuntos(puntosDuelo);
+            } else {
+                eloActual -= 5;
+                actualizarEstadisticaGlobal('eloCiego', eloActual, false);
+                registrarXP('maestro', false);
+            }
             let solucionTexto = generarSolucionCompleta(); 
             mostrarResultado(false, `Te has rendido.\nSolución completa:\n${solucionTexto}`); 
         }
 
         function mostrarResultado(esCorrecto, mensaje) {
             puzzleResuelto = true; document.getElementById('status').innerText = mensaje; document.getElementById('status').className = esCorrecto ? "correcto" : "incorrecto";
-            document.getElementById('score').innerText = aciertos; document.getElementById('eloDisplay').innerText = eloActual;
+            document.getElementById('score').innerText = DueloManager.enDuelo ? puntosDuelo : aciertosTotal; 
+            document.getElementById('eloDisplay').innerText = eloActual;
             document.getElementById('descripcion-posicion').classList.add('oculto'); document.getElementById('tablero-container').classList.remove('oculto'); 
             board.position(game.fen()); board.orientation(game.turn() === 'w' ? 'white' : 'black'); setTimeout(function() { board.resize(); }, 50);
             document.getElementById('btn-rendirse').classList.add('oculto'); document.getElementById('btn-siguiente').classList.remove('oculto');

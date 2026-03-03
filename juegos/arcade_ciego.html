@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>ARCADE BLIND CHESS - UPDATE</title>
+    <title>ARCADE BLIND CHESS - Modo Duelo</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>♞</text></svg>">
     
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
@@ -66,9 +66,10 @@
             <div class="hud-label">Puntos</div>
             <div id="score-val" class="hud-value">0</div>
         </div>
-        <div class="hud-box">
+        <div class="hud-box" id="timer-box">
             <div class="hud-label">Tiempo</div>
-            <div id="timer-val" class="hud-value">120</div> </div>
+            <div id="timer-val" class="hud-value">120</div> 
+        </div>
         <div class="hud-box">
             <div class="hud-label">Racha</div>
             <div id="multiplier">x1</div>
@@ -79,16 +80,16 @@
         <div id="feedback-overlay"></div>
 
         <div id="start-screen" class="screen active">
-            <h1>BLIND ARCADE</h1>
-            <h2>Supervivencia Estratégica</h2>
-            <p style="color:#888; max-width: 400px; margin-bottom: 30px; line-height: 1.6;">
+            <h1 id="main-title">BLIND ARCADE</h1>
+            <h2 id="sub-title">Supervivencia Estratégica</h2>
+            <p id="desc-title" style="color:#888; max-width: 400px; margin-bottom: 30px; line-height: 1.6;">
                 Inicio: <strong style="color:#e5bf00">2 Minutos</strong>.<br>
                 Acierta para ganar tiempo extra.<br>
                 Fallo: <span style="color:#ff3333">-10 segundos</span>.<br>
             </p>
-            <div style="margin-bottom: 20px; font-size: 1.2em;">Récord Local: <strong id="high-score" style="color:#e5bf00">0</strong></div>
-            <button class="big-btn" onclick="Game.start()">JUGAR</button>
-            <a href="index.html" style="text-decoration:none; margin-top:20px;">
+            <div id="hs-box" style="margin-bottom: 20px; font-size: 1.2em;">Récord Local: <strong id="high-score" style="color:#e5bf00">0</strong></div>
+            <button id="btn-jugar-teclado" class="big-btn" onclick="Game.start()">JUGAR</button>
+            <a id="btn-volver-teclado" href="index.html" style="text-decoration:none; margin-top:20px;">
                 <button style="background:#444; color:#fff; border:none; padding:10px 20px; font-size:1.2em; border-radius:5px; cursor:pointer;">⬅ Volver al Menú</button>
             </a>
         </div>
@@ -131,21 +132,37 @@
                 document.getElementById('start-screen').classList.remove('active');
                 document.getElementById('gameover-screen').classList.remove('active');
                 document.getElementById('play-screen').classList.add('active');
-                this.updateHUD(); this.timerInterval = setInterval(() => this.tick(), 1000); this.nextRound();
+                this.updateHUD(); 
+
+                // En duelo el tiempo lo lleva la Arena superior
+                if (!DueloManager.enDuelo) {
+                    this.timerInterval = setInterval(() => this.tick(), 1000);
+                } else {
+                    document.getElementById('timer-box').style.display = 'none';
+                }
+                
+                this.nextRound();
             },
 
             tick: function() { this.time--; this.updateHUD(); if (this.time <= 0) this.gameOver(); },
 
             nextRound: function() {
                 if (!this.isPlaying) return;
-                let rand = Math.random(); let typeIdx = 0;
+                // SINCRONIZACIÓN DE TIPO DE EJERCICIO
+                let rand = (DueloManager.enDuelo) ? DueloManager.obtenerIndiceSincronizado(100) / 100 : Math.random();
+                let typeIdx = 0;
                 if (rand < 0.3) typeIdx = 0; else if (rand < 0.6) typeIdx = 1; else if (rand < 0.85) typeIdx = 2; else typeIdx = 3; 
                 this.currentExercise = this.generateExercise(this.types[typeIdx].id); this.renderExercise();
             },
 
             generateExercise: function(typeId) {
                 const cols = ['a','b','c','d','e','f','g','h'];
-                const randCas = () => cols[Math.floor(Math.random()*8)] + (Math.floor(Math.random()*8)+1);
+                const randCas = () => {
+                    let cIdx = (DueloManager.enDuelo) ? DueloManager.obtenerIndiceSincronizado(8) : Math.floor(Math.random()*8);
+                    let fIdx = (DueloManager.enDuelo) ? DueloManager.obtenerIndiceSincronizado(8) : Math.floor(Math.random()*8);
+                    return cols[cIdx] + (fIdx + 1);
+                };
+                
                 let data = { type: typeId };
 
                 if (typeId === 'color') {
@@ -165,7 +182,11 @@
                     let ok = false;
                     while(!ok) {
                         data.start = randCas(); data.end = randCas(); if(data.start === data.end) continue;
-                        data.enemies = []; let dama = cols[Math.floor(Math.random()*4)+2] + (Math.floor(Math.random()*4)+3);
+                        data.enemies = []; 
+                        // Coordinada fija/semilla para la dama enemiga
+                        let dC = (DueloManager.enDuelo) ? DueloManager.obtenerIndiceSincronizado(4)+2 : Math.floor(Math.random()*4)+2;
+                        let dF = (DueloManager.enDuelo) ? DueloManager.obtenerIndiceSincronizado(4)+3 : Math.floor(Math.random()*4)+3;
+                        let dama = cols[dC] + dF;
                         data.enemies.push({n:'Dama', c:dama, t:'q'});
                         let banned = new Set();
                         data.enemies.forEach(e => {
@@ -188,13 +209,13 @@
 
             renderExercise: function() {
                 const ex = this.currentExercise; const typeInfo = this.types.find(t => t.id === ex.type);
-                document.getElementById('q-type').innerText = typeInfo.name + ` (+${typeInfo.bonus}s)`;
+                document.getElementById('q-type').innerText = typeInfo.name + (DueloManager.enDuelo ? "" : ` (+${typeInfo.bonus}s)`);
                 let contentHTML = '', inputHTML = '', extraHTML = '';
 
                 if (ex.type === 'color') { contentHTML = ex.target.toUpperCase(); inputHTML = `<div class="color-btns"><button class="btn-chess btn-b" onclick="Game.check('negra')">NEGRA</button><button class="btn-chess btn-w" onclick="Game.check('blanca')">BLANCA</button></div>`; } 
-                else if (ex.type === 'diag') { contentHTML = ex.target.toUpperCase(); extraHTML = "(Escribe los extremos: ejemplo c3 Solucion: a1 h8 a5 e1)"; inputHTML = `<input type="text" id="ans-input" placeholder="a1 h8 a5 e1" onkeydown="if(event.key==='Enter') Game.check(this.value)">`; }
-                else if (ex.type === 'knight') { contentHTML = `${ex.start.toUpperCase()} ➡ ${ex.end.toUpperCase()}`; extraHTML = "(Ruta simple Ejemplo: de a2 a b4 Solucion: c3 d5)"; inputHTML = `<input type="text" id="ans-input" placeholder="c3 d5" onkeydown="if(event.key==='Enter') Game.check(this.value)">`; }
-                else if (ex.type === 'artillery') { contentHTML = `${ex.start.toUpperCase()} ➡ ${ex.end.toUpperCase()}`; let enemyStr = ex.enemies.map(e => `${e.n} en ${e.c.toUpperCase()}`).join(', '); extraHTML = `⚠️ ${enemyStr}<br> (Ruta De Caballo 2.0 Ejemplo: de a2 a b4 con Df4 Solucion: c3 d5)`; inputHTML = `<input type="text" id="ans-input" placeholder="c3 d5" onkeydown="if(event.key==='Enter') Game.check(this.value)">`; }
+                else if (ex.type === 'diag') { contentHTML = ex.target.toUpperCase(); extraHTML = "(Escribe los extremos: ej c3 -> a1 h8 a5 e1)"; inputHTML = `<input type="text" id="ans-input" placeholder="a1 h8 a5 e1" onkeydown="if(event.key==='Enter') Game.check(this.value)">`; }
+                else if (ex.type === 'knight') { contentHTML = `${ex.start.toUpperCase()} ➡ ${ex.end.toUpperCase()}`; extraHTML = "(Ruta de saltos intermedios)"; inputHTML = `<input type="text" id="ans-input" placeholder="c3 d5" onkeydown="if(event.key==='Enter') Game.check(this.value)">`; }
+                else if (ex.type === 'artillery') { contentHTML = `${ex.start.toUpperCase()} ➡ ${ex.end.toUpperCase()}`; let enemyStr = ex.enemies.map(e => `${e.n} en ${e.c.toUpperCase()}`).join(', '); extraHTML = `⚠️ ${enemyStr}<br> (Evita las piezas enemigas)`; inputHTML = `<input type="text" id="ans-input" placeholder="c3 d5" onkeydown="if(event.key==='Enter') Game.check(this.value)">`; }
 
                 document.getElementById('q-content').innerHTML = contentHTML; document.getElementById('q-extra').innerHTML = extraHTML; document.getElementById('input-container').innerHTML = inputHTML;
                 if(document.getElementById('ans-input')) document.getElementById('ans-input').focus();
@@ -217,9 +238,10 @@
                     }
                 }
 
-                // GESTIÓN DE PUNTOS XP
-                let typeInfo = this.types.find(t => t.id === ex.type);
-                registrarXP(typeInfo.dif, isCorrect);
+                if (!DueloManager.enDuelo) {
+                    let typeInfo = this.types.find(t => t.id === ex.type);
+                    registrarXP(typeInfo.dif, isCorrect);
+                }
 
                 if (isCorrect) this.processCorrect(); else this.processWrong();
                 this.nextRound();
@@ -228,32 +250,37 @@
             processCorrect: function() {
                 this.streak++; let mult = Math.floor(this.streak / 3) + 1; if(mult > 5) mult = 5;
                 const typeInfo = this.types.find(t => t.id === this.currentExercise.type);
-                this.time += typeInfo.bonus; this.score += (typeInfo.pts * mult);
+                if(!DueloManager.enDuelo) this.time += typeInfo.bonus; 
+                this.score += (typeInfo.pts * mult);
                 reproducirSonido('correcto'); this.flash('green'); this.updateHUD();
+                DueloManager.enviarPuntos(this.score);
             },
 
             processWrong: function() {
-                this.streak = 0; this.time -= 10; 
+                this.streak = 0; 
+                if(!DueloManager.enDuelo) {
+                    this.time -= 10;
+                } else {
+                    this.score = Math.max(0, this.score - 100); // Penalización fija en duelo
+                }
                 reproducirSonido('incorrecto'); this.flash('red');
                 document.getElementById('game-area').classList.add('shake-anim'); setTimeout(()=>document.getElementById('game-area').classList.remove('shake-anim'), 300);
                 this.updateHUD();
+                DueloManager.enviarPuntos(this.score);
             },
 
             flash: function(color) { const overlay = document.getElementById('feedback-overlay'); overlay.className = color === 'green' ? 'flash-green' : 'flash-red'; overlay.style.opacity = 1; setTimeout(() => overlay.style.opacity = 0, 200); },
 
             updateHUD: function() {
                 document.getElementById('score-val').innerText = this.score; const timerEl = document.getElementById('timer-val'); timerEl.innerText = this.time;
-                if (this.time <= 15 && this.time > 0) { timerEl.classList.add('danger'); reproducirSonido('tick'); } else { timerEl.classList.remove('danger'); }
+                if (!DueloManager.enDuelo && this.time <= 15 && this.time > 0) { timerEl.classList.add('danger'); reproducirSonido('tick'); } else { timerEl.classList.remove('danger'); }
                 const multEl = document.getElementById('multiplier'); let mult = Math.floor(this.streak / 3) + 1;
                 if(mult > 1) { multEl.innerText = 'x' + mult; multEl.classList.add('racha-activa'); } else { multEl.innerText = ''; multEl.classList.remove('racha-activa'); }
             },
 
             gameOver: function() {
                 this.isPlaying = false; clearInterval(this.timerInterval); reproducirSonido('fin');
-                
-                // GUARDAR RÉCORD Y SUBIR A FIREBASE
-                actualizarEstadisticaGlobal('arcadeGlobalMax', this.score, false);
-
+                if (!DueloManager.enDuelo) actualizarEstadisticaGlobal('arcadeGlobalMax', this.score, false);
                 document.getElementById('play-screen').classList.remove('active');
                 document.getElementById('gameover-screen').classList.add('active');
                 document.getElementById('final-score').innerText = this.score;
@@ -264,7 +291,17 @@
             loadHighScore: function() { let p = obtenerPerfil(); document.getElementById('high-score').innerText = p.arcadeGlobalMax || 0; }
         };
 
-        window.onload = () => Game.loadHighScore();
+        window.onload = () => {
+            Game.loadHighScore();
+            // AUTO-ARRANQUE EN DUELO
+            if (DueloManager.enDuelo) {
+                document.getElementById('btn-volver-teclado').style.display = 'none';
+                document.getElementById('hs-box').style.display = 'none';
+                document.getElementById('main-title').style.display = 'none';
+                document.getElementById('desc-title').innerText = "⚔️ MODO DUELO SINCRONIZADO";
+                setTimeout(() => { Game.start(); }, 1500);
+            }
+        };
     </script>
 </body>
 </html>

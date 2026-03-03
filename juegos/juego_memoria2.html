@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Memoria Chess Pro - Comparativa Fix</title>
+    <title>Memoria Chess Pro - Modo Duelo</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>♞</text></svg>">
     
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
@@ -69,12 +69,12 @@
 <body>
 
     <div id="pantalla-carga">
-        <h1 style="color: var(--accent);">🧠 Memoria Chess Pro</h1>
+        <h1 id="titulo-carga" style="color: var(--accent);">🧠 Memoria Chess Pro</h1>
         <button id="btn-defecto" class="btn-secundario" style="padding: 15px 30px; font-size: 1.2em;">🎮 Usar base del juego</button>
         <p style="font-size: 0.9em; margin-top: 20px; color: #888;">O sube tu propio archivo:</p>
         <input type="file" id="archivoInput" accept=".json" style="max-width: 300px;">
         
-        <a href="index.html" style="text-decoration:none; margin-top: 40px;">
+        <a id="btn-volver" href="index.html" style="text-decoration:none; margin-top: 40px;">
             <button style="background:#444; color:white; padding:15px 30px; font-size:1.1em; box-shadow: 0 4px 0 #222;">⬅ Volver al Menú Principal</button>
         </a>
     </div>
@@ -96,7 +96,7 @@
                         <p>TABLERO OCULTO</p>
                     </div>
                     <div id="cortina">
-                        <button class="btn-amarillo" onclick="comenzarMemorizacion()">MEMORIZAR (5s)</button>
+                        <button id="btn-comenzar" class="btn-amarillo" onclick="comenzarMemorizacion()">MEMORIZAR (5s)</button>
                     </div>
                 </div>
             </div>
@@ -133,7 +133,7 @@
 
             <div id="feedback-result"></div>
             <button id="btn-siguiente" class="btn-verde oculto" onclick="siguienteRonda()">SIGUIENTE PUZZLE ➡</button>
-            <a href="index.html" style="text-decoration:none; width:100%;">
+            <a id="btn-volver-layout" href="index.html" style="text-decoration:none; width:100%;">
                 <button style="background:#444; color:white; width:100%; margin-top:10px; padding:15px; box-shadow: 0 4px 0 #222;">⬅ Menú Principal</button>
             </a>
         </div>
@@ -156,12 +156,25 @@
         };
 
         window.onload = () => {
-            // Cargar estadísticas previas del perfil
             let p = obtenerPerfil();
             contadorPuzzles = p.memoriaJugados || 0;
             contadorAciertos = p.memoriaAciertos || 0;
             document.getElementById('puzzles-vistos').innerText = contadorPuzzles;
             document.getElementById('aciertos-num').innerText = contadorAciertos;
+
+            // AUTO-ARRANQUE EN MODO DUELO
+            const params = new URLSearchParams(window.location.search);
+            if (params.get('duelo') === 'true') {
+                document.getElementById('btn-volver').style.display = 'none';
+                document.getElementById('btn-volver-layout').style.display = 'none';
+                document.getElementById('titulo-carga').innerText = "⚔️ MODO DUELO SINCRONIZADO";
+                
+                // Iniciamos automáticamente después de cargar base
+                setTimeout(() => {
+                    let btnComenzar = document.getElementById('btn-comenzar');
+                    if(btnComenzar) btnComenzar.click();
+                }, 1500);
+            }
         };
 
         inicializarCargaBaseDatos('mis_puzzles.json', 'btn-defecto', 'archivoInput', function(data) {
@@ -196,7 +209,7 @@
             document.getElementById('feedback-result').innerText = "";
             document.getElementById('label-izq').innerText = "Memoriza la Posición";
 
-            cargarPuzzleAleatorio();
+            cargarPuzzleSincronizado();
             
             let barra = document.getElementById('barra-tiempo');
             barra.style.transition = 'none'; barra.style.width = '100%';
@@ -217,9 +230,15 @@
             temporizador = setTimeout(() => { faseReconstruccion(); }, tiempoObservacion);
         }
 
-        function cargarPuzzleAleatorio() {
+        function cargarPuzzleSincronizado() {
             let lista = Object.values(todosLosPuzzles).flat();
-            puzzleActual = lista[Math.floor(Math.random() * lista.length)];
+            
+            // SINCRONIZACIÓN MAESTRA
+            let indiceElegido = (typeof DueloManager !== 'undefined' && DueloManager.enDuelo) 
+                                ? DueloManager.obtenerIndiceSincronizado(lista.length) 
+                                : Math.floor(Math.random() * lista.length);
+
+            puzzleActual = lista[indiceElegido];
             game.load(puzzleActual.fen); board.position(game.fen());
         }
 
@@ -260,9 +279,10 @@
             
             document.getElementById('user-board-box').classList.remove('oculto');
             
-            // --- GUARDADO DE ESTADÍSTICAS Y XP ---
             contadorPuzzles++;
-            actualizarEstadisticaGlobal('memoriaJugados', 1, true);
+            if (!(typeof DueloManager !== 'undefined' && DueloManager.enDuelo)) {
+                actualizarEstadisticaGlobal('memoriaJugados', 1, true);
+            }
             document.getElementById('puzzles-vistos').innerText = contadorPuzzles;
 
             setTimeout(() => {
@@ -279,12 +299,20 @@
                 feedback.innerText = "¡EXCELENTE! POSICIÓN EXACTA."; feedback.style.color = "var(--success)";
                 
                 contadorAciertos++;
-                actualizarEstadisticaGlobal('memoriaAciertos', 1, true);
-                registrarXP('avanzado', true); // XP Acierto
+                if (!(typeof DueloManager !== 'undefined' && DueloManager.enDuelo)) {
+                    actualizarEstadisticaGlobal('memoriaAciertos', 1, true);
+                    registrarXP('avanzado', true);
+                }
+
+                // ENVÍO DE PUNTOS AL MARCADOR DE DUELO
+                if (typeof DueloManager !== 'undefined') DueloManager.enviarPuntos(contadorAciertos);
+                
                 document.getElementById('aciertos-num').innerText = contadorAciertos;
             } else {
                 reproducirSonido('incorrecto');
-                registrarXP('avanzado', false); // XP Fallo
+                if (!(typeof DueloManager !== 'undefined' && DueloManager.enDuelo)) {
+                    registrarXP('avanzado', false);
+                }
                 feedback.innerText = "HAY DIFERENCIAS ENTRE LOS TABLEROS."; feedback.style.color = "var(--danger)";
             }
 
@@ -299,6 +327,11 @@
             document.getElementById('user-board-box').classList.add('oculto');
             document.getElementById('segundos-num').innerText = "5s";
             board.clear(); userBoard.clear();
+            
+            // Si es un duelo, lanzamos la siguiente ronda automáticamente al resetear
+            if (typeof DueloManager !== 'undefined' && DueloManager.enDuelo) {
+                setTimeout(comenzarMemorizacion, 500);
+            }
         }
     </script>
 </body>
