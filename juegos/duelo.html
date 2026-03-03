@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arena de Duelos ⚔️</title>
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>♞</text></svg>">
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Roboto:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #111;
+            color: #fff;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* PANTALLAS DE CARGA Y FIN */
+        .pantalla-full {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #1a1917;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            text-align: center;
+        }
+
+        .titulo-vs {
+            font-family: 'Black Ops One', cursive;
+            font-size: 4em;
+            color: #e5bf00;
+            margin-bottom: 20px;
+            text-shadow: 4px 4px 0px #000;
+        }
+
+        .btn-salir {
+            background: #cc3333;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.2em;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 30px;
+            text-decoration: none;
+        }
+
+        /* HUD SUPERIOR DEL DUELO */
+        #hud-duelo {
+            width: 100%;
+            height: 80px;
+            background: linear-gradient(to bottom, #222, #000);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            box-sizing: border-box;
+            border-bottom: 3px solid #e5bf00;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.8);
+            z-index: 100;
+        }
+
+        .jugador-box {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            width: 30%;
+        }
+
+        .jugador-box.derecha {
+            justify-content: flex-end;
+        }
+
+        .nombre {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #fff;
+            text-transform: uppercase;
+        }
+
+        .puntos {
+            font-family: 'Black Ops One', cursive;
+            font-size: 2.5em;
+            color: #3692e7;
+            background: #111;
+            padding: 5px 20px;
+            border-radius: 8px;
+            border: 2px solid #333;
+        }
+
+        .puntos-rival {
+            color: #cc3333;
+        }
+
+        #timer-box {
+            font-family: 'Black Ops One', cursive;
+            font-size: 3.5em;
+            color: #e5bf00;
+            text-shadow: 0 0 10px rgba(229, 191, 0, 0.5);
+        }
+
+        .timer-danger {
+            color: #cc3333 !important;
+            animation: latido 0.5s infinite;
+        }
+
+        /* IFRAME DEL JUEGO */
+        #game-frame {
+            flex-grow: 1;
+            width: 100%;
+            border: none;
+            background: #262421;
+        }
+
+        @keyframes latido {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.1);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="pantalla-espera" class="pantalla-full">
+        <h1 class="titulo-vs">PREPARANDO ARENA</h1>
+        <p style="font-size: 1.5em; color: #aaa;">Sincronizando jugadores...</p>
+    </div>
+
+    <div id="hud-duelo" style="display: none;">
+        <div class="jugador-box">
+            <span id="mi-nombre" class="nombre">TÚ</span>
+            <span id="mis-puntos" class="puntos">0</span>
+        </div>
+
+        <div id="timer-box">0:00</div>
+
+        <div class="jugador-box derecha">
+            <span id="puntos-rival" class="puntos puntos-rival">0</span>
+            <span id="nombre-rival" class="nombre" style="color: #aaa;">RIVAL</span>
+        </div>
+    </div>
+
+    <iframe id="game-frame" style="display: none;"></iframe>
+
+    <div id="pantalla-fin" class="pantalla-full" style="display: none; background: rgba(0,0,0,0.95);">
+        <h1 id="texto-resultado" class="titulo-vs" style="font-size: 6em;">¡TIEMPO!</h1>
+        <h2 id="subtexto-resultado" style="color: #fff; font-size: 2em; margin-top: 0;">Calculando ganador...</h2>
+        <a href="index.html" class="btn-salir">Volver a la Plaza</a>
+    </div>
+
+    <script src="utils.js"></script>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const salaId = urlParams.get('sala');
+
+        let miUid, miNombre, rivalUid;
+        let esCreador = false;
+        let datosSala = null;
+        let intervaloReloj = null;
+
+        // ESTE DICCIONARIO TRADUCE LO QUE ELIGES EN EL MENÚ AL ARCHIVO HTML REAL
+        const mapJuegos = {
+            'storm': 'juego.html',
+            'storm_ciego': 'juego_ciego.html',
+            'radar': 'juego_radar.html',
+            'flash': 'juego_flash.html',
+            'memoria_pro': 'juego_memoria2.html',
+            'lector': 'juego_lectura.html',
+            'tiempo': 'juego_tiempo.html',
+            'arcade_teclado': 'arcade_ciego.html',
+            'arcade_voz': 'arcade_ciego2.html',
+            'entrenamiento_ciego': 'entrenamiento_ciego.html'
+        };
+
+        window.onload = () => {
+            if (!salaId) { window.location.href = 'index.html'; return; }
+
+            firebase.auth().onAuthStateChanged((user) => {
+                if (user) {
+                    miUid = user.uid;
+                    miNombre = localStorage.getItem('current_user_name') || user.displayName;
+                    document.getElementById('mi-nombre').innerText = miNombre;
+                    conectarSala();
+                } else {
+                    window.location.href = 'index.html';
+                }
+            });
+        };
+
+        function conectarSala() {
+            let refSala = firebase.database().ref('duelos/' + salaId);
+
+            refSala.on('value', (snap) => {
+                datosSala = snap.val();
+                if (!datosSala) {
+                    alert("La sala ha sido cerrada o no existe.");
+                    window.location.href = 'index.html';
+                    return;
+                }
+
+                // Identificamos quién es quién
+                esCreador = (datosSala.creador === miUid);
+                rivalUid = esCreador ? datosSala.rival : datosSala.creador;
+
+                // 1. Avisamos de que estamos listos para empezar
+                if (datosSala.estado === 'aceptado' && !datosSala['listo_' + miUid]) {
+                    refSala.child('listo_' + miUid).set(true);
+                }
+
+                // 2. Si ambos están listos, el creador da la orden de EMPEZAR a la vez
+                if (esCreador && datosSala.estado === 'aceptado' && datosSala['listo_' + datosSala.creador] && datosSala['listo_' + datosSala.rival]) {
+                    refSala.update({
+                        estado: 'jugando',
+                        tiempoFin: Date.now() + (parseInt(datosSala.tiempo) * 1000)
+                    });
+                }
+
+                // 3. ¡EL DUELO COMIENZA! (Quitamos la pantalla de espera)
+                if (datosSala.estado === 'jugando' && document.getElementById('game-frame').style.display === 'none') {
+                    iniciarArena();
+                }
+
+                // 4. ACTUALIZAR PUNTUACIONES EN EL MARCADOR EN DIRECTO
+                if (datosSala.puntos) {
+                    document.getElementById('mis-puntos').innerText = datosSala.puntos[miUid] || 0;
+                    document.getElementById('puntos-rival').innerText = datosSala.puntos[rivalUid] || 0;
+                }
+            });
+
+            // Obtener el nombre del rival para ponerlo en el marcador rojo
+            firebase.database().ref('users/' + rivalUid + '/nombreJugador').once('value').then(s => {
+                document.getElementById('nombre-rival').innerText = s.val() || "Rival";
+            });
+        }
+
+        function iniciarArena() {
+            document.getElementById('pantalla-espera').style.display = 'none';
+            document.getElementById('hud-duelo').style.display = 'flex';
+
+            let frame = document.getElementById('game-frame');
+            frame.style.display = 'block';
+
+            // LE AÑADIMOS "&sala=${salaId}" AL FINAL PARA QUE EL JUEGO SEPA LA CONTRASEÑA
+            let archivoJuego = mapJuegos[datosSala.juego] || 'juego.html';
+            frame.src = `${archivoJuego}?duelo=true&sala=${salaId}`;
+
+            // Arrancar el cronómetro global
+            arrancarReloj();
+        }
+
+        function arrancarReloj() {
+            let timerBox = document.getElementById('timer-box');
+
+            intervaloReloj = setInterval(() => {
+                // Sincronizamos el tiempo con Firebase para que ambos terminen en el mismo milisegundo
+                let restante = Math.floor((datosSala.tiempoFin - Date.now()) / 1000);
+
+                if (restante <= 0) {
+                    clearInterval(intervaloReloj);
+                    finalizarDuelo();
+                    return;
+                }
+
+                let min = Math.floor(restante / 60);
+                let sec = restante % 60;
+                timerBox.innerText = `${min}:${sec.toString().padStart(2, '0')}`;
+
+                if (restante <= 10) timerBox.classList.add('timer-danger');
+            }, 1000);
+        }
+
+        function finalizarDuelo() {
+            document.getElementById('game-frame').style.display = 'none';
+            document.getElementById('pantalla-fin').style.display = 'flex';
+            reproducirSonido('fin');
+
+            let misPts = datosSala.puntos ? (datosSala.puntos[miUid] || 0) : 0;
+            let rivalPts = datosSala.puntos ? (datosSala.puntos[rivalUid] || 0) : 0;
+
+            let texto = document.getElementById('texto-resultado');
+            let sub = document.getElementById('subtexto-resultado');
+
+            if (misPts > rivalPts) {
+                texto.innerText = "¡VICTORIA!";
+                texto.style.color = "var(--green)";
+                sub.innerText = `Has destrozado a tu rival (${misPts} a ${rivalPts})`;
+                registrarXP('maestro', true); // Premio gordo por ganar el duelo
+            } else if (misPts < rivalPts) {
+                texto.innerText = "DERROTA";
+                texto.style.color = "var(--red)";
+                sub.innerText = `El rival fue más rápido (${misPts} a ${rivalPts})`;
+            } else {
+                texto.innerText = "EMPATE";
+                texto.style.color = "#aaa";
+                sub.innerText = `Ambos hicisteis ${misPts} puntos`;
+            }
+
+            // El creador de la sala es el encargado de borrarla de la base de datos después de 5 segundos
+            if (esCreador) {
+                setTimeout(() => { firebase.database().ref('duelos/' + salaId).remove(); }, 5000);
+            }
+        }
+
+        // =========================================================
+        // COMUNICACIÓN CON EL JUEGO (EL JUEGO AVISA DE LOS PUNTOS)
+        // =========================================================
+        window.addEventListener('message', (evento) => {
+            if (datosSala && datosSala.estado === 'jugando' && evento.data.action === 'actualizarPuntos') {
+                // Cuando el juego nos manda un mensaje con los puntos, lo subimos a la sala de Firebase
+                firebase.database().ref(`duelos/${salaId}/puntos/${miUid}`).set(evento.data.puntos);
+            }
+        });
+    </script>
+</body>
+
+</html>

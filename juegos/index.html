@@ -16,12 +16,13 @@
         h1 { margin-bottom: 20px; font-size: 2.5em; color: var(--accent); text-transform: uppercase; letter-spacing: 2px;}
         h2 { color: #fff; margin-bottom: 20px; border-bottom: 2px solid #444; padding-bottom: 10px; max-width: 1100px; margin: 30px auto 20px auto; text-align: left;}
         
-        /* MODAL DE LOGIN */
-        #auth-modal { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(38, 36, 33, 0.98); z-index:9999; display:flex; justify-content:center; align-items:center; }
-        .auth-box { background:var(--panel); padding:40px; border-radius:12px; border:2px solid var(--accent); width:100%; max-width:350px; text-align:center; box-shadow: 0 15px 50px rgba(0,0,0,0.8); }
-        .auth-input { width:100%; padding:15px; margin-bottom:15px; box-sizing:border-box; background:var(--bg); color:#fff; border:1px solid #555; border-radius:6px; font-size:1.1em; text-align:center; outline:none;}
-        .auth-input:focus { border-color: var(--accent); }
-        .auth-btn { width:100%; color:#fff; padding:15px; border:none; border-radius:6px; font-weight:bold; font-size:1.1em; cursor:pointer; margin-bottom:10px; transition:0.2s; }
+        /* MODALES Y MENÚS EMERGENTES (Login y Duelos) */
+        .overlay-modal { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(38, 36, 33, 0.95); z-index:9999; display:flex; justify-content:center; align-items:center; }
+        .caja-modal { background:var(--panel); padding:40px; border-radius:12px; border:2px solid var(--accent); width:100%; max-width:380px; text-align:center; box-shadow: 0 15px 50px rgba(0,0,0,0.8); }
+        .input-modal { width:100%; padding:15px; margin-bottom:15px; box-sizing:border-box; background:var(--bg); color:#fff; border:1px solid #555; border-radius:6px; font-size:1.1em; text-align:center; outline:none;}
+        .input-modal:focus { border-color: var(--accent); }
+        .btn-modal { width:100%; color:#fff; padding:15px; border:none; border-radius:6px; font-weight:bold; font-size:1.1em; cursor:pointer; margin-bottom:10px; transition:0.2s; }
+        .btn-modal:hover { filter: brightness(1.2); transform: translateY(-2px); }
         
         /* DASHBOARD PERFIL INTERACTIVO */
         #dashboard { background: var(--panel); max-width: 1100px; margin: 0 auto 30px auto; padding: 25px; border-radius: 12px; border: 2px solid #555; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
@@ -42,7 +43,7 @@
         .detail-row:last-child { border-bottom: none; }
         .detail-row strong { color: #fff; }
 
-        /* RANKINGS */
+        /* RANKINGS Y COMUNIDAD */
         .rankings-wrapper { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; max-width: 1100px; margin: 0 auto 40px auto; }
         .ranking-container { background: #1a1917; border: 2px solid #444; border-radius: 12px; padding: 20px; }
         .ranking-title { text-align: center; margin-top: 0; text-transform: uppercase; letter-spacing: 1px; font-size: 1.2em; padding-bottom: 10px; border-bottom: 1px solid #333;}
@@ -51,33 +52,102 @@
         .top-player:nth-child(2) { color: #c0c0c0; font-size: 1.15em; }
         .top-player:nth-child(3) { color: #cd7f32; }
 
+        .player-card { background: var(--panel); padding: 20px; border-radius: 8px; border: 1px solid #444; display: flex; flex-direction: column; gap: 15px; text-align: center; transition: 0.2s;}
+        .player-card:hover { border-color: var(--accent); transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.5);}
+        .player-stats { display: flex; justify-content: space-between; font-size: 1em; color: #ccc; background: #1a1917; padding: 10px; border-radius: 6px;}
+        .player-card-btn { background: var(--red); color: white; border: none; padding: 12px; border-radius: 4px; cursor: pointer; font-weight: bold; transition: 0.2s; font-size: 1.1em; box-shadow: 0 4px 0 #8a1f1f;}
+        .player-card-btn:hover { background: #e63939; transform: translateY(-2px); box-shadow: 0 6px 0 #8a1f1f;}
+        .player-card-btn:active { transform: translateY(2px); box-shadow: 0 2px 0 #8a1f1f;}
+
         /* GRID DE JUEGOS */
         .grid-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; max-width: 1100px; margin: 0 auto; }
         .game-card { background-color: var(--panel); padding: 20px; border-radius: 10px; text-decoration: none; color: white; font-size: 1.2em; font-weight: bold; transition: 0.2s; border: 2px solid #444; display: flex; align-items: center; justify-content: center; min-height: 60px; box-shadow: 0 4px 6px rgba(0,0,0,0.3);}
         .game-card:hover { border-color: var(--blue); background-color: #3b3835; transform: translateY(-5px); color: var(--blue);}
 
         .db-box { background: var(--panel); padding: 20px; border-radius: 10px; display: inline-block; margin-top: 50px; border: 1px solid #444; }
+        
+        .anim-pulso { animation: pulso 1.5s infinite; }
+        @keyframes pulso { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
     </style>
 </head>
 <body>
 
-    <div id="auth-modal">
-        <div class="auth-box">
-          <div style="font-size: 4em; margin-bottom: 10px;">♞</div>
-           <h2 style="color:var(--accent); margin-top:0; text-transform: uppercase; letter-spacing: 2px;">Identificación</h2>
-           <p style="color:#888; font-size:0.9em; margin-bottom: 25px;">Inicia sesión para guardar tu progreso de forma segura.</p>
-        
-            <form onsubmit="event.preventDefault(); iniciarSesion();">
-                <input type="text" id="auth-user" class="auth-input" placeholder="Tu Nombre de Usuario" autocomplete="username" required>
-                <input type="password" id="auth-pass" class="auth-input" placeholder="Tu Contraseña" autocomplete="current-password" required>
+    <div id="auth-modal" class="overlay-modal">
+        <div class="caja-modal">
+            <div style="font-size: 4em; margin-bottom: 10px;">♞</div>
+            <h2 style="color:var(--accent); margin-top:0; text-transform: uppercase; letter-spacing: 2px;">Identificación</h2>
+            <p style="color:#888; font-size:0.9em; margin-bottom: 25px;">Inicia sesión para guardar tu progreso de forma segura.</p>
             
+            <form onsubmit="event.preventDefault(); iniciarSesion();">
+                <input type="text" id="auth-user" class="input-modal" placeholder="Tu Nombre de Usuario" autocomplete="username" required>
+                <input type="password" id="auth-pass" class="input-modal" placeholder="Tu Contraseña" autocomplete="current-password" required>
+                
                 <div id="auth-error" style="color:var(--danger); margin-bottom:15px; font-size:0.9em; height:1.2em; font-weight:bold;"></div>
 
-                <button type="submit" class="auth-btn" style="background:var(--blue);">INICIAR SESIÓN</button>
-                <button type="button" class="auth-btn" style="background:#444;" onclick="registrarUsuario()">NUEVO USUARIO (Registro)</button>
+                <button type="submit" class="btn-modal" style="background:var(--blue);">INICIAR SESIÓN</button>
+                <button type="button" class="btn-modal" style="background:#444;" onclick="registrarUsuario()">NUEVO USUARIO (Registro)</button>
             </form>
-        </div>    
+        </div>
     </div>
+
+    <div id="modal-crear-duelo" class="overlay-modal" style="display: none;">
+        <div class="caja-modal">
+            <h2 style="color:var(--red); margin-top:0;">⚔️ Configurar Duelo</h2>
+            <p style="color:#aaa;">Desafiando a: <strong id="duelo-rival-nombre" style="color:var(--accent); font-size:1.2em;">...</strong></p>
+            <input type="hidden" id="duelo-rival-uid">
+
+            <select id="duelo-juego" class="input-modal" style="cursor: pointer; font-size: 1em;">
+                <optgroup label="Fundamentos">
+                    <option value="entrenamiento_ciego">🏋️ Gimnasio Ciego Base</option>
+                </optgroup>
+                <optgroup label="Táctica y Cálculo">
+                    <option value="storm">⚡ Puzzle Storm (Con Tablero)</option>
+                    <option value="storm_ciego">🦇 Storm A Ciegas</option>
+                </optgroup>
+                <optgroup label="Visión y Memoria">
+                    <option value="radar">📡 Radar Visual</option>
+                    <option value="flash">📸 Flash Memory</option>
+                    <option value="memoria_pro">🧠 Memoria Pro</option>
+                    <option value="lector">📖 Lector de Mente</option>
+                </optgroup>
+                <optgroup label="Modo Arcade (Supervivencia)">
+                    <option value="tiempo">⏱️ Puzzle Storm (Tiempo)</option>
+                    <option value="arcade_ciego">⌨️ Arcade Ciego (Teclado)</option>
+                    <option value="arcade_voz">🎤 Arcade Ciego (Voz)</option>
+                </optgroup>
+            </select>
+
+            <select id="duelo-tiempo" class="input-modal" style="cursor: pointer;">
+                <option value="60">⏱️ 1 Minuto (Rápido)</option>
+                <option value="180" selected>⏱️ 3 Minutos (Normal)</option>
+                <option value="300">⏱️ 5 Minutos (Examen)</option>
+            </select>
+
+            <button class="btn-modal anim-pulso" style="background:var(--red); box-shadow: 0 4px 0 #8a1f1f; margin-top: 15px;" onclick="enviarReto()">ENVIAR DESAFÍO</button>
+            <button class="btn-modal" style="background:#444;" onclick="cerrarModal('modal-crear-duelo')">Cancelar</button>
+        </div>
+    </div>
+
+    <div id="modal-esperando" class="overlay-modal" style="display: none;">
+        <div class="caja-modal">
+            <h2 style="color:var(--accent);">⏳ Esperando...</h2>
+            <p style="color:#ddd; font-size:1.2em;">El desafío ha sido enviado. Esperando a que el rival acepte...</p>
+            <button class="btn-modal" style="background:#444; margin-top:20px;" onclick="cancelarRetoEnviado()">Cancelar Desafío</button>
+        </div>
+    </div>
+
+    <div id="modal-recibir-reto" class="overlay-modal" style="display: none; background: rgba(138, 31, 31, 0.9);">
+        <div class="caja-modal" style="border-color: var(--red);">
+            <div style="font-size: 3em; margin-bottom: 10px;">🚨</div>
+            <h2 style="color:#fff; margin-top:0;">¡TE HAN DESAFIADO!</h2>
+            <p style="font-size:1.2em; color:#ddd;"><strong id="reto-de-nombre" style="color:var(--accent); font-size:1.4em;">Alguien</strong> te reta a un duelo.</p>
+            <p style="color:#aaa; margin-bottom:25px;" id="reto-detalles">Juego: ... | Tiempo: ...</p>
+            
+            <button class="btn-modal anim-pulso" style="background:var(--success); box-shadow: 0 4px 0 #4a751b;" onclick="responderReto(true)">¡ACEPTAR DUELO!</button>
+            <button class="btn-modal" style="background:#444;" onclick="responderReto(false)">Rechazar</button>
+        </div>
+    </div>
+
 
     <h1>🏆 Perfil Global y Entrenamiento 🏆</h1>
 
@@ -133,6 +203,21 @@
         </div>
     </div>
 
+    <div id="seccion-comunidad" style="max-width: 1100px; margin: 40px auto; text-align: left; display: none;">
+        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #444; padding-bottom: 10px; margin-bottom: 20px;">
+            <h2 style="margin: 0; border: none; padding: 0;">🌐 Plaza de Jugadores</h2>
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <span style="color: #888; font-size: 0.9em; text-transform: uppercase;">Estado de tu Perfil:</span>
+                <button id="btn-privacidad" onclick="togglePrivacidad()" style="margin: 0; padding: 8px 15px; font-size: 0.9em; background: var(--success); color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; transition: 0.3s;">👁️ PÚBLICO</button>
+            </div>
+        </div>
+
+        <div id="lista-jugadores" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px;">
+            <div style="color: #888;">Cargando jugadores conectados...</div>
+        </div>
+    </div>
+
+    <h2 style="margin-top: 50px;">🏆 Tablas de Clasificación Global</h2>
     <div class="rankings-wrapper">
         <div class="ranking-container">
             <h3 class="ranking-title" style="color: var(--green);">🌟 TOP 3 CONSTANCIA (XP)</h3>
@@ -183,27 +268,23 @@
 
     <script src="utils.js"></script>
 
-<script>
-        function generarEmailFalso(username) {
-            return username.trim().toLowerCase().replace(/[^a-z0-9]/g, '') + "@ajedrezgym.local";
-        }
-
-        function mostrarErrorAuth(msg) {
-            document.getElementById('auth-error').innerText = msg;
-        }
+    <script>
+        // ==========================================
+        // SISTEMA DE AUTENTICACIÓN
+        // ==========================================
+        function generarEmailFalso(username) { return username.trim().toLowerCase().replace(/[^a-z0-9]/g, '') + "@ajedrezgym.local"; }
+        function mostrarErrorAuth(msg) { document.getElementById('auth-error').innerText = msg; }
 
         function iniciarSesion() {
             let u = document.getElementById('auth-user').value.trim();
             let p = document.getElementById('auth-pass').value;
             if(u.length < 3 || p.length < 6) return mostrarErrorAuth("Mínimo 3 letras de usuario y 6 de contraseña");
             
-            // ¡EL TRUCO! Guardamos el nombre deseado temporalmente antes de que Firebase se líe
             localStorage.setItem('nombre_temporal', u);
-            
             let email = generarEmailFalso(u);
 
             firebase.auth().signInWithEmailAndPassword(email, p)
-                .then(() => { window.location.reload(); }) // Forzamos recarga para refrescar los datos
+                .then(() => { window.location.reload(); }) 
                 .catch((error) => { mostrarErrorAuth("Usuario o contraseña incorrectos"); });
         }
 
@@ -212,16 +293,12 @@
             let p = document.getElementById('auth-pass').value;
             if(u.length < 3 || p.length < 6) return mostrarErrorAuth("Mínimo 3 letras de usuario y 6 de contraseña");
 
-            // ¡EL TRUCO! Guardamos el nombre temporalmente
             localStorage.setItem('nombre_temporal', u);
-
             let email = generarEmailFalso(u);
 
             firebase.auth().createUserWithEmailAndPassword(email, p)
-                .then((userCredential) => {
-                    return userCredential.user.updateProfile({ displayName: u });
-                })
-                .then(() => { window.location.reload(); }) // Forzamos recarga
+                .then((userCredential) => { return userCredential.user.updateProfile({ displayName: u }); })
+                .then(() => { window.location.reload(); }) 
                 .catch((error) => {
                     if(error.code === 'auth/email-already-in-use') mostrarErrorAuth("Este usuario ya existe. Dale a 'Iniciar Sesión'.");
                     else mostrarErrorAuth("Error de conexión. Inténtalo de nuevo.");
@@ -229,6 +306,11 @@
         }
 
         function cerrarSesion() {
+            let user = firebase.auth().currentUser;
+            if(user) {
+                // Al salir, forzamos su estado a Offline en Firebase
+                firebase.database().ref('users/' + user.uid + '/isOnline').set(false);
+            }
             firebase.auth().signOut().then(() => {
                 localStorage.removeItem('current_user_uid');
                 localStorage.removeItem('current_user_name');
@@ -238,45 +320,60 @@
         }
 
         // ==========================================
-        // CARGA DEL DASHBOARD Y SINCRONIZACIÓN
+        // CARGA DEL DASHBOARD Y COMUNIDAD
         // ==========================================
+        let perfilPublico = true; 
+
         window.onload = () => {
             if (typeof firebase !== 'undefined' && firebase.auth) {
                 firebase.auth().onAuthStateChanged((user) => {
                     if (user) {
-                        // 1. Rescatamos el nombre (dando prioridad al que acabamos de teclear)
                         let nombreDeseado = localStorage.getItem('nombre_temporal') || user.displayName || 'Jugador';
-                        
                         localStorage.setItem('current_user_uid', user.uid);
                         localStorage.setItem('current_user_name', nombreDeseado);
                         
-                        // 2. Descargamos sus datos de la nube
+                        // --- SISTEMA DE PRESENCIA ONLINE ---
+                        let myConnectionsRef = firebase.database().ref('users/' + user.uid + '/isOnline');
+                        let connectedRef = firebase.database().ref('.info/connected');
+                        
+                        connectedRef.on('value', (snap) => {
+                            if (snap.val() === true) {
+                                // Si nos desconectamos, Firebase cambia esto a false automáticamente
+                                myConnectionsRef.onDisconnect().set(false);
+                                // Mientras estemos aquí, es true
+                                myConnectionsRef.set(true);
+                            }
+                        });
+                        // -----------------------------------
+
                         firebase.database().ref('users/' + user.uid).once('value').then((snapshot) => {
                             let perfilActivo;
-                            
                             if (snapshot.exists()) {
                                 perfilActivo = snapshot.val();
-                                // Si el perfil venía con el bug de llamarse "Jugador", esto lo arregla de golpe
                                 perfilActivo.nombreJugador = nombreDeseado;
+                                if(perfilActivo.isPublic === undefined) perfilActivo.isPublic = true;
+                                perfilPublico = perfilActivo.isPublic;
                             } else {
                                 perfilActivo = obtenerPerfil();
                                 perfilActivo.nombreJugador = nombreDeseado;
+                                perfilActivo.isPublic = true;
+                                perfilPublico = true;
                             }
-                            
-                            // Guardamos para forzar la actualización correcta en la nube y local
                             guardarPerfil(perfilActivo);
                             
-                            // 3. Mostramos la interfaz
                             document.getElementById('auth-modal').style.display = 'none';
                             document.getElementById('display-user-name').innerText = nombreDeseado;
-                            cargarDatosPerfil();
                             
-                            // Limpiamos la memoria temporal
+                            cargarDatosPerfil();
+                            actualizarBotonPrivacidad();
+                            
+                            document.getElementById('seccion-comunidad').style.display = 'block';
+                            cargarComunidad();
+                            iniciarEscuchaDuelos(user.uid); 
+
                             localStorage.removeItem('nombre_temporal');
                         });
-
                     } else {
-                        // Está desconectado
                         localStorage.removeItem('current_user_uid');
                         document.getElementById('auth-modal').style.display = 'flex';
                     }
@@ -323,6 +420,180 @@
             cargarRanking('rankings/stormTiempo', 'ranking-storm', 'Pts');
         }
 
+        // ==========================================
+        // SISTEMA DE COMUNIDAD, PRIVACIDAD Y DUELOS
+        // ==========================================
+
+        function actualizarBotonPrivacidad() {
+            let btn = document.getElementById('btn-privacidad');
+            if(perfilPublico) {
+                btn.innerText = "👁️ PÚBLICO"; btn.style.background = "var(--success)";
+            } else {
+                btn.innerText = "🕵️ PRIVADO"; btn.style.background = "#444";
+            }
+        }
+
+        function togglePrivacidad() {
+            let uid = localStorage.getItem('current_user_uid');
+            if(!uid) return;
+            perfilPublico = !perfilPublico;
+            actualizarBotonPrivacidad();
+            let perfil = obtenerPerfil();
+            perfil.isPublic = perfilPublico;
+            guardarPerfil(perfil);
+        }
+
+        function cargarComunidad() {
+            let miUid = localStorage.getItem('current_user_uid');
+            
+            firebase.database().ref('users').on('value', (snapshot) => {
+                let html = ''; let cont = 0;
+
+                snapshot.forEach((child) => {
+                    let user = child.val();
+                    let userUid = child.key;
+                    
+                    // Solo mostramos a jugadores que sean PÚBLICOS, que estén ONLINE y que NO seamos nosotros
+                    if (user.isPublic !== false && user.isOnline === true && userUid !== miUid) {
+                        cont++;
+                        
+                        // CÁLCULOS PARA LA TARJETA (ELO, XP y PRECISION)
+                        let eloMostrado = Math.round(((user.eloNormal || 1700) + (user.eloCiego || 1700)) / 2);
+                        
+                        let tJ = (user.radarJugados||0) + (user.flashJugados||0) + (user.memoriaJugados||0) + (user.lecturaJugados||0);
+                        let tA = (user.radarAciertos||0) + (user.flashAciertos||0) + (user.memoriaAciertos||0) + (user.lecturaAciertos||0);
+                        let precision = tJ > 0 ? ((tA / tJ) * 100).toFixed(1) + "%" : "0.0%";
+
+                        html += `
+                        <div class="player-card">
+                            <div style="font-weight: bold; color: var(--accent); font-size: 1.4em; text-transform: uppercase;">
+                                <span style="color: var(--success); font-size: 0.8em; margin-right: 5px;">🟢</span>${user.nombreJugador}
+                            </div>
+                            
+                            <div class="player-stats">
+                                <div style="text-align:center;">
+                                    <span style="display:block; font-size:0.7em; text-transform:uppercase; color:#888;">XP</span>
+                                    <strong style="color:var(--green);">${user.xpTotal || 0}</strong>
+                                </div>
+                                <div style="text-align:center;">
+                                    <span style="display:block; font-size:0.7em; text-transform:uppercase; color:#888;">Táctica</span>
+                                    <strong style="color:#fff;">${eloMostrado}</strong>
+                                </div>
+                                <div style="text-align:center;">
+                                    <span style="display:block; font-size:0.7em; text-transform:uppercase; color:#888;">Precisión</span>
+                                    <strong style="color:var(--blue);">${precision}</strong>
+                                </div>
+                            </div>
+                            
+                            <button class="player-card-btn" onclick="abrirMenuDuelo('${user.nombreJugador}', '${userUid}')">⚔️ RETAR A DUELO</button>
+                        </div>`;
+                    }
+                });
+
+                if(cont === 0) html = '<div style="color:#888; font-style:italic;">No hay otros jugadores conectados en la plaza ahora mismo.</div>';
+                document.getElementById('lista-jugadores').innerHTML = html;
+            });
+        }
+
+        // --- LÓGICA DE ENVÍO DE RETOS ---
+        let miSalaActual = null;
+
+        function cerrarModal(id) { document.getElementById(id).style.display = 'none'; }
+
+        function abrirMenuDuelo(nombre, uidRival) {
+            document.getElementById('modal-crear-duelo').style.display = 'flex';
+            document.getElementById('duelo-rival-nombre').innerText = nombre;
+            document.getElementById('duelo-rival-uid').value = uidRival;
+        }
+
+        function enviarReto() {
+            let miUid = localStorage.getItem('current_user_uid');
+            let miNombre = localStorage.getItem('current_user_name');
+            let rivalUid = document.getElementById('duelo-rival-uid').value;
+            let juego = document.getElementById('duelo-juego').value;
+            let tiempo = document.getElementById('duelo-tiempo').value;
+
+            miSalaActual = miUid + "_" + Date.now(); 
+
+            // 1. Crear la sala del duelo
+            firebase.database().ref('duelos/' + miSalaActual).set({
+                creador: miUid,
+                rival: rivalUid,
+                juego: juego,
+                tiempo: tiempo,
+                estado: 'esperando',
+                timestamp: Date.now()
+            });
+
+            // 2. Echar la carta en el buzón del rival
+            firebase.database().ref('invitaciones/' + rivalUid).set({
+                deUid: miUid,
+                deNombre: miNombre,
+                sala: miSalaActual,
+                juego: document.getElementById('duelo-juego').options[document.getElementById('duelo-juego').selectedIndex].text,
+                tiempoFormato: document.getElementById('duelo-tiempo').options[document.getElementById('duelo-tiempo').selectedIndex].text
+            });
+
+            // 3. Cambiar UI a "Esperando"
+            cerrarModal('modal-crear-duelo');
+            document.getElementById('modal-esperando').style.display = 'flex';
+
+            // 4. Escuchar si el rival acepta
+            firebase.database().ref('duelos/' + miSalaActual + '/estado').on('value', (snap) => {
+                let estado = snap.val();
+                if (estado === 'aceptado') {
+                    window.location.href = `duelo.html?sala=${miSalaActual}`;
+                } else if (estado === 'rechazado') {
+                    alert("El jugador ha rechazado tu desafío en este momento.");
+                    cerrarModal('modal-esperando');
+                    firebase.database().ref('duelos/' + miSalaActual).remove();
+                }
+            });
+        }
+
+        function cancelarRetoEnviado() {
+            let rivalUid = document.getElementById('duelo-rival-uid').value;
+            firebase.database().ref('invitaciones/' + rivalUid).remove();
+            if(miSalaActual) firebase.database().ref('duelos/' + miSalaActual).remove();
+            cerrarModal('modal-esperando');
+        }
+
+        // --- LÓGICA DE RECEPCIÓN DE RETOS ---
+        function iniciarEscuchaDuelos(miUid) {
+            firebase.database().ref('invitaciones/' + miUid).on('value', (snap) => {
+                let invitacion = snap.val();
+                if (invitacion && invitacion.sala) {
+                    window.invitacionPendiente = invitacion; 
+                    
+                    document.getElementById('reto-de-nombre').innerText = invitacion.deNombre;
+                    document.getElementById('reto-detalles').innerText = `${invitacion.juego} | ${invitacion.tiempoFormato}`;
+                    document.getElementById('modal-recibir-reto').style.display = 'flex';
+                } else {
+                    document.getElementById('modal-recibir-reto').style.display = 'none';
+                }
+            });
+        }
+
+        function responderReto(acepta) {
+            let inv = window.invitacionPendiente;
+            let miUid = localStorage.getItem('current_user_uid');
+            
+            if (!inv) return;
+
+            if (acepta) {
+                firebase.database().ref('duelos/' + inv.sala).update({ estado: 'aceptado' });
+                firebase.database().ref('invitaciones/' + miUid).remove(); 
+                window.location.href = `duelo.html?sala=${inv.sala}`;
+            } else {
+                firebase.database().ref('duelos/' + inv.sala).update({ estado: 'rechazado' });
+                firebase.database().ref('invitaciones/' + miUid).remove();
+                cerrarModal('modal-recibir-reto');
+            }
+        }
+
+        // ==========================================
+        // UTILIDADES VARIAS
+        // ==========================================
         function cargarRanking(rutaDb, idContenedor, sufijo) {
             if (typeof firebase === 'undefined') return;
             firebase.database().ref(rutaDb).orderByChild('puntos').limitToLast(3).on('value', (snapshot) => {
@@ -346,3 +617,5 @@
             else { document.querySelectorAll('.stat-box').forEach(box => box.classList.remove('abierto')); elemento.classList.add('abierto'); }
         }
     </script>
+</body>
+</html>

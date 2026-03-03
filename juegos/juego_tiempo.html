@@ -2,12 +2,13 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Puzzle Storm 8.0: Modo Examen</title>
+    <title>Puzzle Storm Tiempo - Modo Examen</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>♞</text></svg>">
     
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+
     <link rel="stylesheet" href="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.css">
     <link rel="stylesheet" href="styles.css">
 
@@ -26,57 +27,48 @@
         @keyframes parpadeoVerde { 50% { color: #fff; transform: scale(1.2); } }
         @keyframes parpadeoRojo { 50% { color: #fff; transform: scale(1.2); } }
         
-        #tablero { width: 450px; margin: 0 auto; }
+        #tablero { width: 450px; margin: 0 auto; touch-action: none !important;}
         .pantalla-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 100; }
         
         button { background: var(--success); color: white; border: none; padding: 15px 30px; font-size: 20px; border-radius: 8px; cursor: pointer; font-weight: bold; margin: 10px; transition: transform 0.1s; }
         button:hover { background: #76b82a; transform: scale(1.05); }
         button.rojo { background: var(--danger); } 
         button.azul { background: var(--blue); }
-        button.azul:hover { background: #4fa3f0; }
         button.gris { background: #444; } button.gris:hover { background: #555; }
         
         #mensaje-final h2 { font-size: 3em; color: var(--accent); margin: 0; }
-        #mensaje-final p { font-size: 1.5em; color: #fff; }
         #status { margin-top: 10px; font-weight: bold; min-height: 24px; font-size: 1.2em; }
-        
         #repaso-header { background: #332f52; width: 100%; padding: 10px; margin-bottom: 20px; }
-        #repaso-controles { margin-top: 20px; display: flex; gap: 10px; justify-content: center; }
     </style>
 </head>
 <body>
 
     <div id="pantalla-carga" class="info-box">
         <h1 style="color: var(--text);">⚡ Puzzle Storm Tiempo ⚡</h1>
-        <p style="color: #aaa;">¿Qué base de datos quieres usar?</p>
-        <button id="btn-defecto" class="btn-secundario">🎮 Usar la base del juego</button>
-        <hr style="border: 1px solid #444; margin: 20px 0;">
-        <p style="font-size: 0.9em; color: #888;">O sube tu propio archivo <strong>.json</strong>:</p>
+        <p style="color: #aaa;">Para jugar, carga tu archivo de puzzles:</p>
         <input type="file" id="archivoInput" accept=".json">
         <br><br>
+        <button id="btn-defecto" class="btn-secundario">🎮 Usar la base del juego</button>
+        <br>
         <a href="index.html" style="text-decoration:none;"><button class="gris">⬅ Volver al Menú</button></a>
     </div>
 
     <div id="pantalla-inicio" class="pantalla-overlay oculto">
         <h1 style="font-size: 3em;">⏱️ Modo Examen ⏱️</h1>
         <ul style="text-align: left; font-size: 1.2em; color: #ccc; margin-bottom: 30px; line-height: 1.6;">
-            <li>❌ <strong>Fallo:</strong> -10 segundos y <strong>saltas al siguiente</strong>.</li>
-            <li>🔍 <strong>Final:</strong> Podrás repasar tus errores con la solución.</li>
-            <li>🚀 <strong>Objetivo:</strong> Llegar lo más lejos posible.</li>
+            <li>❌ <strong>Fallo:</strong> -10 segundos y saltas.</li>
+            <li>🔍 <strong>Final:</strong> Repaso con la solución.</li>
         </ul>
         <button onclick="empezarPartida()">¡EMPEZAR!</button>
-        <a href="index.html" style="text-decoration:none;"><button class="gris">⬅ Menú</button></a>
     </div>
 
     <div id="pantalla-fin" class="pantalla-overlay oculto">
         <div id="mensaje-final">
             <h2>¡TIEMPO AGOTADO!</h2>
             <p>Puntuación: <strong id="scoreFinal">0</strong></p>
-            <p style="font-size: 1em; color: var(--accent);">Nivel Máximo: <span id="eloFinal">1700</span></p>
             <div style="margin-top: 20px;">
                 <button class="rojo" onclick="location.reload()">Jugar de Nuevo</button>
                 <button id="btn-repaso" class="azul oculto" onclick="iniciarRepaso()">🔍 Revisar Fallos (<span id="countFallos">0</span>)</button>
-                <a href="index.html" style="text-decoration:none;"><button class="gris">⬅ Menú</button></a>
             </div>
         </div>
     </div>
@@ -99,7 +91,7 @@
         </div>
         <div id="tablero-repaso" style="width: 450px;"></div>
         <div id="status-repaso" style="color: var(--accent); margin: 10px; font-weight: bold;">Intenta resolverlo o mira la solución</div>
-        <div id="repaso-controles">
+        <div style="margin-top: 20px; display: flex; gap: 10px; justify-content: center;">
             <button class="azul" onclick="verSolucion()">💡 Ver Solución</button>
             <button onclick="siguienteRepaso()">Siguiente ➡</button>
             <a href="index.html" style="text-decoration:none;"><button class="rojo">Salir</button></a>
@@ -112,14 +104,12 @@
     <script src="utils.js"></script>
 
     <script>
-        const TIEMPO_INICIAL = 300; 
-        const PENALIZACION = 10;    
-
+        const TIEMPO_INICIAL = 180; const PENALIZACION = 10;    
         let todosLosPuzzles = {}; let puzzlesFallados = [];
         let game = new Chess(); let board = null; let boardRepaso = null;
         let eloActual = 1700; let puzzleActual = null; let indiceMovimiento = 0;
         let puntos = 0; let racha = 0; let tiempoRestante = TIEMPO_INICIAL; let intervaloReloj = null; let juegoActivo = false;
-        let indiceRepasoActual = 0; let enModoRepaso = false;
+        let indiceRepasoActual = 0;
 
         inicializarCargaBaseDatos('mis_puzzles.json', 'btn-defecto', 'archivoInput', function(data) {
             todosLosPuzzles = data; iniciarPantallaJuego();
@@ -127,9 +117,18 @@
 
         function iniciarPantallaJuego() {
             document.getElementById('pantalla-carga').classList.add('oculto');
-            document.getElementById('pantalla-inicio').classList.remove('oculto');
-            board = Chessboard('tablero', { draggable: true, position: 'start', pieceTheme: 'https://chessboardjs.com/img/chesspieces/wikipedia/{piece}.png', onDragStart: onDragStart, onDrop: onDrop, onSnapEnd: onSnapEnd });
-            let p = obtenerPerfil(); eloActual = p.eloNormal || 1700; 
+            
+            // Si es un duelo, nos saltamos el menú intermedio y empezamos directamente
+            if (typeof DueloManager !== 'undefined' && DueloManager.enDuelo) {
+                document.getElementById('interfaz-juego').classList.remove('oculto');
+                board = Chessboard('tablero', { draggable: true, position: 'start', pieceTheme: 'https://chessboardjs.com/img/chesspieces/wikipedia/{piece}.png', onDragStart: onDragStart, onDrop: onDrop, onSnapEnd: onSnapEnd });
+                juegoActivo = true; puzzlesFallados = [];
+                cargarNuevoPuzzle(); arrancarReloj();
+            } else {
+                document.getElementById('pantalla-inicio').classList.remove('oculto');
+                board = Chessboard('tablero', { draggable: true, position: 'start', pieceTheme: 'https://chessboardjs.com/img/chesspieces/wikipedia/{piece}.png', onDragStart: onDragStart, onDrop: onDrop, onSnapEnd: onSnapEnd });
+                let p = obtenerPerfil(); eloActual = p.eloNormal || 1700; 
+            }
         }
 
         function empezarPartida() {
@@ -140,56 +139,77 @@
         }
 
         function arrancarReloj() {
+            // ¡Si estamos en un duelo, ocultamos el reloj local porque manda el global!
+            if (typeof DueloManager !== 'undefined' && DueloManager.enDuelo) {
+                document.getElementById('timerBox').style.display = 'none';
+                return;
+            }
             actualizarRelojVisual();
             intervaloReloj = setInterval(() => { 
                 tiempoRestante--; actualizarRelojVisual(); 
-                if (tiempoRestante <= 10 && tiempoRestante > 0) { reproducirSonido('tick'); }
+                if (tiempoRestante <= 10 && tiempoRestante > 0) reproducirSonido('tick');
                 if (tiempoRestante <= 0) finDelJuego(); 
             }, 1000);
         }
 
         function actualizarRelojVisual() {
             if (tiempoRestante < 0) tiempoRestante = 0;
-            let minutos = Math.floor(tiempoRestante / 60); let segundos = tiempoRestante % 60;
-            document.getElementById('timerDisplay').innerText = `${minutos.toString().padStart(2, '0')}:${segundos.toString().padStart(2, '0')}`;
+            let m = Math.floor(tiempoRestante / 60); let s = tiempoRestante % 60;
+            document.getElementById('timerDisplay').innerText = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
             if (tiempoRestante < 30) document.getElementById('timerDisplay').style.color = 'var(--danger)'; else document.getElementById('timerDisplay').style.color = 'var(--accent)';
         }
 
         function cargarNuevoPuzzle() {
             if (!juegoActivo) return;
             document.getElementById('status').innerText = ""; document.getElementById('status').className = "";
+            
             let rango = (Math.floor(eloActual / 50) * 50).toString();
-            if (eloActual > 2500) rango = "2500"; if (!todosLosPuzzles[rango]) rango = "1700";
-            let lista = todosLosPuzzles[rango]; puzzleActual = lista[Math.floor(Math.random() * lista.length)];
-            if (typeof puzzleActual.moves === 'string') puzzleActual.moves = puzzleActual.moves.split(' ');
+            if (eloActual > 2500) rango = "2500"; if (!todosLosPuzzles[rango]) rango = Object.keys(todosLosPuzzles)[0] || "1700";
+            let lista = todosLosPuzzles[rango]; 
+            
+            // EL MOTOR DECIDE SI ES AL AZAR O CON SEMILLA
+            let indiceElegido = (typeof DueloManager !== 'undefined' && DueloManager.enDuelo) 
+                                ? DueloManager.obtenerIndiceSincronizado(lista.length) 
+                                : Math.floor(Math.random() * lista.length);
+            
+            puzzleActual = lista[indiceElegido];
 
+            if (typeof puzzleActual.moves === 'string') puzzleActual.moves = puzzleActual.moves.split(' ');
             indiceMovimiento = 0; game.load(puzzleActual.fen);
             hacerMovimiento(puzzleActual.moves[indiceMovimiento]); indiceMovimiento++;
             board.orientation(game.turn() === 'w' ? 'white' : 'black'); board.position(game.fen());
             document.getElementById('eloDisplay').innerText = eloActual;
         }
 
-        function hacerMovimiento(moveString) { let from = moveString.substring(0,2); let to = moveString.substring(2,4); let promotion = moveString.length > 4 ? moveString.substring(4,5) : 'q'; game.move({ from: from, to: to, promotion: promotion }); }
-
-        function onDragStart(source, piece) { if (!juegoActivo || game.game_over()) return false; if ((game.turn() === 'w' && piece.search(/^b/) !== -1) || (game.turn() === 'b' && piece.search(/^w/) !== -1)) return false; }
+        function hacerMovimiento(m) { let from = m.substring(0,2); let to = m.substring(2,4); let promo = m.length > 4 ? m.substring(4,5) : 'q'; game.move({ from: from, to: to, promotion: promo }); }
+        function onDragStart(s, p) { if (!juegoActivo || game.game_over()) return false; if ((game.turn() === 'w' && p.search(/^b/) !== -1) || (game.turn() === 'b' && p.search(/^w/) !== -1)) return false; }
 
         function onDrop(source, target) {
             if (!juegoActivo) return 'snapback';
             let move = game.move({ from: source, to: target, promotion: 'q' }); if (move === null) return 'snapback';
-            let miMovimiento = source + target; if (move.promotion) miMovimiento += move.promotion; let solucionCorrecta = puzzleActual.moves[indiceMovimiento];
+            let miMovimiento = source + target; if (move.promotion) miMovimiento += move.promotion; 
 
-            if (miMovimiento === solucionCorrecta) {
+            if (miMovimiento === puzzleActual.moves[indiceMovimiento]) {
                 if (indiceMovimiento < puzzleActual.moves.length - 1) reproducirSonido('correcto');
-                puntos++; document.getElementById('puntosDisplay').innerText = puntos; indiceMovimiento++;
+                indiceMovimiento++;
                 if (indiceMovimiento < puzzleActual.moves.length) {
                     setTimeout(() => { hacerMovimiento(puzzleActual.moves[indiceMovimiento]); board.position(game.fen()); indiceMovimiento++; if (indiceMovimiento >= puzzleActual.moves.length) puzzleCompletado(); }, 200);
                 } else { puzzleCompletado(); }
             } else {
                 reproducirSonido('incorrecto');
-                registrarXP('avanzado', false); // XP FALLO
-                puzzlesFallados.push(puzzleActual); tiempoRestante -= PENALIZACION; actualizarRelojVisual();
-                let timer = document.getElementById('timerDisplay'); timer.classList.add('tiempo-menos'); setTimeout(() => timer.classList.remove('tiempo-menos'), 100);
-                document.getElementById('status').innerText = `❌ FALLO - SALTANDO AL SIGUIENTE`; document.getElementById('status').className = "incorrecto";
+                puzzlesFallados.push(puzzleActual);
+                
+                // CASTIGO SEGÚN EL MODO DE JUEGO
+                if (typeof DueloManager !== 'undefined' && DueloManager.enDuelo) {
+                    puntos = Math.max(0, puntos - 1); // En Duelo, pierdes un punto
+                    DueloManager.enviarPuntos(puntos);
+                    document.getElementById('puntosDisplay').innerText = puntos;
+                } else {
+                    tiempoRestante -= PENALIZACION; actualizarRelojVisual(); // En normal, pierdes tiempo
+                    let timer = document.getElementById('timerDisplay'); timer.classList.add('tiempo-menos'); setTimeout(() => timer.classList.remove('tiempo-menos'), 100);
+                }
+                
+                document.getElementById('status').innerText = `❌ FALLO - SALTANDO`; document.getElementById('status').className = "incorrecto";
                 racha = 0; document.getElementById('rachaDisplay').innerText = racha;
                 setTimeout(() => { cargarNuevoPuzzle(); }, 400); return 'snapback';
             }
@@ -197,15 +217,22 @@
 
         function puzzleCompletado() {
             reproducirSonido('correcto');
-            registrarXP('avanzado', true); // XP ACIERTO
-
+            puntos++; document.getElementById('puntosDisplay').innerText = puntos;
             racha++; document.getElementById('rachaDisplay').innerText = racha;
-            if (eloActual < 2000) eloActual += 35; else eloActual += 20;
+            
+            // ENVÍO DE PUNTOS EN VIVO
+            if (typeof DueloManager !== 'undefined' && DueloManager.enDuelo) DueloManager.enviarPuntos(puntos);
+
             let mensajeBonus = "";
             if (racha > 0 && racha % 5 === 0) {
-                let bonus = 5 + (racha / 5) * 5; tiempoRestante += bonus; actualizarRelojVisual();
-                let timer = document.getElementById('timerDisplay'); timer.classList.add('tiempo-extra'); setTimeout(() => timer.classList.remove('tiempo-extra'), 150);
-                mensajeBonus = ` | ⏳ +${bonus}s!`;
+                if (typeof DueloManager !== 'undefined' && DueloManager.enDuelo) {
+                    puntos += 3; DueloManager.enviarPuntos(puntos); document.getElementById('puntosDisplay').innerText = puntos;
+                    mensajeBonus = ` | ⚔️ +3 Pts!`;
+                } else {
+                    let bonus = 5 + (racha / 5) * 5; tiempoRestante += bonus; actualizarRelojVisual();
+                    let timer = document.getElementById('timerDisplay'); timer.classList.add('tiempo-extra'); setTimeout(() => timer.classList.remove('tiempo-extra'), 150);
+                    mensajeBonus = ` | ⏳ +${bonus}s!`;
+                }
             }
             document.getElementById('status').innerText = "✅ Correcto" + mensajeBonus; document.getElementById('status').className = "correcto";
             setTimeout(cargarNuevoPuzzle, 300);
@@ -213,66 +240,16 @@
 
         function finDelJuego() {
             juegoActivo = false; clearInterval(intervaloReloj); reproducirSonido('fin');
-            
-            // SUBIDA A FIREBASE (STORM TIEMPO)
-            actualizarEstadisticaGlobal('stormTiempoMax', puntos, false);
-
-            document.getElementById('scoreFinal').innerText = puntos; document.getElementById('eloFinal').innerText = eloActual;
+            if (typeof DueloManager === 'undefined' || !DueloManager.enDuelo) actualizarEstadisticaGlobal('stormTiempoMax', puntos, false);
+            document.getElementById('scoreFinal').innerText = puntos; 
             document.getElementById('pantalla-fin').classList.remove('oculto');
             if (puzzlesFallados.length > 0) { document.getElementById('btn-repaso').classList.remove('oculto'); document.getElementById('countFallos').innerText = puzzlesFallados.length; }
         }
         
-        function iniciarRepaso() { 
-            document.getElementById('pantalla-fin').classList.add('oculto'); 
-            document.getElementById('interfaz-repaso').classList.remove('oculto'); 
-            if (!boardRepaso) { 
-                boardRepaso = Chessboard('tablero-repaso', { position: 'start', pieceTheme: 'https://chessboardjs.com/img/chesspieces/wikipedia/{piece}.png' }); 
-            } 
-            indiceRepasoActual = 0; 
-            document.getElementById('repasoTotal').innerText = puzzlesFallados.length; 
-            cargarPuzzleRepaso(); 
-        }
-
-        function cargarPuzzleRepaso() { 
-            if (indiceRepasoActual >= puzzlesFallados.length) { alert("¡Repaso terminado!"); location.reload(); return; } 
-            let puzzle = puzzlesFallados[indiceRepasoActual]; 
-            document.getElementById('repasoIndex').innerText = indiceRepasoActual + 1; 
-            document.getElementById('status-repaso').innerText = `Nivel: ${puzzle.rating} | Intenta encontrar la jugada`; 
-            
-            game.load(puzzle.fen); 
-            hacerMovimiento(puzzle.moves[0]); // Jugada inicial del rival
-            
-            boardRepaso.orientation(game.turn() === 'w' ? 'white' : 'black'); 
-            boardRepaso.position(game.fen()); 
-        }
-
-        // --- NUEVA FUNCIÓN MEJORADA DE VER SOLUCIÓN ---
-        function verSolucion() { 
-            let puzzle = puzzlesFallados[indiceRepasoActual]; 
-            let listaSolucion = [];
-            
-            // Recorremos todos los movimientos restantes desde el índice 1
-            for (let i = 1; i < puzzle.moves.length; i++) {
-                let m = puzzle.moves[i];
-                let from = m.substring(0,2); let to = m.substring(2,4); let promo = m.length > 4 ? m.substring(4,5) : 'q';
-                let moveObj = game.move({ from: from, to: to, promotion: promo });
-                
-                // Extraemos la Notación Algebraica (ej: Txh7+) si existe
-                if (moveObj) listaSolucion.push(moveObj.san);
-            }
-            
-            // Actualizamos el tablero a la posición final
-            boardRepaso.position(game.fen()); 
-            
-            // Mostramos toda la secuencia con flechas
-            document.getElementById('status-repaso').innerText = `Solución completa: ${listaSolucion.join(" ➔ ")}`; 
-        }
-
-        function siguienteRepaso() { 
-            indiceRepasoActual++; 
-            cargarPuzzleRepaso(); 
-        }
-
+        function iniciarRepaso() { document.getElementById('pantalla-fin').classList.add('oculto'); document.getElementById('interfaz-repaso').classList.remove('oculto'); if (!boardRepaso) { boardRepaso = Chessboard('tablero-repaso', { position: 'start', pieceTheme: 'https://chessboardjs.com/img/chesspieces/wikipedia/{piece}.png' }); } indiceRepasoActual = 0; document.getElementById('repasoTotal').innerText = puzzlesFallados.length; cargarPuzzleRepaso(); }
+        function cargarPuzzleRepaso() { if (indiceRepasoActual >= puzzlesFallados.length) { alert("¡Repaso terminado!"); location.reload(); return; } let puzzle = puzzlesFallados[indiceRepasoActual]; document.getElementById('repasoIndex').innerText = indiceRepasoActual + 1; document.getElementById('status-repaso').innerText = `Nivel: ${puzzle.rating} | Intenta encontrar la jugada`; game.load(puzzle.fen); hacerMovimiento(puzzle.moves[0]); boardRepaso.orientation(game.turn() === 'w' ? 'white' : 'black'); boardRepaso.position(game.fen()); }
+        function verSolucion() { let puzzle = puzzlesFallados[indiceRepasoActual]; let lista = []; for (let i=1; i<puzzle.moves.length; i++) { let m = puzzle.moves[i]; let moveObj = game.move({from:m.substring(0,2), to:m.substring(2,4), promotion:m.length>4?m.substring(4,5):'q'}); if(moveObj) lista.push(moveObj.san); } boardRepaso.position(game.fen()); document.getElementById('status-repaso').innerText = `Solución: ${lista.join(" ➔ ")}`; }
+        function siguienteRepaso() { indiceRepasoActual++; cargarPuzzleRepaso(); }
         function onSnapEnd() { board.position(game.fen()); }
     </script>
 </body>

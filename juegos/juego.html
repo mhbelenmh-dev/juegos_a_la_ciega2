@@ -4,57 +4,47 @@
     <meta charset="UTF-8">
     <title>Mi Puzzle Storm - Modo Racha</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>♞</text></svg>">
-    
+
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    
     <link rel="stylesheet" href="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.css">
     <link rel="stylesheet" href="styles.css">
 
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg-color); color: var(--text); margin: 0; display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 20px; box-sizing: border-box;}
-        h1 { color: var(--accent); margin-bottom: 30px; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
-        
+        body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg-color); color: var(--text); margin: 0; display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 20px; box-sizing: border-box; }
+        h1 { color: var(--accent); margin-bottom: 30px; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); }
         #main-layout { display: flex; flex-direction: row; gap: 40px; width: 100%; max-width: 900px; justify-content: center; align-items: flex-start; }
         @media (max-width: 800px) { #main-layout { flex-direction: column; align-items: center; } #sidebar { width: 100%; max-width: 420px; } }
-
         #tablero-wrapper { flex: 0 0 420px; display: flex; flex-direction: column; align-items: center; }
-        #tablero { width: 420px; border: 6px solid #3d3a37; border-radius: 4px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        
+        #tablero { width: 420px; border: 6px solid #3d3a37; border-radius: 4px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); touch-action: none !important; }
         #status-box { width: 100%; margin-top: 15px; background: var(--panel-bg); padding: 15px; border-radius: 8px; text-align: center; box-sizing: border-box; border: 1px solid #444; min-height: 60px; display: flex; align-items: center; justify-content: center; }
         #status { font-weight: bold; font-size: 1.2em; transition: 0.2s; }
-
         #sidebar { flex: 1; display: flex; flex-direction: column; gap: 20px; width: 350px; }
-        .panel-box { background: var(--panel-bg); padding: 25px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); border: 1px solid #444; }
-        .panel-title { font-weight: bold; color: var(--accent); margin-bottom: 15px; font-size: 1.2em; text-transform: uppercase; letter-spacing: 1px;}
-
+        .panel-box { background: var(--panel-bg); padding: 25px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); border: 1px solid #444; }
+        .panel-title { font-weight: bold; color: var(--accent); margin-bottom: 15px; font-size: 1.2em; text-transform: uppercase; letter-spacing: 1px; }
         .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .stat-card { background: #262421; padding: 15px; border-radius: 6px; text-align: center; border: 1px solid #3d3a37; }
         .stat-value { display: block; font-size: 2em; color: var(--text); font-weight: bold; transition: color 0.3s, transform 0.3s; }
-        .stat-label { font-size: 0.8em; color: #888; text-transform: uppercase; margin-top: 5px; display: block;}
-
-        .val-rating { color: var(--blue); }
-        .val-racha { color: var(--accent); }
-        
+        .stat-label { font-size: 0.8em; color: #888; text-transform: uppercase; margin-top: 5px; display: block; }
         .btn-skip { background: var(--danger); box-shadow: 0 4px 0 #8a1f1f; margin-top: 10px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; transition: 0.2s; width: 100%; color: white; padding: 15px 20px; font-size: 1.1em; }
         .btn-skip:hover { background: #e63939; box-shadow: 0 6px 0 #8a1f1f; transform: translateY(-2px); }
         .btn-skip:active { box-shadow: 0 2px 0 #8a1f1f; transform: translateY(2px); }
-        
         @keyframes subida { 0% { transform: scale(1); } 50% { transform: scale(1.2); color: #fff; } 100% { transform: scale(1); } }
         .puntos-grandes { animation: subida 0.4s ease-out; color: var(--accent); }
     </style>
 </head>
 <body>
 
-    <h1>⚡ Mi Puzzle Storm (Racha Progresiva) ⚡</h1>
+    <h1 id="titulo-juego">⚡ Mi Puzzle Storm (Racha Progresiva) ⚡</h1>
 
     <div id="pantalla-carga">
         <h2 style="color: var(--text); margin-top: 0;">Configuración</h2>
-        <p style="color: #aaa;">¿Qué base de datos quieres usar?</p>
-        <button id="btn-defecto" class="btn-secundario">🎮 Usar la base del juego</button>
-        <hr style="border: 1px solid #444; margin: 25px 0;">
-        <p style="font-size: 0.9em; color: #888; text-align: left; margin-bottom: 5px;">O sube tu propio archivo <strong>.json</strong>:</p>
-        <input type="file" id="archivoInput" accept=".json">    
+        <p style="color: #aaa;">Para jugar, carga tu archivo de puzzles:</p>
+        <input type="file" id="archivoInput" accept=".json">
+        <br><br>
+        <button id="btn-defecto" class="btn-secundario">🎮 Usar base del juego</button>
     </div>
 
     <div id="pantalla-juego" class="oculto">
@@ -63,25 +53,23 @@
                 <div id="tablero"></div>
                 <div id="status-box"><div id="status">Cargando...</div></div>
             </div>
-
             <div id="sidebar">
                 <div class="panel-box">
-                    <div class="panel-title">Tus Estadísticas</div>
+                    <div class="panel-title">Estadísticas</div>
                     <div class="stats-grid">
                         <div class="stat-card">
-                            <span id="ratingDisplay" class="stat-value val-rating">1700</span>
-                            <span class="stat-label">Rating Actual</span>
+                            <span id="ratingDisplay" class="stat-value" style="color:var(--blue);">1700</span>
+                            <span class="stat-label">Dificultad</span>
                         </div>
                         <div class="stat-card">
-                            <span id="rachaDisplay" class="stat-value val-racha">0</span>
+                            <span id="rachaDisplay" class="stat-value" style="color:var(--accent);">0</span>
                             <span class="stat-label">Racha x</span>
                         </div>
                     </div>
                 </div>
-
                 <div class="panel-box" style="padding: 15px;">
-                    <a href="index.html" style="text-decoration:none;"><button class="btn-skip" style="background:#444; box-shadow: 0 4px 0 #222; margin-bottom:10px;">⬅ Menú Principal</button></a>
-                    <button class="btn-skip" onclick="saltarPuzzle()">⏭️ Saltar Puzzle (-5 pts)</button>
+                    <a id="btn-volver-menu" href="index.html" style="text-decoration:none;"><button class="btn-skip" style="background:#444; box-shadow: 0 4px 0 #222; margin-bottom:10px;">⬅ Menú</button></a>
+                    <button class="btn-skip" onclick="saltarPuzzle()">⏭️ Saltar (-5 pts)</button>
                 </div>
             </div>
         </div>
@@ -93,90 +81,124 @@
     <script src="utils.js"></script>
 
     <script>
-        let todosLosPuzzles = {}; let eloActual = 1700; let puzzleActual = null; let game = new Chess(); let board = null; let racha = 0; let indiceMovimiento = 0; 
+        let todosLosPuzzles = {}; let eloActual = 1700; let puzzleActual = null; let game = new Chess(); let board = null; let racha = 0; let indiceMovimiento = 0;
+        let enDuelo = false; let salaDuelo = ""; let contadorPuzzleDuelo = 0; let puntosDueloAcumulados = 0;
 
-        inicializarCargaBaseDatos('mis_puzzles.json', 'btn-defecto', 'archivoInput', function(data) {
-            todosLosPuzzles = data; iniciarPantallaJuego();
+        inicializarCargaBaseDatos('mis_puzzles.json', 'btn-defecto', 'archivoInput', function (data) {
+            todosLosPuzzles = data; 
+            iniciarPantallaJuego();
+        });
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            if (params.get('duelo') === 'true') {
+                enDuelo = true;
+                salaDuelo = params.get('sala') || "sala_secreta";
+                
+                // Limpiamos UI innecesaria
+                document.getElementById('btn-volver-menu').style.display = 'none';
+                document.getElementById('titulo-juego').style.display = 'none';
+                
+                // MAGIA: Hacemos auto-clic en el botón para usar la carga segura de utils.js
+                setTimeout(() => {
+                    let btn = document.getElementById('btn-defecto');
+                    if(btn) btn.click();
+                }, 300);
+            }
         });
 
         function iniciarPantallaJuego() {
             document.getElementById('pantalla-carga').classList.add('oculto');
             document.getElementById('pantalla-juego').classList.remove('oculto');
-            iniciarJuego(); 
+            iniciarJuego();
         }
 
         function iniciarJuego() {
             board = Chessboard('tablero', { draggable: true, position: 'start', pieceTheme: 'https://chessboardjs.com/img/chesspieces/wikipedia/{piece}.png', onDragStart: onDragStart, onDrop: onDrop, onSnapEnd: onSnapEnd });
-            let perfilActual = obtenerPerfil();
-            eloActual = perfilActual.eloNormal || 1700; // ELO Normal
+            let p = obtenerPerfil(); eloActual = p.eloNormal || 1700;
             cargarNuevoPuzzle();
         }
 
         function cargarNuevoPuzzle() {
-            document.getElementById('status').innerText = "Pensando..."; document.getElementById('status').className = "";
-            let rango = (Math.floor(eloActual / 50) * 50).toString();
-            if (eloActual > 2500) rango = "2500"; if (!todosLosPuzzles[rango]) rango = "1700"; 
-            let lista = todosLosPuzzles[rango];
-            puzzleActual = lista[Math.floor(Math.random() * lista.length)];
-            if (typeof puzzleActual.moves === 'string') puzzleActual.moves = puzzleActual.moves.split(' ');
+            document.getElementById('status').innerText = "Pensando...";
+            let rango = "1700";
+            
+            if (enDuelo) {
+                contadorPuzzleDuelo++;
+                // Empezamos suave y subimos dificultad
+                let eloProgresivo = 1200 + Math.floor(contadorPuzzleDuelo / 2) * 50;
+                rango = (Math.floor(Math.min(eloProgresivo, 2500) / 50) * 50).toString();
+                
+                // Fallback seguro si no hay puzzles de ese nivel
+                if (!todosLosPuzzles[rango] || todosLosPuzzles[rango].length === 0) {
+                    let keys = Object.keys(todosLosPuzzles);
+                    rango = keys.length > 0 ? keys[0] : "1700";
+                }
+                
+                let semilla = salaDuelo + "_" + contadorPuzzleDuelo;
+                let hash = 0;
+                for (let i = 0; i < semilla.length; i++) { hash = Math.imul(31, hash) + semilla.charCodeAt(i) | 0; }
+                
+                let lista = todosLosPuzzles[rango];
+                puzzleActual = lista[Math.abs(hash) % lista.length];
+                eloActual = eloProgresivo;
+            } else {
+                rango = (Math.floor(Math.min(eloActual, 2500) / 50) * 50).toString();
+                let lista = todosLosPuzzles[rango] || todosLosPuzzles[Object.keys(todosLosPuzzles)[0]];
+                puzzleActual = lista[Math.floor(Math.random() * lista.length)];
+            }
+
+            // ¡CRÍTICO! Si los movimientos vienen en texto, separarlos. (Esto faltaba antes)
+            if (typeof puzzleActual.moves === 'string') {
+                puzzleActual.moves = puzzleActual.moves.split(' ');
+            }
+
             indiceMovimiento = 0; game.load(puzzleActual.fen);
-            hacerMovimiento(puzzleActual.moves[indiceMovimiento]); indiceMovimiento++; 
-            let colorJugador = game.turn() === 'w' ? 'white' : 'black';
-            board.orientation(colorJugador); board.position(game.fen());
-            document.getElementById('status').innerHTML = `Juegan <strong style="color:var(--accent);">${colorJugador === 'white' ? 'BLANCAS' : 'NEGRAS'}</strong> | Nivel: ${puzzleActual.rating}`;
-            let rDisplay = document.getElementById('ratingDisplay'); rDisplay.innerText = eloActual; rDisplay.classList.remove('puntos-grandes');
+            hacerMovimiento(puzzleActual.moves[indiceMovimiento]); indiceMovimiento++;
+            
+            board.orientation(game.turn() === 'w' ? 'white' : 'black'); 
+            board.position(game.fen());
+            
+            document.getElementById('ratingDisplay').innerText = eloActual;
+            document.getElementById('status').innerHTML = `Juegan <strong style="color:var(--accent);">${game.turn() === 'w' ? 'BLANCAS' : 'NEGRAS'}</strong>`;
         }
 
-        function hacerMovimiento(moveString) { let from = moveString.substring(0,2); let to = moveString.substring(2,4); let promotion = moveString.length > 4 ? moveString.substring(4,5) : 'q'; game.move({ from: from, to: to, promotion: promotion }); }
+        function hacerMovimiento(m) { let f = m.substring(0,2); let t = m.substring(2,4); let p = m.length > 4 ? m.substring(4,5) : 'q'; game.move({from:f, to:t, promotion:p}); }
+        function onDragStart(s, p) { if (game.game_over()) return false; if ((game.turn() === 'w' && p.search(/^b/) !== -1) || (game.turn() === 'b' && p.search(/^w/) !== -1)) return false; }
 
-        function onDragStart (source, piece) { if (game.game_over()) return false; if ((game.turn() === 'w' && piece.search(/^b/) !== -1) || (game.turn() === 'b' && piece.search(/^w/) !== -1)) return false; }
-
-        function onDrop (source, target) {
-            let move = game.move({ from: source, to: target, promotion: 'q' }); if (move === null) return 'snapback';
-            let miMovimiento = source + target; if (move.promotion) miMovimiento += move.promotion; let solucionCorrecta = puzzleActual.moves[indiceMovimiento];
-
-            if (miMovimiento === solucionCorrecta) {
-                if (indiceMovimiento < puzzleActual.moves.length - 1) reproducirSonido('correcto');
-                indiceMovimiento++; 
+        function onDrop(source, target) {
+            let move = game.move({ from: source, to: target, promotion: 'q' });
+            if (move === null) return 'snapback';
+            let miMov = source + target + (move.promotion || "");
+            if (miMov.startsWith(puzzleActual.moves[indiceMovimiento])) {
+                indiceMovimiento++;
                 if (indiceMovimiento < puzzleActual.moves.length) {
-                    document.getElementById('status').innerText = "¡Buena jugada! Remata el puzzle..."; document.getElementById('status').className = "correcto";
-                    setTimeout(() => { hacerMovimiento(puzzleActual.moves[indiceMovimiento]); board.position(game.fen()); indiceMovimiento++; if (indiceMovimiento >= puzzleActual.moves.length) puzzleFinalizado(); }, 250); 
-                } else { puzzleFinalizado(); }
+                    setTimeout(() => { hacerMovimiento(puzzleActual.moves[indiceMovimiento]); board.position(game.fen()); indiceMovimiento++; if (indiceMovimiento >= puzzleActual.moves.length) finalizar(); }, 250);
+                } else { finalizar(); }
             } else {
-                reproducirSonido('incorrecto'); game.undo(); 
-                document.getElementById('status').innerText = "❌ Incorrecto. Vuelve a intentarlo."; document.getElementById('status').className = "incorrecto";
-                eloActual -= 10; racha = 0; document.getElementById('rachaDisplay').innerText = racha; document.getElementById('ratingDisplay').innerText = eloActual;
-                
-                actualizarEstadisticaGlobal('eloNormal', eloActual, false);
-                registrarXP('avanzado', false); // XP POR FALLO
-                return 'snapback'; 
+                reproducirSonido('incorrecto'); game.undo();
+                if (enDuelo) { puntosDueloAcumulados -= 10; window.parent.postMessage({ action: 'actualizarPuntos', puntos: puntosDueloAcumulados }, '*'); }
+                else { eloActual -= 10; actualizarEstadisticaGlobal('eloNormal', eloActual, false); }
+                racha = 0; document.getElementById('rachaDisplay').innerText = 0; cargarNuevoPuzzle(); return 'snapback';
             }
         }
 
-        function puzzleFinalizado() {
+        function finalizar() {
             reproducirSonido('fin');
-            let puntosBase = 15; let bonusRacha = racha * 5; let totalPuntos = puntosBase + bonusRacha;
-            if ((racha + 1) % 5 === 0) totalPuntos += 10;
-            racha++; eloActual += totalPuntos; document.getElementById('rachaDisplay').innerText = racha;
-            
-            actualizarEstadisticaGlobal('eloNormal', eloActual, false);
-            registrarXP('avanzado', true); // XP POR ACIERTO
-            
-            let ratingDOM = document.getElementById('ratingDisplay'); ratingDOM.innerText = eloActual; ratingDOM.classList.add('puntos-grandes');
-            let mensaje = `✅ ¡CORRECTO! +${totalPuntos}`; if (racha > 1) mensaje += ` (Racha x${racha})`;
-            let statusDOM = document.getElementById('status'); statusDOM.innerText = mensaje; statusDOM.className = "correcto puntos-grandes";
-            setTimeout(() => { statusDOM.classList.remove('puntos-grandes'); cargarNuevoPuzzle(); }, 800);
+            let pts = 15 + (racha * 5); racha++;
+            if (enDuelo) { puntosDueloAcumulados += pts; window.parent.postMessage({ action: 'actualizarPuntos', puntos: puntosDueloAcumulados }, '*'); }
+            else { eloActual += pts; actualizarEstadisticaGlobal('eloNormal', eloActual, false); }
+            document.getElementById('rachaDisplay').innerText = racha; registrarXP('avanzado', true);
+            setTimeout(cargarNuevoPuzzle, 800);
         }
 
         function saltarPuzzle() {
-            reproducirSonido('incorrecto');
-            eloActual -= 5; racha = 0; document.getElementById('rachaDisplay').innerText = racha;
-            actualizarEstadisticaGlobal('eloNormal', eloActual, false);
-            registrarXP('avanzado', false); // XP POR SALTAR
-            cargarNuevoPuzzle();
+            if (enDuelo) { puntosDueloAcumulados -= 5; window.parent.postMessage({ action: 'actualizarPuntos', puntos: puntosDueloAcumulados }, '*'); }
+            else { eloActual -= 5; actualizarEstadisticaGlobal('eloNormal', eloActual, false); }
+            racha = 0; document.getElementById('rachaDisplay').innerText = 0; cargarNuevoPuzzle();
         }
 
-        function onSnapEnd () { board.position(game.fen()); }
+        function onSnapEnd() { board.position(game.fen()); }
     </script>
 </body>
 </html>

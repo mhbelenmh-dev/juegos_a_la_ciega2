@@ -187,3 +187,51 @@ function subirAFirebase(rutaRef, puntuacion) {
         }
     } catch (e) {}
 }
+// ========================================================
+// MOTOR MULTIJUGADOR DE DUELOS (Sincronización de Semilla)
+// ========================================================
+window.DueloManager = {
+    enDuelo: false,
+    sala: "",
+    contador: 0,
+    
+    iniciar: function() {
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('duelo') === 'true') {
+            this.enDuelo = true;
+            this.sala = params.get('sala') || "sala_secreta";
+            
+            // 1. Ocultar todos los botones de "Volver al menú" automáticamente
+            setTimeout(() => {
+                document.querySelectorAll('a[href="index.html"], .btn-salir').forEach(el => el.style.display = 'none');
+                
+                // 2. Hacer clic automático en cargar base de datos (si existe el botón)
+                let btnBase = document.getElementById('btn-defecto') || document.getElementById('btn-cargar');
+                if(btnBase) btnBase.click();
+            }, 300);
+        }
+    },
+
+    // Genera la semilla matemática idéntica para ambos jugadores
+    obtenerIndiceSincronizado: function(maximo) {
+        if (!this.enDuelo) return Math.floor(Math.random() * maximo); // Si no es duelo, es aleatorio normal
+        
+        this.contador++;
+        let semilla = this.sala + "_" + this.contador;
+        let hash = 0;
+        for (let i = 0; i < semilla.length; i++) {
+            hash = Math.imul(31, hash) + semilla.charCodeAt(i) | 0;
+        }
+        return Math.abs(hash) % maximo;
+    },
+
+    // Envía los puntos en vivo al marcador gigante de la Arena
+    enviarPuntos: function(puntos) {
+        if (this.enDuelo && window.self !== window.top) {
+            window.parent.postMessage({ action: 'actualizarPuntos', puntos: puntos }, '*');
+        }
+    }
+};
+
+// Se activa solo en cuanto carga la página
+window.addEventListener('DOMContentLoaded', () => { DueloManager.iniciar(); });
