@@ -63,18 +63,20 @@
 
     <div id="auth-modal">
         <div class="auth-box">
-            <div style="font-size: 4em; margin-bottom: 10px;">♞</div>
-            <h2 style="color:var(--accent); margin-top:0; text-transform: uppercase; letter-spacing: 2px;">Identificación</h2>
-            <p style="color:#888; font-size:0.9em; margin-bottom: 25px;">Inicia sesión para guardar tu progreso de forma segura.</p>
+          <div style="font-size: 4em; margin-bottom: 10px;">♞</div>
+           <h2 style="color:var(--accent); margin-top:0; text-transform: uppercase; letter-spacing: 2px;">Identificación</h2>
+           <p style="color:#888; font-size:0.9em; margin-bottom: 25px;">Inicia sesión para guardar tu progreso de forma segura.</p>
+        
+            <form onsubmit="event.preventDefault(); iniciarSesion();">
+                <input type="text" id="auth-user" class="auth-input" placeholder="Tu Nombre de Usuario" autocomplete="username" required>
+                <input type="password" id="auth-pass" class="auth-input" placeholder="Tu Contraseña" autocomplete="current-password" required>
             
-            <input type="text" id="auth-user" class="auth-input" placeholder="Tu Nombre de Usuario">
-            <input type="password" id="auth-pass" class="auth-input" placeholder="Tu Contraseña">
-            
-            <div id="auth-error" style="color:var(--danger); margin-bottom:15px; font-size:0.9em; height:1.2em; font-weight:bold;"></div>
+                <div id="auth-error" style="color:var(--danger); margin-bottom:15px; font-size:0.9em; height:1.2em; font-weight:bold;"></div>
 
-            <button class="auth-btn" style="background:var(--blue);" onclick="iniciarSesion()">INICIAR SESIÓN</button>
-            <button class="auth-btn" style="background:#444;" onclick="registrarUsuario()">NUEVO USUARIO (Registro)</button>
-        </div>
+                <button type="submit" class="auth-btn" style="background:var(--blue);">INICIAR SESIÓN</button>
+                <button type="button" class="auth-btn" style="background:#444;" onclick="registrarUsuario()">NUEVO USUARIO (Registro)</button>
+            </form>
+        </div>    
     </div>
 
     <h1>🏆 Perfil Global y Entrenamiento 🏆</h1>
@@ -181,7 +183,7 @@
 
     <script src="utils.js"></script>
 
-    <script>
+<script>
         function generarEmailFalso(username) {
             return username.trim().toLowerCase().replace(/[^a-z0-9]/g, '') + "@ajedrezgym.local";
         }
@@ -191,27 +193,35 @@
         }
 
         function iniciarSesion() {
-            let u = document.getElementById('auth-user').value;
+            let u = document.getElementById('auth-user').value.trim();
             let p = document.getElementById('auth-pass').value;
             if(u.length < 3 || p.length < 6) return mostrarErrorAuth("Mínimo 3 letras de usuario y 6 de contraseña");
+            
+            // ¡EL TRUCO! Guardamos el nombre deseado temporalmente antes de que Firebase se líe
+            localStorage.setItem('nombre_temporal', u);
             
             let email = generarEmailFalso(u);
 
             firebase.auth().signInWithEmailAndPassword(email, p)
+                .then(() => { window.location.reload(); }) // Forzamos recarga para refrescar los datos
                 .catch((error) => { mostrarErrorAuth("Usuario o contraseña incorrectos"); });
         }
 
         function registrarUsuario() {
-            let u = document.getElementById('auth-user').value;
+            let u = document.getElementById('auth-user').value.trim();
             let p = document.getElementById('auth-pass').value;
             if(u.length < 3 || p.length < 6) return mostrarErrorAuth("Mínimo 3 letras de usuario y 6 de contraseña");
+
+            // ¡EL TRUCO! Guardamos el nombre temporalmente
+            localStorage.setItem('nombre_temporal', u);
 
             let email = generarEmailFalso(u);
 
             firebase.auth().createUserWithEmailAndPassword(email, p)
                 .then((userCredential) => {
-                    return userCredential.user.updateProfile({ displayName: u.trim() });
+                    return userCredential.user.updateProfile({ displayName: u });
                 })
+                .then(() => { window.location.reload(); }) // Forzamos recarga
                 .catch((error) => {
                     if(error.code === 'auth/email-already-in-use') mostrarErrorAuth("Este usuario ya existe. Dale a 'Iniciar Sesión'.");
                     else mostrarErrorAuth("Error de conexión. Inténtalo de nuevo.");
@@ -222,6 +232,7 @@
             firebase.auth().signOut().then(() => {
                 localStorage.removeItem('current_user_uid');
                 localStorage.removeItem('current_user_name');
+                localStorage.removeItem('nombre_temporal');
                 window.location.reload();
             });
         }
@@ -233,27 +244,35 @@
             if (typeof firebase !== 'undefined' && firebase.auth) {
                 firebase.auth().onAuthStateChanged((user) => {
                     if (user) {
-                        // 1. Guardamos su identidad para que utils.js sepa a qué carpeta mirar
-                        let nombreReal = user.displayName || 'Jugador';
-                        localStorage.setItem('current_user_uid', user.uid);
-                        localStorage.setItem('current_user_name', nombreReal);
+                        // 1. Rescatamos el nombre (dando prioridad al que acabamos de teclear)
+                        let nombreDeseado = localStorage.getItem('nombre_temporal') || user.displayName || 'Jugador';
                         
-                        // 2. Descargamos sus puntos de la nube (¡Por si viene de otro PC!)
+                        localStorage.setItem('current_user_uid', user.uid);
+                        localStorage.setItem('current_user_name', nombreDeseado);
+                        
+                        // 2. Descargamos sus datos de la nube
                         firebase.database().ref('users/' + user.uid).once('value').then((snapshot) => {
+                            let perfilActivo;
+                            
                             if (snapshot.exists()) {
-                                // Tiene datos antiguos, los metemos en la caja fuerte de este PC
-                                let localKey = 'chess_gym_profile_' + user.uid;
-                                localStorage.setItem(localKey, JSON.stringify(snapshot.val()));
+                                perfilActivo = snapshot.val();
+                                // Si el perfil venía con el bug de llamarse "Jugador", esto lo arregla de golpe
+                                perfilActivo.nombreJugador = nombreDeseado;
                             } else {
-                                // Es un usuario virgen, creamos su perfil a cero
-                                let perfilVacio = obtenerPerfil();
-                                guardarPerfil(perfilVacio);
+                                perfilActivo = obtenerPerfil();
+                                perfilActivo.nombreJugador = nombreDeseado;
                             }
+                            
+                            // Guardamos para forzar la actualización correcta en la nube y local
+                            guardarPerfil(perfilActivo);
                             
                             // 3. Mostramos la interfaz
                             document.getElementById('auth-modal').style.display = 'none';
-                            document.getElementById('display-user-name').innerText = nombreReal;
+                            document.getElementById('display-user-name').innerText = nombreDeseado;
                             cargarDatosPerfil();
+                            
+                            // Limpiamos la memoria temporal
+                            localStorage.removeItem('nombre_temporal');
                         });
 
                     } else {
@@ -327,5 +346,3 @@
             else { document.querySelectorAll('.stat-box').forEach(box => box.classList.remove('abierto')); elemento.classList.add('abierto'); }
         }
     </script>
-</body>
-</html>
