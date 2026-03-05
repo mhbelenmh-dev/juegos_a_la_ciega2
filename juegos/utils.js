@@ -1,4 +1,4 @@
-// utils.js - Funciones globales, Perfil y Ranking en la Nube
+// utils.js - Funciones globales, Perfil, Ranking y Chat
 
 function inicializarCargaBaseDatos(urlDefecto, btnDefectoId, inputArchivoId, callbackExito) {
     const btnDefecto = document.getElementById(btnDefectoId);
@@ -37,7 +37,6 @@ function inicializarCargaBaseDatos(urlDefecto, btnDefectoId, inputArchivoId, cal
     }
 }
 
-// --- GESTOR DE AUDIO GLOBAL ---
 const sonidos = {
     correcto: new Audio('https://images.chesscomfiles.com/chess-themes/sounds/_MP3_/default/capture.mp3'),
     incorrecto: new Audio('https://images.chesscomfiles.com/chess-themes/sounds/_MP3_/default/illegal.mp3'),
@@ -46,12 +45,7 @@ const sonidos = {
 };
 
 function reproducirSonido(tipo) {
-    try {
-        if (sonidos[tipo]) {
-            sonidos[tipo].currentTime = 0; 
-            sonidos[tipo].play().catch(e => console.warn("Audio bloqueado", e));
-        }
-    } catch(e) {}
+    try { if (sonidos[tipo]) { sonidos[tipo].currentTime = 0; sonidos[tipo].play().catch(e => console.warn("Audio bloqueado", e)); } } catch(e) {}
 }
 
 // =======================================================
@@ -67,23 +61,28 @@ const firebaseConfig = {
     appId: "1:133833169975:web:57a59733087fde8eee33b2"
 };
 
-try {
-    if (typeof firebase !== 'undefined' && !firebase.apps.length) {
-        firebase.initializeApp(firebaseConfig);
-    }
-} catch(e) {
-    console.warn("Aviso: No se pudo conectar a Firebase.");
-}
+try { if (typeof firebase !== 'undefined' && !firebase.apps.length) firebase.initializeApp(firebaseConfig); } catch(e) {}
 
 // =======================================================
 // === GESTOR DE PERFIL Y ATRIBUTOS INDIVIDUALES =========
 // =======================================================
 
-// Ya no hay nombres aleatorios. Todo a cero para los nuevos.
 const PERFIL_DEFAULT = { 
-    uid: "", 
-    nombreJugador: "Jugador", 
-    eloNormal: 1700, eloCiego: 1700,      
+    uid: "", nombreJugador: "Jugador", isPublic: true,
+    eloNormal: 1700, eloCiego: 1700,
+    elos: {
+        base: { current: 0, history: [] },
+        storm: { current: 1700, history: [] },
+        ciego: { current: 1700, history: [] },
+        radar: { current: 1700, history: [] },
+        flash: { current: 1700, history: [] },
+        memoria: { current: 1700, history: [] },
+        lectura: { current: 1700, history: [] },
+        tiempo: { current: 0, history: [] },
+        teclado: { current: 0, history: [] },
+        voz: { current: 0, history: [] }
+    },
+    ultimaActividad: [],
     xpTotal: 0, xpAciertos: 0, xpFallos: 0,
     radarJugados: 0, radarAciertos: 0,
     flashJugados: 0, flashAciertos: 0,
@@ -94,27 +93,23 @@ const PERFIL_DEFAULT = {
 
 function obtenerPerfil() {
     try {
-        // Miramos quién está conectado ahora mismo
         let uid = localStorage.getItem('current_user_uid');
-        if (!uid) return PERFIL_DEFAULT; // Si no hay nadie, devolvemos todo vacío
+        if (!uid) return JSON.parse(JSON.stringify(PERFIL_DEFAULT)); 
         
-        // Buscamos LA CAJA FUERTE EXACTA de este usuario
         let localKey = 'chess_gym_profile_' + uid;
         let perfilStr = localStorage.getItem(localKey);
         
-        if (!perfilStr) {
-            // Si es su primera vez, le preparamos sus atributos a 0
-            let nuevoPerfil = { ...PERFIL_DEFAULT };
-            nuevoPerfil.uid = uid;
-            nuevoPerfil.nombreJugador = localStorage.getItem('current_user_name') || "Jugador";
-            return nuevoPerfil;
-        }
+        let perfilObj = perfilStr ? JSON.parse(perfilStr) : {};
+        let nuevoPerfil = { ...JSON.parse(JSON.stringify(PERFIL_DEFAULT)), ...perfilObj, uid: uid };
         
-        let perfilObj = JSON.parse(perfilStr);
-        return { ...PERFIL_DEFAULT, ...perfilObj }; 
-    } catch(e) {
-        return PERFIL_DEFAULT;
-    }
+        if(!nuevoPerfil.elos) nuevoPerfil.elos = JSON.parse(JSON.stringify(PERFIL_DEFAULT.elos));
+        for (let key in PERFIL_DEFAULT.elos) {
+            if (!nuevoPerfil.elos[key]) nuevoPerfil.elos[key] = JSON.parse(JSON.stringify(PERFIL_DEFAULT.elos[key]));
+        }
+        if(!nuevoPerfil.ultimaActividad) nuevoPerfil.ultimaActividad = [];
+        
+        return nuevoPerfil; 
+    } catch(e) { return JSON.parse(JSON.stringify(PERFIL_DEFAULT)); }
 }
 
 function guardarPerfil(perfil) { 
@@ -122,15 +117,43 @@ function guardarPerfil(perfil) {
         let uid = localStorage.getItem('current_user_uid');
         if (!uid) return;
 
-        // Guardamos en la caja fuerte de su PC
-        let localKey = 'chess_gym_profile_' + uid;
-        localStorage.setItem(localKey, JSON.stringify(perfil));
+        // Copia exacta para no modificar el objeto original en memoria
+        let pToSave = JSON.parse(JSON.stringify(perfil));
+
+        // 🔥 PARCHE DE SEGURIDAD: Evitamos borrar los contactos y la conexión online
+        delete pToSave.isOnline;
+        delete pToSave.contactos;
+
+        // Guardamos en local
+        localStorage.setItem('chess_gym_profile_' + uid, JSON.stringify(pToSave));
         
-        // Y HACEMOS BACKUP EN LA NUBE (En su carpeta privada)
+        // Actualizamos Firebase de manera segura (con UPDATE, no con SET)
         if (typeof firebase !== 'undefined' && firebase.database) {
-            firebase.database().ref('users/' + uid).set(perfil);
+            firebase.database().ref('users/' + uid).update(pToSave);
         }
     } catch(e) {}
+}
+
+function actualizarEloJuego(gameId, nuevoElo, puntosGanados) {
+    let p = obtenerPerfil();
+    let fechaHoy = new Date().toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: '2-digit' });
+    
+    if(!p.elos[gameId]) p.elos[gameId] = { current: (gameId==='base'||gameId==='tiempo'||gameId==='teclado'||gameId==='voz') ? 0 : 1700, history: [] };
+    
+    let hist = p.elos[gameId].history;
+    if (hist.length > 0 && hist[hist.length - 1].fecha === fechaHoy) {
+        hist[hist.length - 1].elo = nuevoElo;
+    } else {
+        hist.push({ fecha: fechaHoy, elo: nuevoElo });
+    }
+    if (hist.length > 30) hist.shift(); 
+
+    p.elos[gameId].current = nuevoElo;
+
+    p.ultimaActividad.unshift({ fecha: fechaHoy, juego: gameId, pts: puntosGanados > 0 ? "+"+puntosGanados : puntosGanados });
+    if(p.ultimaActividad.length > 10) p.ultimaActividad.pop();
+
+    guardarPerfil(p);
 }
 
 function actualizarEstadisticaGlobal(campo, valor, esAcumulativo = false) {
@@ -138,24 +161,18 @@ function actualizarEstadisticaGlobal(campo, valor, esAcumulativo = false) {
         let perfil = obtenerPerfil();
         let esNuevoRecord = false;
         
-        if (esAcumulativo) {
-            perfil[campo] = (perfil[campo] || 0) + valor;
-        } else {
-            if (campo.includes('elo')) {
-                perfil[campo] = valor; 
-            } else if (valor > (perfil[campo] || 0)) {
-                perfil[campo] = valor; 
-                esNuevoRecord = true; 
-            }
+        if (esAcumulativo) { perfil[campo] = (perfil[campo] || 0) + valor; } 
+        else {
+            if (campo.includes('elo')) { perfil[campo] = valor; } 
+            else if (valor > (perfil[campo] || 0)) { perfil[campo] = valor; esNuevoRecord = true; }
         }
-        
         guardarPerfil(perfil);
 
         if (esNuevoRecord) {
             if (campo === 'arcadeGlobalMax') subirAFirebase('rankings/arcade', valor);
             if (campo === 'stormTiempoMax') subirAFirebase('rankings/stormTiempo', valor);
         }
-    } catch (e) { console.warn("Error al guardar estadística", e); }
+    } catch (e) {}
 }
 
 function registrarXP(dificultad, exito) {
@@ -178,100 +195,75 @@ function subirAFirebase(rutaRef, puntuacion) {
         if (typeof firebase !== 'undefined') {
             const perfil = obtenerPerfil();
             const db = firebase.database();
-            const dataSubida = {
-                nombre: perfil.nombreJugador,
-                puntos: puntuacion,
-                fecha: Date.now()
-            };
-            db.ref(rutaRef).child(perfil.uid).set(dataSubida);
+            db.ref(rutaRef).child(perfil.uid).update({ nombre: perfil.nombreJugador, puntos: puntuacion, fecha: Date.now() });
         }
     } catch (e) {}
-}// ========================================================
-// MOTOR MULTIJUGADOR DE DUELOS (Sincronización de Semilla)
+}
+
+// ========================================================
+// SISTEMA DE MENSAJERÍA PRIVADA (CHAT EN NODO AISLADO)
+// ========================================================
+window.ChatManager = {
+    enviarMensaje: function(toUid, texto) {
+        let miUid = localStorage.getItem('current_user_uid');
+        if(!miUid || !texto.trim()) return;
+        
+        let chatId = miUid < toUid ? `${miUid}_${toUid}` : `${toUid}_${miUid}`;
+        
+        firebase.database().ref(`chats/${chatId}/mensajes`).push({
+            from: miUid,
+            text: texto,
+            time: Date.now()
+        });
+        
+        // Guardamos las agendas en un sitio seguro donde el juego no las pueda pisar
+        firebase.database().ref(`mis_contactos/${miUid}/${toUid}`).set(Date.now());
+        firebase.database().ref(`mis_contactos/${toUid}/${miUid}`).set(Date.now());
+    },
+    escucharConversacion: function(toUid, callback) {
+        let miUid = localStorage.getItem('current_user_uid');
+        let chatId = miUid < toUid ? `${miUid}_${toUid}` : `${toUid}_${miUid}`;
+        firebase.database().ref(`chats/${chatId}/mensajes`).limitToLast(50).on('value', callback);
+    }
+};
+
+// ========================================================
+// MOTOR DE DUELOS Y TORNEOS
 // ========================================================
 window.DueloManager = {
-    enDuelo: false,
-    sala: "",
-    contador: 0,
-    
+    enDuelo: false, sala: "", contador: 0,
     iniciar: function() {
         const params = new URLSearchParams(window.location.search);
         if (params.get('duelo') === 'true') {
-            this.enDuelo = true;
-            this.sala = params.get('sala') || "sala_secreta";
-            
-            // Ocultar elementos de navegación para máxima inmersión
+            this.enDuelo = true; this.sala = params.get('sala') || "sala_secreta";
             setTimeout(() => {
-                document.querySelectorAll('a[href="index.html"], .btn-skip, button:contains("Menú")').forEach(el => {
-                    if(!el.onclick || !el.onclick.toString().includes('saltarPuzzle')) {
-                        el.style.display = 'none';
-                    }
-                });
-                
-                // Carga automática de base de datos para evitar bloqueos de navegador
-                const btnBase = document.getElementById('btn-defecto') || document.getElementById('btn-cargar');
-                if(btnBase && btnBase.innerText !== "✅ Base cargada") btnBase.click();
+                document.querySelectorAll('a[href="index.html"], .btn-salir').forEach(el => el.style.display = 'none');
+                let btnBase = document.getElementById('btn-defecto') || document.getElementById('btn-cargar');
+                if(btnBase) btnBase.click();
             }, 500);
         }
     },
-
     obtenerIndiceSincronizado: function(maximo) {
         if (!this.enDuelo) return Math.floor(Math.random() * maximo);
-        
-        this.contador++;
-        // Usamos la sala + el número de ronda como semilla única
-        let semilla = this.sala + "_" + this.contador;
-        let hash = 0;
-        for (let i = 0; i < semilla.length; i++) {
-            hash = Math.imul(31, hash) + semilla.charCodeAt(i) | 0;
-        }
+        this.contador++; let semilla = this.sala + "_" + this.contador; let hash = 0;
+        for (let i = 0; i < semilla.length; i++) hash = Math.imul(31, hash) + semilla.charCodeAt(i) | 0;
         return Math.abs(hash) % maximo;
     },
-
-    enviarPuntos: function(puntos) {
-        if (this.enDuelo && window.self !== window.top) {
-            window.parent.postMessage({ action: 'actualizarPuntos', puntos: puntos }, '*');
-        }
-    }
+    enviarPuntos: function(puntos) { if (this.enDuelo && window.self !== window.top) window.parent.postMessage({ action: 'actualizarPuntos', puntos: puntos }, '*'); }
 };
 window.addEventListener('DOMContentLoaded', () => { DueloManager.iniciar(); });
 
-// ========================================================
-// MOTOR DE TORNEOS MULTIJUGADOR (Battle Royale)
-// ========================================================
 window.TorneoManager = {
-    enTorneo: false,
-    codigoSala: "",
-    contador: 0,
-    semillaRonda: "1", // <-- LA VARIABLE MÁGICA PARA LAS REVANCHAS
-
-    // Función matemática para que TODOS en la sala vean el mismo puzzle en el mismo orden
+    enTorneo: false, codigoSala: "", contador: 0, semillaRonda: "1",
     obtenerIndiceSincronizado: function(maximo) {
         if (!this.enTorneo) return Math.floor(Math.random() * maximo);
-        
-        this.contador++;
-        // Sumamos la semillaRonda al código. ¡En cada revancha esta semilla será diferente!
-        let semilla = this.codigoSala + "_torneo_" + this.semillaRonda + "_" + this.contador;
-        let hash = 0;
-        for (let i = 0; i < semilla.length; i++) {
-            hash = Math.imul(31, hash) + semilla.charCodeAt(i) | 0;
-        }
+        this.contador++; let semilla = this.codigoSala + "_torneo_" + this.semillaRonda + "_" + this.contador; let hash = 0;
+        for (let i = 0; i < semilla.length; i++) hash = Math.imul(31, hash) + semilla.charCodeAt(i) | 0;
         return Math.abs(hash) % maximo;
     },
-
-    // Envía tus puntos a la base de datos de la sala en tiempo real
     enviarPuntos: function(puntos) {
         if (!this.enTorneo || !this.codigoSala) return;
-        
-        let uid = localStorage.getItem('current_user_uid');
-        let nombre = localStorage.getItem('current_user_name') || "Jugador";
-        
-        if (uid && typeof firebase !== 'undefined') {
-            firebase.database().ref(`torneos/${this.codigoSala}/jugadores/${uid}`).update({
-                nombre: nombre,
-                puntos: puntos,
-                ultimaActividad: Date.now()
-            });
-        }
+        let uid = localStorage.getItem('current_user_uid'); let nombre = localStorage.getItem('current_user_name') || "Jugador";
+        if (uid && typeof firebase !== 'undefined') firebase.database().ref(`torneos/${this.codigoSala}/jugadores/${uid}`).update({ nombre: nombre, puntos: puntos, ultimaActividad: Date.now() });
     }
 };
