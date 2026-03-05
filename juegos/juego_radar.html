@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Radar: Autoverificación Pro</title>
+    <title>Radar Visual - Modo Torneo</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>♞</text></svg>">
     
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
@@ -14,10 +14,10 @@
 
     <style>
         body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg-color); color: var(--text); margin: 0; display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 20px; box-sizing: border-box; }
-        h1 { color: var(--accent); margin-bottom: 30px; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
+        h1 { color: var(--accent); margin-bottom: 20px; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
         
-        #main-layout { display: flex; flex-direction: row; gap: 40px; width: 100%; max-width: 900px; justify-content: center; align-items: flex-start; }
-        @media (max-width: 800px) { #main-layout { flex-direction: column; align-items: center; } #sidebar { width: 100%; max-width: 450px; } }
+        #main-layout { display: flex; flex-direction: row; gap: 30px; width: 100%; max-width: 1200px; justify-content: center; align-items: flex-start; }
+        @media (max-width: 950px) { #main-layout { flex-direction: column; align-items: center; } #sidebar, #panel-leaderboard { width: 100%; max-width: 450px; } }
 
         #tablero-wrapper { flex: 0 0 450px; display: flex; flex-direction: column; align-items: center; width: 100%; }
 
@@ -28,9 +28,9 @@
         #barra-tiempo-container { width: 100%; height: 12px; background: #1a1917; border-radius: 6px; overflow: hidden; margin-bottom: 15px; }
         #barra-tiempo { height: 100%; width: 100%; background: var(--accent); transition: width linear; }
 
-        #sidebar { flex: 1; display: flex; flex-direction: column; gap: 20px; width: 350px; }
+        #sidebar, #panel-leaderboard { flex: 1; display: flex; flex-direction: column; gap: 20px; width: 300px; }
 
-        .panel-box { background: var(--panel-bg); padding: 25px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); border: 1px solid #444; min-height: 150px; display: flex; flex-direction: column; justify-content: center; }
+        .panel-box { background: var(--panel-bg); padding: 20px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); border: 1px solid #444; display: flex; flex-direction: column; justify-content: center; }
         .panel-title { font-weight: bold; color: var(--accent); margin-bottom: 15px; font-size: 1.2em; text-transform: uppercase; letter-spacing: 1px; text-align: center;}
 
         #texto-pregunta { color: #fff; font-size: 1.2em; margin-bottom: 20px; font-weight: bold; text-align: center; line-height: 1.4;}
@@ -38,7 +38,7 @@
         
         #grid-numeros { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
         .btn-numero { background: #262421; color: white; width: 60px; height: 60px; border: 2px solid #555; font-size: 1.5em; border-radius: 8px; cursor: pointer; transition: 0.2s; font-weight: bold;}
-        .btn-numero:hover { background: var(--blue); border-color: var(--blue); transform: scale(1.1); box-shadow: 0 4px 10px rgba(54, 146, 231, 0.4);}
+        .btn-numero:hover { background: var(--blue); border-color: var(--blue); transform: scale(1.1); }
 
         #instrucciones { text-align: center; color: #888; font-size: 1.1em; line-height: 1.5; }
 
@@ -56,22 +56,71 @@
         
         .highlight-target { box-shadow: inset 0 0 0 5px rgba(54, 146, 231, 0.9) !important; background-color: rgba(54, 146, 231, 0.4) !important; } 
         .highlight-center { box-shadow: inset 0 0 0 5px rgba(229, 191, 0, 1) !important; background-color: rgba(229, 191, 0, 0.5) !important; } 
+
+        /* --- ESTILOS MODO TORNEO --- */
+        #lobby-torneo { background: var(--panel-bg); padding: 40px; border-radius: 12px; border: 2px solid var(--accent); max-width: 600px; width: 100%; text-align: center; margin-top: 20px; box-shadow: 0 15px 40px rgba(0,0,0,0.8); }
+        #codigo-input { background: #111; color: var(--accent); border: 2px dashed #555; font-size: 3em; font-family: 'Courier New', Courier, monospace; text-align: center; width: 200px; padding: 10px; border-radius: 8px; outline: none; margin: 10px 0 20px 0; font-weight: bold;}
+        .jugador-lobby { display: inline-block; background: #262421; border: 1px solid #444; padding: 8px 15px; margin: 5px; border-radius: 20px; font-weight: bold; color: #fff; }
+        .btn-gran-fuego { background: var(--success); color: white; font-size: 1.8em; font-weight: bold; padding: 20px; width: 100%; border: none; border-radius: 8px; cursor: pointer; box-shadow: 0 6px 0 #4a751b; margin-top: 30px; text-transform: uppercase;}
+        
+        .leaderboard-item { display: flex; justify-content: space-between; padding: 12px 10px; border-bottom: 1px solid #333; font-size: 1.1em; background: #222; margin-bottom: 5px; border-radius: 5px;}
+        .leaderboard-item.me { border: 1px solid var(--accent); background: #2a2820; }
+        .rank-pts { font-weight: bold; color: var(--blue); }
+
+        #timer-torneo { font-size: 3em; font-family: 'Courier New', monospace; font-weight: bold; color: var(--accent); text-align: center; margin-bottom: 15px; background: #111; padding: 10px; border-radius: 8px; border: 2px solid #333; }
+
+        #pantalla-podio { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(20, 20, 20, 0.98); z-index: 1000; display: flex; flex-direction: column; align-items: center; justify-content: center; overflow-y: auto; padding: 20px; box-sizing: border-box;}
+        .podio-titulo { font-size: 4em; color: var(--accent); text-transform: uppercase; margin-bottom: 40px; text-shadow: 0 0 20px rgba(229, 191, 0, 0.5); text-align: center;}
+        .podio-fila { display: flex; justify-content: space-between; align-items: center; width: 100%; max-width: 500px; background: #222; padding: 20px; margin-bottom: 10px; border-radius: 8px; font-size: 1.5em; border: 1px solid #444; }
+        .podio-oro { border-color: #ffd700; background: rgba(255, 215, 0, 0.1); font-size: 1.8em; font-weight: bold;}
+        .podio-plata { border-color: #c0c0c0; background: rgba(192, 192, 192, 0.1); }
+        .podio-bronce { border-color: #cd7f32; background: rgba(205, 127, 50, 0.1); }
     </style>
 </head>
 <body>
 
+    <h1 id="titulo-juego">📡 Radar Visual 📡</h1>
+
     <div id="pantalla-carga">
-        <h1 style="margin-top: 0; color: var(--text);">📡 Radar Visual</h1>
-        <p style="color: #aaa;">¿Qué base de datos quieres usar?</p>
-        <button id="btn-defecto" class="btn-secundario">🎮 Usar la base del juego</button>
+        <h2 style="color: var(--text); margin-top: 0;">Configuración</h2>
+        <p style="color: #aaa;">Para jugar solo, usa este botón:</p>
+        <button id="btn-defecto" class="btn-secundario" style="padding: 12px 20px; width: 100%;">🎮 JUGAR EN SOLITARIO</button>
+        
         <hr style="border: 1px solid #444; margin: 25px 0;">
-        <p style="font-size: 0.9em; color: #888; text-align: left; margin-bottom: 5px;">O sube tu propio archivo <strong>.json</strong>:</p>
-        <input type="file" id="archivoInput" accept=".json">    
+        <p style="color: #aaa; margin-bottom: 10px;">O únete a la batalla:</p>
+        <button id="btn-torneo" class="btn-secundario" style="background: var(--accent); color: #000; width: 100%; padding: 15px; font-size: 1.2em;" onclick="abrirLobbyTorneo()">🏆 CREAR / UNIRSE A TORNEO</button>
+        
+        <div style="margin-top: 30px; border-top: 1px solid #333; padding-top: 15px;">
+            <p style="font-size: 0.8em; color: #666; text-align: left; margin-bottom: 5px;">Avanzado: Subir tu archivo .json</p>
+            <input type="file" id="archivoInput" accept=".json">
+        </div>
+        <a href="index.html" style="text-decoration:none;"><button style="background:#444; color:white; width:100%; padding:15px; margin-top: 20px;">⬅ Volver al Menú</button></a>
+    </div>
+
+    <div id="lobby-torneo" class="oculto">
+        <h2 style="color: var(--accent); font-size: 2.5em; margin-top: 0;">SALA DE TORNEO</h2>
+        <p style="color: #aaa; font-size: 1.1em;">Comparte este código o escribe uno para unirte:</p>
+        <input type="text" id="codigo-input" maxlength="4" oninput="cambiarSalaTorneo(this.value)">
+        <div style="background: #111; border: 1px solid #333; border-radius: 8px; padding: 20px; min-height: 150px; text-align: left;">
+            <div style="color: #888; font-weight: bold; margin-bottom: 10px; border-bottom: 1px solid #333; padding-bottom: 5px;">JUGADORES EN SALA:</div>
+            <div id="lista-lobby">Cargando...</div>
+        </div>
+        <button class="btn-gran-fuego" onclick="empezarTorneoParaTodos()">🔥 ¡EMPEZAR AHORA! 🔥</button>
+        <button style="background:#444; color:white; padding:15px; width:100%; margin-top: 20px;" onclick="location.reload()">⬅ Salir del Lobby</button>
     </div>
 
     <div id="contenedor-juego" class="oculto">
         <div id="main-layout">
+            
+            <div id="panel-leaderboard" class="oculto">
+                <div class="panel-box" style="height: 100%;">
+                    <div class="panel-title">🏆 CLASIFICACIÓN</div>
+                    <div id="leaderboard-list"></div>
+                </div>
+            </div>
+
             <div id="tablero-wrapper">
+                <div id="timer-torneo" class="oculto">03:00</div>
                 <div id="barra-tiempo-container"><div id="barra-tiempo" style="width: 100%;"></div></div>
                 <div id="tablero-container">
                     <div id="tablero"></div>
@@ -86,11 +135,9 @@
             <div id="sidebar">
                 <div class="panel-box">
                     <div class="panel-title">Panel de Control</div>
-                    <div id="instrucciones">
-                        Pulsa <strong>ESCANEAR</strong>. Cuenta cuántas piezas de todo el tablero <strong>atacan o defienden</strong> la casilla que se te indicará.
-                    </div>
+                    <div id="instrucciones">Pulsa <strong>ESCANEAR</strong>. Cuenta cuántas piezas de todo el tablero <strong>atacan o defienden</strong> la casilla indicada.</div>
                     <div id="zona-respuesta" class="oculto">
-                        <div id="texto-pregunta">¿Cuántas piezas tocan / vigilan la casilla <br><br><span id="casilla-target" class="casilla-destacada">E4</span> ?</div>
+                        <div id="texto-pregunta">¿Cuántas piezas tocan la casilla <br><br><span id="casilla-target" class="casilla-destacada">E4</span> ?</div>
                         <div id="grid-numeros"></div>
                     </div>
                     <div id="zona-resultado" class="oculto" style="width: 100%; text-align: center;">
@@ -108,12 +155,21 @@
                         </div>
                         <div class="stat-card">
                             <span id="radares-aciertos" class="stat-value" style="color: var(--success);">0</span>
-                            <span class="stat-label">Aciertos</span>
+                            <span class="stat-label" id="label-pts">Aciertos</span>
                         </div>
                     </div>
-                    <a id="btn-salir-radar" href="index.html" style="text-decoration:none;"><button style="background:#444; color:white; width:100%; margin-top:20px; padding:10px; box-shadow: 0 4px 0 #222;">⬅ Menú Principal</button></a>
+                    <a id="btn-salir-radar" href="index.html" style="text-decoration:none;"><button style="background:#444; color:white; width:100%; margin-top:20px; padding:10px;">⬅ Menú Principal</button></a>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <div id="pantalla-podio" class="oculto">
+        <div class="podio-titulo">🏁 TORNEO FINALIZADO 🏁</div>
+        <div id="lista-podio" style="width: 100%; display: flex; flex-direction: column; align-items: center;"></div>
+        <div style="display: flex; gap: 20px; margin-top: 40px; flex-wrap: wrap; justify-content: center; width: 100%;">
+            <button class="btn-gran-fuego" style="width: auto; min-width: 250px;" onclick="jugarRevancha()">🔄 Jugar Revancha</button>
+            <button class="btn-gran-fuego" style="background: #444; box-shadow: 0 6px 0 #222; width: auto; min-width: 250px;" onclick="location.reload()">⬅ Salir</button>
         </div>
     </div>
 
@@ -125,33 +181,119 @@
     <script>
         let todosLosPuzzles = {}; let puzzleActual = null; let game = new Chess(); let board = null; let tiempoRadar = 3000; let temporizador = null; let casillaObjetivo = "";
         let radaresCompletados = 0; let radaresAciertos = 0;
+        let misPuntosLocales = 0; let juegoActivo = false;
+
+        let refSalaTorneo = null; let intervaloTorneo = null;
 
         inicializarCargaBaseDatos('mis_puzzles.json', 'btn-defecto', 'archivoInput', function(data) {
-            todosLosPuzzles = data; iniciarPantallaJuego(); 
+            todosLosPuzzles = data; 
+            if (!TorneoManager.enTorneo && !DueloManager.enDuelo) iniciarPantallaJuego(false);
         });
 
-        // LÓGICA DE AUTO-ARRANQUE EN DUELO
-        window.addEventListener('DOMContentLoaded', () => {
-            const params = new URLSearchParams(window.location.search);
-            if (params.get('duelo') === 'true') {
-                setTimeout(() => {
-                    // Si estamos en duelo, lanzamos el primer escaneo tras cargar
-                    let btnScan = document.getElementById('btn-empezar-radar');
-                    if(btnScan) btnScan.click();
-                }, 1000);
+        // ---------------- TORNEO LOBBY ----------------
+        function abrirLobbyTorneo() {
+            let btn = document.getElementById('btn-torneo');
+            if (btn) btn.innerText = "Cargando Arena...";
+            if (Object.keys(todosLosPuzzles).length > 0) { ejecutarLobby(); }
+            else {
+                fetch('mis_puzzles.json').then(r => r.json()).then(data => { todosLosPuzzles = data; ejecutarLobby(); })
+                .catch(e => { alert("Error cargando base"); if (btn) btn.innerText = "🏆 CREAR / UNIRSE A TORNEO"; });
             }
-        });
+        }
 
-        function iniciarPantallaJuego() {
+        function ejecutarLobby() {
             document.getElementById('pantalla-carga').classList.add('oculto');
+            document.getElementById('lobby-torneo').classList.remove('oculto');
+            document.getElementById('titulo-juego').style.display = 'none';
+            let codigoRandom = Math.floor(1000 + Math.random() * 9000).toString();
+            document.getElementById('codigo-input').value = codigoRandom;
+            cambiarSalaTorneo(codigoRandom);
+        }
+
+        function cambiarSalaTorneo(codigo) {
+            codigo = codigo.trim(); if(codigo.length < 4) return;
+            TorneoManager.enTorneo = true; TorneoManager.codigoSala = codigo;
+            let uid = localStorage.getItem('current_user_uid') || "invitado_" + Math.floor(Math.random()*1000);
+            let nombre = localStorage.getItem('current_user_name') || "Anónimo";
+
+            if (refSalaTorneo) firebase.database().ref(refSalaTorneo).off(); 
+            refSalaTorneo = `torneos/${codigo}`;
+            
+            firebase.database().ref(`${refSalaTorneo}/jugadores/${uid}`).set({ nombre: nombre, puntos: 0 });
+            firebase.database().ref(`${refSalaTorneo}/jugadores/${uid}`).onDisconnect().remove();
+
+            firebase.database().ref(refSalaTorneo).on('value', (snap) => {
+                let data = snap.val(); if (!data) return;
+                if (data.jugadores) {
+                    let htmlLobby = ""; let listaLeaderboard = []; let miUid = localStorage.getItem('current_user_uid');
+                    for (let key in data.jugadores) {
+                        let j = data.jugadores[key]; htmlLobby += `<span class="jugador-lobby">${j.nombre}</span>`;
+                        listaLeaderboard.push({ uid: key, nombre: j.nombre, puntos: j.puntos || 0 });
+                    }
+                    if (!juegoActivo) document.getElementById('lista-lobby').innerHTML = htmlLobby;
+                    
+                    listaLeaderboard.sort((a, b) => b.puntos - a.puntos);
+                    let htmlBoard = "";
+                    listaLeaderboard.forEach((j, index) => {
+                        let medalla = index === 0 ? '👑' : index === 1 ? '🥈' : index === 2 ? '🥉' : '🔹';
+                        let extraClass = (j.uid === miUid) ? "me" : "";
+                        htmlBoard += `<div class="leaderboard-item ${extraClass}"><span>${medalla} ${j.nombre}</span> <span class="rank-pts">${j.puntos}</span></div>`;
+                    });
+                    document.getElementById('leaderboard-list').innerHTML = htmlBoard;
+                }
+                if (data.estado === 'jugando' && !juegoActivo) {
+                    let restante = data.tiempoFin ? Math.floor((data.tiempoFin - Date.now()) / 1000) : 0;
+                    if (restante > 0) {
+                        TorneoManager.semillaRonda = data.tiempoFin.toString();
+                        document.getElementById('pantalla-podio').classList.add('oculto');
+                        iniciarPantallaJuego(true, data.tiempoFin);
+                    } else {
+                        document.getElementById('lista-lobby').innerHTML += "<div style='color:var(--accent); margin-top:15px; font-style:italic;'>Partida terminada. Esperando revancha...</div>";
+                    }
+                }
+            });
+        }
+
+        function empezarTorneoParaTodos() {
+            if (!TorneoManager.codigoSala) return;
+            let tiempoFinal = Date.now() + 180000; // 3 Minutos de Torneo
+            firebase.database().ref(refSalaTorneo).update({ estado: 'jugando', tiempoFin: tiempoFinal });
+        }
+
+        // ---------------- JUEGO RADAR ----------------
+        function iniciarPantallaJuego(esTorneo, tiempoFinMs = null) {
+            juegoActivo = true;
+            document.getElementById('pantalla-carga').classList.add('oculto');
+            document.getElementById('lobby-torneo').classList.add('oculto');
             document.getElementById('contenedor-juego').classList.remove('oculto');
             board = Chessboard('tablero', { position: 'start', pieceTheme: 'https://chessboardjs.com/img/chesspieces/wikipedia/{piece}.png' });
             
-            let p = obtenerPerfil();
-            radaresCompletados = p.radarJugados || 0;
-            radaresAciertos = p.radarAciertos || 0;
+            if (esTorneo) {
+                TorneoManager.contador = 0;
+                document.getElementById('panel-leaderboard').classList.remove('oculto');
+                document.getElementById('timer-torneo').classList.remove('oculto');
+                document.getElementById('btn-salir-radar').style.display = 'none';
+                document.getElementById('label-pts').innerText = "Puntos";
+                
+                intervaloTorneo = setInterval(() => {
+                    let restante = Math.floor((tiempoFinMs - Date.now()) / 1000);
+                    if (restante <= 0) { clearInterval(intervaloTorneo); finalizarTorneoGlobal(); return; }
+                    let m = Math.floor(restante / 60); let s = restante % 60;
+                    let timerEl = document.getElementById('timer-torneo');
+                    timerEl.innerText = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+                    if(restante <= 10) timerEl.style.color = "var(--danger)"; else timerEl.style.color = "var(--accent)";
+                }, 1000);
+            } else {
+                let p = obtenerPerfil();
+                radaresCompletados = p.radarJugados || 0;
+                radaresAciertos = p.radarAciertos || 0;
+                misPuntosLocales = radaresAciertos;
+            }
+            
             document.getElementById('radares-completados').innerText = radaresCompletados;
-            document.getElementById('radares-aciertos').innerText = radaresAciertos;
+            document.getElementById('radares-aciertos').innerText = misPuntosLocales;
+            
+            if (esTorneo) setTimeout(() => { document.getElementById('btn-empezar-radar').click(); }, 1500);
         }
 
         function resetearInterfaz() {
@@ -164,6 +306,7 @@
         }
 
         function empezarRonda() {
+            if(!juegoActivo) return;
             cargarPosicionAleatoria();
             document.getElementById('cortina').classList.add('oculto'); document.getElementById('instrucciones').classList.add('oculto'); 
             let barra = document.getElementById('barra-tiempo');
@@ -175,16 +318,17 @@
             let listas = Object.values(todosLosPuzzles); let listaPlana = listas.flat();
             if (listaPlana.length === 0) return; 
 
-            // SINCRONIZACIÓN POR SEMILLA
-            let indiceElegido = (typeof DueloManager !== 'undefined' && DueloManager.enDuelo) 
-                                ? DueloManager.obtenerIndiceSincronizado(listaPlana.length) 
-                                : Math.floor(Math.random() * listaPlana.length);
+            let indiceElegido = 0;
+            if (TorneoManager.enTorneo) indiceElegido = TorneoManager.obtenerIndiceSincronizado(listaPlana.length);
+            else if (typeof DueloManager !== 'undefined' && DueloManager.enDuelo) indiceElegido = DueloManager.obtenerIndiceSincronizado(listaPlana.length);
+            else indiceElegido = Math.floor(Math.random() * listaPlana.length);
             
             puzzleActual = listaPlana[indiceElegido];
             game.load(puzzleActual.fen); board.position(game.fen());
         }
 
         function lanzarPregunta() {
+            if(!juegoActivo) return;
             casillaObjetivo = seleccionarCasillaActivaSegura();
             document.getElementById('cortina').classList.remove('oculto'); document.getElementById('tablero').style.opacity = '0'; 
             document.getElementById('contenido-cortina').innerHTML = ""; document.getElementById('casilla-target').innerText = casillaObjetivo.toUpperCase();
@@ -193,12 +337,25 @@
             document.getElementById('grid-numeros').innerHTML = htmlBotones; document.getElementById('zona-respuesta').classList.remove('oculto');
         }
 
+        function seleccionarCasillaActivaSegura() {
+            let candidatos = []; const columnas = ['a','b','c','d','e','f','g','h']; const filas = ['1','2','3','4','5','6','7','8'];
+            for (let c of columnas) { for (let f of filas) { let casilla = c + f; let pieza = game.get(casilla); if (pieza !== null) candidatos.push(casilla); } }
+            candidatos.push('e4', 'd4', 'e5', 'd5'); 
+
+            let indiceCasilla = 0;
+            if (TorneoManager.enTorneo) indiceCasilla = TorneoManager.obtenerIndiceSincronizado(candidatos.length);
+            else if (typeof DueloManager !== 'undefined' && DueloManager.enDuelo) indiceCasilla = DueloManager.obtenerIndiceSincronizado(candidatos.length);
+            else indiceCasilla = Math.floor(Math.random() * candidatos.length);
+            
+            return candidatos[indiceCasilla];
+        }
+
+        // Lógica matemática de Radar
         function caminoDespejado(c1, f1, c2, f2) {
             let dc = Math.sign(c2 - c1); let df = Math.sign(f2 - f1); let c = c1 + dc; let f = f1 + df;
             while (c !== c2 || f !== f2) { let casIntermedia = String.fromCharCode(c + 97) + (f + 1); if (game.get(casIntermedia) !== null) return false; c += dc; f += df; }
             return true;
         }
-
         function piezaAtacaCasilla(origen, destino) {
             if (origen === destino) return false; let pieza = game.get(origen); if (!pieza) return false;
             let c1 = origen.charCodeAt(0) - 97; let f1 = parseInt(origen[1]) - 1; let c2 = destino.charCodeAt(0) - 97; let f2 = parseInt(destino[1]) - 1;
@@ -215,6 +372,7 @@
         }
 
         function revelar(respuestaUsuario) {
+            if(!juegoActivo) return;
             document.getElementById('cortina').classList.add('oculto'); document.getElementById('tablero').style.opacity = '1';
             let $board = $('#tablero'); $board.find('.square-55d63').removeClass('highlight-target highlight-center'); 
             let casillasAtacantes = []; const columnas = ['a','b','c','d','e','f','g','h']; const filas = ['1','2','3','4','5','6','7','8'];
@@ -228,25 +386,22 @@
             let htmlStatus = ""; let txtRespuesta = respuestaUsuario === 5 ? "5 o más" : respuestaUsuario;
             
             radaresCompletados++;
-            if (!DueloManager.enDuelo) actualizarEstadisticaGlobal('radarJugados', 1, true);
             document.getElementById('radares-completados').innerText = radaresCompletados;
 
             if (esCorrecto) {
                 reproducirSonido('correcto');
-                radaresAciertos++;
-                if (!DueloManager.enDuelo) {
-                    actualizarEstadisticaGlobal('radarAciertos', 1, true);
-                    registrarXP('medio', true);
-                }
+                if (TorneoManager.enTorneo) { misPuntosLocales += 15; TorneoManager.enviarPuntos(misPuntosLocales); } 
+                else if (typeof DueloManager !== 'undefined' && DueloManager.enDuelo) { misPuntosLocales++; DueloManager.enviarPuntos(misPuntosLocales); }
+                else { misPuntosLocales++; actualizarEstadisticaGlobal('radarAciertos', 1, true); registrarXP('medio', true); }
                 
-                // ENVÍO DE PUNTOS AL MARCADOR DE DUELO
-                DueloManager.enviarPuntos(radaresAciertos);
-                
-                document.getElementById('radares-aciertos').innerText = radaresAciertos;
+                document.getElementById('radares-aciertos').innerText = misPuntosLocales;
                 htmlStatus = `<strong style="color:var(--success); font-size:1.4em;">✅ ¡CORRECTO!</strong><br>Había ${piezasQueTocan} pieza(s) vigilando la casilla.`;
             } else {
                 reproducirSonido('incorrecto');
-                if (!DueloManager.enDuelo) registrarXP('medio', false);
+                if (TorneoManager.enTorneo) { misPuntosLocales = Math.max(0, misPuntosLocales - 5); TorneoManager.enviarPuntos(misPuntosLocales); }
+                else if (!DueloManager.enDuelo) registrarXP('medio', false);
+                
+                document.getElementById('radares-aciertos').innerText = misPuntosLocales;
                 htmlStatus = `<strong style="color:var(--danger); font-size:1.4em;">❌ FALLO</strong><br>Tú dijiste ${txtRespuesta}, pero hay ${piezasQueTocan} pieza(s) vigilándola.`;
             }
             
@@ -254,17 +409,32 @@
             document.getElementById('zona-respuesta').classList.add('oculto'); document.getElementById('zona-resultado').classList.remove('oculto');
         }
 
-        function seleccionarCasillaActivaSegura() {
-            let candidatos = []; const columnas = ['a','b','c','d','e','f','g','h']; const filas = ['1','2','3','4','5','6','7','8'];
-            for (let c of columnas) { for (let f of filas) { let casilla = c + f; let pieza = game.get(casilla); if (pieza !== null) candidatos.push(casilla); } }
-            candidatos.push('e4', 'd4', 'e5', 'd5'); 
+        // ---------------- PODIO Y REVANCHA ----------------
+        function finalizarTorneoGlobal() {
+            juegoActivo = false; reproducirSonido('fin');
+            document.getElementById('contenedor-juego').classList.add('oculto');
+            document.getElementById('pantalla-podio').classList.remove('oculto');
+            firebase.database().ref(refSalaTorneo).update({ estado: 'finalizado' });
+            firebase.database().ref(refSalaTorneo + '/jugadores').once('value').then(snap => {
+                let data = snap.val(); if(!data) return;
+                let lista = []; for(let key in data) { lista.push({ nombre: data[key].nombre, puntos: data[key].puntos || 0 }); }
+                lista.sort((a, b) => b.puntos - a.puntos);
+                let htmlPodio = "";
+                lista.forEach((j, i) => {
+                    let clase = i === 0 ? "podio-oro" : i === 1 ? "podio-plata" : i === 2 ? "podio-bronce" : "";
+                    let icono = i === 0 ? "👑" : i === 1 ? "🥈" : i === 2 ? "🥉" : "🏅";
+                    htmlPodio += `<div class="podio-fila ${clase}"><span>${icono} ${j.nombre}</span> <strong>${j.puntos} pts</strong></div>`;
+                });
+                document.getElementById('lista-podio').innerHTML = htmlPodio;
+            });
+        }
 
-            // SINCRONIZACIÓN DE LA CASILLA PREGUNTADA
-            let indiceCasilla = (typeof DueloManager !== 'undefined' && DueloManager.enDuelo) 
-                                ? DueloManager.obtenerIndiceSincronizado(candidatos.length) 
-                                : Math.floor(Math.random() * candidatos.length);
-            
-            return candidatos[indiceCasilla];
+        function jugarRevancha() {
+            document.getElementById('pantalla-podio').classList.add('oculto'); document.getElementById('lobby-torneo').classList.remove('oculto');
+            firebase.database().ref(refSalaTorneo).update({ estado: 'esperando', tiempoFin: null });
+            let uid = localStorage.getItem('current_user_uid');
+            firebase.database().ref(`${refSalaTorneo}/jugadores/${uid}/puntos`).set(0);
+            misPuntosLocales = 0; radaresCompletados = 0; juegoActivo = false;
         }
     </script>
 </body>

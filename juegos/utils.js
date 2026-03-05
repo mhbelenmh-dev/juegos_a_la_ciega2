@@ -235,3 +235,43 @@ window.DueloManager = {
     }
 };
 window.addEventListener('DOMContentLoaded', () => { DueloManager.iniciar(); });
+
+// ========================================================
+// MOTOR DE TORNEOS MULTIJUGADOR (Battle Royale)
+// ========================================================
+window.TorneoManager = {
+    enTorneo: false,
+    codigoSala: "",
+    contador: 0,
+    semillaRonda: "1", // <-- LA VARIABLE MÁGICA PARA LAS REVANCHAS
+
+    // Función matemática para que TODOS en la sala vean el mismo puzzle en el mismo orden
+    obtenerIndiceSincronizado: function(maximo) {
+        if (!this.enTorneo) return Math.floor(Math.random() * maximo);
+        
+        this.contador++;
+        // Sumamos la semillaRonda al código. ¡En cada revancha esta semilla será diferente!
+        let semilla = this.codigoSala + "_torneo_" + this.semillaRonda + "_" + this.contador;
+        let hash = 0;
+        for (let i = 0; i < semilla.length; i++) {
+            hash = Math.imul(31, hash) + semilla.charCodeAt(i) | 0;
+        }
+        return Math.abs(hash) % maximo;
+    },
+
+    // Envía tus puntos a la base de datos de la sala en tiempo real
+    enviarPuntos: function(puntos) {
+        if (!this.enTorneo || !this.codigoSala) return;
+        
+        let uid = localStorage.getItem('current_user_uid');
+        let nombre = localStorage.getItem('current_user_name') || "Jugador";
+        
+        if (uid && typeof firebase !== 'undefined') {
+            firebase.database().ref(`torneos/${this.codigoSala}/jugadores/${uid}`).update({
+                nombre: nombre,
+                puntos: puntos,
+                ultimaActividad: Date.now()
+            });
+        }
+    }
+};

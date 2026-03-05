@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Puzzle Storm Tiempo - Modo Duelo</title>
+    <title>Puzzle Storm Tiempo - Modo Torneo</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>♞</text></svg>">
     
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
@@ -13,10 +13,13 @@
     <link rel="stylesheet" href="styles.css">
 
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg-color); color: var(--text); text-align: center; display: flex; flex-direction: column; align-items: center; min-height: 100vh; margin: 0; }
-        h1 { color: var(--accent); margin-bottom: 5px; }
+        body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg-color); color: var(--text); text-align: center; display: flex; flex-direction: column; align-items: center; min-height: 100vh; margin: 0; padding: 20px; box-sizing: border-box; }
+        h1 { color: var(--accent); margin-bottom: 20px; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); }
         
-        #marcador { display: flex; gap: 20px; background: #1e1e1e; padding: 15px 30px; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.5); font-size: 1.5em; }
+        #main-layout { display: flex; flex-direction: row; gap: 30px; width: 100%; max-width: 1200px; justify-content: center; align-items: flex-start; }
+        @media (max-width: 950px) { #main-layout { flex-direction: column; align-items: center; } .sidebar-panel { width: 100%; max-width: 450px; } }
+
+        #marcador { display: flex; gap: 20px; background: #1e1e1e; padding: 15px 30px; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.5); font-size: 1.5em; justify-content: center; width: 100%; box-sizing: border-box;}
         .dato { display: flex; flex-direction: column; align-items: center; }
         .dato span { font-size: 0.6em; color: #777; text-transform: uppercase; letter-spacing: 1px; }
         .dato strong { color: #fff; font-size: 1.4em; }
@@ -27,61 +30,104 @@
         @keyframes parpadeoVerde { 50% { color: #fff; transform: scale(1.2); } }
         @keyframes parpadeoRojo { 50% { color: #fff; transform: scale(1.2); } }
         
-        #tablero { width: 450px; margin: 0 auto; touch-action: none !important;}
-        .pantalla-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 100; }
+        #tablero-wrapper { flex: 0 0 450px; display: flex; flex-direction: column; align-items: center; }
+        #tablero { width: 450px; border: 6px solid #3d3a37; border-radius: 4px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); touch-action: none !important;}
         
+        #status { margin-top: 15px; font-weight: bold; min-height: 30px; font-size: 1.3em; background: var(--panel-bg); padding: 10px; border-radius: 8px; width: 100%; box-sizing: border-box; border: 1px solid #444;}
+
+        .sidebar-panel { flex: 1; display: flex; flex-direction: column; gap: 20px; width: 300px; }
+        .panel-box { background: var(--panel-bg); padding: 20px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); border: 1px solid #444; height: 100%; }
+        .panel-title { font-weight: bold; color: var(--accent); margin-bottom: 15px; font-size: 1.2em; text-transform: uppercase; text-align: center; }
+
         button { border: none; border-radius: 8px; cursor: pointer; font-weight: bold; transition: transform 0.1s; }
-        .btn-cargar { background: var(--success); color: white; padding: 15px 30px; font-size: 20px; }
-        button:hover { filter: brightness(1.1); transform: scale(1.05); }
-        button.rojo { background: var(--danger); color: white; padding: 15px 30px; } 
-        button.azul { background: var(--blue); color: white; padding: 15px 30px; }
-        button.gris { background: #444; color: white; padding: 15px 30px; }
-        
-        #mensaje-final h2 { font-size: 3em; color: var(--accent); margin: 0; }
-        #status { margin-top: 10px; font-weight: bold; min-height: 24px; font-size: 1.2em; }
+        .btn-cargar { background: var(--success); color: white; padding: 15px 30px; font-size: 1.2em; width: 100%; box-shadow: 0 4px 0 #4a751b; margin-top: 10px; }
+        .btn-cargar:hover { background: #76b82a; transform: translateY(-2px); box-shadow: 0 6px 0 #4a751b; }
+        .btn-cargar:active { transform: translateY(2px); box-shadow: 0 2px 0 #4a751b; }
+        button.gris { background: #444; color: white; padding: 15px 30px; width: 100%; margin-top: 10px; box-shadow: 0 4px 0 #222; font-size: 1.1em;}
+
+        /* --- LOBBY Y TORNEO --- */
+        #pantalla-carga { background: var(--panel-bg); padding: 40px; border-radius: 10px; max-width: 500px; width: 100%; margin: 0 auto; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        #lobby-torneo { background: var(--panel-bg); padding: 40px; border-radius: 12px; border: 2px solid var(--accent); max-width: 600px; width: 100%; margin: 0 auto; box-shadow: 0 15px 40px rgba(0,0,0,0.8); }
+        #codigo-input { background: #111; color: var(--accent); border: 2px dashed #555; font-size: 3em; font-family: 'Courier New', monospace; text-align: center; width: 200px; padding: 10px; border-radius: 8px; outline: none; margin: 10px 0 20px 0; font-weight: bold;}
+        .jugador-lobby { display: inline-block; background: #262421; border: 1px solid #444; padding: 8px 15px; margin: 5px; border-radius: 20px; font-weight: bold; color: #fff; }
+        .btn-gran-fuego { background: var(--success); color: white; font-size: 1.8em; padding: 20px; width: 100%; border: none; border-radius: 8px; cursor: pointer; box-shadow: 0 6px 0 #4a751b; margin-top: 20px; text-transform: uppercase;}
+
+        .leaderboard-item { display: flex; justify-content: space-between; padding: 12px 10px; border-bottom: 1px solid #333; font-size: 1.1em; background: #222; margin-bottom: 5px; border-radius: 5px;}
+        .leaderboard-item.me { border: 1px solid var(--accent); background: #2a2820; }
+        .rank-pts { font-weight: bold; color: var(--blue); }
+
+        #pantalla-podio { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(20, 20, 20, 0.98); z-index: 1000; display: flex; flex-direction: column; align-items: center; justify-content: center; overflow-y: auto; padding: 20px; box-sizing: border-box;}
+        .podio-titulo { font-size: 4em; color: var(--accent); text-transform: uppercase; margin-bottom: 40px; text-shadow: 0 0 20px rgba(229, 191, 0, 0.5); }
+        .podio-fila { display: flex; justify-content: space-between; align-items: center; width: 100%; max-width: 500px; background: #222; padding: 20px; margin-bottom: 10px; border-radius: 8px; font-size: 1.5em; border: 1px solid #444; }
+        .podio-oro { border-color: #ffd700; background: rgba(255, 215, 0, 0.1); font-size: 1.8em; font-weight: bold;}
+        .podio-plata { border-color: #c0c0c0; background: rgba(192, 192, 192, 0.1); }
+        .podio-bronce { border-color: #cd7f32; background: rgba(205, 127, 50, 0.1); }
     </style>
 </head>
 <body>
 
-    <div id="pantalla-carga" class="info-box" style="margin-top: 50px; padding: 20px; background: var(--panel-bg); border-radius: 12px; border: 1px solid #444;">
-        <h1 id="title-main" style="color: var(--text);">⚡ Puzzle Storm Tiempo ⚡</h1>
-        <p style="color: #aaa;">Para jugar, carga tu archivo de puzzles:</p>
-        <input type="file" id="archivoInput" accept=".json">
-        <br><br>
-        <button id="btn-defecto" class="btn-cargar">🎮 Usar la base del juego</button>
-        <br>
-        <a id="btn-back-carga" href="index.html" style="text-decoration:none;"><button class="gris" style="margin-top: 20px;">⬅ Volver al Menú</button></a>
+    <h1 id="title-main">⏱️ Puzzle Storm Tiempo ⏱️</h1>
+
+    <div id="pantalla-carga">
+        <h2 style="color: var(--text); margin-top: 0;">Modo de Juego</h2>
+        <button class="btn-cargar" style="background: var(--blue); box-shadow: 0 4px 0 #20629c;" onclick="iniciarModoSolitario()">🎮 JUGAR EN SOLITARIO</button>
+        <hr style="border: 1px solid #444; margin: 25px 0;">
+        <button id="btn-torneo" class="btn-cargar" style="background: var(--accent); color: #000; box-shadow: 0 4px 0 #b39500;" onclick="abrirLobbyTorneo()">🏆 CREAR / UNIRSE A TORNEO</button>
+        <div style="margin-top: 30px; border-top: 1px solid #333; padding-top: 15px; text-align: left;">
+            <p style="font-size: 0.8em; color: #666; margin-bottom: 5px;">Avanzado: Subir archivo .json</p>
+            <input type="file" id="archivoInput" accept=".json">
+        </div>
+        <a href="index.html" style="text-decoration:none;"><button class="gris">⬅ Volver al Menú</button></a>
     </div>
 
-    <div id="pantalla-inicio" class="pantalla-overlay oculto">
-        <h1 style="font-size: 3em;">⏱️ Modo Examen ⏱️</h1>
-        <ul style="text-align: left; font-size: 1.2em; color: #ccc; margin-bottom: 30px; line-height: 1.6;">
-            <li>❌ <strong>Fallo:</strong> Penalización de tiempo y saltas.</li>
-            <li>🔍 <strong>Final:</strong> Repaso con la solución.</li>
-        </ul>
-        <button class="btn-cargar" onclick="empezarPartida()">¡EMPEZAR!</button>
+    <div id="lobby-torneo" class="oculto">
+        <h2 style="color: var(--accent); font-size: 2.5em; margin-top: 0;">SALA DE TORNEO</h2>
+        <p style="color: #aaa; font-size: 1.1em;">Comparte este código o escribe uno para unirte:</p>
+        <input type="text" id="codigo-input" maxlength="4" oninput="cambiarSalaTorneo(this.value)">
+        <div style="background: #111; border: 1px solid #333; border-radius: 8px; padding: 20px; min-height: 150px; text-align: left;">
+            <div style="color: #888; font-weight: bold; margin-bottom: 10px; border-bottom: 1px solid #333; padding-bottom: 5px;">JUGADORES EN SALA:</div>
+            <div id="lista-lobby">Cargando...</div>
+        </div>
+        <button class="btn-gran-fuego" onclick="empezarTorneoParaTodos()">🔥 ¡EMPEZAR AHORA! 🔥</button>
+        <button class="gris" onclick="location.reload()">⬅ Salir del Lobby</button>
     </div>
 
-    <div id="pantalla-fin" class="pantalla-overlay oculto">
-        <div id="mensaje-final">
-            <h2>¡TIEMPO AGOTADO!</h2>
-            <p>Puntuación: <strong id="scoreFinal">0</strong></p>
-            <div style="margin-top: 20px;">
-                <button class="rojo" onclick="location.reload()">Jugar de Nuevo</button>
-                <button id="btn-repaso" class="azul oculto" onclick="iniciarRepaso()">🔍 Revisar Fallos (<span id="countFallos">0</span>)</button>
+    <div id="interfaz-juego" class="oculto">
+        <div id="main-layout">
+            <div class="sidebar-panel" id="panel-leaderboard" style="display: none;">
+                <div class="panel-box">
+                    <div class="panel-title">🏆 CLASIFICACIÓN</div>
+                    <div id="leaderboard-list"></div>
+                </div>
+            </div>
+
+            <div id="tablero-wrapper">
+                <div id="marcador">
+                    <div class="dato" id="timerBox"><span>Tiempo</span><strong id="timerDisplay">03:00</strong></div>
+                    <div class="dato"><span>Puntos</span><strong id="puntosDisplay">0</strong></div>
+                    <div class="dato"><span>Racha</span><strong id="rachaDisplay">0</strong></div>
+                    <div class="dato"><span>Nivel</span><strong id="eloDisplay" style="color: var(--accent);">1700</strong></div>
+                </div>
+                <div id="tablero"></div>
+                <div id="status">Juegan blancas o negras...</div>
+            </div>
+
+            <div class="sidebar-panel" id="panel-controles">
+                <div class="panel-box" style="justify-content: center; display: flex; flex-direction: column;">
+                    <button class="btn-cargar" style="background: var(--danger); box-shadow: 0 4px 0 #8a1f1f;" onclick="saltarPuzzle()">⏭️ SALTAR</button>
+                    <a id="btn-back-juego" href="index.html" style="text-decoration:none;"><button class="gris">⬅ Abandonar</button></a>
+                </div>
             </div>
         </div>
     </div>
 
-    <div id="interfaz-juego" class="oculto">
-        <div id="marcador">
-            <div class="dato" id="timerBox"><span>Tiempo</span><strong id="timerDisplay">05:00</strong></div>
-            <div class="dato"><span>Puntos</span><strong id="puntosDisplay">0</strong></div>
-            <div class="dato"><span>Racha</span><strong id="rachaDisplay">0</strong></div>
-            <div class="dato"><span>Nivel</span><strong id="eloDisplay" style="color: var(--accent);">1700</strong></div>
+    <div id="pantalla-podio" class="oculto">
+        <div class="podio-titulo" id="podio-txt-titulo">🏁 TIEMPO AGOTADO 🏁</div>
+        <div id="lista-podio" style="width: 100%; display: flex; flex-direction: column; align-items: center;"></div>
+        <div style="display: flex; gap: 20px; margin-top: 40px; flex-wrap: wrap; justify-content: center; width: 100%;">
+            <button id="btn-revancha-podio" class="btn-gran-fuego" style="width: auto; min-width: 250px; margin-top:0;" onclick="jugarRevancha()">🔄 Jugar Revancha</button>
+            <button class="btn-gran-fuego" style="background: #444; box-shadow: 0 6px 0 #222; width: auto; min-width: 250px; margin-top:0;" onclick="location.reload()">⬅ Salir</button>
         </div>
-        <div id="tablero"></div>
-        <div id="status">Juegan...</div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
@@ -96,69 +142,149 @@
         let eloActual = 1700; let puzzleActual = null; let indiceMovimiento = 0;
         let puntos = 0; let racha = 0; let tiempoRestante = TIEMPO_INICIAL; let intervaloReloj = null; let juegoActivo = false;
 
-        inicializarCargaBaseDatos('mis_puzzles.json', 'btn-defecto', 'archivoInput', function(data) {
-            todosLosPuzzles = data; iniciarPantallaJuego();
-        });
+        let refSalaTorneo = null;
 
-        function iniciarPantallaJuego() {
-            document.getElementById('pantalla-carga').classList.add('oculto');
-            
-            // LÓGICA DE DUELO: Saltar menús
-            if (typeof DueloManager !== 'undefined' && DueloManager.enDuelo) {
-                document.getElementById('btn-back-carga').style.display = 'none';
-                document.getElementById('title-main').style.display = 'none';
-                empezarPartida();
-            } else {
-                document.getElementById('pantalla-inicio').classList.remove('oculto');
+        inicializarCargaBaseDatos('mis_puzzles.json', null, 'archivoInput', function(data) { todosLosPuzzles = data; });
+
+        // ---------------- TORNEO LOBBY ----------------
+        function abrirLobbyTorneo() {
+            let btn = document.getElementById('btn-torneo');
+            if (btn) btn.innerText = "Cargando Arena...";
+            if (Object.keys(todosLosPuzzles).length > 0) { ejecutarLobby(); }
+            else {
+                fetch('mis_puzzles.json').then(r => r.json()).then(data => { todosLosPuzzles = data; ejecutarLobby(); })
+                .catch(e => { alert("Error cargando base"); if (btn) btn.innerText = "🏆 CREAR / UNIRSE A TORNEO"; });
             }
         }
 
-        function empezarPartida() {
-            document.getElementById('pantalla-inicio').classList.add('oculto');
+        function ejecutarLobby() {
+            document.getElementById('pantalla-carga').classList.add('oculto');
+            document.getElementById('lobby-torneo').classList.remove('oculto');
+            document.getElementById('title-main').style.display = 'none';
+            let codigoRandom = Math.floor(1000 + Math.random() * 9000).toString();
+            document.getElementById('codigo-input').value = codigoRandom;
+            cambiarSalaTorneo(codigoRandom);
+        }
+
+        function cambiarSalaTorneo(codigo) {
+            codigo = codigo.trim(); if(codigo.length < 4) return;
+            TorneoManager.enTorneo = true; TorneoManager.codigoSala = codigo;
+            let uid = localStorage.getItem('current_user_uid') || "invitado_" + Math.floor(Math.random()*1000);
+            let nombre = localStorage.getItem('current_user_name') || "Anónimo";
+
+            if (refSalaTorneo) firebase.database().ref(refSalaTorneo).off(); 
+            refSalaTorneo = `torneos/${codigo}`;
+            
+            firebase.database().ref(`${refSalaTorneo}/jugadores/${uid}`).set({ nombre: nombre, puntos: 0 });
+            firebase.database().ref(`${refSalaTorneo}/jugadores/${uid}`).onDisconnect().remove();
+
+            firebase.database().ref(refSalaTorneo).on('value', (snap) => {
+                let data = snap.val(); if (!data) return;
+                if (data.jugadores) {
+                    let htmlLobby = ""; let listaLeaderboard = []; let miUid = localStorage.getItem('current_user_uid');
+                    for (let key in data.jugadores) {
+                        let j = data.jugadores[key]; htmlLobby += `<span class="jugador-lobby">${j.nombre}</span>`;
+                        listaLeaderboard.push({ uid: key, nombre: j.nombre, puntos: j.puntos || 0 });
+                    }
+                    if (!juegoActivo) document.getElementById('lista-lobby').innerHTML = htmlLobby;
+                    
+                    listaLeaderboard.sort((a, b) => b.puntos - a.puntos);
+                    let htmlBoard = "";
+                    listaLeaderboard.forEach((j, index) => {
+                        let medalla = index === 0 ? '👑' : index === 1 ? '🥈' : index === 2 ? '🥉' : '🔹';
+                        let extraClass = (j.uid === miUid) ? "me" : "";
+                        htmlBoard += `<div class="leaderboard-item ${extraClass}"><span>${medalla} ${j.nombre}</span> <span class="rank-pts">${j.puntos}</span></div>`;
+                    });
+                    document.getElementById('leaderboard-list').innerHTML = htmlBoard;
+                }
+                if (data.estado === 'jugando' && !juegoActivo) {
+                    let restante = data.tiempoFin ? Math.floor((data.tiempoFin - Date.now()) / 1000) : 0;
+                    if (restante > 0) {
+                        TorneoManager.semillaRonda = data.tiempoFin.toString();
+                        document.getElementById('pantalla-podio').classList.add('oculto');
+                        empezarPartida(true, data.tiempoFin);
+                    } else {
+                        document.getElementById('lista-lobby').innerHTML += "<div style='color:var(--accent); margin-top:15px; font-style:italic;'>Partida terminada. Esperando revancha...</div>";
+                    }
+                }
+            });
+        }
+
+        function empezarTorneoParaTodos() {
+            if (!TorneoManager.codigoSala) return;
+            let tiempoFinal = Date.now() + 180000; // 3 Minutos exactos
+            firebase.database().ref(refSalaTorneo).update({ estado: 'jugando', tiempoFin: tiempoFinal });
+        }
+
+        // ---------------- JUEGO TIEMPO ----------------
+        function iniciarModoSolitario() {
+            if (Object.keys(todosLosPuzzles).length === 0) {
+                fetch('mis_puzzles.json').then(r => r.json()).then(data => { todosLosPuzzles = data; empezarPartida(false); }).catch(e => alert("Sube un archivo."));
+            } else { empezarPartida(false); }
+        }
+
+        function empezarPartida(esTorneo, tiempoFinMs = null) {
+            juegoActivo = true;
+            document.getElementById('pantalla-carga').classList.add('oculto');
+            document.getElementById('lobby-torneo').classList.add('oculto');
             document.getElementById('interfaz-juego').classList.remove('oculto');
             board = Chessboard('tablero', { draggable: true, position: 'start', pieceTheme: 'https://chessboardjs.com/img/chesspieces/wikipedia/{piece}.png', onDragStart: onDragStart, onDrop: onDrop, onSnapEnd: onSnapEnd });
-            juegoActivo = true; 
             
-            let p = obtenerPerfil(); 
-            eloActual = p.eloNormal || 1700; 
+            puntos = 0; racha = 0;
+            document.getElementById('puntosDisplay').innerText = puntos;
+            document.getElementById('rachaDisplay').innerText = racha;
+
+            if (esTorneo) {
+                TorneoManager.contador = 0;
+                document.getElementById('panel-leaderboard').style.display = 'block';
+                document.getElementById('btn-back-juego').style.display = 'none';
+                eloActual = 1200; // Empezamos en 1200 en torneos
+                
+                intervaloReloj = setInterval(() => {
+                    tiempoRestante = Math.floor((tiempoFinMs - Date.now()) / 1000);
+                    if (tiempoRestante <= 0) { clearInterval(intervaloReloj); finalizarTorneoGlobal(); return; }
+                    actualizarRelojVisual();
+                    if(tiempoRestante <= 10) document.getElementById('timerDisplay').style.color = "var(--danger)";
+                    else document.getElementById('timerDisplay').style.color = "var(--accent)";
+                }, 1000);
+            } else {
+                let p = obtenerPerfil(); eloActual = p.eloNormal || 1700; 
+                tiempoRestante = TIEMPO_INICIAL;
+                actualizarRelojVisual();
+                intervaloReloj = setInterval(() => { 
+                    tiempoRestante--; actualizarRelojVisual(); 
+                    if (tiempoRestante <= 10 && tiempoRestante > 0) reproducirSonido('tick');
+                    if (tiempoRestante <= 0) finDelJuego(); 
+                }, 1000);
+            }
             
             cargarNuevoPuzzle(); 
-            arrancarReloj();
-        }
-
-        function arrancarReloj() {
-            if (typeof DueloManager !== 'undefined' && DueloManager.enDuelo) {
-                document.getElementById('timerBox').style.display = 'none';
-                return;
-            }
-            actualizarRelojVisual();
-            intervaloReloj = setInterval(() => { 
-                tiempoRestante--; actualizarRelojVisual(); 
-                if (tiempoRestante <= 10 && tiempoRestante > 0) reproducirSonido('tick');
-                if (tiempoRestante <= 0) finDelJuego(); 
-            }, 1000);
         }
 
         function actualizarRelojVisual() {
-            let m = Math.floor(tiempoRestante / 60); let s = tiempoRestante % 60;
+            let t = tiempoRestante < 0 ? 0 : tiempoRestante;
+            let m = Math.floor(t / 60); let s = t % 60;
             document.getElementById('timerDisplay').innerText = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
         }
 
         function cargarNuevoPuzzle() {
             if (!juegoActivo) return;
-            document.getElementById('status').innerText = "";
+            document.getElementById('status').innerText = ""; document.getElementById('status').className = "";
             
-            let rango = (Math.floor(eloActual / 50) * 50).toString();
-            if (eloActual > 2500) rango = "2500"; 
-            if (!todosLosPuzzles[rango]) rango = Object.keys(todosLosPuzzles)[0] || "1700";
-            let lista = todosLosPuzzles[rango]; 
-
-            // SINCRONIZACIÓN MAESTRA
-            let indiceElegido = (typeof DueloManager !== 'undefined' && DueloManager.enDuelo) 
-                                ? DueloManager.obtenerIndiceSincronizado(lista.length) 
-                                : Math.floor(Math.random() * lista.length);
-            
-            puzzleActual = lista[indiceElegido];
+            let rango = "1700"; let lista = [];
+            if (TorneoManager.enTorneo) {
+                eloActual = 1200 + Math.floor(TorneoManager.contador / 2) * 50;
+                rango = (Math.floor(Math.min(eloActual, 2500) / 50) * 50).toString();
+                if (!todosLosPuzzles[rango]) rango = Object.keys(todosLosPuzzles)[0] || "1700";
+                lista = todosLosPuzzles[rango];
+                let indice = TorneoManager.obtenerIndiceSincronizado(lista.length);
+                puzzleActual = lista[indice];
+            } else {
+                rango = (Math.floor(Math.min(eloActual, 2500) / 50) * 50).toString();
+                if (!todosLosPuzzles[rango]) rango = Object.keys(todosLosPuzzles)[0] || "1700";
+                lista = todosLosPuzzles[rango]; 
+                puzzleActual = lista[Math.floor(Math.random() * lista.length)];
+            }
 
             if (typeof puzzleActual.moves === 'string') puzzleActual.moves = puzzleActual.moves.split(' ');
             indiceMovimiento = 0; game.load(puzzleActual.fen);
@@ -176,22 +302,23 @@
             let miMovimiento = source + target + (move.promotion || "");
 
             if (miMovimiento.startsWith(puzzleActual.moves[indiceMovimiento])) {
+                if (indiceMovimiento < puzzleActual.moves.length - 1) reproducirSonido('correcto');
                 indiceMovimiento++;
                 if (indiceMovimiento < puzzleActual.moves.length) {
                     setTimeout(() => { hacerMovimiento(puzzleActual.moves[indiceMovimiento]); board.position(game.fen()); indiceMovimiento++; if (indiceMovimiento >= puzzleActual.moves.length) puzzleCompletado(); }, 200);
                 } else { puzzleCompletado(); }
             } else {
                 reproducirSonido('incorrecto');
-                puzzlesFallados.push(puzzleActual);
-                
-                if (typeof DueloManager !== 'undefined' && DueloManager.enDuelo) {
+                if (TorneoManager.enTorneo) {
                     puntos = Math.max(0, puntos - 1); 
-                    DueloManager.enviarPuntos(puntos);
+                    TorneoManager.enviarPuntos(puntos);
                 } else {
                     tiempoRestante -= PENALIZACION; actualizarRelojVisual();
+                    let timer = document.getElementById('timerDisplay'); timer.classList.add('tiempo-menos'); setTimeout(() => timer.classList.remove('tiempo-menos'), 100);
                 }
                 
                 document.getElementById('puntosDisplay').innerText = puntos;
+                document.getElementById('status').innerText = `❌ FALLO - SALTANDO`; document.getElementById('status').className = "incorrecto";
                 racha = 0; document.getElementById('rachaDisplay').innerText = racha;
                 setTimeout(cargarNuevoPuzzle, 400); return 'snapback';
             }
@@ -199,27 +326,71 @@
 
         function puzzleCompletado() {
             reproducirSonido('correcto');
-            puntos++; 
-            racha++; 
+            puntos++; racha++; 
+            let mensajeBonus = "";
             
-            if (typeof DueloManager !== 'undefined' && DueloManager.enDuelo) {
-                if (racha % 5 === 0) puntos += 3; // Bonus puntos en duelo
-                DueloManager.enviarPuntos(puntos);
+            if (TorneoManager.enTorneo) {
+                if (racha > 0 && racha % 5 === 0) { puntos += 3; mensajeBonus = ` | ⚔️ +3 Pts!`; }
+                TorneoManager.enviarPuntos(puntos);
             } else {
-                if (racha % 5 === 0) { tiempoRestante += 10; actualizarRelojVisual(); }
+                if (racha > 0 && racha % 5 === 0) { 
+                    let bonus = 5 + (racha / 5) * 5; tiempoRestante += bonus; actualizarRelojVisual();
+                    let timer = document.getElementById('timerDisplay'); timer.classList.add('tiempo-extra'); setTimeout(() => timer.classList.remove('tiempo-extra'), 150);
+                    mensajeBonus = ` | ⏳ +${bonus}s!`;
+                }
             }
 
             document.getElementById('puntosDisplay').innerText = puntos;
             document.getElementById('rachaDisplay').innerText = racha;
+            document.getElementById('status').innerText = "✅ Correcto" + mensajeBonus; document.getElementById('status').className = "correcto";
             setTimeout(cargarNuevoPuzzle, 300);
+        }
+
+        function saltarPuzzle() {
+            if(!juegoActivo) return;
+            reproducirSonido('incorrecto');
+            if (TorneoManager.enTorneo) { puntos = Math.max(0, puntos - 1); TorneoManager.enviarPuntos(puntos); } 
+            else { tiempoRestante -= 5; actualizarRelojVisual(); }
+            document.getElementById('puntosDisplay').innerText = puntos;
+            racha = 0; document.getElementById('rachaDisplay').innerText = racha;
+            cargarNuevoPuzzle();
         }
 
         function finDelJuego() {
             juegoActivo = false; clearInterval(intervaloReloj); reproducirSonido('fin');
-            if (!DueloManager.enDuelo) actualizarEstadisticaGlobal('stormTiempoMax', puntos, false);
-            document.getElementById('scoreFinal').innerText = puntos; 
-            document.getElementById('pantalla-fin').classList.remove('oculto');
-            if (puzzlesFallados.length > 0) { document.getElementById('btn-repaso').classList.remove('oculto'); document.getElementById('countFallos').innerText = puzzlesFallados.length; }
+            actualizarEstadisticaGlobal('stormTiempoMax', puntos, false);
+            document.getElementById('interfaz-juego').classList.add('oculto');
+            document.getElementById('pantalla-podio').classList.remove('oculto');
+            document.getElementById('lista-podio').innerHTML = `<div class="podio-fila podio-oro" style="justify-content:center;"><strong>${puntos} PTS</strong></div>`;
+            document.getElementById('btn-revancha-podio').style.display = 'none';
+        }
+
+        function finalizarTorneoGlobal() {
+            juegoActivo = false; reproducirSonido('fin');
+            document.getElementById('interfaz-juego').classList.add('oculto');
+            document.getElementById('pantalla-podio').classList.remove('oculto');
+            firebase.database().ref(refSalaTorneo).update({ estado: 'finalizado' });
+
+            firebase.database().ref(refSalaTorneo + '/jugadores').once('value').then(snap => {
+                let data = snap.val(); if(!data) return;
+                let lista = []; for(let key in data) { lista.push({ nombre: data[key].nombre, puntos: data[key].puntos || 0 }); }
+                lista.sort((a, b) => b.puntos - a.puntos);
+                let htmlPodio = "";
+                lista.forEach((j, i) => {
+                    let clase = i === 0 ? "podio-oro" : i === 1 ? "podio-plata" : i === 2 ? "podio-bronce" : "";
+                    let icono = i === 0 ? "👑" : i === 1 ? "🥈" : i === 2 ? "🥉" : "🏅";
+                    htmlPodio += `<div class="podio-fila ${clase}"><span>${icono} ${j.nombre}</span> <strong>${j.puntos} pts</strong></div>`;
+                });
+                document.getElementById('lista-podio').innerHTML = htmlPodio;
+            });
+        }
+
+        function jugarRevancha() {
+            document.getElementById('pantalla-podio').classList.add('oculto'); document.getElementById('lobby-torneo').classList.remove('oculto');
+            firebase.database().ref(refSalaTorneo).update({ estado: 'esperando', tiempoFin: null });
+            let uid = localStorage.getItem('current_user_uid');
+            firebase.database().ref(`${refSalaTorneo}/jugadores/${uid}/puntos`).set(0);
+            puntos = 0; juegoActivo = false;
         }
 
         function onSnapEnd() { board.position(game.fen()); }

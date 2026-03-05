@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Lectura y Visualización - Modo Duelo</title>
+    <title>Lector de Mente - Modo Torneo</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>♞</text></svg>">
     
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
@@ -16,15 +16,16 @@
         body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg-color); color: var(--text); display: flex; flex-direction: column; align-items: center; min-height: 100vh; margin: 0; user-select: none; padding: 20px;}
         h1 { color: var(--accent); margin-top: 20px; text-transform: uppercase; letter-spacing: 2px; }
         
-        .screen { display: none; width: 100%; max-width: 800px; flex-direction: column; align-items: center; }
+        .screen { display: none; width: 100%; max-width: 1200px; flex-direction: row; align-items: flex-start; justify-content: center; gap: 30px; }
         .active { display: flex; }
+        @media (max-width: 950px) { .screen { flex-direction: column; align-items: center; } .sidebar-panel { width: 100%; max-width: 450px; } }
         
         select { padding: 10px; font-size: 1.1em; background: #222; color: #fff; border: 1px solid #555; border-radius: 5px; margin: 15px 0; width: 100%; box-sizing: border-box; cursor: pointer; outline: none; }
         select:focus { border-color: var(--accent); }
         
         #pgn-container { background: #eee; color: #111; padding: 30px; border-radius: 8px; font-size: 1.4em; line-height: 1.6; font-family: 'Georgia', serif; width: 100%; box-shadow: 0 10px 30px rgba(0,0,0,0.5); margin-bottom: 30px; max-height: 400px; overflow-y: auto; text-align: left; }
         
-        #game-area { display: flex; justify-content: center; gap: 30px; margin-top: 20px; width: 100%; max-width: 1200px; align-items: flex-start; }
+        #game-area { display: flex; justify-content: center; gap: 30px; width: 100%; flex-wrap: wrap; }
         .board-wrapper { width: 450px; text-align: center; display: flex; flex-direction: column; align-items: center; }
         .board-title { font-size: 1.2em; font-weight: bold; margin-bottom: 10px; color: #888; opacity: 0; transition: opacity 0.3s; }
         .visible { opacity: 1; }
@@ -35,73 +36,127 @@
         .btn:hover { transform: translateY(-2px); filter: brightness(1.1); box-shadow: 0 6px 0 #20629c;}
         .btn:active { transform: translateY(2px); box-shadow: 0 2px 0 #20629c; }
         .btn-check { background: var(--accent); color: #000; box-shadow: 0 4px 0 #b39500; }
-        .btn-check:hover { box-shadow: 0 6px 0 #b39500; }
-        .btn-check:active { box-shadow: 0 2px 0 #b39500; }
         
         #myBoard .board-b72b1 { border: 2px solid #444; touch-action: none !important; }
         .border-fail .board-b72b1 { border: 5px solid var(--danger) !important; }
         .border-win .board-b72b1 { border: 5px solid var(--success) !important; }
 
-        @media (max-width: 950px) {
-            #game-area { flex-direction: column; align-items: center; }
-            .board-wrapper { width: 100%; max-width: 450px; }
-        }
+        /* --- ESTILOS MODO TORNEO --- */
+        .sidebar-panel { flex: 0 0 300px; display: flex; flex-direction: column; gap: 20px; width: 100%; }
+        .panel-box { background: var(--panel-bg); padding: 20px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); border: 1px solid #444; }
+        .panel-title { font-weight: bold; color: var(--accent); margin-bottom: 15px; font-size: 1.2em; text-transform: uppercase; text-align: center; }
+        
+        #pantalla-carga { background: var(--panel-bg); padding: 40px; border-radius: 10px; margin-top: 20px; max-width: 500px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.5); width: 100%; display: flex; flex-direction: column; align-items: center;}
+        #lobby-torneo { background: var(--panel-bg); padding: 40px; border-radius: 12px; border: 2px solid var(--accent); max-width: 600px; width: 100%; text-align: center; margin-top: 20px; box-shadow: 0 15px 40px rgba(0,0,0,0.8); }
+        #codigo-input { background: #111; color: var(--accent); border: 2px dashed #555; font-size: 3em; font-family: 'Courier New', Courier, monospace; text-align: center; width: 200px; padding: 10px; border-radius: 8px; outline: none; margin: 10px 0 20px 0; font-weight: bold;}
+        .jugador-lobby { display: inline-block; background: #262421; border: 1px solid #444; padding: 8px 15px; margin: 5px; border-radius: 20px; font-weight: bold; color: #fff; }
+        .btn-gran-fuego { background: var(--success); color: white; font-size: 1.8em; font-weight: bold; padding: 20px; width: 100%; border: none; border-radius: 8px; cursor: pointer; box-shadow: 0 6px 0 #4a751b; margin-top: 30px; text-transform: uppercase;}
+        
+        .leaderboard-item { display: flex; justify-content: space-between; padding: 12px 10px; border-bottom: 1px solid #333; font-size: 1.1em; background: #222; margin-bottom: 5px; border-radius: 5px;}
+        .leaderboard-item.me { border: 1px solid var(--accent); background: #2a2820; }
+        .rank-pts { font-weight: bold; color: var(--blue); }
+        #timer-torneo { font-size: 2.5em; font-family: 'Courier New', monospace; font-weight: bold; color: var(--accent); text-align: center; margin-bottom: 15px; background: #111; padding: 10px; border-radius: 8px; border: 2px solid #333; }
+
+        #pantalla-podio { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(20, 20, 20, 0.98); z-index: 1000; display: flex; flex-direction: column; align-items: center; justify-content: center; overflow-y: auto; padding: 20px; box-sizing: border-box;}
+        .podio-titulo { font-size: 4em; color: var(--accent); text-transform: uppercase; margin-bottom: 40px; text-shadow: 0 0 20px rgba(229, 191, 0, 0.5); text-align: center;}
+        .podio-fila { display: flex; justify-content: space-between; align-items: center; width: 100%; max-width: 500px; background: #222; padding: 20px; margin-bottom: 10px; border-radius: 8px; font-size: 1.5em; border: 1px solid #444; }
+        .podio-oro { border-color: #ffd700; background: rgba(255, 215, 0, 0.1); font-size: 1.8em; font-weight: bold;}
+        .podio-plata { border-color: #c0c0c0; background: rgba(192, 192, 192, 0.1); }
+        .podio-bronce { border-color: #cd7f32; background: rgba(205, 127, 50, 0.1); }
     </style>
 </head>
 <body>
 
     <h1 id="main-title">📖 Lector de Mente</h1>
 
-    <div id="screen-menu" class="screen active">
-        <div id="pantalla-carga" style="display: block; width: 100%; text-align: center; max-width: 500px;">
-            <p style="color: #aaa;">¿Qué base de datos quieres usar?</p>
-            <button id="btn-defecto" class="btn-secundario">🎮 Usar la base del juego</button>
-            <hr style="border: 1px solid #444; margin: 25px 0;">
-            <p style="font-size: 0.9em; color: #888; text-align: left; margin-bottom: 5px;">O sube tu propio archivo <strong>.json</strong>:</p>
-            <input type="file" id="archivoInput" accept=".json" style="width:100%; max-width: 300px;">            
-            
-            <div id="opciones-juego" class="oculto" style="margin-top: 20px; text-align: left;">
-                <hr style="border: 1px solid #444; margin: 25px 0;">
-                <p style="color: var(--accent); font-weight: bold; margin-bottom: 5px;">Profundidad de lectura:</p>
-                <select id="move-count">
-                    <option value="10">10 Jugadas</option>
-                    <option value="15" selected>15 Jugadas</option>
-                    <option value="20">20 Jugadas</option>
-                </select>
-                <button id="btn-comenzar" class="btn" style="width: 100%; margin-top: 10px;" onclick="iniciarLectura()">EMPEZAR</button>
-            </div>
-            
-            <a id="btn-back-1" href="index.html" style="text-decoration:none;">
-                <button class="btn" style="background:#444; box-shadow: 0 4px 0 #222; margin-top: 30px;">⬅ Volver al Menú</button>
-            </a>
+    <div id="pantalla-carga" class="active">
+        <h2 style="color: var(--text); margin-top: 0;">Configuración</h2>
+        <div id="opciones-juego" class="oculto" style="width: 100%;">
+            <p style="color: var(--accent); font-weight: bold; margin-bottom: 5px;">Profundidad de lectura (Solo PVE):</p>
+            <select id="move-count">
+                <option value="10">10 Jugadas</option>
+                <option value="15" selected>15 Jugadas</option>
+                <option value="20">20 Jugadas</option>
+            </select>
         </div>
+        
+        <button class="btn" style="padding: 15px; margin-top:10px;" onclick="iniciarModoSolitario()">🎮 JUGAR EN SOLITARIO</button>
+        <hr style="border: 1px solid #444; margin: 25px 0; width:100%;">
+        <button id="btn-torneo" class="btn" style="background: var(--accent); color: #000; padding: 15px; margin-top:0;" onclick="abrirLobbyTorneo()">🏆 CREAR / UNIRSE A TORNEO</button>
+        
+        <div style="margin-top: 30px; border-top: 1px solid #333; padding-top: 15px; width: 100%;">
+            <p style="font-size: 0.8em; color: #666; text-align: left; margin-bottom: 5px;">Avanzado: Subir tu archivo .json</p>
+            <input type="file" id="archivoInput" accept=".json">
+        </div>
+        <a href="index.html" style="text-decoration:none; width:100%;"><button class="btn" style="background:#444; box-shadow: 0 4px 0 #222;">⬅ Volver al Menú</button></a>
+    </div>
+
+    <div id="lobby-torneo" class="oculto">
+        <h2 style="color: var(--accent); font-size: 2.5em; margin-top: 0;">SALA DE TORNEO</h2>
+        <p style="color: #aaa; font-size: 1.1em;">Comparte este código o escribe uno para unirte:</p>
+        <input type="text" id="codigo-input" maxlength="4" oninput="cambiarSalaTorneo(this.value)">
+        <div style="background: #111; border: 1px solid #333; border-radius: 8px; padding: 20px; min-height: 150px; text-align: left;">
+            <div style="color: #888; font-weight: bold; margin-bottom: 10px; border-bottom: 1px solid #333; padding-bottom: 5px;">JUGADORES EN SALA:</div>
+            <div id="lista-lobby">Cargando...</div>
+        </div>
+        <button class="btn-gran-fuego" onclick="empezarTorneoParaTodos()">🔥 ¡EMPEZAR AHORA! 🔥</button>
+        <button style="background:#444; color:white; padding:15px; width:100%; margin-top: 20px; font-size: 1.2em; font-weight:bold; cursor:pointer;" onclick="location.reload()">⬅ Salir del Lobby</button>
     </div>
 
     <div id="screen-read" class="screen">
-        <div style="color: #aaa; margin-bottom: 10px; font-size: 1.2em;">Visualiza la posición final en tu mente:</div>
-        <div id="pgn-container"></div>
-        <button class="btn" onclick="pasarAConstruccion()">¡LISTO! IR AL TABLERO</button>
-    </div>
-
-    <div id="screen-build" class="screen" style="max-width: 1200px;">
-        <div id="msg" style="font-size: 1.5em; color: var(--accent); margin-bottom: 10px;">Reconstruye la posición final</div>
-        <div id="game-area">
-            <div id="user-container" class="board-wrapper">
-                <div id="user-title" class="board-title">TU RECONSTRUCCIÓN</div>
-                <div id="myBoard" style="width: 100%"></div>
-            </div>
-            <div id="solution-container" class="board-wrapper">
-                <div class="board-title visible" style="color: var(--success);">POSICIÓN REAL</div>
-                <div id="solutionBoard" style="width: 100%"></div>
+        <div class="sidebar-panel" id="panel-leaderboard-read" style="display: none;">
+            <div class="panel-box" style="height: 100%;">
+                <div class="panel-title">🏆 CLASIFICACIÓN</div>
+                <div id="timer-torneo-read" class="oculto">03:00</div>
+                <div id="leaderboard-list-read"></div>
             </div>
         </div>
-        
-        <div style="width: 100%; max-width: 450px; display: flex; flex-direction: column; gap: 10px; margin-top: 20px;">
-            <button id="btn-check" class="btn btn-check" style="margin-top:0;" onclick="comprobar()">COMPROBAR</button>
-            <button id="btn-next" class="btn" onclick="volverMenu()" style="display:none; margin-top:0; background:var(--blue); box-shadow: 0 4px 0 #20629c;">OTRA PARTIDA</button>
-            <a id="btn-back-2" href="index.html" style="text-decoration:none;">
-                <button class="btn" style="background:#444; box-shadow: 0 4px 0 #222; margin-top:0;">⬅ Volver al Menú</button>
-            </a>
+
+        <div style="flex: 1; display: flex; flex-direction: column; align-items: center; max-width: 800px;">
+            <div style="color: #aaa; margin-bottom: 10px; font-size: 1.2em;">Visualiza la posición final en tu mente:</div>
+            <div id="pgn-container"></div>
+            <button class="btn" onclick="pasarAConstruccion()">¡LISTO! IR AL TABLERO</button>
+        </div>
+    </div>
+
+    <div id="screen-build" class="screen">
+        <div class="sidebar-panel" id="panel-leaderboard-build" style="display: none;">
+            <div class="panel-box" style="height: 100%;">
+                <div class="panel-title">🏆 CLASIFICACIÓN</div>
+                <div id="timer-torneo-build" class="oculto">03:00</div>
+                <div id="leaderboard-list-build"></div>
+            </div>
+        </div>
+
+        <div style="flex: 1; display: flex; flex-direction: column; align-items: center;">
+            <div id="msg" style="font-size: 1.5em; font-weight: bold; color: var(--accent); margin-bottom: 10px;">Reconstruye la posición final</div>
+            <div id="game-area">
+                <div id="user-container" class="board-wrapper">
+                    <div id="user-title" class="board-title">TU RECONSTRUCCIÓN</div>
+                    <div id="myBoard" style="width: 100%"></div>
+                </div>
+                <div id="solution-container" class="board-wrapper">
+                    <div class="board-title visible" style="color: var(--success);">POSICIÓN REAL</div>
+                    <div id="solutionBoard" style="width: 100%"></div>
+                </div>
+            </div>
+            
+            <div style="width: 100%; max-width: 450px; display: flex; flex-direction: column; gap: 10px; margin-top: 20px;">
+                <button id="btn-check" class="btn btn-check" style="margin-top:0;" onclick="comprobar()">COMPROBAR</button>
+                <button id="btn-next" class="btn" onclick="volverALectura()" style="display:none; margin-top:0; background:var(--blue); box-shadow: 0 4px 0 #20629c;">SIGUIENTE RETO ➡</button>
+                <a id="btn-back-juego" href="index.html" style="text-decoration:none;">
+                    <button class="btn" style="background:#444; box-shadow: 0 4px 0 #222; margin-top:0;">⬅ Volver al Menú</button>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div id="pantalla-podio" class="oculto">
+        <div class="podio-titulo">🏁 TORNEO FINALIZADO 🏁</div>
+        <div id="lista-podio" style="width: 100%; display: flex; flex-direction: column; align-items: center;"></div>
+        <div style="display: flex; gap: 20px; margin-top: 40px; flex-wrap: wrap; justify-content: center; width: 100%;">
+            <button class="btn-gran-fuego" style="width: auto; min-width: 250px;" onclick="jugarRevancha()">🔄 Jugar Revancha</button>
+            <button class="btn-gran-fuego" style="background: #444; box-shadow: 0 6px 0 #222; width: auto; min-width: 250px;" onclick="location.reload()">⬅ Salir</button>
         </div>
     </div>
 
@@ -112,53 +167,135 @@
 
     <script>
         let partidas = []; let jugadasMeta = 15; let fenObjetivo = ""; let userBoard = null; let solutionBoard = null;
-        let aciertosDuelo = 0;
+        let misPuntosLocales = 0; let juegoActivo = false;
         const pieceThemeUrl = 'https://chessboardjs.com/img/chesspieces/wikipedia/{piece}.png';
 
-        window.onload = () => {
-            // AUTO-ARRANQUE EN DUELO
-            const params = new URLSearchParams(window.location.search);
-            if (params.get('duelo') === 'true') {
-                document.getElementById('btn-back-1').style.display = 'none';
-                document.getElementById('btn-back-2').style.display = 'none';
-                document.getElementById('main-title').style.display = 'none';
-                
-                // Esperamos a que cargue la base (gestionado por utils.js clic automático)
-                setTimeout(() => {
-                    let btnStart = document.getElementById('btn-comenzar');
-                    if(btnStart) btnStart.click();
-                }, 1500);
-            }
-        };
+        let refSalaTorneo = null; let intervaloTorneo = null;
 
-        inicializarCargaBaseDatos('visualizacion.json', 'btn-defecto', 'archivoInput', function(data) {
+        inicializarCargaBaseDatos('visualizacion.json', null, 'archivoInput', function(data) {
             partidas = data; 
-            document.getElementById('btn-defecto').innerText = "✅ Base cargada";
             document.getElementById('opciones-juego').classList.remove('oculto');
         });
+
+        // ---------------- TORNEO LOBBY ----------------
+        function abrirLobbyTorneo() {
+            let btn = document.getElementById('btn-torneo');
+            if (btn) btn.innerText = "Cargando Arena...";
+            if (partidas.length > 0) { ejecutarLobby(); }
+            else {
+                fetch('visualizacion.json').then(r => r.json()).then(data => { partidas = data; ejecutarLobby(); })
+                .catch(e => { alert("Error cargando base"); if (btn) btn.innerText = "🏆 CREAR / UNIRSE A TORNEO"; });
+            }
+        }
+
+        function ejecutarLobby() {
+            document.getElementById('pantalla-carga').classList.remove('active');
+            document.getElementById('lobby-torneo').classList.remove('oculto');
+            document.getElementById('main-title').style.display = 'none';
+            let codigoRandom = Math.floor(1000 + Math.random() * 9000).toString();
+            document.getElementById('codigo-input').value = codigoRandom;
+            cambiarSalaTorneo(codigoRandom);
+        }
+
+        function cambiarSalaTorneo(codigo) {
+            codigo = codigo.trim(); if(codigo.length < 4) return;
+            TorneoManager.enTorneo = true; TorneoManager.codigoSala = codigo;
+            let uid = localStorage.getItem('current_user_uid') || "invitado_" + Math.floor(Math.random()*1000);
+            let nombre = localStorage.getItem('current_user_name') || "Anónimo";
+
+            if (refSalaTorneo) firebase.database().ref(refSalaTorneo).off(); 
+            refSalaTorneo = `torneos/${codigo}`;
+            
+            firebase.database().ref(`${refSalaTorneo}/jugadores/${uid}`).set({ nombre: nombre, puntos: 0 });
+            firebase.database().ref(`${refSalaTorneo}/jugadores/${uid}`).onDisconnect().remove();
+
+            firebase.database().ref(refSalaTorneo).on('value', (snap) => {
+                let data = snap.val(); if (!data) return;
+                if (data.jugadores) {
+                    let htmlLobby = ""; let listaLeaderboard = []; let miUid = localStorage.getItem('current_user_uid');
+                    for (let key in data.jugadores) {
+                        let j = data.jugadores[key]; htmlLobby += `<span class="jugador-lobby">${j.nombre}</span>`;
+                        listaLeaderboard.push({ uid: key, nombre: j.nombre, puntos: j.puntos || 0 });
+                    }
+                    if (!juegoActivo) document.getElementById('lista-lobby').innerHTML = htmlLobby;
+                    
+                    listaLeaderboard.sort((a, b) => b.puntos - a.puntos);
+                    let htmlBoard = "";
+                    listaLeaderboard.forEach((j, index) => {
+                        let medalla = index === 0 ? '👑' : index === 1 ? '🥈' : index === 2 ? '🥉' : '🔹';
+                        let extraClass = (j.uid === miUid) ? "me" : "";
+                        htmlBoard += `<div class="leaderboard-item ${extraClass}"><span>${medalla} ${j.nombre}</span> <span class="rank-pts">${j.puntos}</span></div>`;
+                    });
+                    document.getElementById('leaderboard-list-read').innerHTML = htmlBoard;
+                    document.getElementById('leaderboard-list-build').innerHTML = htmlBoard;
+                }
+                if (data.estado === 'jugando' && !juegoActivo) {
+                    let restante = data.tiempoFin ? Math.floor((data.tiempoFin - Date.now()) / 1000) : 0;
+                    if (restante > 0) {
+                        TorneoManager.semillaRonda = data.tiempoFin.toString();
+                        document.getElementById('pantalla-podio').classList.add('oculto');
+                        iniciarPantallaJuego(true, data.tiempoFin);
+                    } else {
+                        document.getElementById('lista-lobby').innerHTML += "<div style='color:var(--accent); margin-top:15px; font-style:italic;'>Partida terminada. Esperando revancha...</div>";
+                    }
+                }
+            });
+        }
+
+        function empezarTorneoParaTodos() {
+            if (!TorneoManager.codigoSala) return;
+            let tiempoFinal = Date.now() + 180000; // 3 Minutos
+            firebase.database().ref(refSalaTorneo).update({ estado: 'jugando', tiempoFin: tiempoFinal });
+        }
+
+        // ---------------- JUEGO LECTURA ----------------
+        function iniciarModoSolitario() {
+            if (partidas.length === 0) { alert("Carga la base de datos primero."); return; }
+            iniciarPantallaJuego(false);
+        }
+
+        function iniciarPantallaJuego(esTorneo, tiempoFinMs = null) {
+            juegoActivo = true;
+            document.getElementById('pantalla-carga').classList.remove('active');
+            document.getElementById('lobby-torneo').classList.add('oculto');
+            
+            if (esTorneo) {
+                TorneoManager.contador = 0;
+                jugadasMeta = 15; // Fijo para torneos para que sea justo
+                document.getElementById('panel-leaderboard-read').style.display = 'block';
+                document.getElementById('panel-leaderboard-build').style.display = 'block';
+                document.getElementById('timer-torneo-read').classList.remove('oculto');
+                document.getElementById('timer-torneo-build').classList.remove('oculto');
+                document.getElementById('btn-back-juego').style.display = 'none';
+                
+                intervaloTorneo = setInterval(() => {
+                    let restante = Math.floor((tiempoFinMs - Date.now()) / 1000);
+                    if (restante <= 0) { clearInterval(intervaloTorneo); finalizarTorneoGlobal(); return; }
+                    let m = Math.floor(restante / 60); let s = restante % 60;
+                    let txt = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+                    document.getElementById('timer-torneo-read').innerText = txt;
+                    document.getElementById('timer-torneo-build').innerText = txt;
+                    if(restante <= 10) { document.getElementById('timer-torneo-read').style.color = "var(--danger)"; document.getElementById('timer-torneo-build').style.color = "var(--danger)"; }
+                }, 1000);
+            } else {
+                jugadasMeta = parseInt(document.getElementById('move-count').value);
+            }
+            
+            misPuntosLocales = 0;
+            iniciarLectura();
+        }
 
         function mostrarPantalla(id) {
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
             document.getElementById(id).classList.add('active');
         }
 
-        function volverMenu() {
-            if (typeof DueloManager !== 'undefined' && DueloManager.enDuelo) {
-                // En duelo, cargamos otra partida inmediatamente
-                iniciarLectura();
-                return;
-            }
-            mostrarPantalla('screen-menu'); 
-            document.getElementById('solution-container').style.display = 'none';
-        }
-
         function iniciarLectura() {
-            jugadasMeta = parseInt(document.getElementById('move-count').value);
-            
-            // SINCRONIZACIÓN MAESTRA DE PARTIDA
-            let indiceElegido = (typeof DueloManager !== 'undefined' && DueloManager.enDuelo) 
-                                ? DueloManager.obtenerIndiceSincronizado(partidas.length) 
-                                : Math.floor(Math.random() * partidas.length);
+            if (!juegoActivo) return;
+            let indiceElegido = 0;
+            if (TorneoManager.enTorneo) indiceElegido = TorneoManager.obtenerIndiceSincronizado(partidas.length);
+            else if (typeof DueloManager !== 'undefined' && DueloManager.enDuelo) indiceElegido = DueloManager.obtenerIndiceSincronizado(partidas.length);
+            else indiceElegido = Math.floor(Math.random() * partidas.length);
 
             let pgnRaw = partidas[indiceElegido].pgn;
             let tempGame = new Chess(); tempGame.load_pgn(pgnRaw); let history = tempGame.history();
@@ -176,6 +313,7 @@
         }
 
         function pasarAConstruccion() {
+            if (!juegoActivo) return;
             mostrarPantalla('screen-build'); 
             document.getElementById('btn-check').style.display = 'block'; 
             document.getElementById('btn-next').style.display = 'none'; 
@@ -185,43 +323,118 @@
             userBoard = Chessboard('myBoard', { position: 'start', draggable: true, dropOffBoard: 'trash', sparePieces: true, pieceTheme: pieceThemeUrl });
         }
 
+        // LÓGICA DE PUNTUACIÓN PRO (Precisión por pieza)
         function comprobar() {
-            let colocacionUser = userBoard.fen().split(' ')[0]; let colocacionObj = fenObjetivo.split(' ')[0];
+            if (!juegoActivo) return;
             
-            if (!DueloManager.enDuelo) {
-                actualizarEstadisticaGlobal('lecturaJugados', 1, true); 
+            let posUsuario = userBoard.position();
+            let gSol = new Chess(fenObjetivo);
+            
+            let piezasSolucion = 0;
+            let piezasCorrectas = 0;
+            let piezasErroneas = 0;
+
+            const casillas = [];
+            for (let i = 0; i < 8; i++) {
+                for (let j = 0; j < 8; j++) {
+                    casillas.push(String.fromCharCode(97 + i) + (j + 1));
+                }
             }
 
-            if (colocacionUser === colocacionObj) {
-                reproducirSonido('correcto');
-                document.getElementById('msg').innerText = "✅ ¡PERFECTO! Memoria impecable."; $('#myBoard').addClass('border-win');
-                
-                if (!DueloManager.enDuelo) {
-                    actualizarEstadisticaGlobal('lecturaAciertos', 1, true);
-                    registrarXP('avanzado', true); 
-                } else {
-                    aciertosDuelo++;
-                    // ENVIAR PUNTOS A LA ARENA
-                    DueloManager.enviarPuntos(aciertosDuelo);
+            casillas.forEach(cas => {
+                let pSol = gSol.get(cas);
+                let pUser = posUsuario[cas]; // Formato "wP", "bR", etc.
+
+                if (pSol) {
+                    piezasSolucion++;
+                    let pSolStr = pSol.color + pSol.type.toUpperCase();
+                    if (pUser === pSolStr) {
+                        piezasCorrectas++;
+                    } else {
+                        piezasErroneas++;
+                    }
+                } else if (pUser) {
+                    piezasErroneas++; // Pieza puesta donde no había nada
                 }
+            });
+
+            let puntosRonda = (piezasCorrectas * 5) - (piezasErroneas * 2);
+            let esPerfecto = (piezasCorrectas === piezasSolucion && piezasErroneas === 0);
+            
+            if (esPerfecto) {
+                puntosRonda += 15; // Bonus Perfecto
+                reproducirSonido('correcto');
             } else {
                 reproducirSonido('incorrecto');
-                document.getElementById('msg').innerText = "❌ DIFERENCIAS DETECTADAS"; $('#myBoard').addClass('border-fail');
-                document.getElementById('solution-container').style.display = 'flex'; document.getElementById('user-title').classList.add('visible');
-                
-                if (!DueloManager.enDuelo) {
-                    registrarXP('avanzado', false); 
-                }
+            }
+
+            if (puntosRonda < 0) puntosRonda = 0;
+            misPuntosLocales += puntosRonda;
+
+            let msg = document.getElementById('msg');
+            let fenUsuario = userBoard.fen();
+
+            if (esPerfecto) {
+                msg.innerHTML = `<span style="color:var(--success);">✅ ¡PERFECTO! +${puntosRonda} pts</span>`;
+                $('#myBoard').removeClass('border-fail').addClass('border-win');
+            } else {
+                msg.innerHTML = `<span style="color:var(--danger);">❌ Precisión: ${piezasCorrectas}/${piezasSolucion} piezas. +${puntosRonda} pts</span>`;
+                $('#myBoard').removeClass('border-win').addClass('border-fail');
+                document.getElementById('solution-container').style.display = 'flex'; 
+                document.getElementById('user-title').classList.add('visible');
                 
                 if(solutionBoard) solutionBoard.destroy();
                 setTimeout(() => { solutionBoard = Chessboard('solutionBoard', { position: fenObjetivo, draggable: false, pieceTheme: pieceThemeUrl }); }, 100);
             }
+
+            // Distribuir Puntos según Modo
+            if (TorneoManager.enTorneo) {
+                TorneoManager.enviarPuntos(misPuntosLocales);
+            } else if (typeof DueloManager !== 'undefined' && DueloManager.enDuelo) {
+                DueloManager.enviarPuntos(misPuntosLocales);
+            } else {
+                actualizarEstadisticaGlobal('lecturaAciertos', puntosRonda, true);
+                registrarXP('avanzado', esPerfecto);
+            }
             
             document.getElementById('btn-check').style.display = 'none'; 
             document.getElementById('btn-next').style.display = 'block';
-            document.getElementById('btn-next').innerText = (typeof DueloManager !== 'undefined' && DueloManager.enDuelo) ? "SIGUIENTE RETO ➡" : "OTRA PARTIDA";
             
-            let currentFen = userBoard.fen(); userBoard.destroy(); userBoard = Chessboard('myBoard', { position: currentFen, draggable: false, pieceTheme: pieceThemeUrl });
+            userBoard.destroy(); 
+            userBoard = Chessboard('myBoard', { position: fenUsuario, draggable: false, pieceTheme: pieceThemeUrl });
+        }
+
+        function volverALectura() {
+            if (!juegoActivo) return;
+            iniciarLectura();
+        }
+
+        // ---------------- PODIO Y REVANCHA ----------------
+        function finalizarTorneoGlobal() {
+            juegoActivo = false; reproducirSonido('fin');
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById('pantalla-podio').classList.remove('oculto');
+            firebase.database().ref(refSalaTorneo).update({ estado: 'finalizado' });
+            firebase.database().ref(refSalaTorneo + '/jugadores').once('value').then(snap => {
+                let data = snap.val(); if(!data) return;
+                let lista = []; for(let key in data) { lista.push({ nombre: data[key].nombre, puntos: data[key].puntos || 0 }); }
+                lista.sort((a, b) => b.puntos - a.puntos);
+                let htmlPodio = "";
+                lista.forEach((j, i) => {
+                    let clase = i === 0 ? "podio-oro" : i === 1 ? "podio-plata" : i === 2 ? "podio-bronce" : "";
+                    let icono = i === 0 ? "👑" : i === 1 ? "🥈" : i === 2 ? "🥉" : "🏅";
+                    htmlPodio += `<div class="podio-fila ${clase}"><span>${icono} ${j.nombre}</span> <strong>${j.puntos} pts</strong></div>`;
+                });
+                document.getElementById('lista-podio').innerHTML = htmlPodio;
+            });
+        }
+
+        function jugarRevancha() {
+            document.getElementById('pantalla-podio').classList.add('oculto'); document.getElementById('lobby-torneo').classList.remove('oculto');
+            firebase.database().ref(refSalaTorneo).update({ estado: 'esperando', tiempoFin: null });
+            let uid = localStorage.getItem('current_user_uid');
+            firebase.database().ref(`${refSalaTorneo}/jugadores/${uid}/puntos`).set(0);
+            misPuntosLocales = 0; juegoActivo = false;
         }
     </script>
 </body>

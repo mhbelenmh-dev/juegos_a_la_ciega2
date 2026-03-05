@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Mi Puzzle Storm - Modo Racha</title>
+    <title>Mi Puzzle Storm - Modo Torneo</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>♞</text></svg>">
 
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
@@ -14,64 +14,146 @@
 
     <style>
         body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg-color); color: var(--text); margin: 0; display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 20px; box-sizing: border-box; }
-        h1 { color: var(--accent); margin-bottom: 30px; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); }
-        #main-layout { display: flex; flex-direction: row; gap: 40px; width: 100%; max-width: 900px; justify-content: center; align-items: flex-start; }
-        @media (max-width: 800px) { #main-layout { flex-direction: column; align-items: center; } #sidebar { width: 100%; max-width: 420px; } }
+        h1 { color: var(--accent); margin-bottom: 20px; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); text-align: center; }
+        
+        #main-layout { display: flex; flex-direction: row; gap: 30px; width: 100%; max-width: 1200px; justify-content: center; align-items: flex-start; }
+        
+        @media (max-width: 950px) { 
+            #main-layout { flex-direction: column; align-items: center; } 
+            .sidebar-panel { width: 100%; max-width: 420px; } 
+        }
+        
         #tablero-wrapper { flex: 0 0 420px; display: flex; flex-direction: column; align-items: center; }
         #tablero { width: 420px; border: 6px solid #3d3a37; border-radius: 4px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); touch-action: none !important; }
+        
         #status-box { width: 100%; margin-top: 15px; background: var(--panel-bg); padding: 15px; border-radius: 8px; text-align: center; box-sizing: border-box; border: 1px solid #444; min-height: 60px; display: flex; align-items: center; justify-content: center; }
         #status { font-weight: bold; font-size: 1.2em; transition: 0.2s; }
-        #sidebar { flex: 1; display: flex; flex-direction: column; gap: 20px; width: 350px; }
-        .panel-box { background: var(--panel-bg); padding: 25px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); border: 1px solid #444; }
-        .panel-title { font-weight: bold; color: var(--accent); margin-bottom: 15px; font-size: 1.2em; text-transform: uppercase; letter-spacing: 1px; }
+        
+        .sidebar-panel { flex: 1; display: flex; flex-direction: column; gap: 20px; width: 300px; }
+        .panel-box { background: var(--panel-bg); padding: 20px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); border: 1px solid #444; }
+        .panel-title { font-weight: bold; color: var(--accent); margin-bottom: 15px; font-size: 1.2em; text-transform: uppercase; letter-spacing: 1px; text-align: center; }
+        
         .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .stat-card { background: #262421; padding: 15px; border-radius: 6px; text-align: center; border: 1px solid #3d3a37; }
         .stat-value { display: block; font-size: 2em; color: var(--text); font-weight: bold; transition: color 0.3s, transform 0.3s; }
         .stat-label { font-size: 0.8em; color: #888; text-transform: uppercase; margin-top: 5px; display: block; }
+        
+        .val-rating { color: var(--blue); } .val-racha { color: var(--accent); }
+        
         .btn-skip { background: var(--danger); box-shadow: 0 4px 0 #8a1f1f; margin-top: 10px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; transition: 0.2s; width: 100%; color: white; padding: 15px 20px; font-size: 1.1em; }
         .btn-skip:hover { background: #e63939; box-shadow: 0 6px 0 #8a1f1f; transform: translateY(-2px); }
         .btn-skip:active { box-shadow: 0 2px 0 #8a1f1f; transform: translateY(2px); }
-        @keyframes subida { 0% { transform: scale(1); } 50% { transform: scale(1.2); color: #fff; } 100% { transform: scale(1); } }
-        .puntos-grandes { animation: subida 0.4s ease-out; color: var(--accent); }
+
+        /* --- ESTILOS MODO TORNEO --- */
+        #lobby-torneo { background: var(--panel-bg); padding: 40px; border-radius: 12px; border: 2px solid var(--accent); max-width: 600px; width: 100%; text-align: center; margin-top: 20px; box-shadow: 0 15px 40px rgba(0,0,0,0.8); }
+        #codigo-input { background: #111; color: var(--accent); border: 2px dashed #555; font-size: 3em; font-family: 'Courier New', Courier, monospace; text-align: center; width: 200px; padding: 10px; border-radius: 8px; outline: none; margin: 10px 0 20px 0; font-weight: bold;}
+        #codigo-input:focus { border-color: var(--accent); }
+        .jugador-lobby { display: inline-block; background: #262421; border: 1px solid #444; padding: 8px 15px; margin: 5px; border-radius: 20px; font-weight: bold; color: #fff; }
+        .btn-gran-fuego { background: var(--success); color: white; font-size: 1.8em; font-weight: bold; padding: 20px; width: 100%; border: none; border-radius: 8px; cursor: pointer; box-shadow: 0 6px 0 #4a751b; margin-top: 30px; text-transform: uppercase; transition: 0.2s;}
+        .btn-gran-fuego:hover { background: #76b82a; transform: translateY(-3px); box-shadow: 0 9px 0 #4a751b;}
+        .btn-gran-fuego:active { transform: translateY(3px); box-shadow: 0 0 0 #4a751b;}
+
+        .leaderboard-item { display: flex; justify-content: space-between; padding: 12px 10px; border-bottom: 1px solid #333; font-size: 1.1em; background: #222; margin-bottom: 5px; border-radius: 5px;}
+        .leaderboard-item.me { border: 1px solid var(--accent); background: #2a2820; }
+        .rank-pts { font-weight: bold; color: var(--blue); }
+
+        #timer-torneo { font-size: 3em; font-family: 'Courier New', monospace; font-weight: bold; color: var(--accent); text-align: center; margin-bottom: 15px; background: #111; padding: 10px; border-radius: 8px; border: 2px solid #333; }
+
+        /* --- PANTALLA PODIO --- */
+        #pantalla-podio { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(20, 20, 20, 0.98); z-index: 1000; display: flex; flex-direction: column; align-items: center; justify-content: center; overflow-y: auto; padding: 20px; box-sizing: border-box;}
+        .podio-titulo { font-size: 4em; color: var(--accent); text-transform: uppercase; margin-bottom: 40px; text-shadow: 0 0 20px rgba(229, 191, 0, 0.5); text-align: center;}
+        .podio-fila { display: flex; justify-content: space-between; align-items: center; width: 100%; max-width: 500px; background: #222; padding: 20px; margin-bottom: 10px; border-radius: 8px; font-size: 1.5em; border: 1px solid #444; }
+        .podio-oro { border-color: #ffd700; background: rgba(255, 215, 0, 0.1); font-size: 1.8em; font-weight: bold;}
+        .podio-plata { border-color: #c0c0c0; background: rgba(192, 192, 192, 0.1); }
+        .podio-bronce { border-color: #cd7f32; background: rgba(205, 127, 50, 0.1); }
+        .btn-revancha { background: var(--success); box-shadow: 0 6px 0 #4a751b; width: auto; min-width: 250px; }
+        .btn-salir-podio { background: #444; box-shadow: 0 6px 0 #222; width: auto; min-width: 250px; }
     </style>
 </head>
+
 <body>
 
-    <h1 id="titulo-juego">⚡ Mi Puzzle Storm (Racha Progresiva) ⚡</h1>
+    <h1 id="titulo-juego">⚡ Mi Puzzle Storm ⚡</h1>
 
     <div id="pantalla-carga">
         <h2 style="color: var(--text); margin-top: 0;">Configuración</h2>
-        <p style="color: #aaa;">Para jugar, carga tu archivo de puzzles:</p>
-        <input type="file" id="archivoInput" accept=".json">
-        <br><br>
-        <button id="btn-defecto" class="btn-secundario">🎮 Usar base del juego</button>
+        <p style="color: #aaa;">Para jugar solo, usa este botón:</p>
+        <button id="btn-defecto" class="btn-secundario" style="padding: 12px 20px; width: 100%;">🎮 JUGAR EN SOLITARIO</button>
+        
+        <hr style="border: 1px solid #444; margin: 25px 0;">
+        <p style="color: #aaa; margin-bottom: 10px;">O únete a la batalla:</p>
+        <button id="btn-torneo" class="btn-secundario" style="background: var(--accent); color: #000; width: 100%; padding: 15px; font-size: 1.2em;" onclick="abrirLobbyTorneo()">🏆 CREAR / UNIRSE A TORNEO</button>
+        
+        <div style="margin-top: 30px; border-top: 1px solid #333; padding-top: 15px;">
+            <p style="font-size: 0.8em; color: #666; text-align: left; margin-bottom: 5px;">Avanzado: Subir tu archivo .json</p>
+            <input type="file" id="archivoInput" accept=".json">
+        </div>
+
+        <a href="index.html" style="text-decoration:none;"><button class="btn-skip" style="background:#444; box-shadow: 0 4px 0 #222; margin-top: 20px;">⬅ Volver al Menú</button></a>
+    </div>
+
+    <div id="lobby-torneo" class="oculto">
+        <h2 style="color: var(--accent); font-size: 2.5em; margin-top: 0;">SALA DE TORNEO</h2>
+        <p style="color: #aaa; font-size: 1.1em;">Comparte este código o escribe uno para unirte:</p>
+        <input type="text" id="codigo-input" maxlength="4" oninput="cambiarSalaTorneo(this.value)">
+        
+        <div style="background: #111; border: 1px solid #333; border-radius: 8px; padding: 20px; min-height: 150px; text-align: left;">
+            <div style="color: #888; font-weight: bold; margin-bottom: 10px; border-bottom: 1px solid #333; padding-bottom: 5px;">JUGADORES EN SALA:</div>
+            <div id="lista-lobby">Cargando...</div>
+        </div>
+
+        <button class="btn-gran-fuego" onclick="empezarTorneoParaTodos()">🔥 ¡EMPEZAR AHORA! 🔥</button>
+        <button class="btn-skip" style="background:#444; box-shadow: 0 4px 0 #222; margin-top: 20px;" onclick="location.reload()">⬅ Salir del Lobby</button>
     </div>
 
     <div id="pantalla-juego" class="oculto">
         <div id="main-layout">
+            
+            <div class="sidebar-panel" id="panel-leaderboard" style="display: none;">
+                <div class="panel-box" style="height: 100%;">
+                    <div class="panel-title">🏆 CLASIFICACIÓN</div>
+                    <div id="leaderboard-list"></div>
+                </div>
+            </div>
+
             <div id="tablero-wrapper">
+                <div id="timer-torneo" class="oculto">03:00</div>
                 <div id="tablero"></div>
                 <div id="status-box"><div id="status">Cargando...</div></div>
             </div>
-            <div id="sidebar">
+
+            <div class="sidebar-panel">
                 <div class="panel-box">
-                    <div class="panel-title">Estadísticas</div>
+                    <div class="panel-title">Tus Estadísticas</div>
                     <div class="stats-grid">
                         <div class="stat-card">
-                            <span id="ratingDisplay" class="stat-value" style="color:var(--blue);">1700</span>
-                            <span class="stat-label">Dificultad</span>
+                            <span id="ratingDisplay" class="stat-value val-rating">0</span>
+                            <span class="stat-label">Puntuación</span>
                         </div>
                         <div class="stat-card">
-                            <span id="rachaDisplay" class="stat-value" style="color:var(--accent);">0</span>
+                            <span id="rachaDisplay" class="stat-value val-racha">0</span>
                             <span class="stat-label">Racha x</span>
                         </div>
                     </div>
                 </div>
+
                 <div class="panel-box" style="padding: 15px;">
-                    <a id="btn-volver-menu" href="index.html" style="text-decoration:none;"><button class="btn-skip" style="background:#444; box-shadow: 0 4px 0 #222; margin-bottom:10px;">⬅ Menú</button></a>
+                    <a id="btn-volver-menu" href="index.html" style="text-decoration:none;">
+                        <button class="btn-skip" style="background:#444; box-shadow: 0 4px 0 #222; margin-bottom:10px;">⬅ Menú Principal</button>
+                    </a>
                     <button class="btn-skip" onclick="saltarPuzzle()">⏭️ Saltar (-5 pts)</button>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <div id="pantalla-podio" class="oculto">
+        <div class="podio-titulo">🏁 TORNEO FINALIZADO 🏁</div>
+        <div id="lista-podio" style="width: 100%; display: flex; flex-direction: column; align-items: center;"></div>
+        
+        <div style="display: flex; gap: 20px; margin-top: 40px; flex-wrap: wrap; justify-content: center; width: 100%;">
+            <button class="btn-gran-fuego btn-revancha" onclick="jugarRevancha()">🔄 Jugar Revancha</button>
+            <button class="btn-gran-fuego btn-salir-podio" onclick="location.reload()">⬅ Salir</button>
         </div>
     </div>
 
@@ -81,124 +163,313 @@
     <script src="utils.js"></script>
 
     <script>
-        let todosLosPuzzles = {}; let eloActual = 1700; let puzzleActual = null; let game = new Chess(); let board = null; let racha = 0; let indiceMovimiento = 0;
-        let enDuelo = false; let salaDuelo = ""; let contadorPuzzleDuelo = 0; let puntosDueloAcumulados = 0;
+        let todosLosPuzzles = {}; let puzzleActual = null; let game = new Chess(); let board = null; let racha = 0; let indiceMovimiento = 0;
+        let misPuntosLocales = 0; let juegoActivo = false;
+        
+        // Variables Torneo
+        let refSalaTorneo = null; 
+        let tiempoTorneoRestante = 0; 
+        let intervaloTorneo = null;
 
+        // Inicializamos para el modo SOLITARIO normal
         inicializarCargaBaseDatos('mis_puzzles.json', 'btn-defecto', 'archivoInput', function (data) {
             todosLosPuzzles = data; 
-            iniciarPantallaJuego();
+            if (!TorneoManager.enTorneo && !DueloManager.enDuelo) iniciarPantallaJuego(false);
         });
 
-        window.addEventListener('DOMContentLoaded', () => {
-            const params = new URLSearchParams(window.location.search);
-            if (params.get('duelo') === 'true') {
-                enDuelo = true;
-                salaDuelo = params.get('sala') || "sala_secreta";
-                
-                // Limpiamos UI innecesaria
-                document.getElementById('btn-volver-menu').style.display = 'none';
-                document.getElementById('titulo-juego').style.display = 'none';
-                
-                // MAGIA: Hacemos auto-clic en el botón para usar la carga segura de utils.js
-                setTimeout(() => {
-                    let btn = document.getElementById('btn-defecto');
-                    if(btn) btn.click();
-                }, 300);
+        // ----------------------------------------------------
+        // LÓGICA DEL MODO TORNEO (LOBBY Y CLASIFICACIÓN)
+        // ----------------------------------------------------
+        function abrirLobbyTorneo() {
+            let btn = document.getElementById('btn-torneo');
+            if (btn) btn.innerText = "Cargando Arena...";
+
+            if (Object.keys(todosLosPuzzles).length > 0) {
+                ejecutarLobby();
+            } else {
+                fetch('mis_puzzles.json').then(r => r.json()).then(data => {
+                    todosLosPuzzles = data; ejecutarLobby();
+                }).catch(e => {
+                    alert("Hubo un error cargando la base de datos.");
+                    if (btn) btn.innerText = "🏆 CREAR / UNIRSE A TORNEO";
+                });
             }
-        });
-
-        function iniciarPantallaJuego() {
-            document.getElementById('pantalla-carga').classList.add('oculto');
-            document.getElementById('pantalla-juego').classList.remove('oculto');
-            iniciarJuego();
         }
 
-        function iniciarJuego() {
+        function ejecutarLobby() {
+            let btn = document.getElementById('btn-torneo');
+            if (btn) btn.innerText = "🏆 CREAR / UNIRSE A TORNEO";
+
+            document.getElementById('pantalla-carga').classList.add('oculto');
+            document.getElementById('lobby-torneo').classList.remove('oculto');
+            document.getElementById('titulo-juego').style.display = 'none';
+
+            let codigoRandom = Math.floor(1000 + Math.random() * 9000).toString();
+            document.getElementById('codigo-input').value = codigoRandom;
+            cambiarSalaTorneo(codigoRandom);
+        }
+
+        function cambiarSalaTorneo(codigo) {
+            codigo = codigo.trim();
+            if(codigo.length < 4) { document.getElementById('lista-lobby').innerHTML = "<span style='color:var(--danger)'>Escribe 4 números...</span>"; return; }
+            
+            TorneoManager.enTorneo = true;
+            TorneoManager.codigoSala = codigo;
+
+            let uid = localStorage.getItem('current_user_uid') || "invitado_" + Math.floor(Math.random()*1000);
+            let nombre = localStorage.getItem('current_user_name') || "Anónimo";
+
+            if (refSalaTorneo) firebase.database().ref(refSalaTorneo).off(); 
+            
+            refSalaTorneo = `torneos/${codigo}`;
+            
+            firebase.database().ref(`${refSalaTorneo}/jugadores/${uid}`).set({ nombre: nombre, puntos: 0 });
+            firebase.database().ref(`${refSalaTorneo}/jugadores/${uid}`).onDisconnect().remove();
+
+            firebase.database().ref(refSalaTorneo).on('value', (snap) => {
+                let data = snap.val();
+                if (!data) return;
+
+                // 1. Actualizar lista de jugadores y Leaderboard
+                if (data.jugadores) {
+                    let htmlLobby = ""; let listaLeaderboard = [];
+                    let miUid = localStorage.getItem('current_user_uid');
+
+                    for (let key in data.jugadores) {
+                        let j = data.jugadores[key];
+                        htmlLobby += `<span class="jugador-lobby">${j.nombre}</span>`;
+                        listaLeaderboard.push({ uid: key, nombre: j.nombre, puntos: j.puntos || 0 });
+                    }
+                    
+                    // Solo actualizamos el lobby si no estamos jugando
+                    if (!juegoActivo) document.getElementById('lista-lobby').innerHTML = htmlLobby;
+
+                    listaLeaderboard.sort((a, b) => b.puntos - a.puntos);
+                    let htmlBoard = "";
+                    listaLeaderboard.forEach((j, index) => {
+                        let medalla = index === 0 ? '👑' : index === 1 ? '🥈' : index === 2 ? '🥉' : '🔹';
+                        let extraClass = (j.uid === miUid) ? "me" : "";
+                        htmlBoard += `<div class="leaderboard-item ${extraClass}"><span>${medalla} ${j.nombre}</span> <span class="rank-pts">${j.puntos}</span></div>`;
+                    });
+                    document.getElementById('leaderboard-list').innerHTML = htmlBoard;
+                }
+
+                // 2. Vigilar si alguien da la orden de empezar (¡MAGIA DE ARRASTRE INCLUIDA!)
+                if (data.estado === 'jugando' && !juegoActivo) {
+                    let restante = data.tiempoFin ? Math.floor((data.tiempoFin - Date.now()) / 1000) : 0;
+                    
+                    if (restante > 0) {
+                        // LA MAGIA DE LA REVANCHA: Usamos el tiempo exacto en que empezó como "Semilla" de la ronda
+                        TorneoManager.semillaRonda = data.tiempoFin.toString();
+
+                        // Si la partida ha empezado y hay tiempo, Ocultamos el podio (por si estaba viéndolo) y entramos
+                        document.getElementById('pantalla-podio').classList.add('oculto'); 
+                        iniciarPantallaJuego(true, data.tiempoFin);
+                    } else {
+                        // Si entra tarde y el tiempo ya expiró
+                        document.getElementById('lista-lobby').innerHTML += "<div style='color:var(--accent); margin-top:15px; font-style:italic;'>La partida acaba de terminar. Esperando revancha...</div>";
+                    }
+                }
+            });
+        }
+
+        function empezarTorneoParaTodos() {
+            if (!TorneoManager.codigoSala) return;
+            // Damos 3 minutos (180,000 ms)
+            let tiempoFinal = Date.now() + 180000;
+            firebase.database().ref(refSalaTorneo).update({ estado: 'jugando', tiempoFin: tiempoFinal });
+        }
+
+        // ----------------------------------------------------
+        // LÓGICA DEL JUEGO (TABLERO)
+        // ----------------------------------------------------
+        function iniciarPantallaJuego(esTorneo, tiempoFinMs = null) {
+            juegoActivo = true;
+            document.getElementById('pantalla-carga').classList.add('oculto');
+            document.getElementById('lobby-torneo').classList.add('oculto');
+            document.getElementById('pantalla-juego').classList.remove('oculto');
+            
+            if (esTorneo) {
+                TorneoManager.contador = 0; // Sincronizamos la semilla
+                document.getElementById('panel-leaderboard').style.display = 'block';
+                document.getElementById('timer-torneo').classList.remove('oculto');
+                document.getElementById('btn-volver-menu').style.display = 'none';
+                
+                intervaloTorneo = setInterval(() => {
+                    let restante = Math.floor((tiempoFinMs - Date.now()) / 1000);
+                    if (restante <= 0) {
+                        clearInterval(intervaloTorneo);
+                        finalizarTorneoGlobal();
+                        return;
+                    }
+                    let m = Math.floor(restante / 60); let s = restante % 60;
+                    let timerEl = document.getElementById('timer-torneo');
+                    timerEl.innerText = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+                    if(restante <= 10) timerEl.style.color = "var(--danger)";
+                    else timerEl.style.color = "var(--accent)";
+                }, 1000);
+            }
+
             board = Chessboard('tablero', { draggable: true, position: 'start', pieceTheme: 'https://chessboardjs.com/img/chesspieces/wikipedia/{piece}.png', onDragStart: onDragStart, onDrop: onDrop, onSnapEnd: onSnapEnd });
-            let p = obtenerPerfil(); eloActual = p.eloNormal || 1700;
+            
+            if (!esTorneo) {
+                let p = obtenerPerfil();
+                misPuntosLocales = p.eloNormal || 1700;
+                document.getElementById('ratingDisplay').previousElementSibling.innerText = "Dificultad (ELO)";
+            } else {
+                misPuntosLocales = 0;
+            }
+            
+            racha = 0;
+            document.getElementById('rachaDisplay').innerText = racha;
+            document.getElementById('ratingDisplay').innerText = misPuntosLocales;
             cargarNuevoPuzzle();
         }
 
         function cargarNuevoPuzzle() {
-            document.getElementById('status').innerText = "Pensando...";
-            let rango = "1700";
+            if (!juegoActivo) return;
+            document.getElementById('status').innerText = "Pensando..."; 
+            document.getElementById('status').className = "";
             
-            if (enDuelo) {
-                contadorPuzzleDuelo++;
-                // Empezamos suave y subimos dificultad
-                let eloProgresivo = 1200 + Math.floor(contadorPuzzleDuelo / 2) * 50;
+            let rango = "1700"; let lista = [];
+
+            if (TorneoManager.enTorneo) {
+                let eloProgresivo = 1200 + Math.floor(TorneoManager.contador / 2) * 50;
                 rango = (Math.floor(Math.min(eloProgresivo, 2500) / 50) * 50).toString();
+                if (!todosLosPuzzles[rango]) rango = Object.keys(todosLosPuzzles)[0] || "1700";
                 
-                // Fallback seguro si no hay puzzles de ese nivel
-                if (!todosLosPuzzles[rango] || todosLosPuzzles[rango].length === 0) {
-                    let keys = Object.keys(todosLosPuzzles);
-                    rango = keys.length > 0 ? keys[0] : "1700";
-                }
-                
-                let semilla = salaDuelo + "_" + contadorPuzzleDuelo;
-                let hash = 0;
-                for (let i = 0; i < semilla.length; i++) { hash = Math.imul(31, hash) + semilla.charCodeAt(i) | 0; }
-                
-                let lista = todosLosPuzzles[rango];
-                puzzleActual = lista[Math.abs(hash) % lista.length];
-                eloActual = eloProgresivo;
+                lista = todosLosPuzzles[rango];
+                let indice = TorneoManager.obtenerIndiceSincronizado(lista.length);
+                puzzleActual = lista[indice];
             } else {
-                rango = (Math.floor(Math.min(eloActual, 2500) / 50) * 50).toString();
-                let lista = todosLosPuzzles[rango] || todosLosPuzzles[Object.keys(todosLosPuzzles)[0]];
+                rango = (Math.floor(Math.min(misPuntosLocales, 2500) / 50) * 50).toString();
+                if (!todosLosPuzzles[rango]) rango = Object.keys(todosLosPuzzles)[0] || "1700";
+                lista = todosLosPuzzles[rango];
                 puzzleActual = lista[Math.floor(Math.random() * lista.length)];
             }
 
-            // ¡CRÍTICO! Si los movimientos vienen en texto, separarlos. (Esto faltaba antes)
-            if (typeof puzzleActual.moves === 'string') {
-                puzzleActual.moves = puzzleActual.moves.split(' ');
-            }
+            if (typeof puzzleActual.moves === 'string') puzzleActual.moves = puzzleActual.moves.split(' ');
 
             indiceMovimiento = 0; game.load(puzzleActual.fen);
             hacerMovimiento(puzzleActual.moves[indiceMovimiento]); indiceMovimiento++;
             
-            board.orientation(game.turn() === 'w' ? 'white' : 'black'); 
-            board.position(game.fen());
-            
-            document.getElementById('ratingDisplay').innerText = eloActual;
-            document.getElementById('status').innerHTML = `Juegan <strong style="color:var(--accent);">${game.turn() === 'w' ? 'BLANCAS' : 'NEGRAS'}</strong>`;
+            let colorJugador = game.turn() === 'w' ? 'white' : 'black';
+            board.orientation(colorJugador); board.position(game.fen());
+            document.getElementById('status').innerHTML = `Juegan <strong style="color:var(--accent);">${colorJugador === 'white' ? 'BLANCAS' : 'NEGRAS'}</strong>`;
         }
 
-        function hacerMovimiento(m) { let f = m.substring(0,2); let t = m.substring(2,4); let p = m.length > 4 ? m.substring(4,5) : 'q'; game.move({from:f, to:t, promotion:p}); }
-        function onDragStart(s, p) { if (game.game_over()) return false; if ((game.turn() === 'w' && p.search(/^b/) !== -1) || (game.turn() === 'b' && p.search(/^w/) !== -1)) return false; }
+        function hacerMovimiento(m) { let f = m.substring(0, 2); let t = m.substring(2, 4); let p = m.length > 4 ? m.substring(4, 5) : 'q'; game.move({ from: f, to: t, promotion: p }); }
+        function onDragStart(s, p) { if (!juegoActivo || game.game_over()) return false; if ((game.turn() === 'w' && p.search(/^b/) !== -1) || (game.turn() === 'b' && p.search(/^w/) !== -1)) return false; }
 
         function onDrop(source, target) {
-            let move = game.move({ from: source, to: target, promotion: 'q' });
-            if (move === null) return 'snapback';
-            let miMov = source + target + (move.promotion || "");
-            if (miMov.startsWith(puzzleActual.moves[indiceMovimiento])) {
+            if (!juegoActivo) return 'snapback';
+            let move = game.move({ from: source, to: target, promotion: 'q' }); if (move === null) return 'snapback';
+            let miMovimiento = source + target + (move.promotion || ""); 
+
+            if (miMovimiento.startsWith(puzzleActual.moves[indiceMovimiento])) {
+                if (indiceMovimiento < puzzleActual.moves.length - 1) reproducirSonido('correcto');
                 indiceMovimiento++;
                 if (indiceMovimiento < puzzleActual.moves.length) {
-                    setTimeout(() => { hacerMovimiento(puzzleActual.moves[indiceMovimiento]); board.position(game.fen()); indiceMovimiento++; if (indiceMovimiento >= puzzleActual.moves.length) finalizar(); }, 250);
-                } else { finalizar(); }
+                    setTimeout(() => { hacerMovimiento(puzzleActual.moves[indiceMovimiento]); board.position(game.fen()); indiceMovimiento++; if (indiceMovimiento >= puzzleActual.moves.length) puzzleFinalizado(); }, 250);
+                } else { puzzleFinalizado(); }
             } else {
                 reproducirSonido('incorrecto'); game.undo();
-                if (enDuelo) { puntosDueloAcumulados -= 10; window.parent.postMessage({ action: 'actualizarPuntos', puntos: puntosDueloAcumulados }, '*'); }
-                else { eloActual -= 10; actualizarEstadisticaGlobal('eloNormal', eloActual, false); }
-                racha = 0; document.getElementById('rachaDisplay').innerText = 0; cargarNuevoPuzzle(); return 'snapback';
+                
+                if (TorneoManager.enTorneo) {
+                    misPuntosLocales = Math.max(0, misPuntosLocales - 5); 
+                    TorneoManager.enviarPuntos(misPuntosLocales);
+                } else {
+                    misPuntosLocales -= 10;
+                    actualizarEstadisticaGlobal('eloNormal', misPuntosLocales, false);
+                }
+                
+                document.getElementById('status').innerText = "❌ Incorrecto. SALTANDO."; document.getElementById('status').className = "incorrecto";
+                racha = 0; document.getElementById('rachaDisplay').innerText = racha; document.getElementById('ratingDisplay').innerText = misPuntosLocales;
+                setTimeout(() => { cargarNuevoPuzzle(); }, 500); return 'snapback';
             }
         }
 
-        function finalizar() {
+        function puzzleFinalizado() {
             reproducirSonido('fin');
             let pts = 15 + (racha * 5); racha++;
-            if (enDuelo) { puntosDueloAcumulados += pts; window.parent.postMessage({ action: 'actualizarPuntos', puntos: puntosDueloAcumulados }, '*'); }
-            else { eloActual += pts; actualizarEstadisticaGlobal('eloNormal', eloActual, false); }
-            document.getElementById('rachaDisplay').innerText = racha; registrarXP('avanzado', true);
-            setTimeout(cargarNuevoPuzzle, 800);
+            misPuntosLocales += pts;
+            
+            document.getElementById('rachaDisplay').innerText = racha;
+            document.getElementById('ratingDisplay').innerText = misPuntosLocales;
+            document.getElementById('status').innerText = `✅ ¡CORRECTO! +${pts}`; document.getElementById('status').className = "correcto";
+
+            if (TorneoManager.enTorneo) {
+                TorneoManager.enviarPuntos(misPuntosLocales);
+            } else {
+                actualizarEstadisticaGlobal('eloNormal', misPuntosLocales, false);
+                registrarXP('avanzado', true);
+            }
+            setTimeout(() => { cargarNuevoPuzzle(); }, 600);
         }
 
         function saltarPuzzle() {
-            if (enDuelo) { puntosDueloAcumulados -= 5; window.parent.postMessage({ action: 'actualizarPuntos', puntos: puntosDueloAcumulados }, '*'); }
-            else { eloActual -= 5; actualizarEstadisticaGlobal('eloNormal', eloActual, false); }
-            racha = 0; document.getElementById('rachaDisplay').innerText = 0; cargarNuevoPuzzle();
+            if (TorneoManager.enTorneo) {
+                misPuntosLocales = Math.max(0, misPuntosLocales - 5);
+                TorneoManager.enviarPuntos(misPuntosLocales);
+            } else {
+                misPuntosLocales -= 5;
+                actualizarEstadisticaGlobal('eloNormal', misPuntosLocales, false);
+            }
+            racha = 0; document.getElementById('rachaDisplay').innerText = racha; document.getElementById('ratingDisplay').innerText = misPuntosLocales;
+            cargarNuevoPuzzle();
         }
 
         function onSnapEnd() { board.position(game.fen()); }
+
+        // ----------------------------------------------------
+        // EL PODIO Y LA REVANCHA
+        // ----------------------------------------------------
+        function finalizarTorneoGlobal() {
+            juegoActivo = false;
+            reproducirSonido('fin');
+            document.getElementById('pantalla-juego').classList.add('oculto');
+            document.getElementById('pantalla-podio').classList.remove('oculto');
+
+            // Marcar la sala como finalizada para no arrastrar a nuevos a un juego terminado
+            firebase.database().ref(refSalaTorneo).update({ estado: 'finalizado' });
+
+            firebase.database().ref(refSalaTorneo + '/jugadores').once('value').then(snap => {
+                let data = snap.val(); if(!data) return;
+                let lista = [];
+                for(let key in data) { lista.push({ nombre: data[key].nombre, puntos: data[key].puntos || 0 }); }
+                lista.sort((a, b) => b.puntos - a.puntos);
+
+                let htmlPodio = "";
+                lista.forEach((j, i) => {
+                    let clase = i === 0 ? "podio-oro" : i === 1 ? "podio-plata" : i === 2 ? "podio-bronce" : "";
+                    let icono = i === 0 ? "👑" : i === 1 ? "🥈" : i === 2 ? "🥉" : "🏅";
+                    htmlPodio += `<div class="podio-fila ${clase}"><span>${icono} ${j.nombre}</span> <strong>${j.puntos} pts</strong></div>`;
+                });
+                document.getElementById('lista-podio').innerHTML = htmlPodio;
+                
+                let miNombre = localStorage.getItem('current_user_name');
+                if(lista.length > 1 && lista[0].nombre === miNombre) {
+                    registrarXP('maestro', true);
+                }
+            });
+        }
+
+        function jugarRevancha() {
+            // Me saco del podio y voy al lobby
+            document.getElementById('pantalla-podio').classList.add('oculto');
+            document.getElementById('lobby-torneo').classList.remove('oculto');
+            
+            // Pongo la sala en espera. El que pulse primero "limpia" la mesa para todos
+            firebase.database().ref(refSalaTorneo).update({ estado: 'esperando', tiempoFin: null });
+            
+            // Reseteo MIS puntos a 0
+            let uid = localStorage.getItem('current_user_uid');
+            firebase.database().ref(`${refSalaTorneo}/jugadores/${uid}/puntos`).set(0);
+            
+            // Limpieza de estado local
+            misPuntosLocales = 0;
+            juegoActivo = false;
+        }
     </script>
 </body>
 </html>
