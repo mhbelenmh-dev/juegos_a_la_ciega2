@@ -5,13 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chess Gym - Social & Táctica</title>
-    <link rel="icon"
-        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>♞</text></svg>">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>♞</text></svg>">
 
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
         :root {
@@ -37,450 +35,93 @@
 
         /* HEADER Y BUSCADOR */
         #top-bar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 70px;
-            background: #000;
-            border-bottom: 2px solid #333;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 30px;
-            box-sizing: border-box;
-            z-index: 100;
+            position: fixed; top: 0; left: 0; width: 100%; height: 70px;
+            background: #000; border-bottom: 1px solid #333;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 30px; box-sizing: border-box; z-index: 100;
         }
 
-        .search-container {
-            position: relative;
-            width: 300px;
-        }
+        #brand-logo { margin: 0; font-size: 1.8em; color: var(--accent); letter-spacing: 1px; text-shadow: 2px 2px 0px rgba(0,0,0,0.5); }
 
-        #search-input {
-            width: 100%;
-            padding: 10px 15px;
-            background: #222;
-            border: 1px solid #444;
-            border-radius: 20px;
-            color: #fff;
-            outline: none;
-            transition: 0.3s;
-            box-sizing: border-box;
-        }
+        #nav-menu { display: flex; gap: 25px; align-items: center; }
+        .nav-link { color: var(--green); text-decoration: none; font-weight: bold; font-size: 1.1em; text-transform: uppercase; letter-spacing: 1px; transition: 0.2s; padding: 5px 10px; border-radius: 5px; white-space: nowrap; }
+        .nav-link:hover { color: #fff; background: rgba(98, 153, 36, 0.2); transform: scale(1.05); }
 
-        #search-input:focus {
-            border-color: var(--accent);
-            background: #111;
-        }
+        .search-container { position: relative; width: 250px; }
+        #search-input { width: 100%; padding: 10px 15px; background: #222; border: 1px solid #444; border-radius: 20px; color: #fff; outline: none; transition: 0.3s; box-sizing: border-box; }
+        #search-input:focus { border-color: var(--accent); background: #111; }
+        #search-results { position: absolute; top: 45px; left: 0; width: 100%; background: #222; border-radius: 8px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8); display: none; max-height: 300px; overflow-y: auto; z-index: 101; }
+        .search-item { padding: 10px 15px; cursor: pointer; border-bottom: 1px solid #333; display: flex; align-items: center; gap: 10px; color: #fff; }
+        .search-item:hover { background: #333; color: var(--accent); }
 
-        #search-results {
-            position: absolute;
-            top: 45px;
-            left: 0;
-            width: 100%;
-            background: #222;
-            border-radius: 8px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
-            display: none;
-            max-height: 300px;
-            overflow-y: auto;
-            z-index: 101;
-        }
+        /* LAYOUT PRINCIPAL */
+        #layout-wrapper { display: flex; width: 100%; height: calc(100vh - 70px); margin-top: 70px; }
 
-        .search-item {
-            padding: 10px 15px;
-            cursor: pointer;
-            border-bottom: 1px solid #333;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            color: #fff;
-        }
+        #main-content { flex-grow: 1; padding: 40px; overflow-y: auto; display: flex; flex-direction: column; align-items: center; gap: 30px; }
 
-        .search-item:hover {
-            background: #333;
-            color: var(--accent);
-        }
+        .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 25px; width: 100%; max-width: 1200px; }
+        .dash-card { background: var(--panel); border: 1px solid #444; border-radius: 12px; padding: 25px; box-shadow: 0 10px 20px rgba(0,0,0,0.4); display: flex; flex-direction: column; gap: 15px; }
+        .dash-title { color: var(--accent); font-size: 1.3em; font-weight: bold; text-transform: uppercase; border-bottom: 2px solid #444; padding-bottom: 10px; margin: 0; display: flex; justify-content: space-between; }
 
-        /* LAYOUT PRINCIPAL DIVIDIDO */
-        #layout-wrapper {
-            display: flex;
-            width: 100%;
-            height: calc(100vh - 70px);
-            margin-top: 70px;
-        }
-
-        #main-content {
-            flex-grow: 1;
-            padding: 40px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        /* SIDEBAR DERECHA (ONLINE Y CHATS) */
-        #sidebar-right {
-            width: 280px;
-            background: var(--panel);
-            border-left: 2px solid #333;
-            padding: 20px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            box-sizing: border-box;
-        }
-
-        .online-title {
-            font-size: 0.8em;
-            color: #888;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 10px;
-            border-bottom: 1px solid #444;
-            padding-bottom: 5px;
-        }
-
-        .user-online-mini {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: #1a1917;
-            padding: 12px;
-            border-radius: 6px;
-            cursor: pointer;
-            border: 1px solid transparent;
-            transition: 0.2s;
-            margin-bottom: 8px;
-        }
-
-        .user-online-mini:hover {
-            border-color: var(--accent);
-            background: #222;
-        }
-
-        .dot-online {
-            width: 10px;
-            height: 10px;
-            background: var(--green);
-            border-radius: 50%;
-            box-shadow: 0 0 5px var(--green);
-        }
+        /* SIDEBAR DERECHA */
+        #sidebar-right { width: 280px; background: var(--panel); border-left: 2px solid #333; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 20px; box-sizing: border-box; }
+        .online-title { font-size: 0.8em; color: #888; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; border-bottom: 1px solid #444; padding-bottom: 5px; }
+        .user-online-mini { display: flex; align-items: center; justify-content: space-between; background: #1a1917; padding: 12px; border-radius: 6px; cursor: pointer; border: 1px solid transparent; transition: 0.2s; margin-bottom: 8px; }
+        .user-online-mini:hover { border-color: var(--accent); background: #222; }
+        .dot-online { width: 10px; height: 10px; background: var(--green); border-radius: 50%; box-shadow: 0 0 5px var(--green); }
 
         /* MODALES COMUNES */
-        .overlay-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(10, 10, 10, 0.95);
-            z-index: 9999;
-            display: none;
-            justify-content: center;
-            align-items: center;
-        }
+        .overlay-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(10, 10, 10, 0.95); z-index: 9999; display: none; justify-content: center; align-items: center; }
+        .caja-modal { background: var(--panel); padding: 40px; border-radius: 12px; border: 2px solid var(--accent); width: 100%; max-width: 400px; text-align: center; box-shadow: 0 15px 50px rgba(0, 0, 0, 0.8); position: relative; }
+        .input-modal { width: 100%; padding: 15px; margin-bottom: 15px; box-sizing: border-box; background: var(--bg); color: #fff; border: 1px solid #555; border-radius: 6px; font-size: 1.1em; text-align: center; outline: none; }
+        .btn-modal { width: 100%; color: #fff; padding: 15px; border: none; border-radius: 6px; font-weight: bold; font-size: 1.1em; cursor: pointer; margin-bottom: 10px; transition: 0.2s; }
+        .btn-modal:hover { filter: brightness(1.2); }
+        .close-modal { position: absolute; top: 15px; right: 20px; font-size: 2em; cursor: pointer; color: #888; line-height: 1; }
+        .close-modal:hover { color: var(--danger); }
 
-        .caja-modal {
-            background: var(--panel);
-            padding: 40px;
-            border-radius: 12px;
-            border: 2px solid var(--accent);
-            width: 100%;
-            max-width: 400px;
-            text-align: center;
-            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.8);
-            position: relative;
-        }
-
-        .input-modal {
-            width: 100%;
-            padding: 15px;
-            margin-bottom: 15px;
-            box-sizing: border-box;
-            background: var(--bg);
-            color: #fff;
-            border: 1px solid #555;
-            border-radius: 6px;
-            font-size: 1.1em;
-            text-align: center;
-            outline: none;
-        }
-
-        .btn-modal {
-            width: 100%;
-            color: #fff;
-            padding: 15px;
-            border: none;
-            border-radius: 6px;
-            font-weight: bold;
-            font-size: 1.1em;
-            cursor: pointer;
-            margin-bottom: 10px;
-            transition: 0.2s;
-        }
-
-        .btn-modal:hover {
-            filter: brightness(1.2);
-        }
-
-        .close-modal {
-            position: absolute;
-            top: 15px;
-            right: 20px;
-            font-size: 2em;
-            cursor: pointer;
-            color: #888;
-            line-height: 1;
-        }
-
-        .close-modal:hover {
-            color: var(--danger);
-        }
-
-        /* PERFIL Y GRÁFICAS */
-        .modal-perfil-contenido {
-            max-width: 850px;
-            width: 90%;
-            max-height: 90vh;
-            overflow-y: auto;
-            text-align: left;
-        }
-
-        .profile-header {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            border-bottom: 2px solid #444;
-            padding-bottom: 20px;
-            margin-bottom: 20px;
-        }
-
-        .activity-log {
-            background: #1a1917;
-            padding: 20px;
-            border-radius: 8px;
-            font-family: monospace;
-            border: 1px solid #333;
-        }
-
-        .activity-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 8px 0;
-            border-bottom: 1px dashed #333;
-            font-size: 1.1em;
-        }
+        /* PERFIL LIMPIO */
+        .modal-perfil-contenido { max-width: 600px; width: 90%; max-height: 90vh; overflow-y: auto; text-align: left; }
+        .profile-header { display: flex; align-items: center; gap: 20px; border-bottom: 2px solid #444; padding-bottom: 20px; margin-bottom: 20px; }
+        .activity-log { background: #1a1917; padding: 20px; border-radius: 8px; border: 1px solid #333; }
+        .activity-item { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px dashed #333; font-size: 1.2em; }
 
         /* CHAT FLOTANTE */
-        #chat-modal {
-            display: none;
-            position: fixed;
-            bottom: 20px;
-            right: 300px;
-            width: 350px;
-            height: 450px;
-            background: var(--panel);
-            border: 2px solid var(--blue);
-            border-radius: 10px;
-            z-index: 200;
-            flex-direction: column;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-        }
+        #chat-modal { display: none; position: fixed; bottom: 20px; right: 300px; width: 350px; height: 450px; background: var(--panel); border: 2px solid var(--blue); border-radius: 10px; z-index: 200; flex-direction: column; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); }
+        #chat-header { background: var(--blue); color: #fff; padding: 15px; font-weight: bold; display: flex; justify-content: space-between; border-radius: 8px 8px 0 0; }
+        #chat-messages { flex-grow: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; background: #1a1917; }
+        .msg-bubble { max-width: 80%; padding: 10px; border-radius: 10px; font-size: 0.95em; word-wrap: break-word; }
+        .msg-me { align-self: flex-end; background: var(--green); color: #fff; border-bottom-right-radius: 0; }
+        .msg-to { align-self: flex-start; background: #5a3e8c; color: #fff; border-bottom-left-radius: 0; }
+        #chat-input-container { padding: 10px; display: flex; gap: 10px; border-top: 1px solid #444; background: var(--panel); border-radius: 0 0 10px 10px; }
+        #chat-input { flex-grow: 1; padding: 10px; background: #111; border: 1px solid #555; color: #fff; border-radius: 5px; outline: none; }
 
-        #chat-header {
-            background: var(--blue);
-            color: #fff;
-            padding: 15px;
-            font-weight: bold;
-            display: flex;
-            justify-content: space-between;
-            border-radius: 8px 8px 0 0;
-        }
-
-        #chat-messages {
-            flex-grow: 1;
-            padding: 15px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            background: #1a1917;
-        }
-
-        .msg-bubble {
-            max-width: 80%;
-            padding: 10px;
-            border-radius: 10px;
-            font-size: 0.95em;
-            word-wrap: break-word;
-        }
-
-        .msg-me {
-            align-self: flex-end;
-            background: var(--green);
-            color: #fff;
-            border-bottom-right-radius: 0;
-        }
-
-        .msg-to {
-            align-self: flex-start;
-            background: #5a3e8c;
-            color: #fff;
-            border-bottom-left-radius: 0;
-        }
-
-        #chat-input-container {
-            padding: 10px;
-            display: flex;
-            gap: 10px;
-            border-top: 1px solid #444;
-            background: var(--panel);
-            border-radius: 0 0 10px 10px;
-        }
-
-        #chat-input {
-            flex-grow: 1;
-            padding: 10px;
-            background: #111;
-            border: 1px solid #555;
-            color: #fff;
-            border-radius: 5px;
-            outline: none;
-        }
-
-        /* CLÁSICO: GRID DE JUEGOS Y TÍTULOS */
-        h2 {
-            color: #fff;
-            border-bottom: 2px solid #444;
-            padding-bottom: 10px;
-            width: 100%;
-            max-width: 1100px;
-            text-align: left;
-            margin-top: 40px;
-            margin-bottom: 20px;
-        }
-
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            width: 100%;
-            max-width: 1100px;
-            margin-bottom: 30px;
-        }
-
-        .game-card {
-            background-color: var(--panel);
-            padding: 25px 20px;
-            border-radius: 10px;
-            text-decoration: none;
-            color: white;
-            font-size: 1.2em;
-            font-weight: bold;
-            transition: 0.2s;
-            border: 2px solid #444;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-        }
-
-        .game-card:hover {
-            border-color: var(--blue);
-            background-color: #333;
-            transform: translateY(-5px);
-            color: var(--blue);
-        }
-
-        /* RANKINGS */
-        .rankings-wrapper {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 20px;
-            max-width: 1100px;
-            width: 100%;
-            margin-bottom: 20px;
-        }
-
-        .ranking-container {
-            background: #1a1917;
-            border: 2px solid #444;
-            border-radius: 12px;
-            padding: 20px;
-        }
-
-        .top-player {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px 5px;
-            border-bottom: 1px solid #2a2a2a;
-            font-size: 1.1em;
-        }
-
-        .top-player:nth-child(1) {
-            color: #ffd700;
-            font-weight: bold;
-            font-size: 1.2em;
-            background: rgba(255, 215, 0, 0.05);
-            border-radius: 5px;
-        }
-
-        .top-player:nth-child(2) {
-            color: #c0c0c0;
-            font-size: 1.15em;
-        }
-
-        .top-player:nth-child(3) {
-            color: #cd7f32;
-        }
-
-        .anim-pulso {
-            animation: pulso 1.5s infinite;
-        }
-
-        @keyframes pulso {
-            0% {
-                transform: scale(1);
-            }
-
-            50% {
-                transform: scale(1.05);
-            }
-
-            100% {
-                transform: scale(1);
-            }
-        }
-
-        .oculto {
-            display: none !important;
-        }
+        .anim-pulso { animation: pulso 1.5s infinite; }
+        @keyframes pulso { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+        .oculto { display: none !important; }
     </style>
 </head>
 
 <body>
 
     <div id="top-bar">
-        <h2 style="margin:0; font-size: 1.5em; color: var(--accent); border: none; padding: 0;">♞ CHESS GYM</h2>
+        <h2 id="brand-logo">♞ CHESS GYM</h2>
+
+        <div id="nav-menu">
+            <a href="hub_basico.html" class="nav-link">DOMINIO GEOGRÁFICO</a>
+            <a href="hub_memoria.html" class="nav-link">MEMORIA</a>
+            <a href="hub_tactica.html" class="nav-link">TÁCTICA</a>
+            <a href="analisis.html" class="nav-link" style="color: var(--accent);">TABLERO ANÁLISIS</a>
+        </div>
 
         <div style="display: flex; gap: 20px; align-items: center;">
             <div class="search-container">
-                <input type="text" id="search-input" placeholder="🔍 Buscar jugador..."
-                    oninput="buscarUsuarios(this.value)">
+                <input type="text" id="search-input" placeholder="🔍 Buscar jugador..." oninput="buscarUsuarios(this.value)">
                 <div id="search-results"></div>
             </div>
 
-            <div
-                style="display: flex; align-items: center; gap: 15px; border-left: 1px solid #444; padding-left: 20px;">
-                <button id="btn-mi-perfil" onclick="abrirMiPerfil()"
-                    style="background: var(--blue); color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 1em;">👤
-                    Mi Perfil</button>
-                <button onclick="cerrarSesion()"
-                    style="background: var(--red); color: white; border: none; padding: 10px 15px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 1em;">Salir</button>
+            <div style="display: flex; align-items: center; gap: 15px; border-left: 1px solid #444; padding-left: 20px;">
+                <button id="btn-mi-perfil" onclick="abrirMiPerfil()" style="background: var(--blue); color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 1em;">👤 Mi Perfil</button>
+                <button onclick="cerrarSesion()" style="background: var(--red); color: white; border: none; padding: 10px 15px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 1em;">Salir</button>
             </div>
         </div>
     </div>
@@ -488,61 +129,60 @@
     <div id="layout-wrapper">
 
         <div id="main-content">
+            
+            <div style="text-align: center; margin-bottom: 20px;">
+                <h1 style="color: #fff; margin: 0; font-size: 2.5em;">Bienvenido al Cuartel General</h1>
+                <p style="color: #aaa; font-size: 1.2em; margin-top: 5px;">Elige un módulo arriba para empezar a entrenar o reta a un amigo en la barra lateral.</p>
+            </div>
 
-            <h2 style="margin-top: 0; border: none;">🏆 Clasificación Global</h2>
-            <div class="rankings-wrapper">
-                <div class="ranking-container">
-                    <h3 style="margin-top:0; color: var(--green); text-align:center;">🌟 TOP XP (Constancia)</h3>
-                    <div id="ranking-xp">
-                        <div style="color:#888; text-align:center;">Cargando...</div>
+            <div class="dashboard-grid">
+                
+                <div class="dash-card">
+                    <div class="dash-title">
+                        <span>📊 Tu Estado</span>
+                        <span id="dash-xp" style="color: var(--green);">0 XP</span>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 10px;">
+                        <div style="display: flex; justify-content: space-between; color: #ccc;">
+                            <span>Dominio Geográfico:</span> <strong style="color: var(--accent);">Pendiente</strong>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; color: #ccc;">
+                            <span>Memoria Visual:</span> <strong style="color: var(--accent);">Pendiente</strong>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; color: #ccc;">
+                            <span>Táctica Diaria:</span> <strong style="color: var(--danger);">Recomendado</strong>
+                        </div>
+                    </div>
+                    <button class="btn-modal" style="background: var(--blue); margin-top: auto; padding: 10px;" onclick="window.location.href='hub_tactica.html'">Ir a la Central Táctica</button>
+                </div>
+
+                <div class="dash-card">
+                    <div class="dash-title">
+                        <span>📰 Novedades</span>
+                        <span>🔥</span>
+                    </div>
+                    <div style="color: #bbb; font-size: 0.95em; line-height: 1.5;">
+                        <p><strong style="color: #fff;">Actualización v2.0:</strong> ¡El Gimnasio se ha renovado! Ahora dispones de Hubs de entrenamiento personalizados arriba.</p>
+                        <p><strong style="color: var(--blue);">Nuevo Motor Táctico:</strong> Juega en Modo Fantasma o Activa la Muerte Súbita desde la Central Táctica.</p>
                     </div>
                 </div>
-                <div class="ranking-container">
-                    <h3 style="margin-top:0; color: var(--red); text-align:center;">🔥 TOP ARCADE</h3>
-                    <div id="ranking-supervivencia">
+
+                <div class="dash-card">
+                    <div class="dash-title">
+                        <span>🏆 Ranking Global XP</span>
+                    </div>
+                    <div id="ranking-xp" style="display: flex; flex-direction: column; gap: 10px; margin-top: 10px;">
                         <div style="color:#888; text-align:center;">Cargando...</div>
                     </div>
+                    <button class="btn-modal" style="background: #444; margin-top: auto; padding: 10px;">En desarrollo...</button>
                 </div>
-                <div class="ranking-container">
-                    <h3 style="margin-top:0; color: var(--blue); text-align:center;">⏱️ TOP STORM TIEMPO</h3>
-                    <div id="ranking-storm">
-                        <div style="color:#888; text-align:center;">Cargando...</div>
-                    </div>
-                </div>
-            </div>
 
-            <h2 style="margin-top: 20px;">🏋️ Fundamentos (Práctica)</h2>
-            <div class="grid-container">
-                <a href="entrenamiento_ciego.html" class="game-card">🏋️ Gimnasio Ciego (Base)</a>
             </div>
-
-            <h2>🧠 Táctica y Cálculo</h2>
-            <div class="grid-container">
-                <a href="juego.html" class="game-card">⚡ Puzzle Storm (Racha)</a>
-                <a href="juego_ciego.html" class="game-card">🦇 Storm a Ciegas</a>
-            </div>
-
-            <h2>👁️ Retención e Imagen Mnemónica</h2>
-            <div class="grid-container">
-                <a href="juego_radar.html" class="game-card">📡 Radar Visual</a>
-                <a href="juego_flash.html" class="game-card">📸 Flash Memory</a>
-                <a href="juego_memoria2.html" class="game-card">🧠 Memoria Pro</a>
-                <a href="juego_lectura.html" class="game-card">📖 Lector de Mente</a>
-            </div>
-
-            <h2>🕹️ Modo Arcade (Supervivencia)</h2>
-            <div class="grid-container">
-                <a href="juego_tiempo.html" class="game-card">⏱️ Puzzle Storm (Tiempo)</a>
-                <a href="arcade_ciego.html" class="game-card">⌨️ Arcade Ciego (Teclado)</a>
-                <a href="arcade_ciego2.html" class="game-card">🎤 Arcade Ciego (Voz)</a>
-            </div>
-
         </div>
 
         <div id="sidebar-right">
             <div class="online-title" style="margin-top: 0; color: var(--green);">Usuarios Conectados 🟢</div>
-            <div id="lista-jugadores-mini"
-                style="display: flex; flex-direction: column; gap: 5px; margin-bottom: 20px;">
+            <div id="lista-jugadores-mini" style="display: flex; flex-direction: column; gap: 5px; margin-bottom: 20px;">
                 <div style="color: #555; font-style: italic;">Buscando...</div>
             </div>
 
@@ -553,19 +193,16 @@
         </div>
     </div>
 
-
     <div id="auth-modal" class="overlay-modal" style="display: flex;">
         <div class="caja-modal">
             <div style="font-size: 4em; margin-bottom: 10px;">♞</div>
-            <h2 style="color:var(--accent); margin-top:0; text-transform: uppercase; letter-spacing: 2px;">
-                Identificación</h2>
+            <h2 style="color:var(--accent); margin-top:0; text-transform: uppercase; letter-spacing: 2px;">Identificación</h2>
             <form onsubmit="event.preventDefault(); iniciarSesion();">
                 <input type="text" id="auth-user" class="input-modal" placeholder="Usuario" required>
                 <input type="password" id="auth-pass" class="input-modal" placeholder="Contraseña" required>
                 <div id="auth-error" style="color:var(--danger); margin-bottom:15px; font-weight:bold;"></div>
                 <button type="submit" class="btn-modal" style="background:var(--blue);">INICIAR SESIÓN</button>
-                <button type="button" class="btn-modal" style="background:#444;" onclick="registrarUsuario()">NUEVO
-                    USUARIO (Registro)</button>
+                <button type="button" class="btn-modal" style="background:#444;" onclick="registrarUsuario()">NUEVO USUARIO</button>
             </form>
         </div>
     </div>
@@ -577,67 +214,47 @@
         </div>
     </div>
 
-    <div id="modal-grafica" class="overlay-modal" style="z-index: 10001;">
-        <div class="caja-modal modal-perfil-contenido" style="max-width: 900px;">
-            <span class="close-modal" onclick="cerrarModal('modal-grafica')">&times;</span>
-            <h2 id="grafica-titulo" style="color:var(--accent); margin-top:0;">Evolución</h2>
-            <div
-                style="width: 100%; height: 400px; background: #111; padding: 20px; border-radius: 8px; box-sizing: border-box;">
-                <canvas id="evolucionChart"></canvas>
-            </div>
-        </div>
-    </div>
-
     <div id="chat-modal">
         <div id="chat-header">
             <span id="chat-user-name">Chat</span>
-            <span style="cursor:pointer;"
-                onclick="document.getElementById('chat-modal').style.display='none'">&times;</span>
+            <span style="cursor:pointer;" onclick="document.getElementById('chat-modal').style.display='none'">&times;</span>
         </div>
         <div id="chat-messages"></div>
         <div id="chat-input-container">
-            <input type="text" id="chat-input" placeholder="Mensaje..." autocomplete="off"
-                onkeydown="if(event.key==='Enter') mandarMensaje()">
-            <button onclick="mandarMensaje()"
-                style="background:var(--blue); color:white; border:none; padding:10px 15px; border-radius:5px; cursor:pointer; font-weight:bold;">Enviar</button>
+            <input type="text" id="chat-input" placeholder="Mensaje..." autocomplete="off" onkeydown="if(event.key==='Enter') mandarMensaje()">
+            <button onclick="mandarMensaje()" style="background:var(--blue); color:white; border:none; padding:10px 15px; border-radius:5px; cursor:pointer; font-weight:bold;">Enviar</button>
         </div>
     </div>
 
     <div id="modal-crear-duelo" class="overlay-modal">
         <div class="caja-modal">
             <h2 style="color:var(--red); margin-top:0;">⚔️ Configurar Duelo</h2>
-            <p style="color:#aaa;">Desafiando a: <strong id="duelo-rival-nombre"
-                    style="color:var(--accent);">...</strong></p>
+            <p style="color:#aaa;">Desafiando a: <strong id="duelo-rival-nombre" style="color:var(--accent);">...</strong></p>
             <input type="hidden" id="duelo-rival-uid">
+            
             <select id="duelo-juego" class="input-modal">
-                <option value="entrenamiento_ciego">🏋️ Gimnasio Base</option>
-                <option value="storm">⚡ Puzzle Storm</option>
-                <option value="storm_ciego">🦇 Storm a Ciegas</option>
-                <option value="radar">📡 Radar Visual</option>
-                <option value="flash">📸 Flash Memory</option>
-                <option value="memoria_pro">🧠 Memoria Pro</option>
-                <option value="lector">📖 Lector de Mente</option>
-                <option value="tiempo">⏱️ Storm Tiempo</option>
-                <option value="arcade_teclado">⌨️ Arcade Teclado</option>
-                <option value="arcade_voz">🎤 Arcade Voz</option>
+                <option value="storm">⚡ Asalto Visual (Táctica)</option>
+                <option value="storm_ciego">🦇 Cálculo Puro (Ciego)</option>
+                <option value="entrenamiento_ciego">🌍 Dominio Geográfico</option>
+                <option value="radar">📸 Memoria Fotográfica</option>
             </select>
+            
             <select id="duelo-tiempo" class="input-modal">
                 <option value="60">⏱️ 1 Minuto</option>
                 <option value="180" selected>⏱️ 3 Minutos</option>
+                <option value="300">⏱️ 5 Minutos</option>
             </select>
-            <button class="btn-modal anim-pulso" style="background:var(--red);" onclick="enviarReto()">ENVIAR
-                DESAFÍO</button>
-            <button class="btn-modal" style="background:#444;"
-                onclick="cerrarModal('modal-crear-duelo')">Cancelar</button>
+
+            <button class="btn-modal anim-pulso" style="background:var(--red);" onclick="enviarReto()">ENVIAR DESAFÍO</button>
+            <button class="btn-modal" style="background:#444;" onclick="cerrarModal('modal-crear-duelo')">Cancelar</button>
         </div>
     </div>
 
     <div id="modal-esperando" class="overlay-modal">
         <div class="caja-modal">
             <h2 style="color:var(--accent);">⏳ Esperando...</h2>
-            <p style="color:#ddd;">Esperando a que el rival acepte...</p>
-            <button class="btn-modal" style="background:#444; margin-top:20px;" onclick="cancelarRetoEnviado()">Cancelar
-                Desafío</button>
+            <p style="color:#ddd;">Esperando a que el rival acepte el desafío...</p>
+            <button class="btn-modal" style="background:#444; margin-top:20px;" onclick="cancelarRetoEnviado()">Cancelar Desafío</button>
         </div>
     </div>
 
@@ -645,11 +262,9 @@
         <div class="caja-modal" style="border-color: var(--red);">
             <div style="font-size: 3em; margin-bottom: 10px;">🚨</div>
             <h2 style="color:#fff; margin-top:0;">¡TE HAN DESAFIADO!</h2>
-            <p style="color:#ddd;"><strong id="reto-de-nombre"
-                    style="color:var(--accent); font-size:1.4em;">Alguien</strong> te reta.</p>
+            <p style="color:#ddd;"><strong id="reto-de-nombre" style="color:var(--accent); font-size:1.4em;">Alguien</strong> te reta a un duelo.</p>
             <p style="color:#aaa; margin-bottom:25px;" id="reto-detalles">Juego: ... | Tiempo: ...</p>
-            <button class="btn-modal anim-pulso" style="background:var(--success);"
-                onclick="responderReto(true)">¡ACEPTAR DUELO!</button>
+            <button class="btn-modal anim-pulso" style="background:var(--success);" onclick="responderReto(true)">¡ACEPTAR DUELO!</button>
             <button class="btn-modal" style="background:#444;" onclick="responderReto(false)">Rechazar</button>
         </div>
     </div>
@@ -657,7 +272,6 @@
     <script src="utils.js"></script>
 
     <script>
-        let myChart = null;
         let chatActivoUid = null;
 
         // ==========================================
@@ -705,25 +319,23 @@
 
                         document.getElementById('btn-mi-perfil').innerText = "👤 " + nombre;
 
-                        // Presencia Segura
                         let myCon = firebase.database().ref('users/' + user.uid + '/isOnline');
                         firebase.database().ref('.info/connected').on('value', snap => {
                             if (snap.val() === true) { myCon.onDisconnect().set(false); myCon.set(true); }
                         });
 
-                        // Cargar perfil básico sin sobreescribir la conexión
                         firebase.database().ref('users/' + user.uid).once('value').then(snap => {
                             let p = snap.exists() ? snap.val() : obtenerPerfil();
                             p.nombreJugador = nombre;
                             guardarPerfil(p);
-
+                            
+                            document.getElementById('dash-xp').innerText = (p.xpTotal || 0) + " XP";
                             document.getElementById('auth-modal').style.display = 'none';
 
-                            cargarRankings();
-                            escucharUsuariosOnline(); // <-- Llama a la función de abajo
-                            escucharMisChats();       // <-- Llama a la función de abajo
-                            iniciarEscuchaDuelos(user.uid);
-                            localStorage.removeItem('nombre_temporal');
+                            cargarRanking('rankings/xp', 'ranking-xp', 'XP');
+                            escucharUsuariosOnline(); 
+                            escucharMisChats();   
+                            iniciarEscuchaDuelos(user.uid); // Activamos la escucha de retos    
                         });
                     } else {
                         document.getElementById('auth-modal').style.display = 'flex';
@@ -732,15 +344,6 @@
             }
         };
 
-        function cargarRankings() {
-            cargarRanking('rankings/xp', 'ranking-xp', 'XP');
-            cargarRanking('rankings/arcade', 'ranking-supervivencia', 'Pts');
-            cargarRanking('rankings/stormTiempo', 'ranking-storm', 'Pts');
-        }
-
-        // ==========================================
-        // LA FUNCIÓN PERDIDA (Dibuja los podios y evita el crasheo)
-        // ==========================================
         function cargarRanking(rutaDb, idContenedor, sufijo) {
             if (typeof firebase === 'undefined') return;
             firebase.database().ref(rutaDb).orderByChild('puntos').limitToLast(3).on('value', (snapshot) => {
@@ -752,7 +355,8 @@
                 } else {
                     jugadores.forEach((j, index) => {
                         let medalla = index === 0 ? '🥇' : index === 1 ? '🥈' : '🥉';
-                        html += `<div class="top-player"><span>${medalla} ${j.nombre}</span><span>${j.puntos} ${sufijo}</span></div>`;
+                        let style = index === 0 ? 'color:#ffd700; font-weight:bold; background:rgba(255,215,0,0.05); padding:10px; border-radius:5px;' : 'padding:10px 5px;';
+                        html += `<div style="display:flex; justify-content:space-between; border-bottom:1px solid #2a2a2a; ${style}"><span>${medalla} ${j.nombre}</span><span>${j.puntos} ${sufijo}</span></div>`;
                     });
                 }
                 document.getElementById(idContenedor).innerHTML = html;
@@ -760,20 +364,14 @@
         }
 
         // ==========================================
-        // MI PERFIL
+        // PERFIL LIMPIO (SIN GRÁFICAS)
         // ==========================================
         function abrirMiPerfil() {
             let p = obtenerPerfil();
-            let elos = p.elos;
-            let act = p.ultimaActividad || [];
-
-            let htmlActividad = act.slice(0, 8).map(a => `
-                <div class="activity-item">
-                    <span style="color:#888;">${a.fecha}</span> 
-                    <span style="color:var(--accent); font-weight:bold;">${a.juego.toUpperCase()}</span> 
-                    <strong style="color:${String(a.pts).includes('-') ? 'var(--danger)' : 'var(--success)'};">${a.pts} Pts</strong>
-                </div>
-            `).join('') || "<div style='color:#555;'>Sin actividad reciente.</div>";
+            let elos = p.elos || {};
+            
+            let defaults = { base: 0, storm: 1700, ciego: 1700, radar: 1700, lectura: 1700 };
+            for (let k in defaults) { if (!elos[k]) elos[k] = { current: defaults[k] }; }
 
             let html = `
                 <div class="profile-header" style="justify-content: space-between;">
@@ -784,34 +382,62 @@
                     </div>
                 </div>
                 
-                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px;">
-                    <div class="activity-log">
-                        <h3 style="margin-top:0; color:var(--blue); border-bottom:1px solid #444; padding-bottom:10px;">📊 Puntuaciones / ELO</h3>
-                        
-                        <div class="activity-item" style="align-items:center;"><span>🏋️ Base: <strong>${elos.base.current} Pts</strong></span> <button onclick="verEvolucion('base')" class="btn-modal" style="width:auto; padding:5px 10px; margin:0; background:#444;">Gráfica</button></div>
-                        <div class="activity-item" style="align-items:center;"><span>⚡ Storm: <strong style="color:var(--accent);">${elos.storm.current}</strong></span> <button onclick="verEvolucion('storm')" class="btn-modal" style="width:auto; padding:5px 10px; margin:0; background:#444;">Gráfica</button></div>
-                        <div class="activity-item" style="align-items:center;"><span>🦇 Ciego: <strong style="color:var(--accent);">${elos.ciego.current}</strong></span> <button onclick="verEvolucion('ciego')" class="btn-modal" style="width:auto; padding:5px 10px; margin:0; background:#444;">Gráfica</button></div>
-                        <div class="activity-item" style="align-items:center;"><span>📡 Radar: <strong style="color:var(--accent);">${elos.radar.current}</strong></span> <button onclick="verEvolucion('radar')" class="btn-modal" style="width:auto; padding:5px 10px; margin:0; background:#444;">Gráfica</button></div>
-                        <div class="activity-item" style="align-items:center;"><span>📸 Flash: <strong style="color:var(--accent);">${elos.flash.current}</strong></span> <button onclick="verEvolucion('flash')" class="btn-modal" style="width:auto; padding:5px 10px; margin:0; background:#444;">Gráfica</button></div>
-                        <div class="activity-item" style="align-items:center;"><span>🧠 Memoria: <strong style="color:var(--accent);">${elos.memoria.current}</strong></span> <button onclick="verEvolucion('memoria')" class="btn-modal" style="width:auto; padding:5px 10px; margin:0; background:#444;">Gráfica</button></div>
-                        <div class="activity-item" style="align-items:center;"><span>📖 Lectura: <strong style="color:var(--accent);">${elos.lectura.current}</strong></span> <button onclick="verEvolucion('lectura')" class="btn-modal" style="width:auto; padding:5px 10px; margin:0; background:#444;">Gráfica</button></div>
-                        <div class="activity-item" style="align-items:center;"><span>⏱️ Tiempo: <strong>${elos.tiempo.current} Pts</strong></span> <button onclick="verEvolucion('tiempo')" class="btn-modal" style="width:auto; padding:5px 10px; margin:0; background:#444;">Gráfica</button></div>
-                        <div class="activity-item" style="align-items:center;"><span>⌨️ Teclado: <strong>${elos.teclado.current} Pts</strong></span> <button onclick="verEvolucion('teclado')" class="btn-modal" style="width:auto; padding:5px 10px; margin:0; background:#444;">Gráfica</button></div>
-                        <div class="activity-item" style="align-items:center; border:none;"><span>🎤 Voz: <strong>${elos.voz.current} Pts</strong></span> <button onclick="verEvolucion('voz')" class="btn-modal" style="width:auto; padding:5px 10px; margin:0; background:#444;">Gráfica</button></div>
-                    </div>
+                <div class="activity-log" style="max-width: 500px; margin: 0 auto;">
+                    <h3 style="margin-top:0; color:var(--blue); border-bottom:1px solid #444; padding-bottom:10px; text-align:center;">📊 Mejores Puntuaciones</h3>
                     
-                    <div class="activity-log">
-                        <h3 style="margin-top:0; color:var(--green); border-bottom:1px solid #444; padding-bottom:10px;">📅 Últimas Acciones</h3>
-                        ${htmlActividad}
-                    </div>
+                    <div class="activity-item"><span>🌍 Dominio Geográfico:</span> <strong style="color:var(--accent);">${elos.base.current} Pts</strong></div>
+                    <div class="activity-item"><span>⚡ Asalto Visual:</span> <strong style="color:var(--accent);">${elos.storm.current}</strong></div>
+                    <div class="activity-item"><span>🦇 Cálculo Puro:</span> <strong style="color:var(--accent);">${elos.ciego.current}</strong></div>
+                    <div class="activity-item"><span>📸 Memoria Fotográfica:</span> <strong style="color:var(--accent);">${elos.radar.current}</strong></div>
+                    <div class="activity-item" style="border-bottom:none;"><span>📖 Lector PGN:</span> <strong style="color:var(--accent);">${elos.lectura.current}</strong></div>
                 </div>
             `;
             document.getElementById('perfil-ajeno-body').innerHTML = html;
             document.getElementById('modal-perfil').style.display = 'flex';
         }
 
+        function verPerfilAjeno(uid) {
+            document.getElementById('search-results').style.display = 'none';
+            document.getElementById('search-input').value = '';
+            let miUid = localStorage.getItem('current_user_uid');
+            if (uid === miUid) { abrirMiPerfil(); return; }
+
+            firebase.database().ref('users/' + uid).once('value', snap => {
+                let u = snap.val(); if (!u) return;
+
+                let colorOnline = u.isOnline ? 'var(--green)' : '#555';
+                let elos = u.elos || {};
+                let defaults = { base: 0, storm: 1700, ciego: 1700, radar: 1700, lectura: 1700 };
+                for (let k in defaults) { if (!elos[k]) elos[k] = { current: defaults[k] }; }
+
+                let html = `
+                    <div class="profile-header">
+                        <div class="dot-online" style="background:${colorOnline}; width:15px; height:15px; box-shadow: 0 0 10px ${colorOnline};"></div>
+                        <h1 style="margin:0; color:var(--accent); font-size:2.5em;">${u.nombreJugador}</h1>
+                    </div>
+
+                    <div style="display: flex; gap: 15px; margin-bottom: 25px;">
+                        <button class="btn-modal" style="background:var(--blue); color:white; width:50%; padding:15px; margin:0;" onclick="abrirChat('${uid}', '${u.nombreJugador}')">💬 Enviar Mensaje</button>
+                        <button class="btn-modal" style="background:var(--red); color:white; width:50%; padding:15px; margin:0; box-shadow: 0 4px 0 #8a1f1f;" onclick="abrirMenuDuelo('${u.nombreJugador}', '${uid}')">⚔️ Desafiar a Duelo</button>
+                    </div>
+                    
+                    <div class="activity-log" style="max-width: 500px; margin: 0 auto;">
+                        <h3 style="margin-top:0; color:var(--blue); border-bottom:1px solid #444; padding-bottom:10px; text-align:center;">📊 Mejores Puntuaciones</h3>
+                        
+                        <div class="activity-item"><span>🌍 Dominio Geográfico:</span> <strong style="color:var(--accent);">${elos.base.current} Pts</strong></div>
+                        <div class="activity-item"><span>⚡ Asalto Visual:</span> <strong style="color:var(--accent);">${elos.storm.current}</strong></div>
+                        <div class="activity-item"><span>🦇 Cálculo Puro:</span> <strong style="color:var(--accent);">${elos.ciego.current}</strong></div>
+                        <div class="activity-item"><span>📸 Memoria Fotográfica:</span> <strong style="color:var(--accent);">${elos.radar.current}</strong></div>
+                        <div class="activity-item" style="border-bottom:none;"><span>📖 Lector PGN:</span> <strong style="color:var(--accent);">${elos.lectura.current}</strong></div>
+                    </div>
+                `;
+                document.getElementById('perfil-ajeno-body').innerHTML = html;
+                document.getElementById('modal-perfil').style.display = 'flex';
+            });
+        }
+
         // ==========================================
-        // BUSCADOR Y PERFIL AJENO
+        // BUSCADOR Y CHAT PRIVADO
         // ==========================================
         function buscarUsuarios(val) {
             const results = document.getElementById('search-results');
@@ -835,136 +461,18 @@
         }
 
         document.addEventListener('click', function (e) {
-            if (!document.getElementById('search-input').contains(e.target)) {
-                document.getElementById('search-results').style.display = 'none';
-            }
+            if (!document.getElementById('search-input').contains(e.target)) { document.getElementById('search-results').style.display = 'none'; }
         });
 
-        function verPerfilAjeno(uid) {
-            document.getElementById('search-results').style.display = 'none';
-            document.getElementById('search-input').value = '';
-
-            let miUid = localStorage.getItem('current_user_uid');
-            if (uid === miUid) { abrirMiPerfil(); return; }
-
-            firebase.database().ref('users/' + uid).once('value', snap => {
-                let u = snap.val(); if (!u) return;
-
-                let colorOnline = u.isOnline ? 'var(--green)' : '#555';
-
-                let elos = u.elos || {};
-                let defaults = { base: 0, storm: 1700, ciego: 1700, radar: 1700, flash: 1700, memoria: 1700, lectura: 1700, tiempo: 0, teclado: 0, voz: 0 };
-                for (let k in defaults) { if (!elos[k]) elos[k] = { current: defaults[k] }; }
-
-                let act = u.ultimaActividad || [];
-                let htmlActividad = act.slice(0, 8).map(a => `
-                    <div class="activity-item">
-                        <span style="color:#888;">${a.fecha}</span> 
-                        <span style="color:var(--accent); font-weight:bold;">${a.juego.toUpperCase()}</span> 
-                        <strong style="color:${String(a.pts).includes('-') ? 'var(--danger)' : 'var(--success)'};">${a.pts} Pts</strong>
-                    </div>
-                `).join('') || "<div style='color:#555;'>Sin actividad reciente.</div>";
-
-                let html = `
-                    <div class="profile-header">
-                        <div class="dot-online" style="background:${colorOnline}; width:15px; height:15px; box-shadow: 0 0 10px ${colorOnline};"></div>
-                        <h1 style="margin:0; color:var(--accent); font-size:2.5em;">${u.nombreJugador}</h1>
-                        <button class="btn-modal" style="background:var(--blue); color:white; width:auto; padding:10px 25px; margin:0 0 0 auto;" onclick="abrirChat('${uid}', '${u.nombreJugador}')">💬 Mensaje</button>
-                        <button class="btn-modal" style="background:var(--red); color:white; width:auto; padding:10px 25px; margin:0 0 0 10px; box-shadow: 0 4px 0 #8a1f1f;" onclick="abrirMenuDuelo('${u.nombreJugador}', '${uid}')">⚔️ Retar</button>
-                    </div>
-                    
-                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px;">
-                        <div class="activity-log">
-                            <h3 style="margin-top:0; color:var(--blue); border-bottom:1px solid #444; padding-bottom:10px;">📊 Mejores Puntuaciones</h3>
-                            <div class="activity-item"><span>⚡ Storm:</span> <strong style="color:var(--accent);">${elos.storm.current}</strong></div>
-                            <div class="activity-item"><span>🦇 Ciego:</span> <strong style="color:var(--accent);">${elos.ciego.current}</strong></div>
-                            <div class="activity-item"><span>📡 Radar:</span> <strong style="color:var(--accent);">${elos.radar.current}</strong></div>
-                            <div class="activity-item" style="border:none;"><span>📸 Flash:</span> <strong style="color:var(--accent);">${elos.flash.current}</strong></div>
-                        </div>
-                        
-                        <div class="activity-log">
-                            <h3 style="margin-top:0; color:var(--green); border-bottom:1px solid #444; padding-bottom:10px;">📅 Últimas Acciones</h3>
-                            ${htmlActividad}
-                        </div>
-                    </div>
-                `;
-                document.getElementById('perfil-ajeno-body').innerHTML = html;
-                document.getElementById('modal-perfil').style.display = 'flex';
-            });
-        }
-
-        // ==========================================
-        // GRÁFICAS DE EVOLUCIÓN (Chart.js)
-        // ==========================================
-        function verEvolucion(gameId) {
-            let p = obtenerPerfil();
-
-            let history = (p.elos && p.elos[gameId] && p.elos[gameId].history) ? p.elos[gameId].history : [];
-            let currentVal = (p.elos && p.elos[gameId]) ? p.elos[gameId].current : 0;
-
-            if (history.length < 2) {
-                history = [
-                    { fecha: "Ayer", elo: currentVal },
-                    { fecha: "Hoy", elo: currentVal }
-                ];
-            }
-
-            document.getElementById('modal-grafica').style.display = 'flex';
-
-            let nombres = { base: 'Gimnasio Base', storm: 'Puzzle Storm', radar: 'Radar Visual', flash: 'Flash Memory', memoria: 'Memoria Pro', ciego: 'A la Ciega', lectura: 'Lector PGN', tiempo: 'Storm Tiempo', teclado: 'Arcade Teclado', voz: 'Arcade Voz' };
-            document.getElementById('grafica-titulo').innerText = "Evolución en " + (nombres[gameId] || gameId);
-
-            if (myChart) myChart.destroy();
-
-            const ctx = document.getElementById('evolucionChart').getContext('2d');
-            myChart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: history.map(h => h.fecha),
-                    datasets: [{
-                        label: 'Nivel/Puntos',
-                        data: history.map(h => h.elo),
-                        borderColor: '#e5bf00',
-                        backgroundColor: 'rgba(229, 191, 0, 0.2)',
-                        borderWidth: 3,
-                        pointBackgroundColor: '#fff',
-                        pointRadius: 5,
-                        fill: true,
-                        tension: 0.3
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: { legend: { display: false } },
-                    scales: {
-                        y: { grid: { color: '#333' }, ticks: { color: '#aaa', font: { size: 14 } } },
-                        x: { grid: { color: '#333' }, ticks: { color: '#aaa' } }
-                    }
-                }
-            });
-        }
-
-        // ==========================================
-        // SIDEBAR Y CHAT PRIVADO (BULLETPROOF)
-        // ==========================================
         function escucharUsuariosOnline() {
-            let miUid = localStorage.getItem('current_user_uid');
-            if (!miUid) return;
-
-            // Filtro local seguro para evitar fallos de índice
+            let miUid = localStorage.getItem('current_user_uid'); if (!miUid) return;
             firebase.database().ref('users').on('value', snap => {
-                let html = '';
-                let hayAlguien = false;
+                let html = ''; let hayAlguien = false;
                 snap.forEach(child => {
                     let u = child.val();
                     if (u.isOnline === true && child.key !== miUid && u.isPublic !== false) {
                         hayAlguien = true;
-                        html += `
-                        <div class="user-online-mini" onclick="verPerfilAjeno('${child.key}')">
-                            <span style="font-weight:bold; color:#fff;">${u.nombreJugador || 'Jugador'}</span>
-                            <div class="dot-online"></div>
-                        </div>`;
+                        html += `<div class="user-online-mini" onclick="verPerfilAjeno('${child.key}')"><span style="font-weight:bold; color:#fff;">${u.nombreJugador || 'Jugador'}</span><div class="dot-online"></div></div>`;
                     }
                 });
                 document.getElementById('lista-jugadores-mini').innerHTML = hayAlguien ? html : '<div style="color:#555; font-style:italic; padding:10px;">La plaza está vacía.</div>';
@@ -972,34 +480,19 @@
         }
 
         function escucharMisChats() {
-            let miUid = localStorage.getItem('current_user_uid');
-            if (!miUid) return;
-
+            let miUid = localStorage.getItem('current_user_uid'); if (!miUid) return;
             firebase.database().ref(`mis_contactos/${miUid}`).on('value', snap => {
                 let contenedor = document.getElementById('lista-chats-mini');
-
-                if (!snap.exists()) {
-                    contenedor.innerHTML = '<div style="color:#555; font-style:italic; padding: 10px;">No hay chats activos.</div>';
-                    return;
-                }
-
+                if (!snap.exists()) { contenedor.innerHTML = '<div style="color:#555; font-style:italic; padding: 10px;">No hay chats activos.</div>'; return; }
                 contenedor.innerHTML = "";
-
                 snap.forEach(child => {
                     let userToId = child.key;
-                    // Cargamos cada nombre de forma independiente
                     firebase.database().ref(`users/${userToId}/nombreJugador`).once('value', nSnap => {
-                        let nombre = nSnap.val() || "Usuario";
-                        let idElemento = `chat-item-${userToId}`;
-
+                        let nombre = nSnap.val() || "Usuario"; let idElemento = `chat-item-${userToId}`;
                         if (!document.getElementById(idElemento)) {
-                            let div = document.createElement('div');
-                            div.id = idElemento;
-                            div.className = "user-online-mini";
-                            div.style.borderLeft = "3px solid var(--blue)";
+                            let div = document.createElement('div'); div.id = idElemento; div.className = "user-online-mini"; div.style.borderLeft = "3px solid var(--blue)";
                             div.onclick = () => abrirChat(userToId, nombre);
-                            div.innerHTML = `<span style="color:#ddd; font-weight:bold;">💬 ${nombre}</span>`;
-                            contenedor.appendChild(div);
+                            div.innerHTML = `<span style="color:#ddd; font-weight:bold;">💬 ${nombre}</span>`; contenedor.appendChild(div);
                         }
                     });
                 });
@@ -1007,36 +500,20 @@
         }
 
         function abrirChat(uid, nombre) {
-            chatActivoUid = uid;
-            document.getElementById('modal-perfil').style.display = 'none';
-            document.getElementById('chat-user-name').innerText = "Chat con " + nombre;
-            document.getElementById('chat-modal').style.display = 'flex';
+            chatActivoUid = uid; document.getElementById('modal-perfil').style.display = 'none';
+            document.getElementById('chat-user-name').innerText = "Chat con " + nombre; document.getElementById('chat-modal').style.display = 'flex';
             document.getElementById('chat-messages').innerHTML = '<div style="color:#888;text-align:center;">Cargando mensajes...</div>';
-
             ChatManager.escucharConversacion(uid, snap => {
-                let html = '';
-                let miUid = localStorage.getItem('current_user_uid');
-                snap.forEach(child => {
-                    let m = child.val();
-                    let clase = m.from === miUid ? 'msg-me' : 'msg-to';
-                    html += `<div class="msg-bubble ${clase}">${m.text}</div>`;
-                });
-                const div = document.getElementById('chat-messages');
-                div.innerHTML = html || '<div style="color:#555;text-align:center;margin-top:20px;">Sin mensajes previos. ¡Di hola!</div>';
-                setTimeout(() => div.scrollTop = div.scrollHeight, 100);
+                let html = ''; let miUid = localStorage.getItem('current_user_uid');
+                snap.forEach(child => { let m = child.val(); let clase = m.from === miUid ? 'msg-me' : 'msg-to'; html += `<div class="msg-bubble ${clase}">${m.text}</div>`; });
+                const div = document.getElementById('chat-messages'); div.innerHTML = html || '<div style="color:#555;text-align:center;margin-top:20px;">¡Di hola!</div>'; setTimeout(() => div.scrollTop = div.scrollHeight, 100);
             });
         }
 
-        function mandarMensaje() {
-            let input = document.getElementById('chat-input');
-            if (input.value.trim() !== '') {
-                ChatManager.enviarMensaje(chatActivoUid, input.value);
-                input.value = '';
-            }
-        }
+        function mandarMensaje() { let input = document.getElementById('chat-input'); if (input.value.trim() !== '') { ChatManager.enviarMensaje(chatActivoUid, input.value); input.value = ''; } }
 
         // ==========================================
-        // GESTIÓN DE DUELOS DIRECTOS
+        // GESTIÓN DE DUELOS (SISTEMA RESTAURADO)
         // ==========================================
         function abrirMenuDuelo(nombre, uidRival) {
             document.getElementById('modal-perfil').style.display = 'none';

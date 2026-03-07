@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chess Gym - Central Táctica</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>♞</text></svg>">
+
+    <style>
+        :root {
+            --bg: #1a1917;
+            --panel: #262421;
+            --accent: #e5bf00;
+            --blue: #3692e7;
+            --green: #629924;
+            --red: #cc3333;
+            --purple: #8a2be2;
+            --text: #bababa;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* HEADER */
+        #top-bar {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 70px;
+            background: #000; border-bottom: 1px solid #333;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 30px; box-sizing: border-box; z-index: 100;
+        }
+        #brand-logo { margin: 0; font-size: 1.8em; color: var(--accent); letter-spacing: 1px; text-shadow: 2px 2px 0px rgba(0,0,0,0.5); text-decoration: none; }
+        
+        #nav-menu { display: flex; gap: 25px; align-items: center; }
+        .nav-link { color: var(--green); text-decoration: none; font-weight: bold; font-size: 1.1em; text-transform: uppercase; letter-spacing: 1px; transition: 0.2s; padding: 5px 10px; border-radius: 5px; }
+        .nav-link:hover { color: #fff; background: rgba(98, 153, 36, 0.2); transform: scale(1.05); }
+
+        /* CONTENIDO DEL HUB */
+        #hub-container {
+            margin-top: 100px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            gap: 30px;
+        }
+
+        .hub-title { color: #fff; font-size: 3em; margin: 0; text-transform: uppercase; letter-spacing: 2px; text-shadow: 0 4px 10px rgba(0,0,0,0.8);}
+        .hub-subtitle { color: var(--blue); font-size: 1.2em; margin-top: 5px; font-weight: bold;}
+
+        .config-section {
+            background: var(--panel);
+            border: 1px solid #444;
+            border-radius: 12px;
+            padding: 30px;
+            max-width: 900px;
+            width: 100%;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .category-title {
+            color: var(--accent);
+            font-size: 1.2em;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #333;
+            padding-bottom: 5px;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .option-card {
+            background: #1a1917;
+            border: 2px solid #444;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.2s;
+            user-select: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+
+        .option-card:hover { border-color: #888; transform: translateY(-3px); }
+        .option-card.selected { border-color: var(--blue); background: rgba(54, 146, 231, 0.1); box-shadow: 0 0 15px rgba(54, 146, 231, 0.3); }
+        
+        .option-icon { font-size: 2.5em; margin-bottom: 10px; display: block; text-shadow: 2px 2px 0 #000; }
+        .option-name { font-weight: bold; color: #fff; font-size: 1.1em; margin-bottom: 5px;}
+        .option-desc { font-size: 0.85em; color: #888; flex-grow: 1;}
+
+        /* CAJA DE EXPLICACIÓN */
+        #info-box {
+            background: #111;
+            border-left: 5px solid var(--blue);
+            padding: 20px;
+            border-radius: 0 8px 8px 0;
+            font-size: 1.1em;
+            line-height: 1.5;
+            color: #ddd;
+            margin-bottom: 30px;
+        }
+
+        .btn-empezar {
+            background: var(--blue);
+            color: white;
+            font-size: 1.8em;
+            font-weight: bold;
+            padding: 20px;
+            width: 100%;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 6px 0 #20629c;
+            text-transform: uppercase;
+            transition: 0.2s;
+        }
+        .btn-empezar:hover { filter: brightness(1.1); transform: translateY(-2px); box-shadow: 0 8px 0 #20629c; }
+        .btn-empezar:active { transform: translateY(4px); box-shadow: 0 2px 0 #20629c; }
+
+        .oculto { display: none !important; }
+
+    </style>
+</head>
+
+<body>
+
+    <div id="top-bar">
+        <a id="brand-logo" href="index.html">♞ CHESS GYM</a>
+        <div id="nav-menu">
+            <a href="hub_basico.html" class="nav-link">DOMINIO GEOGRÁFICO</a>
+            <a href="hub_memoria.html" class="nav-link">MEMORIA</a>
+            <a href="hub_tactica.html" class="nav-link" style="color: #fff; border-bottom: 2px solid var(--accent);">CENTRAL TÁCTICA</a>
+        </div>
+        <div style="width: 150px;"></div> </div>
+
+    <div id="hub-container">
+        
+        <div style="text-align: center;">
+            <h1 class="hub-title">⚡ Central Táctica</h1>
+            <p class="hub-subtitle">Personaliza la dificultad de tu entrenamiento</p>
+        </div>
+
+        <div class="config-section">
+            
+            <div class="category-title">1. Información Visual (Tablero)</div>
+            <div class="options-grid" id="grid-visibilidad">
+                <div class="option-card selected" onclick="seleccionar('visibilidad', 'completo', this)">
+                    <span class="option-icon">👁️</span>
+                    <div class="option-name">Completo</div>
+                    <div class="option-desc">Tablero y piezas visibles. Nivel base.</div>
+                </div>
+                <div class="option-card" onclick="seleccionar('visibilidad', 'vacio', this)">
+                    <span class="option-icon">👻</span>
+                    <div class="option-name">Tablero Vacío</div>
+                    <div class="option-desc">Las piezas son invisibles. Nivel Avanzado.</div>
+                </div>
+                <div class="option-card" onclick="seleccionar('visibilidad', 'ciego', this)" style="border-bottom: 3px solid var(--purple);">
+                    <span class="option-icon">🦇</span>
+                    <div class="option-name" style="color: var(--purple);">Ciego Total</div>
+                    <div class="option-desc">Sin tablero. Responde usando el teclado. Nivel Maestro.</div>
+                </div>
+            </div>
+
+            <div class="category-title">2. Resistencia (Vidas)</div>
+            <div class="options-grid" id="grid-vidas">
+                <div class="option-card selected" onclick="seleccionar('vidas', 'infinito', this)">
+                    <span class="option-icon">♾️</span>
+                    <div class="option-name">Racha Infinita</div>
+                    <div class="option-desc">Juega sin morir. Fallar baja tu puntuación.</div>
+                </div>
+                <div class="option-card" onclick="seleccionar('vidas', 'tres', this)">
+                    <span class="option-icon">❤️</span>
+                    <div class="option-name">3 Vidas (Survival)</div>
+                    <div class="option-desc">Al 3º fallo, se acaba la partida.</div>
+                </div>
+                <div class="option-card" onclick="seleccionar('vidas', 'muerte', this)">
+                    <span class="option-icon">💀</span>
+                    <div class="option-name">Muerte Súbita</div>
+                    <div class="option-desc">Un fallo y estás fuera. Concentración máxima.</div>
+                </div>
+            </div>
+
+            <div class="category-title">3. Presión (Tiempo)</div>
+            <div class="options-grid" id="grid-tiempo" style="margin-bottom: 15px;">
+                <div class="option-card selected" onclick="seleccionar('tiempo', 'libre', this)">
+                    <span class="option-icon">🧘</span>
+                    <div class="option-name">Sin Tiempo</div>
+                    <div class="option-desc">Calcula con toda la calma del mundo.</div>
+                </div>
+                <div class="option-card" onclick="seleccionar('tiempo', 'global', this)">
+                    <span class="option-icon">⏱️</span>
+                    <div class="option-name">Contrarreloj</div>
+                    <div class="option-desc">Lucha contra el cronómetro.</div>
+                </div>
+            </div>
+
+            <div id="config-tiempo-extra" class="oculto" style="margin-bottom: 30px; background: #1a1917; padding: 20px; border-radius: 8px; border: 1px dashed var(--blue); text-align: center; animation: pulso 2s infinite;">
+                <label style="color: #fff; font-weight: bold; font-size: 1.1em; margin-right: 15px; text-transform: uppercase; letter-spacing: 1px;">Tiempo total (Minutos):</label>
+                <input type="number" id="input-minutos" value="3" min="1" max="60" style="background: #000; border: 2px solid var(--accent); color: var(--accent); padding: 10px; border-radius: 5px; width: 80px; font-size: 1.5em; text-align: center; outline: none; font-weight: bold;" oninput="actualizarResumen()">
+            </div>
+
+            <div id="info-box">
+                <strong>💡 Resumen de tu entrenamiento:</strong><br>
+                <span id="texto-resumen">Entrenamiento clásico: <strong>Tablero y piezas visibles</strong>. Puedes jugar infinitamente. Fallar solo reiniciará tu multiplicador de racha. Tómate todo el tiempo que necesites para calcular.</span>
+            </div>
+
+            <button class="btn-empezar" id="btn-accion" onclick="iniciarEntrenamiento()">🔥 INICIAR ENTRENAMIENTO 🔥</button>
+
+        </div>
+    </div>
+
+    <script>
+        // Estado inicial
+        let config = {
+            visibilidad: 'completo',
+            vidas: 'infinito',
+            tiempo: 'libre'
+        };
+
+        function seleccionar(categoria, valor, elemento) {
+            config[categoria] = valor;
+
+            let grid = document.getElementById('grid-' + categoria);
+            let tarjetas = grid.getElementsByClassName('option-card');
+            for(let i=0; i<tarjetas.length; i++) {
+                tarjetas[i].classList.remove('selected');
+            }
+
+            elemento.classList.add('selected');
+
+            if (categoria === 'tiempo') {
+                if (valor === 'global') document.getElementById('config-tiempo-extra').classList.remove('oculto');
+                else document.getElementById('config-tiempo-extra').classList.add('oculto');
+            }
+
+            actualizarResumen();
+        }
+
+        function actualizarResumen() {
+            let texto = "";
+            let btn = document.getElementById('btn-accion');
+
+            // 1. Lógica Visibilidad
+            if (config.visibilidad === 'vacio') {
+                texto += "Entrenamiento fantasma: <strong>Tablero vacío sin piezas</strong>. ";
+                btn.style.background = "var(--blue)";
+                btn.style.boxShadow = "0 6px 0 #20629c";
+                btn.innerText = "👻 INICIAR TABLERO FANTASMA";
+            } else if (config.visibilidad === 'ciego') {
+                texto += "Modo a ciegas: <strong>Sin tablero</strong>. Leerás la posición en texto y escribirás la jugada de memoria. ";
+                btn.style.background = "var(--purple)";
+                btn.style.boxShadow = "0 6px 0 #5c1b99";
+                btn.innerText = "🦇 INICIAR CÁLCULO PURO";
+            } else {
+                texto += "Entrenamiento clásico: <strong>Tablero y piezas visibles</strong>. ";
+                btn.style.background = "var(--green)";
+                btn.style.boxShadow = "0 6px 0 #4a751b";
+                btn.innerText = "🔥 INICIAR ASALTO VISUAL";
+            }
+
+            // 2. Lógica Vidas
+            if (config.vidas === 'tres') {
+                texto += "Cuidado, tienes <strong>3 vidas</strong>. Si fallas 3 veces, el entrenamiento terminará y se guardará tu récord. ";
+            } else if (config.vidas === 'muerte') {
+                texto += "Modo extremo activado: <strong>1 solo fallo y se acaba el juego</strong>. Precisión máxima. ";
+            } else {
+                texto += "Puedes fallar sin límite, solo afectará a tu puntuación. ";
+            }
+
+            // 3. Lógica Tiempo
+            if (config.tiempo === 'global') {
+                let mins = document.getElementById('input-minutos').value || 3;
+                texto += "Tendrás un reloj con <strong>" + mins + " minutos</strong> en total. ¡Sé rápido!";
+            } else {
+                texto += "Calcula con calma, no hay reloj.";
+            }
+
+            document.getElementById('texto-resumen').innerHTML = texto;
+        }
+
+        function iniciarEntrenamiento() {
+            let url = "";
+            
+            // EL ENRUTADOR MÁGICO
+            if (config.visibilidad === 'ciego') {
+                // Si elige ciego total, lo mandamos al archivo de texto
+                url = `juego_ciego.html?vidas=${config.vidas}&tiempo=${config.tiempo}`;
+            } else {
+                // Si elige completo o vacío, lo mandamos al tablero físico
+                url = `juego.html?vis=${config.visibilidad}&vidas=${config.vidas}&tiempo=${config.tiempo}`;
+            }
+            
+            // Añadimos los minutos si hace falta
+            if (config.tiempo === 'global') {
+                let mins = document.getElementById('input-minutos').value || 3;
+                url += `&minutos=${mins}`;
+            }
+            
+            window.location.href = url;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chess Gym - Memoria Fotográfica</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>♞</text></svg>">
+
+    <style>
+        :root {
+            --bg: #1a1917;
+            --panel: #262421;
+            --accent: #e5bf00;
+            --blue: #3692e7;
+            --green: #629924;
+            --red: #cc3333;
+            --text: #bababa;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* HEADER */
+        #top-bar {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 70px;
+            background: #000; border-bottom: 1px solid #333;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 30px; box-sizing: border-box; z-index: 100;
+        }
+        #brand-logo { margin: 0; font-size: 1.8em; color: var(--accent); letter-spacing: 1px; text-shadow: 2px 2px 0px rgba(0,0,0,0.5); text-decoration: none; }
+        
+        #nav-menu { display: flex; gap: 25px; align-items: center; }
+        .nav-link { color: var(--green); text-decoration: none; font-weight: bold; font-size: 1.1em; text-transform: uppercase; letter-spacing: 1px; transition: 0.2s; padding: 5px 10px; border-radius: 5px; }
+        .nav-link:hover { color: #fff; background: rgba(98, 153, 36, 0.2); transform: scale(1.05); }
+
+        /* CONTENIDO DEL HUB */
+        #hub-container {
+            margin-top: 100px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            gap: 30px;
+        }
+
+        .hub-title { color: #fff; font-size: 3em; margin: 0; text-transform: uppercase; letter-spacing: 2px; text-shadow: 0 4px 10px rgba(0,0,0,0.8);}
+        .hub-subtitle { color: #c0c0c0; font-size: 1.2em; margin-top: 5px; font-weight: bold;}
+
+        .config-section {
+            background: var(--panel);
+            border: 1px solid #444;
+            border-radius: 12px;
+            padding: 30px;
+            max-width: 900px;
+            width: 100%;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .category-title {
+            color: var(--accent);
+            font-size: 1.2em;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #333;
+            padding-bottom: 5px;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .option-card {
+            background: #1a1917;
+            border: 2px solid #444;
+            border-radius: 8px;
+            padding: 20px 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.2s;
+            user-select: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+
+        .option-card:hover { border-color: #888; transform: translateY(-3px); }
+        .option-card.selected { border-color: #c0c0c0; background: rgba(192, 192, 192, 0.1); box-shadow: 0 0 15px rgba(192, 192, 192, 0.3); }
+        
+        .option-icon { font-size: 3em; margin-bottom: 10px; display: block; text-shadow: 2px 2px 0 #000; }
+        .option-name { font-weight: bold; color: #fff; font-size: 1.1em; text-transform: uppercase; margin-bottom: 5px; }
+        .option-desc { font-size: 0.85em; color: #888; line-height: 1.4; flex-grow: 1; }
+
+        /* CAJA DE EXPLICACIÓN */
+        #info-box {
+            background: #111;
+            border-left: 5px solid #c0c0c0;
+            padding: 20px;
+            border-radius: 0 8px 8px 0;
+            font-size: 1.1em;
+            line-height: 1.5;
+            color: #ddd;
+            margin-bottom: 30px;
+        }
+
+        /* --- SISTEMA DE CLASES PARA EL BOTÓN --- */
+        .btn-empezar {
+            font-size: 1.8em;
+            font-weight: bold;
+            padding: 20px;
+            width: 100%;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: 0.2s;
+        }
+        .btn-empezar:hover { filter: brightness(1.1); transform: translateY(-2px); }
+        .btn-empezar:active { transform: translateY(4px); }
+
+        .btn-radar { background: var(--blue); color: white; box-shadow: 0 6px 0 #20629c; }
+        .btn-radar:hover { box-shadow: 0 8px 0 #20629c; }
+        .btn-radar:active { box-shadow: 0 2px 0 #20629c; }
+
+        .btn-flash { background: var(--accent); color: black; box-shadow: 0 6px 0 #b39500; }
+        .btn-flash:hover { box-shadow: 0 8px 0 #b39500; }
+        .btn-flash:active { box-shadow: 0 2px 0 #b39500; }
+
+        .btn-memoria { background: var(--red); color: white; box-shadow: 0 6px 0 #8a1f1f; }
+        .btn-memoria:hover { box-shadow: 0 8px 0 #8a1f1f; }
+        .btn-memoria:active { box-shadow: 0 2px 0 #8a1f1f; }
+
+        .btn-lector { background: var(--green); color: white; box-shadow: 0 6px 0 #4a751b; }
+        .btn-lector:hover { box-shadow: 0 8px 0 #4a751b; }
+        .btn-lector:active { box-shadow: 0 2px 0 #4a751b; }
+
+    </style>
+</head>
+
+<body>
+
+    <div id="top-bar">
+        <a id="brand-logo" href="index.html">♞ CHESS GYM</a>
+        <div id="nav-menu">
+            <a href="hub_basico.html" class="nav-link">DOMINIO GEOGRÁFICO</a>
+            <a href="hub_memoria.html" class="nav-link" style="color: #fff; border-bottom: 2px solid var(--accent);">MEMORIA</a>
+            <a href="hub_tactica.html" class="nav-link">Central Táctica</a>
+        </div>
+        <div style="width: 150px;"></div> </div>
+
+    <div id="hub-container">
+        
+        <div style="text-align: center;">
+            <h1 class="hub-title">📸 Memoria Fotográfica</h1>
+            <p class="hub-subtitle">Entrena tu capacidad de retención visual</p>
+        </div>
+
+        <div class="config-section">
+            
+            <div class="category-title">Selecciona tu Entrenamiento</div>
+            <div class="options-grid" id="grid-modo">
+                
+                <div class="option-card selected" onclick="seleccionar('radar', this)">
+                    <span class="option-icon">📡</span>
+                    <div class="option-name">Radar Visual</div>
+                    <div class="option-desc">Observa el tablero unos segundos y localiza piezas específicas.</div>
+                </div>
+                
+                <div class="option-card" onclick="seleccionar('flash', this)">
+                    <span class="option-icon">📸</span>
+                    <div class="option-name">Flash Memory</div>
+                    <div class="option-desc">El tablero parpadea. Reconstruye la posición exacta de memoria.</div>
+                </div>
+
+                <div class="option-card" onclick="seleccionar('memoriapro', this)">
+                    <span class="option-icon">🧠</span>
+                    <div class="option-name">Memoria Pro</div>
+                    <div class="option-desc">Entrenamiento avanzado de retención de patrones complejos.</div>
+                </div>
+
+                <div class="option-card" onclick="seleccionar('lector', this)">
+                    <span class="option-icon">📖</span>
+                    <div class="option-name">Lector PGN</div>
+                    <div class="option-desc">Lee los movimientos en texto y monta la posición final en el tablero.</div>
+                </div>
+
+            </div>
+
+            <div id="info-box">
+                <strong>💡 Objetivo del entrenamiento:</strong><br>
+                <span id="texto-resumen">Un escáner rápido de la posición. Verás el tablero durante un breve instante y luego tendrás que responder preguntas rápidas sobre dónde estaban colocadas ciertas piezas. Ideal para mejorar el golpe de vista táctico.</span>
+            </div>
+
+            <button class="btn-empezar btn-radar" id="btn-accion" onclick="iniciarEntrenamiento()">INICIAR RADAR</button>
+
+        </div>
+    </div>
+
+    <script>
+        let modoSeleccionado = 'radar';
+
+        function seleccionar(valor, elemento) {
+            modoSeleccionado = valor;
+
+            let tarjetas = document.getElementsByClassName('option-card');
+            for(let i = 0; i < tarjetas.length; i++) {
+                tarjetas[i].classList.remove('selected');
+            }
+
+            elemento.classList.add('selected');
+            actualizarResumen();
+        }
+
+        function actualizarResumen() {
+            let texto = "";
+            let btn = document.getElementById('btn-accion');
+
+            // Limpiamos las clases antiguas
+            btn.className = "btn-empezar";
+
+            if (modoSeleccionado === 'radar') {
+                texto = "Un escáner rápido de la posición. Verás el tablero durante un breve instante y luego tendrás que responder preguntas rápidas sobre dónde estaban colocadas ciertas piezas. Ideal para mejorar el golpe de vista táctico.";
+                btn.innerText = "INICIAR RADAR";
+                btn.classList.add("btn-radar");
+            } else if (modoSeleccionado === 'flash') {
+                texto = "Un fogonazo de información. Memoriza la posición exacta que aparecerá en pantalla. Cuando desaparezca, tendrás que colocar cada pieza en su casilla correspondiente. Fallar penaliza.";
+                btn.innerText = "INICIAR FLASH MEMORY";
+                btn.classList.add("btn-flash");
+            } else if (modoSeleccionado === 'memoriapro') {
+                texto = "Entrenamiento para mentes exigentes. Retén estructuras de peones y posiciones completas para asimilarlas en tu memoria a largo plazo.";
+                btn.innerText = "INICIAR MEMORIA PRO";
+                btn.classList.add("btn-memoria");
+            } else if (modoSeleccionado === 'lector') {
+                texto = "El entrenamiento supremo para leer libros de ajedrez sin tablero. Se te darán los primeros movimientos de una partida en texto (PGN). Visualízalos en tu mente y reconstruye la posición final.";
+                btn.innerText = "INICIAR LECTOR PGN";
+                btn.classList.add("btn-lector");
+            }
+
+            document.getElementById('texto-resumen').innerHTML = texto;
+        }
+
+        function iniciarEntrenamiento() {
+            if (modoSeleccionado === 'radar') {
+                window.location.href = 'juego_radar.html';
+            } else if (modoSeleccionado === 'flash') {
+                window.location.href = 'juego_flash.html';
+            } else if (modoSeleccionado === 'memoriapro') {
+                window.location.href = 'juego_memoria2.html';
+            } else if (modoSeleccionado === 'lector') {
+                window.location.href = 'juego_lectura.html';
+            }
+        }
+    </script>
+</body>
+</html>
