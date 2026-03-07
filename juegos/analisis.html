@@ -4,153 +4,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chess Gym - Tablero de Análisis</title>
+    <title>Chess Gym - Tablero de Análisis PRO</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>♞</text></svg>">
 
     <link rel="stylesheet" href="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.css">
     <link rel="stylesheet" href="styles.css">
 
     <style>
-        :root {
-            --bg: #1a1917;
-            --panel: #262421;
-            --accent: #e5bf00;
-            --blue: #3692e7;
-            --green: #629924;
-            --red: #cc3333;
-            --text: #bababa;
-        }
+        :root { --bg: #1a1917; --panel: #262421; --accent: #e5bf00; --blue: #3692e7; --green: #629924; --red: #cc3333; --text: #bababa; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--bg); color: var(--text); margin: 0; display: flex; flex-direction: column; min-height: 100vh; }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg);
-            color: var(--text);
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        /* HEADER IDENTICO */
-        #top-bar {
-            position: fixed; top: 0; left: 0; width: 100%; height: 70px;
-            background: #000; border-bottom: 1px solid #333;
-            display: flex; align-items: center; justify-content: space-between;
-            padding: 0 30px; box-sizing: border-box; z-index: 100;
-        }
+        /* HEADER */
+        #top-bar { position: fixed; top: 0; left: 0; width: 100%; height: 70px; background: #000; border-bottom: 1px solid #333; display: flex; align-items: center; justify-content: space-between; padding: 0 30px; box-sizing: border-box; z-index: 100; }
         #brand-logo { margin: 0; font-size: 1.8em; color: var(--accent); letter-spacing: 1px; text-shadow: 2px 2px 0px rgba(0,0,0,0.5); text-decoration: none; }
-        
         #nav-menu { display: flex; gap: 25px; align-items: center; }
         .nav-link { color: var(--green); text-decoration: none; font-weight: bold; font-size: 1.1em; text-transform: uppercase; letter-spacing: 1px; transition: 0.2s; padding: 5px 10px; border-radius: 5px; white-space: nowrap;}
         .nav-link:hover { color: #fff; background: rgba(98, 153, 36, 0.2); transform: scale(1.05); }
 
-        /* LAYOUT PRINCIPAL DE ANÁLISIS */
-        #analysis-layout {
-            margin-top: 100px;
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
-            align-items: flex-start;
-            gap: 30px;
-            padding: 20px;
-            flex-wrap: wrap;
-        }
+        #analysis-layout { margin-top: 100px; display: flex; flex-direction: row; justify-content: center; align-items: flex-start; gap: 30px; padding: 20px; flex-wrap: wrap; }
 
-        /* ZONA DEL TABLERO */
-        #board-wrapper {
-            width: 100%;
-            max-width: 500px;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        #tablero {
-            width: 100%;
-            border: 6px solid #3d3a37;
-            border-radius: 4px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            touch-action: none !important;
-        }
+        /* TABLERO */
+        #board-wrapper { width: 100%; max-width: 500px; display: flex; flex-direction: column; }
+        #tablero { width: 100%; border: 6px solid #3d3a37; border-radius: 4px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); touch-action: none !important; }
 
-        .controls-row {
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
-        }
-
-        .btn-ctrl {
-            flex: 1;
-            background: #444;
-            color: white;
-            border: none;
-            padding: 15px;
-            font-size: 1.1em;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: bold;
-            box-shadow: 0 4px 0 #222;
-            transition: 0.2s;
-        }
+        .controls-row { display: flex; gap: 10px; margin-top: 15px; }
+        .btn-ctrl { flex: 1; background: #444; color: white; border: none; padding: 15px; font-size: 1.1em; border-radius: 6px; cursor: pointer; font-weight: bold; box-shadow: 0 4px 0 #222; transition: 0.2s; }
         .btn-ctrl:hover { filter: brightness(1.2); transform: translateY(-2px); box-shadow: 0 6px 0 #222;}
         .btn-ctrl:active { transform: translateY(2px); box-shadow: none; }
 
-        /* PANEL LATERAL DE INFORMACIÓN */
-        .info-panel {
-            background: var(--panel);
-            border: 1px solid #444;
-            border-radius: 12px;
-            padding: 25px;
-            width: 100%;
-            max-width: 400px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-
-        #status-box {
-            font-size: 1.4em;
-            font-weight: bold;
-            color: #fff;
-            background: #111;
-            padding: 15px;
-            border-radius: 8px;
-            text-align: center;
-            border: 1px solid #333;
-            margin-bottom: 20px;
-            border-left: 5px solid var(--accent);
-        }
-
+        /* PANEL */
+        .info-panel { background: var(--panel); border: 1px solid #444; border-radius: 12px; padding: 25px; width: 100%; max-width: 450px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        #status-box { font-size: 1.4em; font-weight: bold; color: #fff; background: #111; padding: 15px; border-radius: 8px; text-align: center; border: 1px solid #333; margin-bottom: 20px; border-left: 5px solid var(--accent); }
         .data-label { color: #888; font-size: 0.9em; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; display: block; font-weight: bold;}
-        
-        textarea, input[type="text"] {
-            width: 100%;
-            background: #1a1917;
-            color: var(--accent);
-            border: 1px solid #555;
-            padding: 12px;
-            border-radius: 6px;
-            font-family: 'Consolas', monospace;
-            font-size: 1.1em;
-            box-sizing: border-box;
-            margin-bottom: 20px;
-            outline: none;
-            resize: none;
-        }
+        textarea, input[type="text"] { width: 100%; background: #1a1917; color: var(--accent); border: 1px solid #555; padding: 12px; border-radius: 6px; font-family: 'Consolas', monospace; font-size: 1.1em; box-sizing: border-box; margin-bottom: 10px; outline: none; resize: vertical; }
         textarea:focus, input[type="text"]:focus { border-color: var(--blue); }
-
-        .btn-cargar {
-            background: var(--blue);
-            color: white;
-            border: none;
-            padding: 15px;
-            font-size: 1.1em;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: bold;
-            width: 100%;
-            box-shadow: 0 4px 0 #20629c;
-            transition: 0.2s;
-        }
+        .btn-cargar { background: var(--blue); color: white; border: none; padding: 10px 15px; font-size: 1em; border-radius: 6px; cursor: pointer; font-weight: bold; width: 100%; box-shadow: 0 4px 0 #20629c; transition: 0.2s; margin-bottom: 20px; text-transform: uppercase;}
         .btn-cargar:hover { filter: brightness(1.1); transform: translateY(-2px); }
 
+        /* MOTOR */
+        #engine-box { background: #111; padding: 15px; border-radius: 8px; border: 1px solid #444; margin-bottom: 25px; }
+        .engine-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; border-bottom: 1px solid #333; padding-bottom: 10px;}
+        #btn-motor { background: #444; color: #fff; border: none; padding: 5px 15px; border-radius: 4px; cursor: pointer; font-weight: bold; transition: 0.2s; }
+        .engine-stats { display: flex; justify-content: space-between; font-size: 1.1em; color: #ccc;}
     </style>
 </head>
 
@@ -164,34 +59,44 @@
             <a href="hub_tactica.html" class="nav-link">TÁCTICA</a>
             <a href="analisis.html" class="nav-link" style="color: #fff; border-bottom: 2px solid var(--accent);">TABLERO ANÁLISIS</a>
         </div>
-        <div style="width: 150px;"></div> </div>
+        <div style="width: 150px;"></div> 
+    </div>
 
     <div id="analysis-layout">
         
         <div id="board-wrapper">
             <div id="tablero"></div>
             <div class="controls-row">
-                <button class="btn-ctrl" onclick="deshacerMovimiento()">⬅️ Deshacer</button>
+                <button class="btn-ctrl" onclick="irAtras()" title="Deshacer Movimiento">⏮️ Atrás</button>
+                <button class="btn-ctrl" onclick="irAdelante()" title="Avanzar Solución">⏭️ Adelante</button>
                 <button class="btn-ctrl" onclick="girarTablero()">🔃 Girar</button>
-                <button class="btn-ctrl" style="background: var(--danger); box-shadow: 0 4px 0 #8a1f1f;" onclick="reiniciarTablero()">🔄 Reiniciar</button>
+                <button class="btn-ctrl" style="background: var(--danger); box-shadow: 0 4px 0 #8a1f1f;" onclick="reiniciarTablero()">🔄 Reset</button>
             </div>
         </div>
 
         <div class="info-panel">
-            <h2 style="color: var(--accent); margin-top: 0; border-bottom: 2px solid #444; padding-bottom: 10px;">Estudio Libre</h2>
             
             <div id="status-box">Juegan Blancas</div>
 
-            <label class="data-label">PGN de la Partida:</label>
-            <textarea id="pgn-data" rows="5" readonly placeholder="Aquí aparecerán tus jugadas..."></textarea>
+            <div id="engine-box">
+                <div class="engine-header">
+                    <strong style="color: var(--blue); font-size: 1.2em;">🤖 Módulo de Análisis</strong>
+                    <button id="btn-motor" onclick="toggleMotor()">APAGADO</button>
+                </div>
+                <div class="engine-stats">
+                    <span>Eval: <strong id="eval-score" style="color: #888;">-</strong></span>
+                    <span>Mejor Jugada: <strong id="eval-bestmove" style="color: var(--accent);">-</strong></span>
+                </div>
+            </div>
 
-            <label class="data-label">Código FEN Actual:</label>
-            <input type="text" id="fen-data" readonly>
+            <label class="data-label">📝 Notación de la Partida:</label>
+            <textarea id="pgn-data" rows="5" placeholder="Aquí aparecerá toda la solución..."></textarea>
+            <button class="btn-cargar" onclick="cargarPGNUsuario()">Cargar Partida PGN</button>
 
-            <div style="margin-top: 10px; padding-top: 20px; border-top: 1px solid #444;">
-                <label class="data-label" style="color: var(--blue);">⚙️ Cargar Posición Personalizada:</label>
-                <input type="text" id="load-fen-input" placeholder="Pega un FEN y pulsa el botón...">
-                <button class="btn-cargar" onclick="cargarFENUsuario()">Cargar Posición FEN</button>
+            <div style="padding-top: 10px; border-top: 1px solid #444;">
+                <label class="data-label" style="color: var(--green);">⚙️ Posición Exacta (FEN):</label>
+                <input type="text" id="fen-data" placeholder="Pega un FEN aquí...">
+                <button class="btn-cargar" style="background: var(--green); box-shadow: 0 4px 0 #4a751b;" onclick="cargarFENUsuario()">Cargar Posición FEN</button>
             </div>
         </div>
 
@@ -205,15 +110,67 @@
     <script>
         let board = null;
         let game = new Chess();
+        
+        let jugadasFuturas = [];
+        let engine = null;
+        let engineActive = false;
+
         const statusBox = document.getElementById('status-box');
         const pgnData = document.getElementById('pgn-data');
         const fenData = document.getElementById('fen-data');
 
-        function onDragStart(source, piece, position, orientation) {
-            // No permitir mover si el juego ha terminado por mate o tablas
-            if (game.game_over()) return false;
+        function cargarMotor() {
+            fetch('https://cdnjs.cloudflare.com/ajax/libs/stockfish.js/10.0.2/stockfish.js')
+                .then(response => response.text())
+                .then(text => {
+                    const blob = new Blob([text], {type: 'application/javascript'});
+                    engine = new Worker(URL.createObjectURL(blob));
+                    
+                    engine.onmessage = function(event) {
+                        let msg = event.data;
+                        if (msg.includes("score cp") || msg.includes("score mate")) {
+                            let scoreMatch = msg.match(/score (cp|mate) (-?\d+)/);
+                            if (scoreMatch) {
+                                let type = scoreMatch[1];
+                                let val = parseInt(scoreMatch[2]);
+                                let displayScore = "";
+                                let isBlackTurn = game.turn() === 'b';
+                                
+                                if (type === 'cp') {
+                                    if (isBlackTurn) val = -val;
+                                    displayScore = (val / 100).toFixed(2);
+                                    if (val > 0) displayScore = "+" + displayScore;
+                                } else { 
+                                    if (isBlackTurn) val = -val;
+                                    displayScore = "M" + Math.abs(val);
+                                    if (val > 0) displayScore = "+" + displayScore;
+                                    else displayScore = "-" + displayScore;
+                                }
+                                
+                                let scoreElem = document.getElementById('eval-score');
+                                scoreElem.innerText = displayScore;
+                                if (val > 50) scoreElem.style.color = "var(--success)";
+                                else if (val < -50) scoreElem.style.color = "var(--danger)";
+                                else scoreElem.style.color = "#fff";
+                            }
+                        }
+                        
+                        if (msg.includes(" pv ")) {
+                            let pvMatch = msg.match(/pv\s+([a-h][1-8][a-h][1-8][qrbn]?)/);
+                            if (pvMatch) document.getElementById('eval-bestmove').innerText = pvMatch[1];
+                        } else if (msg.startsWith("bestmove")) {
+                            let parts = msg.split(" ");
+                            let best = parts[1];
+                            if(best && best !== "(none)") document.getElementById('eval-bestmove').innerText = best;
+                        }
+                    };
+                    engine.postMessage("uci"); 
+                })
+                .catch(e => console.warn("El motor de análisis no se pudo cargar."));
+        }
 
-            // Asegurar que solo mueves la pieza a la que le toca jugar
+        function onDragStart(source, piece, position, orientation) {
+            if (game.game_over()) return false;
             if ((game.turn() === 'w' && piece.search(/^b/) !== -1) ||
                 (game.turn() === 'b' && piece.search(/^w/) !== -1)) {
                 return false;
@@ -221,85 +178,126 @@
         }
 
         function onDrop(source, target) {
-            // Intentar hacer el movimiento (por defecto asume coronar a Dama para simplificar)
-            let move = game.move({
-                from: source,
-                to: target,
-                promotion: 'q' 
-            });
-
-            // Si es un movimiento ilegal, devuelve la pieza a su sitio
+            let move = game.move({ from: source, to: target, promotion: 'q' });
             if (move === null) return 'snapback';
-
             reproducirSonido('correcto');
+            jugadasFuturas = []; 
             actualizarEstado();
         }
 
-        // Se ejecuta cuando la animación de soltar la pieza termina
-        function onSnapEnd() {
-            board.position(game.fen());
-        }
+        function onSnapEnd() { board.position(game.fen()); }
 
         function actualizarEstado() {
             let statusHTML = '';
             let bando = (game.turn() === 'w') ? 'Blancas' : 'Negras';
             let colorTexto = (game.turn() === 'w') ? '#fff' : 'var(--danger)';
 
-            // Comprobar estado de la partida
-            if (game.in_checkmate()) {
-                statusHTML = `🏆 Jaque Mate. Pierden <span style="color:${colorTexto};">${bando}</span>`;
-                reproducirSonido('fin');
-            } else if (game.in_draw()) {
-                statusHTML = "🤝 Tablas / Empate";
-            } else {
+            if (game.in_checkmate()) { statusHTML = `🏆 Jaque Mate. Pierden <span style="color:${colorTexto};">${bando}</span>`; reproducirSonido('fin'); } 
+            else if (game.in_draw()) { statusHTML = "🤝 Tablas / Empate"; } 
+            else {
                 statusHTML = `Juegan <span style="color:${colorTexto}; text-transform:uppercase;">${bando}</span>`;
-                if (game.in_check()) {
-                    statusHTML += ` <br><span style="color:var(--accent); font-size:0.8em;">(¡Están en Jaque!)</span>`;
-                }
+                if (game.in_check()) statusHTML += ` <br><span style="color:var(--accent); font-size:0.8em;">(¡Están en Jaque!)</span>`;
             }
 
             statusBox.innerHTML = statusHTML;
             fenData.value = game.fen();
-            pgnData.value = game.pgn();
             
-            // Hacer scroll abajo automáticamente en el PGN
+            // --- GENERADOR DEL PGN COMPLETO (PASADO + FUTURO) ---
+            let basePgn = game.pgn();
+            if (jugadasFuturas.length > 0) {
+                let clone = new Chess();
+                clone.load_pgn(basePgn || ""); 
+                if (clone.fen() !== game.fen()) clone.load(game.fen());
+                
+                for (let i = jugadasFuturas.length - 1; i >= 0; i--) {
+                    clone.move(jugadasFuturas[i].san);
+                }
+                pgnData.value = clone.pgn();
+            } else {
+                pgnData.value = basePgn || "";
+            }
             pgnData.scrollTop = pgnData.scrollHeight;
+
+            analizarPosicion();
         }
 
-        // CONTROLES DEL TABLERO
-        function deshacerMovimiento() {
-            game.undo();
-            board.position(game.fen());
-            actualizarEstado();
+        function irAtras() {
+            let moveUndo = game.undo();
+            if (moveUndo) {
+                jugadasFuturas.push(moveUndo); 
+                board.position(game.fen());
+                actualizarEstado();
+            }
         }
 
-        function girarTablero() {
-            board.flip();
+        function irAdelante() {
+            if (jugadasFuturas.length > 0) {
+                let moveRehacer = jugadasFuturas.pop();
+                game.move(moveRehacer.san); // Uso estricto de notación corta para evitar fallos
+                board.position(game.fen());
+                actualizarEstado();
+            }
         }
+
+        function girarTablero() { board.flip(); }
 
         function reiniciarTablero() {
             game.reset();
+            jugadasFuturas = [];
             board.position('start');
             board.orientation('white');
             actualizarEstado();
         }
 
         function cargarFENUsuario() {
-            let inputFen = document.getElementById('load-fen-input').value.trim();
+            let inputFen = fenData.value.trim();
             if(inputFen === '') return;
-            
-            // Intentar cargar la FEN en el cerebro (chess.js)
             let valid = game.load(inputFen);
             if (valid) {
+                jugadasFuturas = [];
                 board.position(game.fen());
                 actualizarEstado();
-                document.getElementById('load-fen-input').value = ""; // Limpiar caja
+            } else { alert("Código FEN inválido."); fenData.value = game.fen(); }
+        }
+
+        function cargarPGNUsuario() {
+            let inputPgn = pgnData.value.trim();
+            if(inputPgn === '') { reiniciarTablero(); return; }
+            let valid = game.load_pgn(inputPgn);
+            if (valid) {
+                jugadasFuturas = [];
+                board.position(game.fen());
+                actualizarEstado();
+            } else { alert("Notación PGN inválida o contiene movimientos ilegales."); }
+        }
+
+        function toggleMotor() {
+            let btn = document.getElementById('btn-motor');
+            if(!engine) { alert("El motor aún está cargando o fue bloqueado por el navegador."); return; }
+            engineActive = !engineActive;
+            if(engineActive) {
+                btn.style.background = 'var(--success)';
+                btn.innerText = 'ENCENDIDO';
+                analizarPosicion();
             } else {
-                alert("Código FEN inválido. Comprueba que lo has copiado correctamente.");
+                btn.style.background = '#444';
+                btn.innerText = 'APAGADO';
+                engine.postMessage("stop");
+                document.getElementById('eval-score').innerText = "-";
+                document.getElementById('eval-bestmove').innerText = "-";
+                document.getElementById('eval-score').style.color = "#888";
             }
         }
 
-        // Inicialización
+        function analizarPosicion() {
+            if(!engine || !engineActive) return;
+            engine.postMessage("stop");
+            document.getElementById('eval-score').innerText = "Pensando...";
+            document.getElementById('eval-bestmove').innerText = "...";
+            engine.postMessage("position fen " + game.fen());
+            engine.postMessage("go depth 20"); 
+        }
+
         let config = {
             draggable: true,
             position: 'start',
@@ -310,6 +308,47 @@
         };
 
         board = Chessboard('tablero', config);
+        cargarMotor(); 
+        
+        // --- LECTURA MÁGICA DEL BAÚL ---
+        const urlParams = new URLSearchParams(window.location.search);
+        const fenParam = urlParams.get('fen');
+        const solParam = urlParams.get('solucion');
+
+        if (fenParam) {
+            let valid = game.load(fenParam);
+            if (valid) {
+                board.position(game.fen());
+                
+                if (solParam) {
+                    let moves = solParam.trim().split(/\s+/);
+                    let validMoves = [];
+                    
+                    for (let m of moves) {
+                        if (!m) continue;
+                        let moveResult = game.move(m, {sloppy: true});
+                        if (!moveResult && m.length >= 4) {
+                            let f = m.substring(0, 2); let t = m.substring(2, 4); let p = m.length > 4 ? m.substring(4, 5) : 'q';
+                            moveResult = game.move({ from: f, to: t, promotion: p });
+                        }
+                        if (moveResult) {
+                            validMoves.push(moveResult);
+                        } else {
+                            console.warn("La solución contenía un movimiento no válido para este turno:", m);
+                            break;
+                        }
+                    }
+
+                    // Rebubinamos para dejar los movimientos listos en el botón Adelante
+                    while (validMoves.length > 0) {
+                        let undone = game.undo();
+                        jugadasFuturas.push(undone);
+                        validMoves.pop();
+                    }
+                }
+            }
+        }
+        
         actualizarEstado();
 
     </script>

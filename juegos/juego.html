@@ -194,8 +194,7 @@
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.2/chess.js"></script>
-    <script src="utils.js"></script>
-
+<script src="utils.js?v=2"></script>
     <script>
         // ==========================================
         // CEREBRO: LECTURA DE PARÁMETROS DEL HUB
@@ -431,6 +430,18 @@
             } else {
                 reproducirSonido('incorrecto'); game.undo(); // Deshacer en memoria
                 
+// --- NUEVO: GUARDAR FALLO EN EL BAÚL ---
+                if (typeof window.guardarFallo === 'function' && puzzleActual) {
+                    let nombreModo = (modoVis === 'vacio') ? "Tablero Fantasma" : "Asalto Visual";
+                    let movFallado = source + target; 
+                    if (move.promotion) movFallado += move.promotion;
+                    
+                    // Magia: Cogemos todos los movimientos desde el error hasta el final del puzzle
+                    let solucionCompleta = puzzleActual.moves.slice(indiceMovimiento).join(' ');
+                    
+                    window.guardarFallo(nombreModo, game.fen(), solucionCompleta, movFallado);
+                }
+                // ----------------------------------------                
                 // GESTIÓN DE FALLOS REALES (Movimiento equivocado del puzzle)
                 if (TorneoManager.enTorneo || (typeof DueloManager !== 'undefined' && DueloManager.enDuelo)) { 
                     misPuntosLocales = Math.max(0, misPuntosLocales - 5); if(TorneoManager.enTorneo) TorneoManager.enviarPuntos(misPuntosLocales); 
@@ -464,7 +475,17 @@
             setTimeout(cargarNuevoPuzzle, 600);
         }
 
-        function saltarPuzzle() {
+function saltarPuzzle() {
+            // --- NUEVO: GUARDAR FALLO AL SALTAR ---
+            if (typeof window.guardarFallo === 'function' && puzzleActual) {
+                let nombreModo = (modoVis === 'vacio') ? "Tablero Fantasma" : "Asalto Visual";
+                
+                // Magia: Cogemos todos los movimientos que quedaban
+                let solucionCompleta = puzzleActual.moves.slice(indiceMovimiento).join(' ');
+                
+                window.guardarFallo(nombreModo, game.fen(), solucionCompleta, "Saltado");
+            }
+            // ----------------------------------------            
             misPuntosLocales = Math.max(0, misPuntosLocales - 5); racha = 0;
             document.getElementById('rachaDisplay').innerText = racha; document.getElementById('ratingDisplay').innerText = misPuntosLocales;
             if (TorneoManager.enTorneo) { TorneoManager.enviarPuntos(misPuntosLocales); } 

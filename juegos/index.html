@@ -120,6 +120,9 @@
             </div>
 
             <div style="display: flex; align-items: center; gap: 15px; border-left: 1px solid #444; padding-left: 20px;">
+                
+                <button onclick="window.location.href='baul.html'" style="background: #111; color: var(--accent); border: 1px dashed var(--accent); padding: 10px 15px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 1em; transition: 0.2s;" onmouseover="this.style.background='rgba(229, 191, 0, 0.1)'" onmouseout="this.style.background='#111'">📦 Baúl</button>
+
                 <button id="btn-mi-perfil" onclick="abrirMiPerfil()" style="background: var(--blue); color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 1em;">👤 Mi Perfil</button>
                 <button onclick="cerrarSesion()" style="background: var(--red); color: white; border: none; padding: 10px 15px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 1em;">Salir</button>
             </div>
@@ -164,8 +167,8 @@
                         <span>🔥</span>
                     </div>
                     <div style="color: #bbb; font-size: 0.95em; line-height: 1.5;">
-                        <p><strong style="color: #fff;">Actualización v2.1:</strong> ¡Sistema de Rangos Activado! Juega, gana XP y sube tu medalla.</p>
-                        <p><strong style="color: var(--blue);">Nuevo Motor Táctico:</strong> Juega en Modo Fantasma o Activa la Muerte Súbita desde la Central Táctica.</p>
+                        <p><strong style="color: #fff;">Actualización v2.2:</strong> ¡El Baúl de Errores ya está aquí! Ahora todos tus fallos se guardan para que los analices luego.</p>
+                        <p><strong style="color: var(--blue);">Nuevo Tablero:</strong> Usa la herramienta de Análisis Libre para estudiar posiciones.</p>
                     </div>
                 </div>
 
@@ -340,10 +343,8 @@
                                 document.getElementById('rango-nombre').innerText = info.nombre;
                                 document.getElementById('rango-nombre').style.color = info.color;
                                 
-                                // Color del borde de la tarjeta para que coincida con tu nivel
                                 document.querySelector('.dash-card').style.borderTopColor = info.color;
                                 
-                                // Animación de la barra de progreso
                                 let barra = document.getElementById('rango-barra');
                                 barra.style.background = info.color;
                                 setTimeout(() => { barra.style.width = info.porcentajeProgreso + '%'; }, 500);
@@ -382,7 +383,6 @@
                         let medalla = index === 0 ? '👑' : index === 1 ? '🥈' : index === 2 ? '🥉' : '🔹';
                         let style = index === 0 ? 'color:#ffd700; font-weight:bold; background:rgba(255,215,0,0.05); padding:10px; border-radius:5px;' : 'padding:10px 5px;';
                         
-                        // Añadimos el icono del rango al ranking si la función existe
                         let iconoRango = "";
                         if (typeof window.obtenerInfoRango === 'function' && j.puntos !== undefined) {
                             iconoRango = window.obtenerInfoRango(j.puntos).icono + " ";
@@ -404,7 +404,6 @@
             let defaults = { base: 0, storm: 1700, ciego: 1700, radar: 1700, lectura: 1700 };
             for (let k in defaults) { if (!elos[k]) elos[k] = { current: defaults[k] }; }
 
-            // Calcular rango para el perfil
             let xpInfo = (typeof window.obtenerInfoRango === 'function') ? window.obtenerInfoRango(p.xpTotal || 0) : { nombre: 'Jugador', icono: '♟️', color: '#fff' };
 
             let html = `
@@ -479,7 +478,7 @@
         }
 
         // ==========================================
-        // BUSCADOR, CHAT Y DUELOS (MANTENIDOS INTACTOS)
+        // BUSCADOR Y CHAT
         // ==========================================
         function buscarUsuarios(val) {
             const results = document.getElementById('search-results');
@@ -555,6 +554,9 @@
 
         function mandarMensaje() { let input = document.getElementById('chat-input'); if (input.value.trim() !== '') { ChatManager.enviarMensaje(chatActivoUid, input.value); input.value = ''; } }
 
+        // ==========================================
+        // GESTIÓN DE DUELOS 
+        // ==========================================
         function abrirMenuDuelo(nombre, uidRival) {
             document.getElementById('modal-perfil').style.display = 'none';
             document.getElementById('modal-crear-duelo').style.display = 'flex';

@@ -13,7 +13,6 @@
     <link rel="stylesheet" href="styles.css">
 
     <style>
-        /* AÑADIDO EL COLOR MORADO QUE FALTABA */
         :root {
             --purple: #8a2be2;
         }
@@ -213,7 +212,7 @@
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.2/chess.js"></script>
-    <script src="utils.js"></script>
+    <script src="utils.js?v=2"></script>
 
     <script>
         // ==========================================
@@ -432,6 +431,13 @@
                 
                 let solucionTexto = generarSolucionCompleta();
 
+                // --- NUEVO: GUARDAR FALLO EN EL BAÚL ---
+                if (typeof window.guardarFallo === 'function' && puzzleActual) {
+                    let solucionCompleta = puzzleActual.moves.slice(indiceMovimiento).join(' ');
+                    window.guardarFallo("Cálculo Puro", game.fen(), solucionCompleta, textoUsuario);
+                }
+                // ---------------------------------------
+
                 if (TorneoManager.enTorneo || (typeof DueloManager !== 'undefined' && DueloManager.enDuelo)) { 
                     puntosCiegosLocales = Math.max(0, puntosCiegosLocales - 10); if(TorneoManager.enTorneo) TorneoManager.enviarPuntos(puntosCiegosLocales); 
                 } else if (modoVidas !== 'infinito') {
@@ -463,6 +469,13 @@
             reproducirSonido('incorrecto');
             
             let solucionTexto = generarSolucionCompleta(); 
+
+            // --- NUEVO: GUARDAR FALLO EN EL BAÚL ---
+            if (typeof window.guardarFallo === 'function' && puzzleActual) {
+                let solucionCompleta = puzzleActual.moves.slice(indiceMovimiento).join(' ');
+                window.guardarFallo("Cálculo Puro", game.fen(), solucionCompleta, "Me rendí");
+            }
+            // ---------------------------------------
 
             if (TorneoManager.enTorneo || (typeof DueloManager !== 'undefined' && DueloManager.enDuelo)) { 
                 puntosCiegosLocales = Math.max(0, puntosCiegosLocales - 5); if(TorneoManager.enTorneo) TorneoManager.enviarPuntos(puntosCiegosLocales); 
@@ -497,19 +510,23 @@
         function escucharChatSala() {
             if (!refSalaChat) return;
             firebase.database().ref(refSalaChat).limitToLast(50).on('value', snap => {
-                let html = ''; let miNombre = localStorage.getItem('current_user_name') || 'Jugador';
+                let html = ''; 
+                let miNombre = localStorage.getItem('current_user_name') || 'Jugador';
                 snap.forEach(child => {
-                    let m = child.val(); let clase = m.from === miNombre ? 'msg-me' : 'msg-to';
+                    let m = child.val(); 
+                    let clase = m.from === miNombre ? 'msg-me' : 'msg-to';
                     let autor = m.from === miNombre ? '' : `<div style="font-size:0.8em; color:#bbb; margin-bottom:4px;">${m.from}</div>`;
                     html += `<div class="msg-bubble ${clase}">${autor}${m.text}</div>`;
                 });
-                const div = document.getElementById('chat-messages'); div.innerHTML = html || '<div style="color:#555;text-align:center;margin-top:20px;">Sin mensajes.</div>';
+                const div = document.getElementById('chat-messages'); 
+                div.innerHTML = html || '<div style="color:#555;text-align:center;margin-top:20px;">Sin mensajes.</div>';
                 setTimeout(() => div.scrollTop = div.scrollHeight, 100);
             });
         }
 
         function mandarMensajeSala() {
-            let input = document.getElementById('chat-input'); let texto = input.value.trim();
+            let input = document.getElementById('chat-input'); 
+            let texto = input.value.trim();
             if(texto !== '' && refSalaChat) {
                 let miNombre = localStorage.getItem('current_user_name') || 'Jugador';
                 firebase.database().ref(refSalaChat).push({ from: miNombre, text: texto, time: Date.now() });
@@ -518,32 +535,46 @@
         }
 
         function abrirLobbyTorneo() {
-            document.getElementById('interfaz-juego').classList.add('oculto'); document.getElementById('lobby-torneo').classList.remove('oculto');
+            document.getElementById('interfaz-juego').classList.add('oculto'); 
+            document.getElementById('lobby-torneo').classList.remove('oculto');
             document.getElementById('title-main').style.display = 'none';
             let codigoRandom = Math.floor(1000 + Math.random() * 9000).toString();
-            document.getElementById('codigo-input').value = codigoRandom; cambiarSalaTorneo(codigoRandom);
+            document.getElementById('codigo-input').value = codigoRandom; 
+            cambiarSalaTorneo(codigoRandom);
         }
 
         function cambiarSalaTorneo(codigo) {
-            codigo = codigo.trim(); if(codigo.length < 4) return;
-            TorneoManager.enTorneo = true; TorneoManager.codigoSala = codigo;
-            let uid = localStorage.getItem('current_user_uid'); let nombre = localStorage.getItem('current_user_name');
+            codigo = codigo.trim(); 
+            if(codigo.length < 4) return;
+            
+            TorneoManager.enTorneo = true; 
+            TorneoManager.codigoSala = codigo;
+            let uid = localStorage.getItem('current_user_uid'); 
+            let nombre = localStorage.getItem('current_user_name');
+            
             if (refSalaTorneo) firebase.database().ref(refSalaTorneo).off(); 
-            refSalaTorneo = `torneos/${codigo}`; refSalaChat = `torneos/${codigo}/chat`;
-            document.getElementById('btn-abrir-chat').style.display = 'block'; escucharChatSala();
+            refSalaTorneo = `torneos/${codigo}`; 
+            refSalaChat = `torneos/${codigo}/chat`;
+            document.getElementById('btn-abrir-chat').style.display = 'block'; 
+            escucharChatSala();
 
             firebase.database().ref(`${refSalaTorneo}/jugadores/${uid}`).set({ nombre: nombre, puntos: 0 });
             firebase.database().ref(`${refSalaTorneo}/jugadores/${uid}`).onDisconnect().remove();
 
             firebase.database().ref(refSalaTorneo).on('value', (snap) => {
-                let data = snap.val(); if (!data) return;
+                let data = snap.val(); 
+                if (!data) return;
+                
                 if (data.jugadores) {
-                    let htmlLobby = ""; let listaLeaderboard = [];
+                    let htmlLobby = ""; 
+                    let listaLeaderboard = [];
                     for (let key in data.jugadores) {
-                        let j = data.jugadores[key]; htmlLobby += `<span class="jugador-lobby">${j.nombre}</span>`;
+                        let j = data.jugadores[key]; 
+                        htmlLobby += `<span class="jugador-lobby">${j.nombre}</span>`;
                         listaLeaderboard.push({ uid: key, nombre: j.nombre, puntos: j.puntos || 0 });
                     }
                     if (!juegoActivo) document.getElementById('lista-lobby').innerHTML = htmlLobby;
+                    
                     listaLeaderboard.sort((a, b) => b.puntos - a.puntos);
                     let htmlBoard = "";
                     listaLeaderboard.forEach((j, index) => {
@@ -554,25 +585,49 @@
                 }
                 if (data.estado === 'jugando' && !juegoActivo) {
                     let restante = data.tiempoFin ? Math.floor((data.tiempoFin - Date.now()) / 1000) : 0;
-                    if (restante > 0) { TorneoManager.semillaRonda = data.tiempoFin.toString(); document.getElementById('pantalla-podio').classList.add('oculto'); empezarPartida(true, data.tiempoFin); }
+                    if (restante > 0) { 
+                        TorneoManager.semillaRonda = data.tiempoFin.toString(); 
+                        document.getElementById('pantalla-podio').classList.add('oculto'); 
+                        empezarPartida(true, data.tiempoFin); 
+                    }
                 }
             });
         }
 
-        function empezarTorneoParaTodos() { let tiempoFinal = Date.now() + 180000; firebase.database().ref(refSalaTorneo).update({ estado: 'jugando', tiempoFin: tiempoFinal }); }
+        function empezarTorneoParaTodos() { 
+            let tiempoFinal = Date.now() + 180000; 
+            firebase.database().ref(refSalaTorneo).update({ estado: 'jugando', tiempoFin: tiempoFinal }); 
+        }
 
         function finalizarTorneoGlobal() {
-            juegoActivo = false; reproducirSonido('fin'); document.getElementById('interfaz-juego').classList.add('oculto'); document.getElementById('pantalla-podio').classList.remove('oculto');
+            juegoActivo = false; 
+            reproducirSonido('fin'); 
+            document.getElementById('interfaz-juego').classList.add('oculto'); 
+            document.getElementById('pantalla-podio').classList.remove('oculto');
+            
             firebase.database().ref(refSalaTorneo).update({ estado: 'finalizado' });
             firebase.database().ref(refSalaTorneo + '/jugadores').once('value').then(snap => {
-                let data = snap.val(); if(!data) return; let lista = []; for(let key in data) { lista.push({ nombre: data[key].nombre, puntos: data[key].puntos || 0 }); }
-                lista.sort((a, b) => b.puntos - a.puntos); let htmlPodio = "";
-                lista.forEach((j, i) => { htmlPodio += `<div class="podio-fila ${i === 0 ? "podio-oro" : ""}"><span>${i === 0 ? "👑" : "🏅"} ${j.nombre}</span> <strong>${j.puntos} pts</strong></div>`; });
+                let data = snap.val(); 
+                if(!data) return; 
+                let lista = []; 
+                for(let key in data) { 
+                    lista.push({ nombre: data[key].nombre, puntos: data[key].puntos || 0 }); 
+                }
+                
+                lista.sort((a, b) => b.puntos - a.puntos); 
+                let htmlPodio = "";
+                lista.forEach((j, i) => { 
+                    htmlPodio += `<div class="podio-fila ${i === 0 ? "podio-oro" : ""}"><span>${i === 0 ? "👑" : "🏅"} ${j.nombre}</span> <strong>${j.puntos} pts</strong></div>`; 
+                });
                 document.getElementById('lista-podio').innerHTML = htmlPodio;
             });
         }
 
-        function jugarRevancha() { document.getElementById('pantalla-podio').classList.add('oculto'); document.getElementById('lobby-torneo').classList.remove('oculto'); firebase.database().ref(refSalaTorneo).update({ estado: 'esperando', tiempoFin: null }); }
+        function jugarRevancha() { 
+            document.getElementById('pantalla-podio').classList.add('oculto'); 
+            document.getElementById('lobby-torneo').classList.remove('oculto'); 
+            firebase.database().ref(refSalaTorneo).update({ estado: 'esperando', tiempoFin: null }); 
+        }
 
     </script>
 </body>

@@ -492,3 +492,29 @@ window.obtenerInfoRango = function(xpTotal) {
         siguienteRango: rangoSiguiente.nombre
     };
 };
+
+
+/* ==========================================
+   BAÚL DE ERRORES (PUNTO 6)
+   ========================================== */
+window.guardarFallo = function(modulo, fen, solucionCorrecta, tuJugada) {
+    let uid = localStorage.getItem('current_user_uid');
+    if (!uid || typeof firebase === 'undefined') return;
+
+    let nuevoFallo = {
+        modulo: modulo,
+        fen: fen,
+        solucion: solucionCorrecta,
+        tuJugada: tuJugada || "Me rendí / Tiempo agotado",
+        fecha: new Date().toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', hour: '2-digit', minute:'2-digit' }),
+        timestamp: Date.now()
+    };
+
+    firebase.database().ref('users/' + uid + '/errores').push(nuevoFallo);
+};
+
+window.borrarFallo = function(key) {
+    let uid = localStorage.getItem('current_user_uid');
+    if (!uid || typeof firebase === 'undefined') return;
+    firebase.database().ref('users/' + uid + '/errores/' + key).remove();
+};
