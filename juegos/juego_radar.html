@@ -69,12 +69,15 @@
 
         #timer-torneo { font-size: 3em; font-family: 'Courier New', monospace; font-weight: bold; color: var(--accent); text-align: center; margin-bottom: 15px; background: #111; padding: 10px; border-radius: 8px; border: 2px solid #333; }
 
-        #pantalla-podio { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(20, 20, 20, 0.98); z-index: 1000; display: flex; flex-direction: column; align-items: center; justify-content: center; overflow-y: auto; padding: 20px; box-sizing: border-box;}
+        /* PANTALLAS DE FIN */
+        .pantalla-fin { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(20, 20, 20, 0.98); z-index: 1000; display: flex; flex-direction: column; align-items: center; justify-content: center; overflow-y: auto; padding: 20px; box-sizing: border-box; }
         .podio-titulo { font-size: 4em; color: var(--accent); text-transform: uppercase; margin-bottom: 40px; text-shadow: 0 0 20px rgba(229, 191, 0, 0.5); text-align: center;}
         .podio-fila { display: flex; justify-content: space-between; align-items: center; width: 100%; max-width: 500px; background: #222; padding: 20px; margin-bottom: 10px; border-radius: 8px; font-size: 1.5em; border: 1px solid #444; }
         .podio-oro { border-color: #ffd700; background: rgba(255, 215, 0, 0.1); font-size: 1.8em; font-weight: bold;}
         .podio-plata { border-color: #c0c0c0; background: rgba(192, 192, 192, 0.1); }
         .podio-bronce { border-color: #cd7f32; background: rgba(205, 127, 50, 0.1); }
+
+        .oculto { display: none !important; }
     </style>
 </head>
 <body>
@@ -84,17 +87,13 @@
     <div id="pantalla-carga">
         <h2 style="color: var(--text); margin-top: 0;">Configuración</h2>
         <p style="color: #aaa;">Para jugar solo, usa este botón:</p>
-        <button id="btn-defecto" class="btn-secundario" style="padding: 12px 20px; width: 100%;">🎮 JUGAR EN SOLITARIO</button>
+        <button id="btn-defecto" class="btn-inicio" style="padding: 12px 20px; width: 100%; font-size: 1.2em;">🎮 CARGAR BASE DATOS</button>
         
         <hr style="border: 1px solid #444; margin: 25px 0;">
         <p style="color: #aaa; margin-bottom: 10px;">O únete a la batalla:</p>
-        <button id="btn-torneo" class="btn-secundario" style="background: var(--accent); color: #000; width: 100%; padding: 15px; font-size: 1.2em;" onclick="abrirLobbyTorneo()">🏆 CREAR / UNIRSE A TORNEO</button>
+        <button id="btn-torneo" class="btn-inicio" style="background: var(--blue); border-color: transparent; color: #fff; box-shadow: 0 4px 0 #20629c; width: 100%; padding: 15px; font-size: 1.2em;" onclick="abrirLobbyTorneo()">🏆 CREAR / UNIRSE A TORNEO</button>
         
-        <div style="margin-top: 30px; border-top: 1px solid #333; padding-top: 15px;">
-            <p style="font-size: 0.8em; color: #666; text-align: left; margin-bottom: 5px;">Avanzado: Subir tu archivo .json</p>
-            <input type="file" id="archivoInput" accept=".json">
-        </div>
-        <a href="index.html" style="text-decoration:none;"><button style="background:#444; color:white; width:100%; padding:15px; margin-top: 20px;">⬅ Volver al Menú</button></a>
+        <a href="hub_memoria.html" style="text-decoration:none;"><button style="background:#444; color:white; width:100%; padding:15px; margin-top: 20px;">⬅ Volver al Menú</button></a>
     </div>
 
     <div id="lobby-torneo" class="oculto">
@@ -158,27 +157,53 @@
                             <span class="stat-label" id="label-pts">Aciertos</span>
                         </div>
                     </div>
-                    <a id="btn-salir-radar" href="index.html" style="text-decoration:none;"><button style="background:#444; color:white; width:100%; margin-top:20px; padding:10px;">⬅ Menú Principal</button></a>
+                    <a id="btn-salir-radar" href="hub_memoria.html" style="text-decoration:none;"><button style="background:#444; color:white; border:none; border-radius:6px; cursor:pointer; font-weight:bold; width:100%; margin-top:20px; padding:15px; box-shadow: 0 4px 0 #222;">⬅ Salir al Hub</button></a>
                 </div>
             </div>
         </div>
     </div>
 
-    <div id="pantalla-podio" class="oculto">
+    <div id="pantalla-game-over" class="pantalla-fin oculto">
+        <h1 style="color: var(--danger); font-size: 4em; margin-bottom: 0;">TIEMPO AGOTADO</h1>
+        <p style="color: #aaa; font-size: 1.5em; margin-top: 10px;">Fin de la sesión Arcade</p>
+        
+        <div style="background: #111; border: 2px solid #444; padding: 30px; border-radius: 12px; text-align: center; margin-top: 20px; width: 100%; max-width: 400px;">
+            <h2 style="color: #fff; margin-top: 0;">Resumen</h2>
+            <h3 style="color: #888;">Puntos Logrados: <span id="go-score" style="color: var(--accent); font-size: 2em;">0</span></h3>
+        </div>
+
+        <div style="display: flex; gap: 20px; margin-top: 40px; flex-wrap: wrap; justify-content: center; width: 100%;">
+            <button class="btn-siguiente" style="width: auto; min-width: 250px; margin-top: 0;" onclick="location.reload()">🔄 Jugar de Nuevo</button>
+            <button class="btn-siguiente" style="background: #444; box-shadow: 0 4px 0 #222; width: auto; min-width: 250px; margin-top: 0;" onclick="window.location.href='hub_memoria.html'">⬅ Volver al Hub</button>
+        </div>
+    </div>
+
+    <div id="pantalla-podio" class="pantalla-fin oculto">
         <div class="podio-titulo">🏁 TORNEO FINALIZADO 🏁</div>
         <div id="lista-podio" style="width: 100%; display: flex; flex-direction: column; align-items: center;"></div>
         <div style="display: flex; gap: 20px; margin-top: 40px; flex-wrap: wrap; justify-content: center; width: 100%;">
-            <button class="btn-gran-fuego" style="width: auto; min-width: 250px;" onclick="jugarRevancha()">🔄 Jugar Revancha</button>
-            <button class="btn-gran-fuego" style="background: #444; box-shadow: 0 6px 0 #222; width: auto; min-width: 250px;" onclick="location.reload()">⬅ Salir</button>
+            <button class="btn-siguiente" style="background: var(--success); width: auto; min-width: 250px;" onclick="jugarRevancha()">🔄 Jugar Revancha</button>
+            <button class="btn-siguiente" style="background: #444; box-shadow: 0 4px 0 #222; width: auto; min-width: 250px;" onclick="location.reload()">⬅ Salir</button>
         </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
-    <script src="utils.js"></script>
+    <script src="utils.js?v=2"></script>
 
     <script>
+        // ---------------- CEREBRO ARCADE VS ZEN ----------------
+        const urlParams = new URLSearchParams(window.location.search);
+        const modoJuego = urlParams.get('modo') || 'zen'; // 'zen' o 'arcade'
+        const arcTime = parseInt(urlParams.get('time')) || 120;
+        const arcBonus = parseInt(urlParams.get('bonus')) || 5;
+        const arcPenalty = parseInt(urlParams.get('penalty')) || 10;
+
+        let tiempoRestante = arcTime;
+        let globalTimerArcade = null;
+
+        // ---------------- VARIABLES GLOBALES JUEGO ----------------
         let todosLosPuzzles = {}; let puzzleActual = null; let game = new Chess(); let board = null; let tiempoRadar = 3000; let temporizador = null; let casillaObjetivo = "";
         let radaresCompletados = 0; let radaresAciertos = 0;
         let misPuntosLocales = 0; let juegoActivo = false;
@@ -260,6 +285,39 @@
             firebase.database().ref(refSalaTorneo).update({ estado: 'jugando', tiempoFin: tiempoFinal });
         }
 
+        // ---------------- RELOJ ARCADE ----------------
+        function actualizarHUDArcade() {
+            if (modoJuego !== 'arcade' || TorneoManager.enTorneo) return;
+            let m = Math.floor(tiempoRestante / 60);
+            let s = tiempoRestante % 60;
+            let timerEl = document.getElementById('timer-torneo');
+            if (timerEl) {
+                timerEl.innerText = `${m}:${s.toString().padStart(2, '0')}`;
+                if(tiempoRestante <= 10) timerEl.style.color = "var(--danger)";
+                else timerEl.style.color = "var(--accent)";
+            }
+        }
+
+        function tickArcade() {
+            tiempoRestante--;
+            actualizarHUDArcade();
+            if (tiempoRestante <= 0) {
+                gameOverArcade();
+            }
+        }
+
+        function gameOverArcade() {
+            juegoActivo = false;
+            clearInterval(globalTimerArcade);
+            reproducirSonido('fin');
+            document.getElementById('contenedor-juego').classList.add('oculto');
+            document.getElementById('pantalla-game-over').classList.remove('oculto');
+            document.getElementById('go-score').innerText = misPuntosLocales;
+            
+            // Guardamos el récord (puedes usar un campo específico si quieres separar Zen de Arcade)
+            actualizarEstadisticaGlobal('radarAciertos', misPuntosLocales, false);
+        }
+
         // ---------------- JUEGO RADAR ----------------
         function iniciarPantallaJuego(esTorneo, tiempoFinMs = null) {
             juegoActivo = true;
@@ -274,6 +332,7 @@
                 document.getElementById('timer-torneo').classList.remove('oculto');
                 document.getElementById('btn-salir-radar').style.display = 'none';
                 document.getElementById('label-pts').innerText = "Puntos";
+                misPuntosLocales = 0;
                 
                 intervaloTorneo = setInterval(() => {
                     let restante = Math.floor((tiempoFinMs - Date.now()) / 1000);
@@ -284,10 +343,20 @@
                     if(restante <= 10) timerEl.style.color = "var(--danger)"; else timerEl.style.color = "var(--accent)";
                 }, 1000);
             } else {
-                let p = obtenerPerfil();
-                radaresCompletados = p.radarJugados || 0;
-                radaresAciertos = p.radarAciertos || 0;
-                misPuntosLocales = radaresAciertos;
+                if (modoJuego === 'arcade') {
+                    // MODO ARCADE: Iniciar contador
+                    document.getElementById('timer-torneo').classList.remove('oculto');
+                    document.getElementById('label-pts').innerText = "Puntos Arcade";
+                    misPuntosLocales = 0;
+                    actualizarHUDArcade();
+                    globalTimerArcade = setInterval(tickArcade, 1000);
+                } else {
+                    // MODO ZEN: Cargar perfil y estadísticas acumuladas
+                    let p = obtenerPerfil();
+                    radaresCompletados = p.radarJugados || 0;
+                    radaresAciertos = p.radarAciertos || 0;
+                    misPuntosLocales = radaresAciertos;
+                }
             }
             
             document.getElementById('radares-completados').innerText = radaresCompletados;
@@ -392,17 +461,37 @@
                 reproducirSonido('correcto');
                 if (TorneoManager.enTorneo) { misPuntosLocales += 15; TorneoManager.enviarPuntos(misPuntosLocales); } 
                 else if (typeof DueloManager !== 'undefined' && DueloManager.enDuelo) { misPuntosLocales++; DueloManager.enviarPuntos(misPuntosLocales); }
-                else { misPuntosLocales++; actualizarEstadisticaGlobal('radarAciertos', 1, true); registrarXP('medio', true); }
-                
+                else if (modoJuego === 'arcade') {
+                    // Lógica Arcade Acierto
+                    misPuntosLocales += 10;
+                    tiempoRestante += arcBonus;
+                    actualizarHUDArcade();
+                    htmlStatus = `<strong style="color:var(--success); font-size:1.4em;">✅ ¡CORRECTO!</strong><br>Había ${piezasQueTocan} pieza(s).<br><span style="color:var(--green); font-weight:bold;">+10 pts | +${arcBonus}s</span>`;
+                }
+                else { 
+                    // Lógica Zen Acierto
+                    misPuntosLocales++; actualizarEstadisticaGlobal('radarAciertos', 1, true); registrarXP('medio', true); 
+                    htmlStatus = `<strong style="color:var(--success); font-size:1.4em;">✅ ¡CORRECTO!</strong><br>Había ${piezasQueTocan} pieza(s) vigilando la casilla.`;
+                }
                 document.getElementById('radares-aciertos').innerText = misPuntosLocales;
-                htmlStatus = `<strong style="color:var(--success); font-size:1.4em;">✅ ¡CORRECTO!</strong><br>Había ${piezasQueTocan} pieza(s) vigilando la casilla.`;
+                
             } else {
                 reproducirSonido('incorrecto');
                 if (TorneoManager.enTorneo) { misPuntosLocales = Math.max(0, misPuntosLocales - 5); TorneoManager.enviarPuntos(misPuntosLocales); }
-                else if (!DueloManager.enDuelo) registrarXP('medio', false);
-                
+                else if (modoJuego === 'arcade') {
+                    // Lógica Arcade Fallo
+                    tiempoRestante -= arcPenalty;
+                    actualizarHUDArcade();
+                    htmlStatus = `<strong style="color:var(--danger); font-size:1.4em;">❌ FALLO</strong><br>Tú dijiste ${txtRespuesta}, pero hay ${piezasQueTocan}.<br><span style="color:var(--red); font-weight:bold;">-${arcPenalty}s</span>`;
+                    
+                    if (tiempoRestante <= 0) { setTimeout(gameOverArcade, 1000); }
+                }
+                else if (!DueloManager.enDuelo) {
+                    // Lógica Zen Fallo
+                    registrarXP('medio', false);
+                    htmlStatus = `<strong style="color:var(--danger); font-size:1.4em;">❌ FALLO</strong><br>Tú dijiste ${txtRespuesta}, pero hay ${piezasQueTocan} pieza(s) vigilándola.`;
+                }
                 document.getElementById('radares-aciertos').innerText = misPuntosLocales;
-                htmlStatus = `<strong style="color:var(--danger); font-size:1.4em;">❌ FALLO</strong><br>Tú dijiste ${txtRespuesta}, pero hay ${piezasQueTocan} pieza(s) vigilándola.`;
             }
             
             document.getElementById('status').innerHTML = htmlStatus;

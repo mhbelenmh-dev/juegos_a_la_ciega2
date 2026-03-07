@@ -62,7 +62,7 @@
         
         #feedback-result { font-weight: bold; text-align: center; font-size: 1.3em; margin-top: 10px; }
 
-        /* --- ESTILOS MODO TORNEO --- */
+        /* --- ESTILOS MODO TORNEO Y ARCADE --- */
         #pantalla-carga { background: var(--panel-bg); padding: 40px; border-radius: 10px; margin-top: 20px; max-width: 500px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.5); width: 100%;}
         #lobby-torneo { background: var(--panel-bg); padding: 40px; border-radius: 12px; border: 2px solid var(--accent); max-width: 600px; width: 100%; text-align: center; margin-top: 20px; box-shadow: 0 15px 40px rgba(0,0,0,0.8); }
         #codigo-input { background: #111; color: var(--accent); border: 2px dashed #555; font-size: 3em; font-family: 'Courier New', Courier, monospace; text-align: center; width: 200px; padding: 10px; border-radius: 8px; outline: none; margin: 10px 0 20px 0; font-weight: bold;}
@@ -74,17 +74,28 @@
         .rank-pts { font-weight: bold; color: var(--blue); }
         #timer-torneo { font-size: 2.5em; font-family: 'Courier New', monospace; font-weight: bold; color: var(--accent); text-align: center; margin-bottom: 15px; background: #111; padding: 10px; border-radius: 8px; border: 2px solid #333; }
 
-        #pantalla-podio { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(20, 20, 20, 0.98); z-index: 1000; display: flex; flex-direction: column; align-items: center; justify-content: center; overflow-y: auto; padding: 20px; box-sizing: border-box;}
+        /* HUD ARCADE SUPERIOR */
+        #arcade-hud { width: 100%; max-width: 900px; display: flex; justify-content: space-between; align-items: center; background: #111; padding: 15px 30px; border-radius: 8px; border: 2px solid #333; margin-bottom: 20px; box-sizing: border-box; box-shadow: 0 5px 15px rgba(0,0,0,0.5);}
+
+        /* PANTALLAS FINALES */
+        #pantalla-game-over, #pantalla-podio { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(20, 20, 20, 0.98); z-index: 1000; display: flex; flex-direction: column; align-items: center; justify-content: center; overflow-y: auto; padding: 20px; box-sizing: border-box;}
         .podio-titulo { font-size: 4em; color: var(--accent); text-transform: uppercase; margin-bottom: 40px; text-shadow: 0 0 20px rgba(229, 191, 0, 0.5); text-align: center;}
         .podio-fila { display: flex; justify-content: space-between; align-items: center; width: 100%; max-width: 500px; background: #222; padding: 20px; margin-bottom: 10px; border-radius: 8px; font-size: 1.5em; border: 1px solid #444; }
         .podio-oro { border-color: #ffd700; background: rgba(255, 215, 0, 0.1); font-size: 1.8em; font-weight: bold;}
         .podio-plata { border-color: #c0c0c0; background: rgba(192, 192, 192, 0.1); }
         .podio-bronce { border-color: #cd7f32; background: rgba(205, 127, 50, 0.1); }
+
+        .oculto { display: none !important; }
     </style>
 </head>
 <body>
 
-    <h1 id="titulo-carga" style="color: var(--accent);">🧠 Memoria Chess Pro</h1>
+    <h1 id="titulo-carga" style="color: var(--accent); margin-bottom: 5px;">🧠 Memoria Chess Pro</h1>
+
+    <div id="arcade-hud" class="oculto">
+        <div style="font-size: 1.5em; font-weight: bold; color: var(--blue);">Puntos: <span id="hud-pts" style="color:#fff;">0</span></div>
+        <div id="hud-time" style="font-size: 2em; font-family: 'Courier New', monospace; font-weight: bold; color: var(--accent);">⏱️ 02:00</div>
+    </div>
 
     <div id="pantalla-carga">
         <button class="btn-azul" style="width: 100%; padding: 15px; font-size: 1.2em;" onclick="iniciarPantallaJuego(false)">🎮 JUGAR EN SOLITARIO</button>
@@ -95,7 +106,7 @@
             <p style="font-size: 0.8em; color: #666; text-align: left; margin-bottom: 5px;">Avanzado: Subir tu archivo .json</p>
             <input type="file" id="archivoInput" accept=".json">
         </div>
-        <a href="index.html" style="text-decoration:none;"><button style="background:#444; color:white; width:100%; padding:15px; margin-top: 20px;">⬅ Volver al Menú</button></a>
+        <a href="hub_memoria.html" style="text-decoration:none;"><button style="background:#444; color:white; width:100%; padding:15px; margin-top: 20px;">⬅ Volver al Menú</button></a>
     </div>
 
     <div id="lobby-torneo" class="oculto">
@@ -171,10 +182,25 @@
                 </div>
                 <div id="feedback-result"></div>
                 <button id="btn-siguiente" class="btn-verde oculto" onclick="siguienteRonda()">SIGUIENTE PUZZLE ➡</button>
-                <a id="btn-volver-layout" href="index.html" style="text-decoration:none; width:100%;">
-                    <button style="background:#444; color:white; width:100%; margin-top:10px; padding:15px; box-shadow: 0 4px 0 #222;">⬅ Menú Principal</button>
+                <a id="btn-volver-layout" href="hub_memoria.html" style="text-decoration:none; width:100%;">
+                    <button style="background:#444; color:white; width:100%; margin-top:10px; padding:15px; box-shadow: 0 4px 0 #222; border:none; border-radius:6px; font-weight:bold; cursor:pointer;">⬅ Volver al Hub</button>
                 </a>
             </div>
+        </div>
+    </div>
+
+    <div id="pantalla-game-over" class="pantalla-fin oculto">
+        <h1 style="color: var(--danger); font-size: 4em; margin-bottom: 0;">TIEMPO AGOTADO</h1>
+        <p style="color: #aaa; font-size: 1.5em; margin-top: 10px;">Fin de la sesión Arcade</p>
+        
+        <div style="background: #111; border: 2px solid #444; padding: 30px; border-radius: 12px; text-align: center; margin-top: 20px; width: 100%; max-width: 400px;">
+            <h2 style="color: #fff; margin-top: 0;">Resumen</h2>
+            <h3 style="color: #888;">Puntos Logrados: <span id="go-score" style="color: var(--accent); font-size: 2em;">0</span></h3>
+        </div>
+
+        <div style="display: flex; gap: 20px; margin-top: 40px; flex-wrap: wrap; justify-content: center; width: 100%;">
+            <button class="btn-verde" style="width: auto; min-width: 250px; margin-top: 0;" onclick="location.reload()">🔄 Jugar de Nuevo</button>
+            <button class="btn-verde" style="background: #444; box-shadow: 0 4px 0 #222; width: auto; min-width: 250px; margin-top: 0;" onclick="window.location.href='hub_memoria.html'">⬅ Volver al Hub</button>
         </div>
     </div>
 
@@ -190,9 +216,19 @@
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.2/chess.js"></script>
-    <script src="utils.js"></script>
+    <script src="utils.js?v=2"></script>
 
     <script>
+        // ---------------- CEREBRO ARCADE VS ZEN ----------------
+        const urlParams = new URLSearchParams(window.location.search);
+        const modoJuego = urlParams.get('modo') || 'zen';
+        const arcTime = parseInt(urlParams.get('time')) || 120;
+        const arcBonus = parseInt(urlParams.get('bonus')) || 5;
+        const arcPenalty = parseInt(urlParams.get('penalty')) || 10;
+
+        let tiempoRestante = arcTime;
+        let globalTimerArcade = null;
+
         let todosLosPuzzles = {}, puzzleActual = null, game = new Chess(), board = null, userBoard = null;
         let tiempoObservacion = 5000, temporizador = null, intervaloNum = null;
         let contadorPuzzles = 0, misPuntosLocales = 0, juegoActivo = false;
@@ -203,8 +239,45 @@
 
         inicializarCargaBaseDatos('mis_puzzles.json', 'btn-defecto', 'archivoInput', function(data) {
             todosLosPuzzles = data; 
-            if (!TorneoManager.enTorneo && !DueloManager.enDuelo) { document.getElementById('titulo-carga').innerText = "✅ Base Cargada"; }
+            if (!TorneoManager.enTorneo && !DueloManager.enDuelo) { 
+                document.getElementById('titulo-carga').innerText = "✅ Base Cargada"; 
+                if (modoJuego !== 'zen') {
+                    // Auto-arranque si es Arcade Solitario
+                    iniciarPantallaJuego(false);
+                }
+            }
         });
+
+        // ---------------- RELOJ ARCADE ----------------
+        function actualizarHUDArcade() {
+            if (modoJuego !== 'arcade' || TorneoManager.enTorneo) return;
+            let m = Math.floor(tiempoRestante / 60);
+            let s = tiempoRestante % 60;
+            let timerEl = document.getElementById('hud-time');
+            if (timerEl) {
+                timerEl.innerText = `⏱️ ${m}:${s.toString().padStart(2, '0')}`;
+                if(tiempoRestante <= 10) timerEl.style.color = "var(--danger)";
+                else timerEl.style.color = "var(--accent)";
+            }
+            document.getElementById('hud-pts').innerText = misPuntosLocales;
+        }
+
+        function tickArcade() {
+            tiempoRestante--;
+            actualizarHUDArcade();
+            if (tiempoRestante <= 0) { gameOverArcade(); }
+        }
+
+        function gameOverArcade() {
+            juegoActivo = false;
+            clearInterval(globalTimerArcade);
+            reproducirSonido('fin');
+            document.getElementById('main-layout').classList.add('oculto');
+            document.getElementById('arcade-hud').classList.add('oculto');
+            document.getElementById('pantalla-game-over').classList.remove('oculto');
+            document.getElementById('go-score').innerText = misPuntosLocales;
+            actualizarEstadisticaGlobal('memoriaAciertos', misPuntosLocales, false);
+        }
 
         // ---------------- TORNEO LOBBY ----------------
         function abrirLobbyTorneo() {
@@ -276,12 +349,13 @@
             firebase.database().ref(refSalaTorneo).update({ estado: 'jugando', tiempoFin: tiempoFinal });
         }
 
-        // ---------------- JUEGO MEMORIA ----------------
+        // ---------------- JUEGO MEMORIA PRO ----------------
         function iniciarPantallaJuego(esTorneo, tiempoFinMs = null) {
             juegoActivo = true;
             document.getElementById('pantalla-carga').classList.add('oculto');
             document.getElementById('lobby-torneo').classList.add('oculto');
             document.getElementById('main-layout').classList.remove('oculto');
+            document.getElementById('titulo-carga').style.display = 'none';
             
             const config = { pieceTheme: 'https://chessboardjs.com/img/chesspieces/wikipedia/{piece}.png', position: 'clear' };
             board = Chessboard('tablero', config);
@@ -304,9 +378,16 @@
                 }, 1000);
                 setTimeout(() => { document.getElementById('btn-comenzar').click(); }, 1500);
             } else {
-                let p = obtenerPerfil();
-                contadorPuzzles = p.memoriaJugados || 0;
-                misPuntosLocales = p.memoriaAciertos || 0;
+                if (modoJuego === 'arcade') {
+                    document.getElementById('arcade-hud').classList.remove('oculto');
+                    misPuntosLocales = 0;
+                    actualizarHUDArcade();
+                    globalTimerArcade = setInterval(tickArcade, 1000);
+                } else {
+                    let p = obtenerPerfil();
+                    contadorPuzzles = p.memoriaJugados || 0;
+                    misPuntosLocales = p.memoriaAciertos || 0;
+                }
             }
             
             document.getElementById('puzzles-vistos').innerText = contadorPuzzles;
@@ -382,25 +463,18 @@
             box.innerHTML = piezasDetectadas.map(p => `<span class="preview-tag ${p.color === 'w' ? 'tag-white' : 'tag-black'}">${p.pieza.toUpperCase()}${p.casilla}</span>`).join('');
         }
 
-        // LÓGICA DE PUNTUACIÓN PRO (Precisión por pieza)
         function comprobarAutomatico() {
             if (!juegoActivo) return;
             const piezasDetectadas = parsearEntrada(); 
             const realPieces = new Chess(puzzleActual.fen);
             
-            let totalPiezasReal = 0;
-            let aciertos = 0;
-            let fallos = 0;
+            let totalPiezasReal = 0; let aciertos = 0; let fallos = 0;
 
             let casillasOcupadasUser = new Set();
             piezasDetectadas.forEach(p => {
                 casillasOcupadasUser.add(p.casilla);
                 let piezaReal = realPieces.get(p.casilla);
-                if (piezaReal && piezaReal.type === p.pieza && piezaReal.color === p.color) {
-                    aciertos++;
-                } else {
-                    fallos++;
-                }
+                if (piezaReal && piezaReal.type === p.pieza && piezaReal.color === p.color) { aciertos++; } else { fallos++; }
             });
 
             const columnas = ['a','b','c','d','e','f','g','h'];
@@ -408,44 +482,49 @@
                 for (let f = 1; f <= 8; f++) {
                     let cas = c + f;
                     let pReal = realPieces.get(cas);
-                    if (pReal) {
-                        totalPiezasReal++;
-                        if (!casillasOcupadasUser.has(cas)) {
-                            fallos++; // Pieza que el usuario no ha puesto
-                        }
-                    }
+                    if (pReal) { totalPiezasReal++; if (!casillasOcupadasUser.has(cas)) { fallos++; } }
                 }
             }
 
             let puntosRonda = (aciertos * 5) - (fallos * 2);
             let esPerfecto = (aciertos === totalPiezasReal && fallos === 0);
 
-            if (esPerfecto) {
-                puntosRonda += 15; // Bonus Perfecto
-            }
+            if (esPerfecto) puntosRonda += 15; 
             if (puntosRonda < 0) puntosRonda = 0;
             
             misPuntosLocales += puntosRonda;
             contadorPuzzles++; 
 
             const feedback = document.getElementById('feedback-result');
-            if (esPerfecto) {
-                reproducirSonido('correcto');
-                feedback.innerHTML = `<span style="color:var(--success)">¡POSICIÓN EXACTA! +${puntosRonda} pts</span>`;
+            
+            // LOGICA ARCADE VS ZEN
+            if (modoJuego === 'arcade' && !TorneoManager.enTorneo && !DueloManager.enDuelo) {
+                if (esPerfecto) {
+                    tiempoRestante += arcBonus;
+                    reproducirSonido('correcto');
+                    feedback.innerHTML = `<span style="color:var(--success)">¡POSICIÓN EXACTA! +${puntosRonda} pts</span><br><span style="color:var(--success); font-size: 0.7em;">+${arcBonus} segundos</span>`;
+                } else {
+                    tiempoRestante -= arcPenalty;
+                    reproducirSonido('incorrecto');
+                    feedback.innerHTML = `<span style="color:var(--danger)">Has acertado ${aciertos} de ${totalPiezasReal} piezas. +${puntosRonda} pts</span><br><span style="color:var(--danger); font-size: 0.7em;">-${arcPenalty} segundos</span>`;
+                    if (tiempoRestante <= 0) setTimeout(gameOverArcade, 1500);
+                }
+                actualizarHUDArcade();
             } else {
-                reproducirSonido('incorrecto');
-                feedback.innerHTML = `<span style="color:var(--danger)">Has acertado ${aciertos} de ${totalPiezasReal} piezas. +${puntosRonda} pts</span>`;
+                // Modo Zen o Torneo
+                if (esPerfecto) {
+                    reproducirSonido('correcto');
+                    feedback.innerHTML = `<span style="color:var(--success)">¡POSICIÓN EXACTA! +${puntosRonda} pts</span>`;
+                } else {
+                    reproducirSonido('incorrecto');
+                    feedback.innerHTML = `<span style="color:var(--danger)">Has acertado ${aciertos} de ${totalPiezasReal} piezas. +${puntosRonda} pts</span>`;
+                }
             }
 
-            // Distribuir Puntos según Modo
-            if (TorneoManager.enTorneo) {
-                TorneoManager.enviarPuntos(misPuntosLocales);
-            } else if (typeof DueloManager !== 'undefined' && DueloManager.enDuelo) {
-                DueloManager.enviarPuntos(misPuntosLocales);
-            } else {
-                actualizarEstadisticaGlobal('memoriaAciertos', puntosRonda, true);
-                registrarXP('avanzado', esPerfecto);
-            }
+            // Distribuir Puntos
+            if (TorneoManager.enTorneo) { TorneoManager.enviarPuntos(misPuntosLocales); } 
+            else if (typeof DueloManager !== 'undefined' && DueloManager.enDuelo) { DueloManager.enviarPuntos(misPuntosLocales); } 
+            else if (modoJuego === 'zen') { actualizarEstadisticaGlobal('memoriaAciertos', puntosRonda, true); registrarXP('avanzado', esPerfecto); }
 
             document.getElementById('user-board-box').classList.remove('oculto');
             let tempGame = new Chess(); tempGame.clear();

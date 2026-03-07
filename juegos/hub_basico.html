@@ -7,6 +7,10 @@
     <title>Chess Gym - Dominio Geográfico</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>♞</text></svg>">
 
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+
     <style>
         :root {
             --bg: #1a1917;
@@ -28,105 +32,130 @@
             min-height: 100vh;
         }
 
-        /* HEADER */
+        /* HEADER UNIFICADO */
         #top-bar {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 70px;
+            position: fixed; top: 0; left: 0; width: 100%; height: 70px;
             background: #000; border-bottom: 1px solid #333;
             display: flex; align-items: center; justify-content: space-between;
             padding: 0 30px; box-sizing: border-box; z-index: 100;
         }
-        #brand-logo { margin: 0; font-size: 1.8em; color: var(--accent); letter-spacing: 1px; text-shadow: 2px 2px 0px rgba(0,0,0,0.5); text-decoration: none; }
-        
+
+        #brand-logo { margin: 0; font-size: 1.8em; color: var(--accent); letter-spacing: 1px; text-shadow: 2px 2px 0px rgba(0,0,0,0.5); text-decoration: none;}
+
         #nav-menu { display: flex; gap: 25px; align-items: center; }
-        .nav-link { color: var(--green); text-decoration: none; font-weight: bold; font-size: 1.1em; text-transform: uppercase; letter-spacing: 1px; transition: 0.2s; padding: 5px 10px; border-radius: 5px; }
+        .nav-link { color: var(--green); text-decoration: none; font-weight: bold; font-size: 1.1em; text-transform: uppercase; letter-spacing: 1px; transition: 0.2s; padding: 5px 10px; border-radius: 5px; white-space: nowrap; }
         .nav-link:hover { color: #fff; background: rgba(98, 153, 36, 0.2); transform: scale(1.05); }
 
-        /* CONTENIDO DEL HUB */
+        /* CONTENIDO PRINCIPAL */
         #hub-container {
             margin-top: 100px;
             display: flex;
             flex-direction: column;
             align-items: center;
             padding: 20px;
-            gap: 30px;
+            width: 100%;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+            box-sizing: border-box;
         }
 
-        .hub-title { color: #fff; font-size: 3em; margin: 0; text-transform: uppercase; letter-spacing: 2px; text-shadow: 0 4px 10px rgba(0,0,0,0.8);}
-        .hub-subtitle { color: var(--green); font-size: 1.2em; margin-top: 5px; font-weight: bold;}
+        .hub-header { text-align: center; margin-bottom: 40px; }
+        .hub-title { color: #fff; font-size: 3em; margin: 0; text-transform: uppercase; letter-spacing: 2px; text-shadow: 0 4px 10px rgba(0,0,0,0.5); }
+        .hub-subtitle { color: var(--blue); font-size: 1.2em; margin-top: 10px; font-weight: bold; }
 
-        .config-section {
+        /* DOS COLUMNAS DE MODO DE JUEGO */
+        .modos-layout {
+            display: flex;
+            gap: 30px;
+            width: 100%;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: stretch;
+        }
+
+        .modo-card {
             background: var(--panel);
             border: 1px solid #444;
             border-radius: 12px;
             padding: 30px;
-            max-width: 900px;
             width: 100%;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            max-width: 500px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.6);
+            display: flex;
+            flex-direction: column;
+            box-sizing: border-box;
         }
 
-        .category-title {
-            color: var(--accent);
-            font-size: 1.2em;
-            text-transform: uppercase;
-            margin-bottom: 15px;
-            border-bottom: 2px solid #333;
-            padding-bottom: 5px;
-        }
+        .modo-card.zen { border-top: 4px solid var(--blue); }
+        .modo-card.arcade { border-top: 4px solid var(--accent); }
 
-        .options-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 15px;
-            margin-bottom: 30px;
-        }
+        .modo-title { font-size: 2em; font-weight: bold; margin-top: 0; display: flex; align-items: center; gap: 10px;}
+        .zen-title { color: var(--blue); }
+        .arcade-title { color: var(--accent); }
 
-        .option-card {
-            background: #1a1917;
-            border: 2px solid #444;
-            border-radius: 8px;
-            padding: 25px 20px;
-            text-align: center;
-            cursor: pointer;
-            transition: 0.2s;
-            user-select: none;
-        }
+        .modo-desc { color: #aaa; font-size: 1.1em; line-height: 1.5; margin-bottom: 25px; flex-grow: 1;}
 
-        .option-card:hover { border-color: #888; transform: translateY(-3px); }
-        .option-card.selected { border-color: var(--green); background: rgba(98, 153, 36, 0.1); box-shadow: 0 0 15px rgba(98, 153, 36, 0.3); }
+        /* CONFIGURADORES DENTRO DE ARCADE */
+        .config-grupo { background: #1a1917; padding: 15px; border-radius: 8px; border: 1px solid #333; margin-bottom: 20px;}
+        .config-grupo h3 { margin-top: 0; color: #fff; font-size: 1.1em; border-bottom: 1px solid #333; padding-bottom: 8px; margin-bottom: 15px;}
         
-        .option-icon { font-size: 3em; margin-bottom: 10px; display: block; text-shadow: 2px 2px 0 #000; }
-        .option-name { font-weight: bold; color: #fff; font-size: 1.2em; text-transform: uppercase; margin-bottom: 5px; }
-        .option-desc { font-size: 0.95em; color: #888; line-height: 1.4; }
-
-        /* CAJA DE EXPLICACIÓN */
-        #info-box {
+        .config-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;}
+        
+        /* CAJAS DE NÚMEROS LIBRES */
+        input.num-mini {
+            width: 70px;
+            padding: 8px;
             background: #111;
-            border-left: 5px solid var(--accent);
-            padding: 20px;
-            border-radius: 0 8px 8px 0;
-            font-size: 1.1em;
-            line-height: 1.5;
-            color: #ddd;
-            margin-bottom: 30px;
-        }
-
-        .btn-empezar {
-            background: var(--blue);
-            color: white;
-            font-size: 1.8em;
+            color: #fff;
+            border: 1px solid #555;
+            border-radius: 6px;
+            font-size: 1em;
+            outline: none;
+            text-align: center;
+            transition: 0.2s;
+            font-family: 'Consolas', monospace;
             font-weight: bold;
-            padding: 20px;
+        }
+        input.num-mini:focus { border-color: var(--accent); box-shadow: 0 0 10px rgba(229, 191, 0, 0.3); }
+        .num-verde { border-color: var(--green) !important; color: var(--green) !important; }
+        .num-rojo { border-color: var(--red) !important; color: #ff6666 !important; }
+
+        /* CUADRÍCULA DE ACIERTOS Y FALLOS */
+        .config-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 12px;
+            align-items: center;
+        }
+        .grid-header { font-size: 0.85em; text-transform: uppercase; font-weight: bold; text-align: center; margin-bottom: 5px;}
+        .grid-label { color: #ccc; font-weight: bold; font-size: 0.9em; }
+
+        /* BOTONES */
+        .btn-jugar {
             width: 100%;
+            color: white;
             border: none;
+            padding: 20px;
+            font-size: 1.4em;
+            font-weight: bold;
             border-radius: 8px;
             cursor: pointer;
-            box-shadow: 0 6px 0 #20629c;
-            text-transform: uppercase;
             transition: 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: auto;
         }
-        .btn-empezar:hover { filter: brightness(1.1); transform: translateY(-2px); box-shadow: 0 8px 0 #20629c; }
-        .btn-empezar:active { transform: translateY(4px); box-shadow: 0 2px 0 #20629c; }
+        .btn-zen { background: var(--blue); box-shadow: 0 6px 0 #20629c; }
+        .btn-zen:hover { filter: brightness(1.2); transform: translateY(-2px); box-shadow: 0 8px 0 #20629c; }
+        .btn-zen:active { transform: translateY(4px); box-shadow: 0 2px 0 #20629c; }
+
+        .btn-arcade { background: var(--accent); color: #000; box-shadow: 0 6px 0 #b39500; }
+        .btn-arcade:hover { filter: brightness(1.1); transform: translateY(-2px); box-shadow: 0 8px 0 #b39500; }
+        .btn-arcade:active { transform: translateY(4px); box-shadow: 0 2px 0 #b39500; }
+
+        .record-box { text-align: center; margin-top: 15px; color: #888; font-size: 1em; font-weight: bold;}
+        .record-val { color: var(--accent); font-size: 1.3em;}
 
     </style>
 </head>
@@ -134,91 +163,115 @@
 <body>
 
     <div id="top-bar">
-        <a id="brand-logo" href="index.html">♞ CHESS GYM</a>
+        <a href="index.html" id="brand-logo">♞ CHESS GYM</a>
         <div id="nav-menu">
             <a href="hub_basico.html" class="nav-link" style="color: #fff; border-bottom: 2px solid var(--accent);">DOMINIO GEOGRÁFICO</a>
             <a href="hub_memoria.html" class="nav-link">MEMORIA</a>
-            <a href="hub_tactica.html" class="nav-link">Central Táctica</a>
+            <a href="hub_tactica.html" class="nav-link">TÁCTICA</a>
+            <a href="analisis.html" class="nav-link">TABLERO ANÁLISIS</a>
+            <a href="baul.html" class="nav-link">📦 BAÚL</a>
         </div>
-        <div style="width: 150px;"></div> </div>
-
-    <div id="hub-container">
-        
-        <div style="text-align: center;">
-            <h1 class="hub-title">🌍 Dominio Geográfico</h1>
-            <p class="hub-subtitle">Aprende a caminar a oscuras por el tablero</p>
-        </div>
-
-        <div class="config-section">
-            
-            <div class="category-title">Selecciona tu Modalidad</div>
-            <div class="options-grid" id="grid-modo">
-                
-                <div class="option-card selected" onclick="seleccionar('practica', this)">
-                    <span class="option-icon">🏋️</span>
-                    <div class="option-name">Taller Técnico</div>
-                    <div class="option-desc">Sin tiempo. Elige el ejercicio que quieras repasar a tu ritmo. Ideal para calentar.</div>
-                </div>
-                
-                <div class="option-card" onclick="seleccionar('arcade', this)">
-                    <span class="option-icon">⏱️</span>
-                    <div class="option-name">Reflejos Arcade</div>
-                    <div class="option-desc">El reto definitivo. 120 segundos, ejercicios aleatorios y multiplicador de rachas.</div>
-                </div>
-
-            </div>
-
-            <div id="info-box">
-                <strong>💡 Objetivo del entrenamiento:</strong><br>
-                <span id="texto-resumen">Entrarás al Gimnasio Base. Podrás elegir entre identificar el color de las casillas, trazar diagonales o calcular la ruta del caballo paso a paso. No hay presión de tiempo, concéntrate en la precisión.</span>
-            </div>
-
-            <button class="btn-empezar" id="btn-accion" onclick="iniciarEntrenamiento()">ENTRAR AL TALLER</button>
-
+        <div style="display: flex; align-items: center; gap: 15px;">
+            <button onclick="window.location.href='index.html'" style="background: #444; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: bold;">⬅ Volver</button>
         </div>
     </div>
 
+    <div id="hub-container">
+        
+        <div class="hub-header">
+            <h1 class="hub-title">🌍 Dominio Geográfico</h1>
+            <div class="hub-subtitle">Aprende el tablero a ciegas o pon a prueba tu velocidad.</div>
+        </div>
+
+        <div class="modos-layout">
+            
+            <div class="modo-card zen">
+                <h2 class="modo-title zen-title">🧘 Entrenamiento Libre</h2>
+                <div class="modo-desc">
+                    El gimnasio mental perfecto. Sin tiempo, sin penalizaciones, sin presión.<br><br>
+                    Pasea por los 4 ejercicios a tu propio ritmo para forjar tu visión del tablero y visualizar rutas complejas.
+                </div>
+                <button class="btn-jugar btn-zen" onclick="window.location.href='entrenamiento_ciego.html'">📘 IR A ESTUDIAR</button>
+            </div>
+
+            <div class="modo-card arcade">
+                <h2 class="modo-title arcade-title">⚡ Desafío Arcade</h2>
+                <div class="modo-desc" style="margin-bottom: 15px;">
+                    Crea tus propias reglas. Elige cuánto tiempo ganas o pierdes en cada ejercicio y sobrevive al reloj.
+                </div>
+
+                <div class="config-grupo">
+                    <h3>⏱️ Reloj Principal</h3>
+                    <div class="config-item">
+                        <label style="color: #ccc; font-weight: bold;">Tiempo Inicial (segundos):</label>
+                        <input type="number" id="config-t-init" class="num-mini" value="120" min="10" max="3600">
+                    </div>
+                </div>
+
+                <div class="config-grupo">
+                    <h3>⚖️ Ajustes por Ejercicio (Segundos)</h3>
+                    
+                    <div class="config-grid">
+                        <div></div>
+                        <div class="grid-header" style="color: var(--green);">Acierto (+)</div>
+                        <div class="grid-header" style="color: var(--red);">Fallo (-)</div>
+
+                        <div class="grid-label">1. Color de Casilla:</div>
+                        <input type="number" id="c-b1" class="num-mini num-verde" value="2" min="0">
+                        <input type="number" id="c-p1" class="num-mini num-rojo" value="5" min="0">
+
+                        <div class="grid-label">2. Diagonales:</div>
+                        <input type="number" id="c-b2" class="num-mini num-verde" value="5" min="0">
+                        <input type="number" id="c-p2" class="num-mini num-rojo" value="10" min="0">
+
+                        <div class="grid-label">3. Caballo Libre:</div>
+                        <input type="number" id="c-b3" class="num-mini num-verde" value="10" min="0">
+                        <input type="number" id="c-p3" class="num-mini num-rojo" value="15" min="0">
+
+                        <div class="grid-label">4. Caballo vs Enemigo:</div>
+                        <input type="number" id="c-b4" class="num-mini num-verde" value="15" min="0">
+                        <input type="number" id="c-p4" class="num-mini num-rojo" value="20" min="0">
+                    </div>
+                </div>
+
+                <button class="btn-jugar btn-arcade" onclick="iniciarArcade()">🔥 JUGAR ARCADE</button>
+                <div class="record-box">Récord Local: <span id="best-arcade" class="record-val">0</span> pts</div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script src="utils.js?v=2"></script>
     <script>
-        let modoSeleccionado = 'practica';
-
-        function seleccionar(valor, elemento) {
-            modoSeleccionado = valor;
-
-            let tarjetas = document.getElementsByClassName('option-card');
-            for(let i = 0; i < tarjetas.length; i++) {
-                tarjetas[i].classList.remove('selected');
+        window.onload = () => {
+            if (typeof obtenerPerfil === 'function') {
+                let p = obtenerPerfil();
+                if (p.arcadeGlobalMax !== undefined) {
+                    document.getElementById('best-arcade').innerText = p.arcadeGlobalMax;
+                }
             }
+        };
 
-            elemento.classList.add('selected');
-            actualizarResumen();
-        }
+        // Recoge todas las opciones y monta la URL hacia el arcade
+        function iniciarArcade() {
+            let tInit = document.getElementById('config-t-init').value || 120;
+            
+            let b1 = document.getElementById('c-b1').value || 0;
+            let p1 = document.getElementById('c-p1').value || 0;
+            
+            let b2 = document.getElementById('c-b2').value || 0;
+            let p2 = document.getElementById('c-p2').value || 0;
+            
+            let b3 = document.getElementById('c-b3').value || 0;
+            let p3 = document.getElementById('c-p3').value || 0;
+            
+            let b4 = document.getElementById('c-b4').value || 0;
+            let p4 = document.getElementById('c-p4').value || 0;
+            
+            let query = `?time=${tInit}&b1=${b1}&p1=${p1}&b2=${b2}&p2=${p2}&b3=${b3}&p3=${p3}&b4=${b4}&p4=${p4}`;
 
-        function actualizarResumen() {
-            let texto = "";
-            let btn = document.getElementById('btn-accion');
-
-            if (modoSeleccionado === 'practica') {
-                texto = "Entrarás al Gimnasio Base. Podrás elegir entre identificar el color de las casillas, trazar diagonales o calcular la ruta del caballo paso a paso. No hay presión de tiempo, concéntrate en la precisión.";
-                btn.innerText = "ENTRAR AL TALLER";
-                btn.style.background = "var(--blue)";
-                btn.style.boxShadow = "0 6px 0 #20629c";
-            } else {
-                texto = "Prepárate para sudar. Tienes 120 segundos para resolver todos los ejercicios geográficos que puedas. La IA mezclará colores, diagonales y caballos para confundirte. ¡Acierta rápido para aumentar el combo!";
-                btn.innerText = "🔥 INICIAR MODO ARCADE 🔥";
-                btn.style.background = "var(--red)";
-                btn.style.boxShadow = "0 6px 0 #8a1f1f";
-            }
-
-            document.getElementById('texto-resumen').innerHTML = texto;
-        }
-
-        function iniciarEntrenamiento() {
-            // Este Hub actúa como un "router" limpio hacia los juegos ya programados
-            if (modoSeleccionado === 'practica') {
-                window.location.href = 'entrenamiento_ciego.html';
-            } else {
-                window.location.href = 'arcade_ciego.html';
-            }
+            window.location.href = 'arcade_ciego.html' + query; 
         }
     </script>
 </body>
