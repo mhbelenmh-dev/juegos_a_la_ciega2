@@ -80,9 +80,9 @@
         <div id="hud-time" style="font-size: 2em; font-family: 'Courier New', monospace; font-weight: bold; color: var(--accent);">⏱️ 02:00</div>
     </div>
 
-    <div id="pantalla-carga" class="active">
+    <div id="pantalla-carga">
         <h2 style="color: var(--text); margin-top: 0;">Configuración</h2>
-        <div id="opciones-juego" class="oculto" style="width: 100%;">
+        <div id="opciones-juego" style="width: 100%;">
             <p style="color: var(--accent); font-weight: bold; margin-bottom: 5px;">Profundidad de lectura (Solo PVE):</p>
             <select id="move-count">
                 <option value="10">10 Jugadas</option>
@@ -91,7 +91,7 @@
             </select>
         </div>
         
-        <button class="btn" style="padding: 15px; margin-top:10px;" onclick="iniciarModoSolitario()">🎮 JUGAR EN SOLITARIO</button>
+        <button id="btn-defecto" class="btn" style="padding: 15px; margin-top:10px;">🎮 JUGAR EN SOLITARIO</button>
         <hr style="border: 1px solid #444; margin: 25px 0; width:100%;">
         <button id="btn-torneo" class="btn" style="background: var(--accent); color: #000; padding: 15px; margin-top:0;" onclick="abrirLobbyTorneo()">🏆 CREAR / UNIRSE A TORNEO</button>
         
@@ -208,15 +208,25 @@
 
         let refSalaTorneo = null; let intervaloTorneo = null;
 
-        inicializarCargaBaseDatos('visualizacion.json', null, 'archivoInput', function(data) {
-            partidas = data; 
-            document.getElementById('opciones-juego').classList.remove('oculto');
-            
-            // Auto-arranque si vienes del modo Arcade directamente
+        // Auto-arranque limpio si vienes del Hub en modo Arcade
+        window.onload = () => {
             if (modoJuego === 'arcade' && !TorneoManager.enTorneo && !DueloManager.enDuelo) {
+                document.getElementById('pantalla-carga').classList.add('oculto');
                 jugadasMeta = 10; // Fijamos a 10 en Arcade para dar agilidad
-                iniciarPantallaJuego(false);
+                fetch('visualizacion.json')
+                    .then(r => r.json())
+                    .then(data => {
+                        partidas = data;
+                        iniciarPantallaJuego(false);
+                    })
+                    .catch(e => alert("Error cargando la base visualizacion.json"));
             }
+        };
+
+        // CORRECCIÓN APLICADA: Ocultamos el panel correctamente al iniciar
+        inicializarCargaBaseDatos('visualizacion.json', 'btn-defecto', 'archivoInput', function(data) {
+            partidas = data; 
+            iniciarPantallaJuego(false);
         });
 
         // ---------------- RELOJ ARCADE ----------------
@@ -262,7 +272,7 @@
         }
 
         function ejecutarLobby() {
-            document.getElementById('pantalla-carga').classList.remove('active');
+            document.getElementById('pantalla-carga').classList.add('oculto'); // APLICADO: Aseguramos que se oculta
             document.getElementById('lobby-torneo').classList.remove('oculto');
             document.getElementById('main-title').style.display = 'none';
             let codigoRandom = Math.floor(1000 + Math.random() * 9000).toString();
@@ -322,14 +332,9 @@
         }
 
         // ---------------- JUEGO LECTURA PGN ----------------
-        function iniciarModoSolitario() {
-            if (partidas.length === 0) { alert("Carga la base de datos primero."); return; }
-            iniciarPantallaJuego(false);
-        }
-
         function iniciarPantallaJuego(esTorneo, tiempoFinMs = null) {
             juegoActivo = true;
-            document.getElementById('pantalla-carga').classList.remove('active');
+            document.getElementById('pantalla-carga').classList.add('oculto'); // APLICADO: Oculta la pantalla de configuración
             document.getElementById('lobby-torneo').classList.add('oculto');
             
             if (esTorneo) {
@@ -356,9 +361,11 @@
                     misPuntosLocales = 0;
                     actualizarHUDArcade();
                     globalTimerArcade = setInterval(tickArcade, 1000);
-                    jugadasMeta = 10;
+                    jugadasMeta = parseInt(document.getElementById('move-count').value) || 10;
                 } else {
-                    jugadasMeta = parseInt(document.getElementById('move-count').value);
+                    // Si viene del modo Zen coge la profundidad del select
+                    let selectProfundidad = document.getElementById('move-count');
+                    if(selectProfundidad) jugadasMeta = parseInt(selectProfundidad.value) || 15;
                 }
             }
             

@@ -14,7 +14,7 @@
         :root { --bg: #1a1917; --panel: #262421; --accent: #e5bf00; --blue: #3692e7; --green: #629924; --red: #cc3333; --text: #bababa; }
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--bg); color: var(--text); margin: 0; display: flex; flex-direction: column; min-height: 100vh; }
 
-        /* HEADER */
+        /* HEADER UNIFICADO */
         #top-bar { position: fixed; top: 0; left: 0; width: 100%; height: 70px; background: #000; border-bottom: 1px solid #333; display: flex; align-items: center; justify-content: space-between; padding: 0 30px; box-sizing: border-box; z-index: 100; }
         #brand-logo { margin: 0; font-size: 1.8em; color: var(--accent); letter-spacing: 1px; text-shadow: 2px 2px 0px rgba(0,0,0,0.5); text-decoration: none; }
         #nav-menu { display: flex; gap: 25px; align-items: center; }
@@ -52,14 +52,17 @@
 <body>
 
     <div id="top-bar">
-        <a id="brand-logo" href="index.html">♞ CHESS GYM</a>
+        <a href="index.html" id="brand-logo">♞ CHESS GYM</a>
         <div id="nav-menu">
             <a href="hub_basico.html" class="nav-link">DOMINIO GEOGRÁFICO</a>
             <a href="hub_memoria.html" class="nav-link">MEMORIA</a>
             <a href="hub_tactica.html" class="nav-link">TÁCTICA</a>
             <a href="analisis.html" class="nav-link" style="color: #fff; border-bottom: 2px solid var(--accent);">TABLERO ANÁLISIS</a>
+            <a href="baul.html" class="nav-link">📦 BAÚL</a>
         </div>
-        <div style="width: 150px;"></div> 
+        <div style="display: flex; align-items: center; gap: 15px;">
+            <button onclick="window.location.href='index.html'" style="background: #444; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; transition: 0.2s;" onmouseover="this.style.background='#555'" onmouseout="this.style.background='#444'">⬅ Volver al Inicio</button>
+        </div>
     </div>
 
     <div id="analysis-layout">

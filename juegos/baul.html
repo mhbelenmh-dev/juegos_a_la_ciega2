@@ -10,19 +10,29 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     
+    <link rel="stylesheet" href="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.css">
+    
     <style>
         :root { --bg: #1a1917; --panel: #262421; --accent: #e5bf00; --blue: #3692e7; --green: #629924; --red: #cc3333; --text: #bababa; }
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--bg); color: var(--text); margin: 0; display: flex; flex-direction: column; min-height: 100vh; }
         
-        #top-bar { position: fixed; top: 0; left: 0; width: 100%; height: 70px; background: #000; border-bottom: 1px solid #333; display: flex; align-items: center; justify-content: space-between; padding: 0 30px; box-sizing: border-box; z-index: 100; }
-        #brand-logo { margin: 0; font-size: 1.8em; color: var(--accent); letter-spacing: 1px; text-shadow: 2px 2px 0px rgba(0,0,0,0.5); text-decoration: none; }
+        /* HEADER UNIFICADO */
+        #top-bar {
+            position: fixed; top: 0; left: 0; width: 100%; height: 70px;
+            background: #000; border-bottom: 1px solid #333;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 30px; box-sizing: border-box; z-index: 100;
+        }
+
+        #brand-logo { margin: 0; font-size: 1.8em; color: var(--accent); letter-spacing: 1px; text-shadow: 2px 2px 0px rgba(0,0,0,0.5); text-decoration: none;}
+
         #nav-menu { display: flex; gap: 25px; align-items: center; }
-        .nav-link { color: var(--green); text-decoration: none; font-weight: bold; font-size: 1.1em; text-transform: uppercase; letter-spacing: 1px; transition: 0.2s; padding: 5px 10px; border-radius: 5px; white-space: nowrap;}
+        .nav-link { color: var(--green); text-decoration: none; font-weight: bold; font-size: 1.1em; text-transform: uppercase; letter-spacing: 1px; transition: 0.2s; padding: 5px 10px; border-radius: 5px; white-space: nowrap; }
         .nav-link:hover { color: #fff; background: rgba(98, 153, 36, 0.2); transform: scale(1.05); }
 
         #main-content { margin-top: 100px; padding: 20px; max-width: 1200px; margin-left: auto; margin-right: auto; width: 100%; box-sizing: border-box;}
         
-        .grid-errores { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 25px; margin-top: 30px; }
+        .grid-errores { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 25px; margin-top: 20px; }
         
         .error-card { background: var(--panel); border: 1px solid #333; border-radius: 12px; padding: 20px; box-shadow: 0 8px 20px rgba(0,0,0,0.4); border-top: 4px solid var(--red); display: flex; flex-direction: column; gap: 15px; transition: transform 0.2s, border-color 0.2s; }
         .error-card:hover { transform: translateY(-5px); border-color: #555; box-shadow: 0 12px 25px rgba(0,0,0,0.6); }
@@ -31,39 +41,60 @@
         .error-modulo { color: var(--accent); font-weight: bold; font-size: 1.1em; text-transform: uppercase; letter-spacing: 1px; }
         .error-fecha { color: #777; font-size: 0.85em; }
 
-        .error-body { display: flex; flex-direction: column; gap: 8px; background: #1a1917; padding: 15px; border-radius: 8px; border: 1px solid #333; }
-        .jugada-row { display: flex; justify-content: space-between; align-items: center; font-size: 1.1em; }
-        .jugada-row.fail .jugada-value { color: var(--red); font-weight: bold; font-size: 1.2em;}
-        .jugada-row.success .jugada-value { color: var(--green); font-weight: bold; font-size: 1.2em;}
+        .error-body { display: flex; flex-direction: column; align-items: center; justify-content: center; background: #111; padding: 20px; border-radius: 8px; border: 1px dashed #333; margin-bottom: 5px;}
+        .jugada-label { font-size: 0.85em; color: #888; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
+        .jugada-value { color: var(--red); font-weight: bold; font-size: 1.3em; background: rgba(204, 51, 51, 0.1); padding: 8px 20px; border-radius: 6px; border: 1px solid rgba(204, 51, 51, 0.3); font-family: 'Consolas', monospace; text-align: center; word-break: break-word;}
 
         .fen-container { display: flex; flex-direction: column; gap: 5px; }
         .fen-title { font-size: 0.8em; color: #666; text-transform: uppercase; letter-spacing: 1px; }
-        .fen-box { background: #0a0a0a; color: #888; padding: 10px 12px; font-family: 'Consolas', monospace; border-radius: 6px; font-size: 0.85em; word-break: break-all; border: 1px dashed #333; }
+        .fen-box { background: #0a0a0a; color: #555; padding: 10px 12px; font-family: 'Consolas', monospace; border-radius: 6px; font-size: 0.75em; word-break: break-all; border: 1px solid #222; }
         
-        .error-actions { display: flex; gap: 10px; margin-top: auto; }
-        .btn-accion { padding: 12px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; transition: 0.2s; text-transform: uppercase; color: white; display: flex; align-items: center; justify-content: center; gap: 8px;}
+        .error-actions { display: flex; gap: 10px; margin-top: auto; flex-wrap: wrap; }
+        .btn-accion { padding: 10px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; transition: 0.2s; text-transform: uppercase; color: white; display: flex; align-items: center; justify-content: center; gap: 8px; flex: 1; font-size: 0.95em;}
         
-        .btn-analizar { background: var(--blue); box-shadow: 0 4px 0 #20629c; flex-grow: 1; font-size: 1em; }
-        .btn-analizar:hover { filter: brightness(1.2); transform: translateY(-2px); box-shadow: 0 6px 0 #20629c; }
+        .btn-reintentar { background: var(--green); box-shadow: 0 4px 0 #4a751b; }
+        .btn-reintentar:hover { filter: brightness(1.2); transform: translateY(-2px); }
+        .btn-reintentar:active { transform: translateY(2px); box-shadow: 0 2px 0 #4a751b; }
+
+        .btn-analizar { background: var(--blue); box-shadow: 0 4px 0 #20629c; }
+        .btn-analizar:hover { filter: brightness(1.2); transform: translateY(-2px); }
         .btn-analizar:active { transform: translateY(2px); box-shadow: 0 2px 0 #20629c; }
 
-        .btn-borrar { background: #3d3a37; box-shadow: 0 4px 0 #1a1917; width: 55px; font-size: 1.3em; }
+        .btn-borrar { background: #3d3a37; box-shadow: 0 4px 0 #1a1917; flex: 0 0 50px; font-size: 1.2em; }
         .btn-borrar:hover { background: var(--red); box-shadow: 0 4px 0 #8a1f1f; transform: translateY(-2px); }
         .btn-borrar:active { transform: translateY(2px); box-shadow: 0 2px 0 #8a1f1f; }
+
+        /* MODAL DE REPASO */
+        #modal-repaso { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(10,10,10,0.95); z-index: 1000; display: none; justify-content: center; align-items: center; }
+        .modal-content { background: var(--panel); border: 2px solid var(--accent); border-radius: 12px; padding: 30px; width: 90%; max-width: 500px; box-shadow: 0 20px 50px rgba(0,0,0,0.8); position: relative; display: flex; flex-direction: column; align-items: center; }
+        .btn-cerrar-modal { position: absolute; top: 15px; right: 20px; font-size: 2em; color: #888; cursor: pointer; line-height: 1; transition: 0.2s; }
+        .btn-cerrar-modal:hover { color: var(--red); }
+        #tablero-repaso { width: 100%; max-width: 400px; border: 4px solid #333; border-radius: 4px; margin-top: 15px; touch-action: none !important;}
+        #repaso-status { margin-top: 20px; font-size: 1.3em; font-weight: bold; text-align: center; min-height: 35px; }
+        .r-success { color: var(--green); }
+        .r-error { color: var(--red); }
     </style>
 </head>
 <body>
+
     <div id="top-bar">
         <a href="index.html" id="brand-logo">♞ CHESS GYM</a>
         <div id="nav-menu">
-            <a href="index.html" class="nav-link">VOLVER AL CUARTEL</a>
+            <a href="hub_basico.html" class="nav-link">DOMINIO GEOGRÁFICO</a>
+            <a href="hub_memoria.html" class="nav-link">MEMORIA</a>
+            <a href="hub_tactica.html" class="nav-link">TÁCTICA</a>
+            <a href="analisis.html" class="nav-link">TABLERO ANÁLISIS</a>
+            <a href="baul.html" class="nav-link" style="color: #fff; border-bottom: 2px solid var(--accent);">📦 BAÚL</a>
         </div>
-        <div style="width: 150px;"></div>
+        <div style="display: flex; align-items: center; gap: 15px;">
+            <button onclick="window.location.href='index.html'" style="background: #444; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; transition: 0.2s;" onmouseover="this.style.background='#555'" onmouseout="this.style.background='#444'">⬅ Volver al Inicio</button>
+        </div>
     </div>
 
     <div id="main-content">
         <h1 style="color: #fff; margin-bottom: 5px; font-size: 2.5em; text-align: center;">📦 Baúl de Errores</h1>
-        <p style="color: #aaa; text-align: center; font-size: 1.2em;">Analiza los puzzles que has fallado y bórralos cuando los domines.</p>
+        <p style="color: #aaa; text-align: center; font-size: 1.1em; margin-bottom: 5px;">Repasa tus fallos aquí mismo. Si aciertas la secuencia entera, se borrarán de la lista automáticamente.</p>
+        <p style="color: var(--blue); text-align: center; font-size: 0.9em; margin-top: 0;"><em>(Nota: Aquí solo se guardan los errores de la Central Táctica)</em></p>
         
         <div id="lista-errores" class="grid-errores">
             <div style="color: #888; text-align: center; grid-column: 1 / -1; font-size: 1.2em; margin-top: 50px;">
@@ -72,8 +103,31 @@
         </div>
     </div>
 
-<script src="utils.js?v=2"></script>
+    <div id="modal-repaso">
+        <div class="modal-content">
+            <span class="btn-cerrar-modal" onclick="cerrarRepaso()">&times;</span>
+            <h2 style="color: var(--accent); margin: 0 0 10px 0; text-transform: uppercase;">Repaso Activo</h2>
+            <div style="color: #ccc; font-size: 1em; margin-bottom: 10px;">Encuentra y realiza la secuencia correcta.</div>
+            <div id="tablero-repaso"></div>
+            <div id="repaso-status">Esperando tu movimiento...</div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
+    <script src="utils.js?v=2"></script>
+    
     <script>
+        window.erroresGlobales = {}; 
+        let repasoBoard = null;
+        let repasoGame = new Chess();
+        let errorActualKey = null;
+        
+        // Variables para la secuencia completa
+        let repasoSolucion = []; 
+        let repasoIndice = 0; 
+
         window.onload = () => {
             if (typeof firebase === 'undefined') return;
             firebase.auth().onAuthStateChanged((user) => {
@@ -89,33 +143,34 @@
             firebase.database().ref('users/' + uid + '/errores').on('value', snap => {
                 let contenedor = document.getElementById('lista-errores');
                 if (!snap.exists()) {
-                    contenedor.innerHTML = '<div style="color: var(--green); text-align: center; grid-column: 1 / -1; font-size: 1.5em; margin-top: 50px; background: #262421; padding: 40px; border-radius: 12px; border: 1px dashed var(--green);">🎉 ¡Felicidades! No tienes errores pendientes de repasar.</div>';
+                    contenedor.innerHTML = '<div style="color: var(--green); text-align: center; grid-column: 1 / -1; font-size: 1.5em; margin-top: 50px; background: #262421; padding: 40px; border-radius: 12px; border: 1px dashed var(--green);">🎉 ¡Felicidades! Tu baúl está vacío.</div>';
+                    window.erroresGlobales = {};
                     return;
                 }
 
                 let html = '';
                 let errores = [];
-                snap.forEach(child => { errores.push({ key: child.key, ...child.val() }); });
+                window.erroresGlobales = {};
+
+                snap.forEach(child => { 
+                    let data = { key: child.key, ...child.val() };
+                    errores.push(data); 
+                    window.erroresGlobales[data.key] = data; 
+                });
 
                 errores.sort((a, b) => b.timestamp - a.timestamp);
 
                 errores.forEach(e => {
                     html += `
-                        <div class="error-card">
+                        <div class="error-card" id="card-${e.key}">
                             <div class="error-header">
                                 <span class="error-modulo">⚡ ${e.modulo}</span>
                                 <span class="error-fecha">${e.fecha}</span>
                             </div>
                             
                             <div class="error-body">
-                                <div class="jugada-row fail">
-                                    <span>❌ Tu jugada:</span>
-                                    <span class="jugada-value">${e.tuJugada}</span>
-                                </div>
-                                <div class="jugada-row success">
-                                    <span>✅ Solución:</span>
-                                    <span class="jugada-value">${e.solucion}</span>
-                                </div>
+                                <span class="jugada-label">❌ Lo que intentaste</span>
+                                <span class="jugada-value">${e.tuJugada || '---'}</span>
                             </div>
 
                             <div class="fen-container">
@@ -124,8 +179,9 @@
                             </div>
 
                             <div class="error-actions">
-                                <button class="btn-accion btn-analizar" onclick="analizar('${e.fen}', '${e.solucion}')">🔍 Analizar en Tablero</button>
-                                <button class="btn-accion btn-borrar" onclick="borrarFallo('${e.key}')" title="Eliminar este fallo">🗑️</button>
+                                <button class="btn-accion btn-reintentar" onclick="abrirRepaso('${e.key}')">🔄 Reintentar</button>
+                                <button class="btn-accion btn-analizar" onclick="analizar('${e.key}')">🔍 Análisis</button>
+                                <button class="btn-accion btn-borrar" onclick="confirmarEliminar('${e.key}')" title="Eliminar este fallo">🗑️</button>
                             </div>
                         </div>
                     `;
@@ -134,9 +190,176 @@
             });
         }
 
-        function analizar(fen, solucion) {
-            // Enviamos el FEN y la Solución en la URL
-            window.location.href = 'analisis.html?fen=' + encodeURIComponent(fen) + '&solucion=' + encodeURIComponent(solucion);
+        // ==========================================
+        // FUNCIONES DE BORRADO SEGURO
+        // ==========================================
+        function confirmarEliminar(key) {
+            if(confirm("¿Seguro que quieres borrar este error definitivamente del baúl?")) {
+                eliminarErrorBaseDatos(key);
+            }
+        }
+
+        function eliminarErrorBaseDatos(key) {
+            let uid = firebase.auth().currentUser.uid;
+            firebase.database().ref('users/' + uid + '/errores/' + key).remove()
+            .then(() => {
+                let card = document.getElementById('card-' + key);
+                if(card) card.remove();
+                console.log("Fallo borrado de Firebase con éxito.");
+            })
+            .catch(err => alert("Error al borrar de la base de datos: " + err.message));
+        }
+
+        function analizar(key) {
+            let e = window.erroresGlobales[key];
+            if(!e) return;
+            window.location.href = 'analisis.html?fen=' + encodeURIComponent(e.fen) + '&solucion=' + encodeURIComponent(e.solucion);
+        }
+
+        // ==========================================
+        // LÓGICA DE REPASO INTELIGENTE (Toda la línea)
+        // ==========================================
+        function abrirRepaso(key) {
+            let e = window.erroresGlobales[key];
+            if(!e) return;
+            
+            errorActualKey = key;
+            
+            if (!e.fen || !e.solucion) {
+                alert("Este error no contiene información de tablero. Posiblemente sea de otra categoría.");
+                return;
+            }
+
+            let valid = repasoGame.load(e.fen);
+            if (!valid) {
+                alert("La posición guardada no es válida para jugar.");
+                return;
+            }
+
+            // LIMPIEZA EXTREMA: Quita números "1.", quita comas, y separa por espacios
+            let cleanSol = e.solucion.replace(/[0-9]+\.+/g, ' ').replace(/,/g, ' ').trim();
+            repasoSolucion = cleanSol.split(/\s+/).filter(m => m.length > 0);
+            repasoIndice = 0;
+
+            if (repasoSolucion.length === 0) {
+                alert("No se pudo leer la secuencia de movimientos de la solución.");
+                return;
+            }
+
+            // Verificar si la solución se puede jugar en ajedrez real
+            let testGame = new Chess(e.fen);
+            let moveValido = testGame.move(repasoSolucion[0], {sloppy: true});
+            
+            if (!moveValido) {
+                alert("Este error no se basa en movimientos de ajedrez reales (es un error de Radar o Memoria).");
+                return;
+            }
+
+            document.getElementById('modal-repaso').style.display = 'flex';
+            document.getElementById('repaso-status').innerText = "Esperando tu movimiento...";
+            document.getElementById('repaso-status').className = "";
+
+            if(repasoBoard) repasoBoard.destroy();
+            let orientacion = repasoGame.turn() === 'w' ? 'white' : 'black';
+            
+            repasoBoard = Chessboard('tablero-repaso', {
+                draggable: true,
+                position: repasoGame.fen(),
+                orientation: orientacion,
+                pieceTheme: 'https://chessboardjs.com/img/chesspieces/wikipedia/{piece}.png',
+                onDragStart: function(source, piece) {
+                    if (repasoGame.game_over()) return false;
+                    if ((repasoGame.turn() === 'w' && piece.search(/^b/) !== -1) || (repasoGame.turn() === 'b' && piece.search(/^w/) !== -1)) { return false; }
+                },
+                onDrop: onDropRepaso,
+                onSnapEnd: function() { repasoBoard.position(repasoGame.fen()); }
+            });
+        }
+
+        function onDropRepaso(source, target) {
+            // Creamos un juego temporal para saber cuál DEBERÍA ser el movimiento exacto
+            let tempGame = new Chess(repasoGame.fen());
+            let expectedMove = tempGame.move(repasoSolucion[repasoIndice], {sloppy: true});
+            
+            // Intentamos hacer el movimiento que el usuario acaba de hacer
+            let moveAttempt = { from: source, to: target, promotion: 'q' };
+            let actualMove = repasoGame.move(moveAttempt);
+            
+            if (actualMove === null) return 'snapback'; // Movimiento Ilegal de Ajedrez
+
+            // Comparamos el movimiento del usuario con el esperado
+            let esCorrecto = expectedMove && 
+                             actualMove.from === expectedMove.from && 
+                             actualMove.to === expectedMove.to && 
+                             (expectedMove.promotion ? actualMove.promotion === expectedMove.promotion : true);
+
+            if (esCorrecto) {
+                // ACIERTO DE LA JUGADA
+                reproducirSonido('mover');
+                repasoIndice++;
+                
+                if (repasoIndice >= repasoSolucion.length) {
+                    // SECUENCIA COMPLETADA TOTALMENTE
+                    reproducirSonido('correcto');
+                    document.getElementById('repaso-status').innerHTML = "¡Excelente! Has completado la línea.<br>Borrando error...";
+                    document.getElementById('repaso-status').className = "r-success";
+                    
+                    // Borrado 100% seguro de la base de datos
+                    setTimeout(() => {
+                        eliminarErrorBaseDatos(errorActualKey);
+                        cerrarRepaso();
+                    }, 1500);
+
+                } else {
+                    // TOCA MOVER AL RIVAL
+                    document.getElementById('repaso-status').innerText = "¡Bien! El rival responde...";
+                    document.getElementById('repaso-status').className = "";
+                    
+                    setTimeout(() => {
+                        let oponenteMueve = repasoSolucion[repasoIndice];
+                        repasoGame.move(oponenteMueve, {sloppy: true});
+                        repasoBoard.position(repasoGame.fen());
+                        reproducirSonido('mover');
+                        repasoIndice++;
+                        
+                        if (repasoIndice >= repasoSolucion.length) {
+                            // Por si la variante acaba en turno del rival (raro, pero posible)
+                            reproducirSonido('correcto');
+                            document.getElementById('repaso-status').innerHTML = "¡Secuencia completada!<br>Borrando error...";
+                            document.getElementById('repaso-status').className = "r-success";
+                            setTimeout(() => { 
+                                eliminarErrorBaseDatos(errorActualKey); 
+                                cerrarRepaso(); 
+                            }, 1500);
+                        } else {
+                            document.getElementById('repaso-status').innerText = "Sigue la variante. Tu turno...";
+                        }
+                    }, 700);
+                }
+
+            } else {
+                // FALLO DE LA JUGADA
+                repasoGame.undo(); // Deshacemos su movimiento para que el tablero vuelva atrás
+                reproducirSonido('incorrecto');
+                document.getElementById('repaso-status').innerText = "Esa no es la jugada de la solución.";
+                document.getElementById('repaso-status').className = "r-error";
+                
+                setTimeout(() => { 
+                    let st = document.getElementById('repaso-status');
+                    if(st.innerText.includes("no es")) { 
+                        st.innerText = "Sigue intentándolo..."; 
+                        st.className = ""; 
+                    } 
+                }, 2000);
+                
+                return 'snapback'; // Hace que la pieza visual rebote a su sitio
+            }
+        }
+
+        function cerrarRepaso() {
+            document.getElementById('modal-repaso').style.display = 'none';
+            if(repasoBoard) repasoBoard.destroy();
+            errorActualKey = null;
         }
     </script>
 </body>
