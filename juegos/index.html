@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chess Gym - Social & Táctica</title>
+    <title>Chess Gym - Cuartel General</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>♞</text></svg>">
 
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
@@ -13,36 +13,14 @@
 
     <style>
         :root {
-            --bg: #1a1917;
-            --panel: #262421;
-            --accent: #e5bf00;
-            --blue: #3692e7;
-            --green: #629924;
-            --red: #cc3333;
-            --text: #bababa;
+            --bg: #1a1917; --panel: #262421; --accent: #e5bf00; --blue: #3692e7; --green: #629924; --red: #cc3333; --text: #bababa;
         }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg);
-            color: var(--text);
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-            overflow: hidden;
-        }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--bg); color: var(--text); margin: 0; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
 
-        /* HEADER Y BUSCADOR */
-        #top-bar {
-            position: fixed; top: 0; left: 0; width: 100%; height: 70px;
-            background: #000; border-bottom: 1px solid #333;
-            display: flex; align-items: center; justify-content: space-between;
-            padding: 0 30px; box-sizing: border-box; z-index: 100;
-        }
-
+        /* HEADER UNIFICADO */
+        #top-bar { position: fixed; top: 0; left: 0; width: 100%; height: 70px; background: #000; border-bottom: 1px solid #333; display: flex; align-items: center; justify-content: space-between; padding: 0 30px; box-sizing: border-box; z-index: 100; }
         #brand-logo { margin: 0; font-size: 1.8em; color: var(--accent); letter-spacing: 1px; text-shadow: 2px 2px 0px rgba(0,0,0,0.5); text-decoration: none;}
-
         #nav-menu { display: flex; gap: 25px; align-items: center; }
         .nav-link { color: var(--green); text-decoration: none; font-weight: bold; font-size: 1.1em; text-transform: uppercase; letter-spacing: 1px; transition: 0.2s; padding: 5px 10px; border-radius: 5px; white-space: nowrap; }
         .nav-link:hover { color: #fff; background: rgba(98, 153, 36, 0.2); transform: scale(1.05); }
@@ -56,12 +34,11 @@
 
         /* LAYOUT PRINCIPAL */
         #layout-wrapper { display: flex; width: 100%; height: calc(100vh - 70px); margin-top: 70px; }
-
         #main-content { flex-grow: 1; padding: 40px; overflow-y: auto; display: flex; flex-direction: column; align-items: center; gap: 30px; }
 
-        .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 25px; width: 100%; max-width: 1200px; }
+        .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; width: 100%; max-width: 1200px; }
         .dash-card { background: var(--panel); border: 1px solid #444; border-radius: 12px; padding: 25px; box-shadow: 0 10px 20px rgba(0,0,0,0.4); display: flex; flex-direction: column; gap: 15px; position: relative; overflow: hidden;}
-        .dash-title { color: var(--accent); font-size: 1.3em; font-weight: bold; text-transform: uppercase; border-bottom: 2px solid #444; padding-bottom: 10px; margin: 0; display: flex; justify-content: space-between; }
+        .dash-title { color: var(--accent); font-size: 1.3em; font-weight: bold; text-transform: uppercase; border-bottom: 2px solid #444; padding-bottom: 10px; margin: 0; }
 
         /* SIDEBAR DERECHA */
         #sidebar-right { width: 280px; background: var(--panel); border-left: 2px solid #333; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 20px; box-sizing: border-box; }
@@ -70,7 +47,7 @@
         .user-online-mini:hover { border-color: var(--accent); background: #222; }
         .dot-online { width: 10px; height: 10px; background: var(--green); border-radius: 50%; box-shadow: 0 0 5px var(--green); }
 
-        /* MODALES COMUNES */
+        /* MODALES */
         .overlay-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(10, 10, 10, 0.95); z-index: 9999; display: none; justify-content: center; align-items: center; }
         .caja-modal { background: var(--panel); padding: 40px; border-radius: 12px; border: 2px solid var(--accent); width: 100%; max-width: 400px; text-align: center; box-shadow: 0 15px 50px rgba(0, 0, 0, 0.8); position: relative; }
         .input-modal { width: 100%; padding: 15px; margin-bottom: 15px; box-sizing: border-box; background: var(--bg); color: #fff; border: 1px solid #555; border-radius: 6px; font-size: 1.1em; text-align: center; outline: none; }
@@ -110,7 +87,7 @@
             <a href="hub_basico.html" class="nav-link">DOMINIO GEOGRÁFICO</a>
             <a href="hub_memoria.html" class="nav-link">MEMORIA</a>
             <a href="hub_tactica.html" class="nav-link">TÁCTICA</a>
-            <a href="analisis.html" class="nav-link" style="color: var(--accent);">TABLERO ANÁLISIS</a>
+            <a href="analisis.html" class="nav-link">TABLERO ANÁLISIS</a>
         </div>
 
         <div style="display: flex; gap: 20px; align-items: center;">
@@ -120,9 +97,7 @@
             </div>
 
             <div style="display: flex; align-items: center; gap: 15px; border-left: 1px solid #444; padding-left: 20px;">
-                
                 <button onclick="window.location.href='baul.html'" style="background: #111; color: var(--accent); border: 1px dashed var(--accent); padding: 10px 15px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 1em; transition: 0.2s;" onmouseover="this.style.background='rgba(229, 191, 0, 0.1)'" onmouseout="this.style.background='#111'">📦 Baúl</button>
-
                 <button id="btn-mi-perfil" onclick="abrirMiPerfil()" style="background: var(--blue); color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 1em;">👤 Mi Perfil</button>
                 <button onclick="cerrarSesion()" style="background: var(--red); color: white; border: none; padding: 10px 15px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 1em;">Salir</button>
             </div>
@@ -130,49 +105,89 @@
     </div>
 
     <div id="layout-wrapper">
-
         <div id="main-content">
             
-            <div style="text-align: center; margin-bottom: 20px;">
+            <div style="text-align: center; margin-bottom: 10px;">
                 <h1 style="color: #fff; margin: 0; font-size: 2.5em;">Bienvenido al Cuartel General</h1>
-                <p style="color: #aaa; font-size: 1.2em; margin-top: 5px;">Elige un módulo arriba para empezar a entrenar o reta a un amigo en la barra lateral.</p>
+                <p style="color: #aaa; font-size: 1.2em; margin-top: 5px;">Completa tu misión diaria para mantener la racha de entrenamiento.</p>
             </div>
 
             <div class="dashboard-grid">
                 
-                <div class="dash-card" style="border-top: 4px solid var(--blue);">
-                    <div class="dash-title">
-                        <span>📊 Tu Nivel</span>
-                        <span id="dash-xp" style="color: #fff; font-weight: bold; background: rgba(255,255,255,0.1); padding: 2px 10px; border-radius: 20px; font-size: 0.8em;">0 XP</span>
+                <div class="dash-card" style="border-top: 4px solid var(--blue); display: flex; flex-direction: column; justify-content: space-between;">
+                    
+                    <div style="text-align: center; padding-bottom: 20px; border-bottom: 1px dashed #444;">
+                        <div style="color: #aaa; font-size: 0.9em; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px;">Llevas de racha</div>
+                        <div style="color: #ff6600; font-size: 2.2em; font-weight: bold; text-shadow: 0 0 15px rgba(255,102,0,0.4); margin: 0;">🔥 <span id="racha-dias">1 Día</span></div>
+                        <div style="color: #888; font-size: 1.1em; margin-top: 10px;">Experiencia total: <span id="dash-xp" style="color: var(--green); font-weight: bold; font-size: 1.2em;">0 XP</span></div>
                     </div>
                     
-                    <div style="display: flex; align-items: center; gap: 20px; margin-top: 10px;">
+                    <div style="display: flex; align-items: center; gap: 20px; margin-top: 15px; margin-bottom: 15px;">
                         <div id="rango-icono" style="font-size: 4em; text-shadow: 0 0 15px rgba(255,255,255,0.1);">🪵</div>
                         <div style="flex-grow: 1;">
-                            <div style="display: flex; justify-content: space-between; margin-bottom: 8px; align-items: flex-end;">
+                            <div style="margin-bottom: 8px;">
                                 <strong id="rango-nombre" style="font-size: 1.4em; text-transform: uppercase; letter-spacing: 1px;">Cargando...</strong>
-                                <span id="rango-faltante" style="color: #888; font-size: 0.9em; font-weight: bold;">...</span>
                             </div>
-                            <div style="background: #111; border-radius: 20px; width: 100%; height: 16px; border: 2px solid #333; overflow: hidden; box-shadow: inset 0 2px 5px rgba(0,0,0,0.8);">
+                            <div style="background: #111; border-radius: 20px; width: 100%; height: 16px; border: 2px solid #333; overflow: hidden; box-shadow: inset 0 2px 5px rgba(0,0,0,0.8); margin-bottom: 5px;">
                                 <div id="rango-barra" style="background: var(--blue); width: 0%; height: 100%; transition: width 1.5s cubic-bezier(0.2, 0.8, 0.2, 1); box-shadow: 0 0 10px rgba(255,255,255,0.2);"></div>
+                            </div>
+                            <div style="text-align: right;">
+                                <span id="rango-faltante" style="color: #888; font-size: 0.85em; font-weight: bold;">...</span>
                             </div>
                         </div>
                     </div>
-                    <button class="btn-modal" style="background: var(--blue); margin-top: auto; padding: 12px; margin-bottom: 0; box-shadow: 0 4px 0 #20629c;" onclick="window.location.href='hub_tactica.html'">Empezar Táctica Diaria</button>
+
+                    <div id="dash-baul-alert" style="margin-top: auto; background: #111; border: 1px solid #333; padding: 15px; border-radius: 8px; text-align: center; font-weight: bold; cursor: pointer; transition: 0.2s;" onclick="window.location.href='baul.html'">
+                        Cargando estado del Baúl...
+                    </div>
                 </div>
 
-                <div class="dash-card">
+                <div class="dash-card" style="border-top: 4px solid var(--accent);">
                     <div class="dash-title">
-                        <span>📰 Novedades</span>
-                        <span>🔥</span>
+                        <span>🎯 Misión Diaria</span>
                     </div>
-                    <div style="color: #bbb; font-size: 0.95em; line-height: 1.5;">
-                        <p><strong style="color: #fff;">Actualización v2.2:</strong> ¡El Baúl de Errores ya está aquí! Ahora todos tus fallos se guardan para que los analices luego.</p>
-                        <p><strong style="color: var(--blue);">Nuevo Tablero:</strong> Usa la herramienta de Análisis Libre para estudiar posiciones.</p>
+                    
+                    <div style="display: flex; flex-direction: column; gap: 15px; margin-top: 5px;">
+                        
+                        <div onclick="window.location.href='hub_tactica.html'" style="cursor:pointer; background: #1a1917; padding: 12px 15px; border-radius: 8px; border: 1px solid #333; transition: 0.2s;" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='#333'">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                                <strong style="color: #fff;">⚡ Ejercicios de Táctica</strong> <span id="txt-m-tactica" style="color: var(--accent); font-weight: bold;">0/3</span>
+                            </div>
+                            <div style="display: flex; gap: 5px;">
+                                <div class="box-m-tactica" style="flex:1; height:8px; background:#222; border-radius:4px;"></div>
+                                <div class="box-m-tactica" style="flex:1; height:8px; background:#222; border-radius:4px;"></div>
+                                <div class="box-m-tactica" style="flex:1; height:8px; background:#222; border-radius:4px;"></div>
+                            </div>
+                        </div>
+
+                        <div onclick="window.location.href='hub_memoria.html'" style="cursor:pointer; background: #1a1917; padding: 12px 15px; border-radius: 8px; border: 1px solid #333; transition: 0.2s;" onmouseover="this.style.borderColor='var(--blue)'" onmouseout="this.style.borderColor='#333'">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                                <strong style="color: #fff;">📸 Ejercicios de Memoria</strong> <span id="txt-m-memoria" style="color: var(--blue); font-weight: bold;">0/3</span>
+                            </div>
+                            <div style="display: flex; gap: 5px;">
+                                <div class="box-m-memoria" style="flex:1; height:8px; background:#222; border-radius:4px;"></div>
+                                <div class="box-m-memoria" style="flex:1; height:8px; background:#222; border-radius:4px;"></div>
+                                <div class="box-m-memoria" style="flex:1; height:8px; background:#222; border-radius:4px;"></div>
+                            </div>
+                        </div>
+
+                        <div onclick="window.location.href='hub_basico.html'" style="cursor:pointer; background: #1a1917; padding: 12px 15px; border-radius: 8px; border: 1px solid #333; transition: 0.2s;" onmouseover="this.style.borderColor='var(--green)'" onmouseout="this.style.borderColor='#333'">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                                <strong style="color: #fff;">🌍 Dominio Geográfico</strong> <span id="txt-m-geo" style="color: var(--green); font-weight: bold;">0/3</span>
+                            </div>
+                            <div style="display: flex; gap: 5px;">
+                                <div class="box-m-geo" style="flex:1; height:8px; background:#222; border-radius:4px;"></div>
+                                <div class="box-m-geo" style="flex:1; height:8px; background:#222; border-radius:4px;"></div>
+                                <div class="box-m-geo" style="flex:1; height:8px; background:#222; border-radius:4px;"></div>
+                            </div>
+                        </div>
+
                     </div>
+
+                    <button id="btn-reclamar-mision" class="btn-modal" style="background:#333; color:#888; margin-top:auto; margin-bottom:0; cursor:not-allowed; box-shadow:none; text-transform:uppercase;" disabled onclick="reclamarMision()">🎁 Reclamar 100 XP</button>
                 </div>
 
-                <div class="dash-card">
+                <div class="dash-card" style="border-top: 4px solid var(--green);">
                     <div class="dash-title">
                         <span>🏆 Líderes de XP</span>
                     </div>
@@ -230,88 +245,19 @@
         </div>
     </div>
 
-    <div id="modal-crear-duelo" class="overlay-modal">
-        <div class="caja-modal">
-            <h2 style="color:var(--red); margin-top:0;">⚔️ Configurar Duelo</h2>
-            <p style="color:#aaa;">Desafiando a: <strong id="duelo-rival-nombre" style="color:var(--accent);">...</strong></p>
-            <input type="hidden" id="duelo-rival-uid">
-            
-            <select id="duelo-juego" class="input-modal">
-                <option value="storm">⚡ Asalto Visual (Táctica)</option>
-                <option value="storm_ciego">🦇 Cálculo Puro (Ciego)</option>
-                <option value="entrenamiento_ciego">🌍 Dominio Geográfico</option>
-                <option value="radar">📸 Memoria Fotográfica</option>
-            </select>
-            
-            <select id="duelo-tiempo" class="input-modal">
-                <option value="60">⏱️ 1 Minuto</option>
-                <option value="180" selected>⏱️ 3 Minutos</option>
-                <option value="300">⏱️ 5 Minutos</option>
-            </select>
-
-            <button class="btn-modal anim-pulso" style="background:var(--red); box-shadow: 0 4px 0 #8a1f1f;" onclick="enviarReto()">ENVIAR DESAFÍO</button>
-            <button class="btn-modal" style="background:#444; box-shadow: 0 4px 0 #222;" onclick="cerrarModal('modal-crear-duelo')">Cancelar</button>
-        </div>
-    </div>
-
-    <div id="modal-esperando" class="overlay-modal">
-        <div class="caja-modal">
-            <h2 style="color:var(--accent);">⏳ Esperando...</h2>
-            <p style="color:#ddd;">Esperando a que el rival acepte el desafío...</p>
-            <button class="btn-modal" style="background:#444; margin-top:20px;" onclick="cancelarRetoEnviado()">Cancelar Desafío</button>
-        </div>
-    </div>
-
-    <div id="modal-recibir-reto" class="overlay-modal" style="background: rgba(138, 31, 31, 0.9);">
-        <div class="caja-modal" style="border-color: var(--red);">
-            <div style="font-size: 3em; margin-bottom: 10px;">🚨</div>
-            <h2 style="color:#fff; margin-top:0;">¡TE HAN DESAFIADO!</h2>
-            <p style="color:#ddd;"><strong id="reto-de-nombre" style="color:var(--accent); font-size:1.4em;">Alguien</strong> te reta a un duelo.</p>
-            <p style="color:#aaa; margin-bottom:25px;" id="reto-detalles">Juego: ... | Tiempo: ...</p>
-            <button class="btn-modal anim-pulso" style="background:var(--success); box-shadow: 0 4px 0 #4a751b;" onclick="responderReto(true)">¡ACEPTAR DUELO!</button>
-            <button class="btn-modal" style="background:#444; box-shadow: 0 4px 0 #222;" onclick="responderReto(false)">Rechazar</button>
-        </div>
-    </div>
-
     <script src="utils.js"></script>
 
     <script>
         let chatActivoUid = null;
 
-        // ==========================================
-        // AUTENTICACIÓN Y CARGA
-        // ==========================================
         function generarEmailFalso(username) { return username.trim().toLowerCase().replace(/[^a-z0-9]/g, '') + "@ajedrezgym.local"; }
-
-        function iniciarSesion() {
-            let u = document.getElementById('auth-user').value.trim(); let p = document.getElementById('auth-pass').value;
-            if (u.length < 3) return;
-            localStorage.setItem('nombre_temporal', u);
-            firebase.auth().signInWithEmailAndPassword(generarEmailFalso(u), p)
-                .then(() => window.location.reload())
-                .catch(e => document.getElementById('auth-error').innerText = "Usuario o contraseña incorrectos");
-        }
-
-        function registrarUsuario() {
-            let u = document.getElementById('auth-user').value.trim(); let p = document.getElementById('auth-pass').value;
-            if (u.length < 3 || p.length < 6) return document.getElementById('auth-error').innerText = "Mínimo 3 letras y 6 de pass";
-            localStorage.setItem('nombre_temporal', u);
-            firebase.auth().createUserWithEmailAndPassword(generarEmailFalso(u), p)
-                .then(cred => cred.user.updateProfile({ displayName: u }))
-                .then(() => window.location.reload())
-                .catch(e => document.getElementById('auth-error').innerText = "El usuario ya existe o error de red.");
-        }
-
-        function cerrarSesion() {
-            let user = firebase.auth().currentUser;
-            if (user) firebase.database().ref('users/' + user.uid + '/isOnline').set(false);
-            firebase.auth().signOut().then(() => { localStorage.clear(); window.location.reload(); });
-        }
-
+        function iniciarSesion() { let u = document.getElementById('auth-user').value.trim(); let p = document.getElementById('auth-pass').value; if (u.length < 3) return; localStorage.setItem('nombre_temporal', u); firebase.auth().signInWithEmailAndPassword(generarEmailFalso(u), p).then(() => window.location.reload()).catch(e => document.getElementById('auth-error').innerText = "Usuario o contraseña incorrectos"); }
+        function registrarUsuario() { let u = document.getElementById('auth-user').value.trim(); let p = document.getElementById('auth-pass').value; if (u.length < 3 || p.length < 6) return document.getElementById('auth-error').innerText = "Mínimo 3 letras y 6 de pass"; localStorage.setItem('nombre_temporal', u); firebase.auth().createUserWithEmailAndPassword(generarEmailFalso(u), p).then(cred => cred.user.updateProfile({ displayName: u })).then(() => window.location.reload()).catch(e => document.getElementById('auth-error').innerText = "El usuario ya existe o error de red."); }
+        function cerrarSesion() { let user = firebase.auth().currentUser; if (user) firebase.database().ref('users/' + user.uid + '/isOnline').set(false); firebase.auth().signOut().then(() => { localStorage.clear(); window.location.reload(); }); }
         function cerrarModal(id) { document.getElementById(id).style.display = 'none'; }
 
         // ==========================================
-        // INICIALIZACIÓN Y RANGOS
+        // INICIALIZACIÓN, RACHA Y BAÚL
         // ==========================================
         window.onload = () => {
             if (typeof firebase !== 'undefined' && firebase.auth) {
@@ -324,44 +270,68 @@
                         document.getElementById('btn-mi-perfil').innerText = "👤 " + nombre;
 
                         let myCon = firebase.database().ref('users/' + user.uid + '/isOnline');
-                        firebase.database().ref('.info/connected').on('value', snap => {
-                            if (snap.val() === true) { myCon.onDisconnect().set(false); myCon.set(true); }
-                        });
+                        firebase.database().ref('.info/connected').on('value', snap => { if (snap.val() === true) { myCon.onDisconnect().set(false); myCon.set(true); } });
 
                         firebase.database().ref('users/' + user.uid).once('value').then(snap => {
                             let p = snap.exists() ? snap.val() : obtenerPerfil();
                             p.nombreJugador = nombre;
+                            
+                            // ---- LÓGICA DE LA RACHA DIARIA ----
+                            let hoy = new Date().toDateString();
+                            let racha = p.rachaDias || 0;
+                            
+                            if (p.ultimaConexion !== hoy) {
+                                let ayer = new Date();
+                                ayer.setDate(ayer.getDate() - 1);
+                                if (p.ultimaConexion === ayer.toDateString()) { racha++; } else { racha = 1; }
+                                p.rachaDias = racha;
+                                p.ultimaConexion = hoy;
+                                firebase.database().ref('users/' + user.uid).update({ rachaDias: racha, ultimaConexion: hoy });
+                            }
+                            document.getElementById('racha-dias').innerText = racha + (racha === 1 ? " Día" : " Días");
                             guardarPerfil(p);
                             
-                            // APLICAR CEREBRO DE RANGOS AL DASHBOARD
+                            // ---- RANGOS Y XP ----
                             let xp = p.xpTotal || 0;
                             document.getElementById('dash-xp').innerText = xp + " XP";
-                            
                             if (typeof window.obtenerInfoRango === 'function') {
                                 let info = window.obtenerInfoRango(xp);
                                 document.getElementById('rango-icono').innerText = info.icono;
                                 document.getElementById('rango-nombre').innerText = info.nombre;
                                 document.getElementById('rango-nombre').style.color = info.color;
-                                
                                 document.querySelector('.dash-card').style.borderTopColor = info.color;
                                 
                                 let barra = document.getElementById('rango-barra');
                                 barra.style.background = info.color;
                                 setTimeout(() => { barra.style.width = info.porcentajeProgreso + '%'; }, 500);
                                 
-                                if (info.xpFaltante > 0) {
-                                    document.getElementById('rango-faltante').innerText = `Faltan ${info.xpFaltante} XP para ${info.siguienteRango}`;
-                                } else {
-                                    document.getElementById('rango-faltante').innerText = "¡Nivel Máximo Alcanzado!";
-                                }
+                                if (info.xpFaltante > 0) document.getElementById('rango-faltante').innerText = `Faltan ${info.xpFaltante} XP`;
+                                else document.getElementById('rango-faltante').innerText = "¡Nivel Máximo!";
                             }
+
+                            // ---- ALERTA DEL BAÚL ----
+                            firebase.database().ref('users/' + user.uid + '/errores').on('value', snapErrores => {
+                                let numErrores = snapErrores.numChildren();
+                                let alertBox = document.getElementById('dash-baul-alert');
+                                if(numErrores > 0) {
+                                    alertBox.style.background = 'rgba(204, 51, 51, 0.15)';
+                                    alertBox.style.border = '1px solid var(--red)';
+                                    alertBox.style.color = '#ff6666';
+                                    alertBox.innerHTML = `⚠️ Tienes <strong style="color:var(--red); font-size:1.2em;">${numErrores}</strong> error${numErrores>1?'es':''} por revisar.`;
+                                } else {
+                                    alertBox.style.background = 'rgba(98, 153, 36, 0.15)';
+                                    alertBox.style.border = '1px solid var(--green)';
+                                    alertBox.style.color = 'var(--green)';
+                                    alertBox.innerHTML = `✅ ¡Baúl limpio! Listo para aprender.`;
+                                }
+                            });
 
                             document.getElementById('auth-modal').style.display = 'none';
 
+                            actualizarUICajasMision();
                             cargarRanking('rankings/xp', 'ranking-xp', 'XP');
                             escucharUsuariosOnline(); 
                             escucharMisChats();   
-                            iniciarEscuchaDuelos(user.uid); 
                         });
                     } else {
                         document.getElementById('auth-modal').style.display = 'flex';
@@ -370,6 +340,68 @@
             }
         };
 
+        // ==========================================
+        // MISIÓN DIARIA (Cajas)
+        // ==========================================
+        function actualizarUICajasMision() {
+            let hoy = new Date().toDateString();
+            let mision = JSON.parse(localStorage.getItem('mision_diaria'));
+            
+            // Si es un nuevo día, reseteamos todo a 0
+            if (!mision || mision.fecha !== hoy) {
+                mision = { fecha: hoy, tactica: 0, memoria: 0, geo: 0, reclamado: false };
+                localStorage.setItem('mision_diaria', JSON.stringify(mision));
+            }
+
+            pintarCajas('tactica', mision.tactica, 'var(--accent)');
+            pintarCajas('memoria', mision.memoria, 'var(--blue)');
+            pintarCajas('geo', mision.geo, 'var(--green)');
+
+            let btn = document.getElementById('btn-reclamar-mision');
+            if (mision.tactica >= 3 && mision.memoria >= 3 && mision.geo >= 3) {
+                if (mision.reclamado) {
+                    btn.innerText = "✅ MISIÓN COMPLETADA";
+                    btn.style.background = "var(--green)";
+                    btn.style.color = "#fff";
+                    btn.disabled = true;
+                } else {
+                    btn.innerText = "🎁 ¡RECLAMAR 100 XP!";
+                    btn.style.background = "var(--accent)";
+                    btn.style.color = "#000";
+                    btn.style.boxShadow = "0 4px 0 #b39500";
+                    btn.style.cursor = "pointer";
+                    btn.disabled = false;
+                    btn.classList.add("anim-pulso");
+                }
+            }
+        }
+
+        function pintarCajas(categoria, cantidad, color) {
+            document.getElementById(`txt-m-${categoria}`).innerText = `${Math.min(cantidad, 3)}/3`;
+            let cajas = document.getElementsByClassName(`box-m-${categoria}`);
+            for(let i=0; i<3; i++) {
+                if (i < cantidad) {
+                    cajas[i].style.background = color;
+                    cajas[i].style.boxShadow = `0 0 10px ${color}80`;
+                } else {
+                    cajas[i].style.background = '#222';
+                    cajas[i].style.boxShadow = 'none';
+                }
+            }
+        }
+
+        function reclamarMision() {
+            let mision = JSON.parse(localStorage.getItem('mision_diaria'));
+            mision.reclamado = true;
+            localStorage.setItem('mision_diaria', JSON.stringify(mision));
+            actualizarEstadisticaGlobal('xpTotal', 100, true);
+            actualizarUICajasMision();
+            setTimeout(()=> window.location.reload(), 1000);
+        }
+
+        // ==========================================
+        // RESTO DE FUNCIONES (SOCIAL, RANKING, ETC)
+        // ==========================================
         function cargarRanking(rutaDb, idContenedor, sufijo) {
             if (typeof firebase === 'undefined') return;
             firebase.database().ref(rutaDb).orderByChild('puntos').limitToLast(5).on('value', (snapshot) => {
@@ -382,12 +414,7 @@
                     jugadores.forEach((j, index) => {
                         let medalla = index === 0 ? '👑' : index === 1 ? '🥈' : index === 2 ? '🥉' : '🔹';
                         let style = index === 0 ? 'color:#ffd700; font-weight:bold; background:rgba(255,215,0,0.05); padding:10px; border-radius:5px;' : 'padding:10px 5px;';
-                        
-                        let iconoRango = "";
-                        if (typeof window.obtenerInfoRango === 'function' && j.puntos !== undefined) {
-                            iconoRango = window.obtenerInfoRango(j.puntos).icono + " ";
-                        }
-
+                        let iconoRango = (typeof window.obtenerInfoRango === 'function' && j.puntos !== undefined) ? window.obtenerInfoRango(j.puntos).icono + " " : "";
                         html += `<div style="display:flex; justify-content:space-between; border-bottom:1px solid #2a2a2a; ${style}"><span>${medalla} ${iconoRango}${j.nombre}</span><span>${j.puntos} ${sufijo}</span></div>`;
                     });
                 }
@@ -395,56 +422,38 @@
             });
         }
 
-        // ==========================================
-        // PERFIL ACTUALIZADO CON RANGOS
-        // ==========================================
         function abrirMiPerfil() {
-            let p = obtenerPerfil();
-            let elos = p.elos || {};
-            let defaults = { base: 0, storm: 1700, ciego: 1700, radar: 1700, lectura: 1700 };
+            let p = obtenerPerfil(); let elos = p.elos || {}; let defaults = { base: 0, storm: 1700, ciego: 1700, radar: 1700, lectura: 1700 };
             for (let k in defaults) { if (!elos[k]) elos[k] = { current: defaults[k] }; }
-
             let xpInfo = (typeof window.obtenerInfoRango === 'function') ? window.obtenerInfoRango(p.xpTotal || 0) : { nombre: 'Jugador', icono: '♟️', color: '#fff' };
-
             let html = `
                 <div class="profile-header" style="justify-content: space-between;">
                     <h1 style="margin:0; color:var(--accent); font-size:2.5em;">👤 ${p.nombreJugador}</h1>
                     <div style="text-align: right;">
-                        <div style="color: ${xpInfo.color}; font-size: 1.2em; text-transform: uppercase; font-weight: bold; letter-spacing: 1px; text-shadow: 0 0 10px ${xpInfo.color}40;">${xpInfo.icono} ${xpInfo.nombre}</div>
+                        <div style="color: ${xpInfo.color}; font-size: 1.2em; text-transform: uppercase; font-weight: bold;">${xpInfo.icono} ${xpInfo.nombre}</div>
                         <div style="color: var(--green); font-weight: bold; font-size: 1.5em;">${p.xpTotal || 0} XP</div>
                     </div>
                 </div>
-                
                 <div class="activity-log" style="max-width: 500px; margin: 0 auto;">
                     <h3 style="margin-top:0; color:var(--blue); border-bottom:1px solid #444; padding-bottom:10px; text-align:center;">📊 Mejores Puntuaciones</h3>
-                    
-                    <div class="activity-item"><span>🌍 Dominio Geográfico:</span> <strong style="color:var(--accent);">${elos.base.current} Pts</strong></div>
+                    <div class="activity-item"><span>🌍 Geográfico:</span> <strong style="color:var(--accent);">${elos.base.current} Pts</strong></div>
                     <div class="activity-item"><span>⚡ Asalto Visual:</span> <strong style="color:var(--accent);">${elos.storm.current}</strong></div>
                     <div class="activity-item"><span>🦇 Cálculo Puro:</span> <strong style="color:var(--accent);">${elos.ciego.current}</strong></div>
-                    <div class="activity-item"><span>📸 Memoria Fotográfica:</span> <strong style="color:var(--accent);">${elos.radar.current}</strong></div>
+                    <div class="activity-item"><span>📸 Memoria:</span> <strong style="color:var(--accent);">${elos.radar.current}</strong></div>
                     <div class="activity-item" style="border-bottom:none;"><span>📖 Lector PGN:</span> <strong style="color:var(--accent);">${elos.lectura.current}</strong></div>
                 </div>
             `;
-            document.getElementById('perfil-ajeno-body').innerHTML = html;
-            document.getElementById('modal-perfil').style.display = 'flex';
+            document.getElementById('perfil-ajeno-body').innerHTML = html; document.getElementById('modal-perfil').style.display = 'flex';
         }
 
         function verPerfilAjeno(uid) {
-            document.getElementById('search-results').style.display = 'none';
-            document.getElementById('search-input').value = '';
-            let miUid = localStorage.getItem('current_user_uid');
-            if (uid === miUid) { abrirMiPerfil(); return; }
-
+            document.getElementById('search-results').style.display = 'none'; document.getElementById('search-input').value = '';
+            let miUid = localStorage.getItem('current_user_uid'); if (uid === miUid) { abrirMiPerfil(); return; }
             firebase.database().ref('users/' + uid).once('value', snap => {
-                let u = snap.val(); if (!u) return;
-
-                let colorOnline = u.isOnline ? 'var(--green)' : '#555';
-                let elos = u.elos || {};
-                let defaults = { base: 0, storm: 1700, ciego: 1700, radar: 1700, lectura: 1700 };
+                let u = snap.val(); if (!u) return; let colorOnline = u.isOnline ? 'var(--green)' : '#555';
+                let elos = u.elos || {}; let defaults = { base: 0, storm: 1700, ciego: 1700, radar: 1700, lectura: 1700 };
                 for (let k in defaults) { if (!elos[k]) elos[k] = { current: defaults[k] }; }
-
                 let xpInfo = (typeof window.obtenerInfoRango === 'function') ? window.obtenerInfoRango(u.xpTotal || 0) : { nombre: 'Jugador', icono: '♟️', color: '#fff' };
-
                 let html = `
                     <div class="profile-header" style="justify-content: space-between;">
                         <div style="display: flex; align-items: center; gap: 15px;">
@@ -456,54 +465,24 @@
                             <div style="color: var(--green); font-weight: bold; font-size: 1.5em;">${u.xpTotal || 0} XP</div>
                         </div>
                     </div>
-
                     <div style="display: flex; gap: 15px; margin-bottom: 25px;">
-                        <button class="btn-modal" style="background:var(--blue); color:white; width:50%; padding:15px; margin:0; box-shadow: 0 4px 0 #20629c;" onclick="abrirChat('${uid}', '${u.nombreJugador}')">💬 Mensaje</button>
-                        <button class="btn-modal" style="background:var(--red); color:white; width:50%; padding:15px; margin:0; box-shadow: 0 4px 0 #8a1f1f;" onclick="abrirMenuDuelo('${u.nombreJugador}', '${uid}')">⚔️ Desafiar a Duelo</button>
-                    </div>
-                    
-                    <div class="activity-log" style="max-width: 500px; margin: 0 auto;">
-                        <h3 style="margin-top:0; color:var(--blue); border-bottom:1px solid #444; padding-bottom:10px; text-align:center;">📊 Mejores Puntuaciones</h3>
-                        
-                        <div class="activity-item"><span>🌍 Dominio Geográfico:</span> <strong style="color:var(--accent);">${elos.base.current} Pts</strong></div>
-                        <div class="activity-item"><span>⚡ Asalto Visual:</span> <strong style="color:var(--accent);">${elos.storm.current}</strong></div>
-                        <div class="activity-item"><span>🦇 Cálculo Puro:</span> <strong style="color:var(--accent);">${elos.ciego.current}</strong></div>
-                        <div class="activity-item"><span>📸 Memoria Fotográfica:</span> <strong style="color:var(--accent);">${elos.radar.current}</strong></div>
-                        <div class="activity-item" style="border-bottom:none;"><span>📖 Lector PGN:</span> <strong style="color:var(--accent);">${elos.lectura.current}</strong></div>
+                        <button class="btn-modal" style="background:var(--blue); color:white; width:50%; padding:15px; margin:0;" onclick="abrirChat('${uid}', '${u.nombreJugador}')">💬 Mensaje</button>
                     </div>
                 `;
-                document.getElementById('perfil-ajeno-body').innerHTML = html;
-                document.getElementById('modal-perfil').style.display = 'flex';
+                document.getElementById('perfil-ajeno-body').innerHTML = html; document.getElementById('modal-perfil').style.display = 'flex';
             });
         }
 
-        // ==========================================
-        // BUSCADOR Y CHAT
-        // ==========================================
         function buscarUsuarios(val) {
-            const results = document.getElementById('search-results');
-            val = val.trim();
+            const results = document.getElementById('search-results'); val = val.trim();
             if (val.length < 2) { results.style.display = 'none'; return; }
-
             firebase.database().ref('users').orderByChild('nombreJugador').startAt(val).endAt(val + '\uf8ff').limitToFirst(6).once('value', snap => {
                 let html = '';
-                snap.forEach(child => {
-                    let u = child.val();
-                    let color = u.isOnline ? 'var(--green)' : '#555';
-                    html += `
-                    <div class="search-item" onclick="verPerfilAjeno('${child.key}')">
-                        <div class="dot-online" style="background:${color}; box-shadow: 0 0 5px ${color};"></div>
-                        <span style="font-weight:bold;">${u.nombreJugador}</span>
-                    </div>`;
-                });
-                results.innerHTML = html || '<div class="search-item" style="color:#888; font-style:italic;">No se encontró a nadie.</div>';
-                results.style.display = 'block';
+                snap.forEach(child => { let u = child.val(); let color = u.isOnline ? 'var(--green)' : '#555'; html += `<div class="search-item" onclick="verPerfilAjeno('${child.key}')"><div class="dot-online" style="background:${color};"></div><span style="font-weight:bold;">${u.nombreJugador}</span></div>`; });
+                results.innerHTML = html || '<div class="search-item" style="color:#888; font-style:italic;">Nadie encontrado.</div>'; results.style.display = 'block';
             });
         }
-
-        document.addEventListener('click', function (e) {
-            if (!document.getElementById('search-input').contains(e.target)) { document.getElementById('search-results').style.display = 'none'; }
-        });
+        document.addEventListener('click', function (e) { if (!document.getElementById('search-input').contains(e.target)) { document.getElementById('search-results').style.display = 'none'; } });
 
         function escucharUsuariosOnline() {
             let miUid = localStorage.getItem('current_user_uid'); if (!miUid) return;
@@ -512,9 +491,8 @@
                 snap.forEach(child => {
                     let u = child.val();
                     if (u.isOnline === true && child.key !== miUid && u.isPublic !== false) {
-                        hayAlguien = true;
-                        let icono = (typeof window.obtenerInfoRango === 'function') ? window.obtenerInfoRango(u.xpTotal || 0).icono : "♟️";
-                        html += `<div class="user-online-mini" onclick="verPerfilAjeno('${child.key}')"><span style="font-weight:bold; color:#fff;">${icono} ${u.nombreJugador || 'Jugador'}</span><div class="dot-online"></div></div>`;
+                        hayAlguien = true; let icono = (typeof window.obtenerInfoRango === 'function') ? window.obtenerInfoRango(u.xpTotal || 0).icono : "♟️";
+                        html += `<div class="user-online-mini" onclick="verPerfilAjeno('${child.key}')"><span style="color:#fff;">${icono} ${u.nombreJugador || 'Jugador'}</span><div class="dot-online"></div></div>`;
                     }
                 });
                 document.getElementById('lista-jugadores-mini').innerHTML = hayAlguien ? html : '<div style="color:#555; font-style:italic; padding:10px;">La plaza está vacía.</div>';
@@ -551,75 +529,7 @@
                 const div = document.getElementById('chat-messages'); div.innerHTML = html || '<div style="color:#555;text-align:center;margin-top:20px;">¡Di hola!</div>'; setTimeout(() => div.scrollTop = div.scrollHeight, 100);
             });
         }
-
         function mandarMensaje() { let input = document.getElementById('chat-input'); if (input.value.trim() !== '') { ChatManager.enviarMensaje(chatActivoUid, input.value); input.value = ''; } }
-
-        // ==========================================
-        // GESTIÓN DE DUELOS 
-        // ==========================================
-        function abrirMenuDuelo(nombre, uidRival) {
-            document.getElementById('modal-perfil').style.display = 'none';
-            document.getElementById('modal-crear-duelo').style.display = 'flex';
-            document.getElementById('duelo-rival-nombre').innerText = nombre;
-            document.getElementById('duelo-rival-uid').value = uidRival;
-        }
-
-        let miSalaActual = null;
-        function enviarReto() {
-            let miUid = localStorage.getItem('current_user_uid'); let miNombre = localStorage.getItem('current_user_name');
-            let rivalUid = document.getElementById('duelo-rival-uid').value;
-            let juego = document.getElementById('duelo-juego').value; let tiempo = document.getElementById('duelo-tiempo').value;
-
-            miSalaActual = miUid + "_" + Date.now();
-
-            firebase.database().ref('duelos/' + miSalaActual).set({ creador: miUid, rival: rivalUid, juego: juego, tiempo: tiempo, estado: 'esperando', timestamp: Date.now() });
-            firebase.database().ref('invitaciones/' + rivalUid).set({
-                deUid: miUid, deNombre: miNombre, sala: miSalaActual,
-                juego: document.getElementById('duelo-juego').options[document.getElementById('duelo-juego').selectedIndex].text,
-                tiempoFormato: document.getElementById('duelo-tiempo').options[document.getElementById('duelo-tiempo').selectedIndex].text
-            });
-
-            cerrarModal('modal-crear-duelo'); document.getElementById('modal-esperando').style.display = 'flex';
-
-            firebase.database().ref('duelos/' + miSalaActual + '/estado').on('value', (snap) => {
-                let estado = snap.val();
-                if (estado === 'aceptado') window.location.href = `duelo.html?sala=${miSalaActual}`;
-                else if (estado === 'rechazado') { alert("El jugador ha rechazado tu desafío."); cerrarModal('modal-esperando'); firebase.database().ref('duelos/' + miSalaActual).remove(); }
-            });
-        }
-
-        function cancelarRetoEnviado() {
-            let rivalUid = document.getElementById('duelo-rival-uid').value;
-            firebase.database().ref('invitaciones/' + rivalUid).remove();
-            if (miSalaActual) firebase.database().ref('duelos/' + miSalaActual).remove();
-            cerrarModal('modal-esperando');
-        }
-
-        function iniciarEscuchaDuelos(miUid) {
-            firebase.database().ref('invitaciones/' + miUid).on('value', (snap) => {
-                let invitacion = snap.val();
-                if (invitacion && invitacion.sala) {
-                    window.invitacionPendiente = invitacion;
-                    document.getElementById('reto-de-nombre').innerText = invitacion.deNombre;
-                    document.getElementById('reto-detalles').innerText = `${invitacion.juego} | ${invitacion.tiempoFormato}`;
-                    document.getElementById('modal-recibir-reto').style.display = 'flex';
-                } else { document.getElementById('modal-recibir-reto').style.display = 'none'; }
-            });
-        }
-
-        function responderReto(acepta) {
-            let inv = window.invitacionPendiente; let miUid = localStorage.getItem('current_user_uid');
-            if (!inv) return;
-            if (acepta) {
-                firebase.database().ref('duelos/' + inv.sala).update({ estado: 'aceptado' });
-                firebase.database().ref('invitaciones/' + miUid).remove();
-                window.location.href = `duelo.html?sala=${inv.sala}`;
-            } else {
-                firebase.database().ref('duelos/' + inv.sala).update({ estado: 'rechazado' });
-                firebase.database().ref('invitaciones/' + miUid).remove();
-                cerrarModal('modal-recibir-reto');
-            }
-        }
     </script>
 </body>
 </html>
