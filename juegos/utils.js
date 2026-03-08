@@ -69,26 +69,11 @@ try { if (typeof firebase !== 'undefined' && !firebase.apps.length) firebase.ini
 
 const PERFIL_DEFAULT = { 
     uid: "", nombreJugador: "Jugador", isPublic: true,
-    eloNormal: 1700, eloCiego: 1700,
-    elos: {
-        base: { current: 0, history: [] },
-        storm: { current: 1700, history: [] },
-        ciego: { current: 1700, history: [] },
-        radar: { current: 1700, history: [] },
-        flash: { current: 1700, history: [] },
-        memoria: { current: 1700, history: [] },
-        lectura: { current: 1700, history: [] },
-        tiempo: { current: 0, history: [] },
-        teclado: { current: 0, history: [] },
-        voz: { current: 0, history: [] }
-    },
+    eloNormal: 1700, eloCiego: 1700, // Se mantienen solo como dificultad oculta del juego
     ultimaActividad: [],
     xpTotal: 0, xpAciertos: 0, xpFallos: 0,
-    radarJugados: 0, radarAciertos: 0,
-    flashJugados: 0, flashAciertos: 0,
-    memoriaJugados: 0, memoriaAciertos: 0,
-    lecturaJugados: 0, lecturaAciertos: 0,
-    arcadeGlobalMax: 0, stormTiempoMax: 0
+    arcadeGlobalMax: 0, stormTiempoMax: 0,
+    rachaDias: 0, ultimaConexion: ""
 };
 
 function obtenerPerfil() {
@@ -102,10 +87,6 @@ function obtenerPerfil() {
         let perfilObj = perfilStr ? JSON.parse(perfilStr) : {};
         let nuevoPerfil = { ...JSON.parse(JSON.stringify(PERFIL_DEFAULT)), ...perfilObj, uid: uid };
         
-        if(!nuevoPerfil.elos) nuevoPerfil.elos = JSON.parse(JSON.stringify(PERFIL_DEFAULT.elos));
-        for (let key in PERFIL_DEFAULT.elos) {
-            if (!nuevoPerfil.elos[key]) nuevoPerfil.elos[key] = JSON.parse(JSON.stringify(PERFIL_DEFAULT.elos[key]));
-        }
         if(!nuevoPerfil.ultimaActividad) nuevoPerfil.ultimaActividad = [];
         
         return nuevoPerfil; 
@@ -132,28 +113,6 @@ function guardarPerfil(perfil) {
             firebase.database().ref('users/' + uid).update(pToSave);
         }
     } catch(e) {}
-}
-
-function actualizarEloJuego(gameId, nuevoElo, puntosGanados) {
-    let p = obtenerPerfil();
-    let fechaHoy = new Date().toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: '2-digit' });
-    
-    if(!p.elos[gameId]) p.elos[gameId] = { current: (gameId==='base'||gameId==='tiempo'||gameId==='teclado'||gameId==='voz') ? 0 : 1700, history: [] };
-    
-    let hist = p.elos[gameId].history;
-    if (hist.length > 0 && hist[hist.length - 1].fecha === fechaHoy) {
-        hist[hist.length - 1].elo = nuevoElo;
-    } else {
-        hist.push({ fecha: fechaHoy, elo: nuevoElo });
-    }
-    if (hist.length > 30) hist.shift(); 
-
-    p.elos[gameId].current = nuevoElo;
-
-    p.ultimaActividad.unshift({ fecha: fechaHoy, juego: gameId, pts: puntosGanados > 0 ? "+"+puntosGanados : puntosGanados });
-    if(p.ultimaActividad.length > 10) p.ultimaActividad.pop();
-
-    guardarPerfil(p);
 }
 
 function actualizarEstadisticaGlobal(campo, valor, esAcumulativo = false) {
@@ -282,15 +241,12 @@ window.obtenerAjustesGlobales = function() {
 
 window.guardarAjustesGlobal = function() {
     let s = document.getElementById('ajuste-sonido-global').value === "on";
-    let p = document.getElementById('ajuste-piezas-oculto').value; // Ahora lee de un input oculto
+    let p = document.getElementById('ajuste-piezas-oculto').value; 
     localStorage.setItem('chessgym_ajustes', JSON.stringify({ sonido: s, piezas: p }));
     document.getElementById('modal-ajustes-global').style.display = 'none';
-    
-    // Recargar la página para que se redibuje el tablero con las nuevas piezas
     location.reload(); 
 };
 
-// Función para iluminar la tarjeta de la pieza seleccionada
 window.seleccionarPiezaVisual = function(estilo) {
     document.getElementById('ajuste-piezas-oculto').value = estilo;
     let cards = document.getElementsByClassName('pieza-card');
@@ -316,7 +272,7 @@ if (typeof window.reproducirSonidoOriginal === 'undefined' && typeof window.repr
     };
 }
 
-// 3. Interceptar ChessboardJS para inyectar el diseño de las piezas
+// 3. Interceptar ChessboardJS
 if (typeof window.Chessboard !== 'undefined' && typeof window._originalChessboard === 'undefined') {
     window._originalChessboard = window.Chessboard;
     window.Chessboard = function(el, config) {
@@ -336,18 +292,15 @@ if (typeof window.Chessboard !== 'undefined' && typeof window._originalChessboar
 
 // 4. Inyectar el botón flotante y el modal visual en el HTML
 document.addEventListener('DOMContentLoaded', () => {
-    // Botón flotante
     const btnAjustes = document.createElement('button');
     btnAjustes.innerHTML = '⚙️';
     btnAjustes.id = "btn-ajustes-flotante";
     btnAjustes.title = "Ajustes del Gimnasio";
     btnAjustes.style.cssText = 'position: fixed; bottom: 20px; left: 20px; background: #262421; border: 2px solid #444; color: white; font-size: 1.5em; width: 50px; height: 50px; border-radius: 50%; cursor: pointer; z-index: 9998; box-shadow: 0 4px 10px rgba(0,0,0,0.5); display: flex; justify-content: center; align-items: center; transition: 0.2s;';
     
-    // Efectos hover por JS
     btnAjustes.onmouseover = () => { btnAjustes.style.transform = 'scale(1.1)'; btnAjustes.style.borderColor = '#3692e7'; };
     btnAjustes.onmouseout = () => { btnAjustes.style.transform = 'scale(1)'; btnAjustes.style.borderColor = '#444'; };
     
-    // Abrir Modal
     btnAjustes.onclick = () => {
         let a = window.obtenerAjustesGlobales();
         document.getElementById('ajuste-sonido-global').value = a.sonido ? "on" : "off";
@@ -356,7 +309,6 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     document.body.appendChild(btnAjustes);
 
-    // CSS inyectado para las tarjetas de piezas
     const style = document.createElement('style');
     style.innerHTML = `
         .pieza-card {
@@ -369,7 +321,6 @@ document.addEventListener('DOMContentLoaded', () => {
     `;
     document.head.appendChild(style);
 
-    // Modal oculto de ajustes con selector visual
     const modalHTML = `
         <div id="modal-ajustes-global" class="overlay-modal" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(10, 10, 10, 0.95); z-index: 9999; display: none; justify-content: center; align-items: center;">
             <div class="caja-modal" style="background: #262421; padding: 40px; border-radius: 12px; border: 2px solid #3692e7; width: 100%; max-width: 450px; text-align: left; position: relative; box-shadow: 0 15px 50px rgba(0,0,0,0.8); font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
@@ -406,42 +357,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 /* ==========================================
-   OPTIMIZACIÓN MÓVIL GLOBAL (PUNTO 5)
+   OPTIMIZACIÓN MÓVIL GLOBAL
    ========================================== */
 document.addEventListener('DOMContentLoaded', () => {
     const mobileStyle = document.createElement('style');
     mobileStyle.innerHTML = `
         @media (max-width: 768px) {
-            /* 1. Arreglo del Menú Superior */
-            #top-bar { 
-                padding: 0 10px !important; 
-                overflow-x: auto; /* Permite deslizar el menú con el dedo si no cabe */
-                justify-content: flex-start !important; 
-                gap: 15px; 
-            }
-            #brand-logo { font-size: 1.2em !important; display: none; } /* Ocultamos el logo en móvil para dar espacio al menú */
+            #top-bar { padding: 0 10px !important; overflow-x: auto; justify-content: flex-start !important; gap: 15px; }
+            #brand-logo { font-size: 1.2em !important; display: none; }
             #nav-menu { gap: 10px !important; }
             .nav-link { font-size: 0.9em !important; padding: 5px !important; }
             .search-container { width: 140px !important; }
             #search-input { font-size: 0.8em !important; padding: 8px !important; }
-
-            /* 2. Arreglo del Dashboard (Index) */
             #layout-wrapper { flex-direction: column !important; height: auto !important; overflow-y: visible !important; }
             #main-content { padding: 15px !important; width: 100% !important; box-sizing: border-box; }
             #sidebar-right { width: 100% !important; border-left: none !important; border-top: 2px solid #444 !important; }
-
-            /* 3. Arreglo de los Hubs */
             #hub-container { padding: 10px !important; margin-top: 80px !important;}
             .config-section { padding: 15px !important; }
             .hub-title { font-size: 2em !important; }
-            
-            /* 4. Arreglo de los Juegos (El Tablero es el Rey) */
             #main-layout { flex-direction: column !important; align-items: center !important; gap: 15px !important; padding: 5px !important; margin-top: 70px !important;}
             #tablero-wrapper { width: 100% !important; flex: none !important; max-width: 100vw !important; padding: 0 !important; box-sizing: border-box; }
-            #tablero { width: 100% !important; max-width: 100% !important; border-width: 3px !important; } /* Tablero al 100% del ancho del móvil */
+            #tablero { width: 100% !important; max-width: 100% !important; border-width: 3px !important; }
             .sidebar-panel { width: 100% !important; max-width: 100% !important; padding: 0 !important; box-sizing: border-box;}
-            
-            /* 5. Chat y Modales Adaptados */
             #chat-modal { width: 100% !important; right: 0 !important; bottom: 0 !important; height: 60vh !important; border-radius: 15px 15px 0 0 !important; border-bottom: none !important; z-index: 9999 !important;}
             .caja-modal { width: 95% !important; padding: 25px 15px !important; }
         }
@@ -451,12 +388,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 /* ==========================================
-   SISTEMA DE RANGOS Y XP (PUNTO 2)
+   SISTEMA DE RANGOS Y XP
    ========================================== */
 window.obtenerInfoRango = function(xpTotal) {
     let xp = xpTotal || 0;
     
-    // Escala de niveles del Gimnasio
     let rangos = [
         { nombre: "Iniciado", icono: "🪵", min: 0, max: 999, color: "#8b5a2b" },
         { nombre: "Aficionado", icono: "🥉", min: 1000, max: 2499, color: "#cd7f32" },
@@ -469,16 +405,14 @@ window.obtenerInfoRango = function(xpTotal) {
     let rangoActual = rangos[0];
     let rangoSiguiente = rangos[1];
 
-    // Buscar en qué rango encaja el jugador
     for (let i = 0; i < rangos.length; i++) {
         if (xp >= rangos[i].min && xp <= rangos[i].max) {
             rangoActual = rangos[i];
-            rangoSiguiente = rangos[i + 1] || rangos[i]; // Si ya es Leyenda, se queda ahí
+            rangoSiguiente = rangos[i + 1] || rangos[i];
             break;
         }
     }
 
-    // Calcular porcentajes para la barra de progreso
     let progresoEnElNivel = xp - rangoActual.min;
     let xpTotalDelNivel = rangoSiguiente.min - rangoActual.min;
     let porcentaje = (rangoActual.nombre === "Leyenda") ? 100 : Math.floor((progresoEnElNivel / xpTotalDelNivel) * 100);
@@ -495,7 +429,7 @@ window.obtenerInfoRango = function(xpTotal) {
 
 
 /* ==========================================
-   BAÚL DE ERRORES (PUNTO 6)
+   BAÚL DE ERRORES
    ========================================== */
 window.guardarFallo = function(modulo, fen, solucionCorrecta, tuJugada) {
     let uid = localStorage.getItem('current_user_uid');
@@ -519,26 +453,21 @@ window.borrarFallo = function(key) {
     firebase.database().ref('users/' + uid + '/errores/' + key).remove();
 };
 
-// ==========================================
-// SISTEMA DE MISIÓN DIARIA
-// ==========================================
+/* ==========================================
+   SISTEMA DE MISIÓN DIARIA
+   ========================================== */
 function avanzarMisionDiaria(categoria) {
-    // categoria debe ser: 'tactica', 'memoria' o 'geo'
     let hoy = new Date().toDateString();
     let mision = JSON.parse(localStorage.getItem('mision_diaria'));
     
-    // Si no existe la misión o es de un día anterior, la creamos desde cero
     if (!mision || mision.fecha !== hoy) {
         mision = { fecha: hoy, tactica: 0, memoria: 0, geo: 0, reclamado: false };
     }
     
-    // Si ya ha reclamado los 100 XP hoy, ya no hace falta seguir sumando
     if (mision.reclamado) return;
 
-    // Sumar 1 a la categoría correspondiente (hasta un máximo de 3)
     if (mision[categoria] < 3) {
         mision[categoria]++;
         localStorage.setItem('mision_diaria', JSON.stringify(mision));
-        console.log(`Misión Actualizada: ${categoria} tiene ${mision[categoria]}/3`);
     }
 }

@@ -108,7 +108,7 @@
         <div id="main-content">
             
             <div style="text-align: center; margin-bottom: 10px;">
-                <h1 style="color: #fff; margin: 0; font-size: 2.5em;">Bienvenido a Chess Gym</h1>
+                <h1 style="color: #fff; margin: 0; font-size: 2.5em;">Bienvenido al Cuartel General</h1>
                 <p style="color: #aaa; font-size: 1.2em; margin-top: 5px;">Completa tu misión diaria para mantener la racha de entrenamiento.</p>
             </div>
 
@@ -400,7 +400,7 @@
         }
 
         // ==========================================
-        // RESTO DE FUNCIONES (SOCIAL, RANKING, ETC)
+        // RESTO DE FUNCIONES (SOCIAL, RANKING, PERFIL)
         // ==========================================
         function cargarRanking(rutaDb, idContenedor, sufijo) {
             if (typeof firebase === 'undefined') return;
@@ -423,8 +423,7 @@
         }
 
         function abrirMiPerfil() {
-            let p = obtenerPerfil(); let elos = p.elos || {}; let defaults = { base: 0, storm: 1700, ciego: 1700, radar: 1700, lectura: 1700 };
-            for (let k in defaults) { if (!elos[k]) elos[k] = { current: defaults[k] }; }
+            let p = obtenerPerfil(); 
             let xpInfo = (typeof window.obtenerInfoRango === 'function') ? window.obtenerInfoRango(p.xpTotal || 0) : { nombre: 'Jugador', icono: '♟️', color: '#fff' };
             let html = `
                 <div class="profile-header" style="justify-content: space-between;">
@@ -435,15 +434,13 @@
                     </div>
                 </div>
                 <div class="activity-log" style="max-width: 500px; margin: 0 auto;">
-                    <h3 style="margin-top:0; color:var(--blue); border-bottom:1px solid #444; padding-bottom:10px; text-align:center;">📊 Mejores Puntuaciones</h3>
-                    <div class="activity-item"><span>🌍 Geográfico:</span> <strong style="color:var(--accent);">${elos.base.current} Pts</strong></div>
-                    <div class="activity-item"><span>⚡ Asalto Visual:</span> <strong style="color:var(--accent);">${elos.storm.current}</strong></div>
-                    <div class="activity-item"><span>🦇 Cálculo Puro:</span> <strong style="color:var(--accent);">${elos.ciego.current}</strong></div>
-                    <div class="activity-item"><span>📸 Memoria:</span> <strong style="color:var(--accent);">${elos.radar.current}</strong></div>
-                    <div class="activity-item" style="border-bottom:none;"><span>📖 Lector PGN:</span> <strong style="color:var(--accent);">${elos.lectura.current}</strong></div>
+                    <h3 style="margin-top:0; color:var(--blue); border-bottom:1px solid #444; padding-bottom:10px; text-align:center;">📊 Estadísticas Principales</h3>
+                    <div class="activity-item"><span>🔥 Constancia:</span> <strong style="color:#ff6600;">Racha de ${p.rachaDias || 0} Días</strong></div>
+                    <div class="activity-item" style="border-bottom:none;"><span>⚡ Récord Arcade:</span> <strong style="color:var(--accent);">${p.arcadeGlobalMax || 0} Pts</strong></div>
                 </div>
             `;
-            document.getElementById('perfil-ajeno-body').innerHTML = html; document.getElementById('modal-perfil').style.display = 'flex';
+            document.getElementById('perfil-ajeno-body').innerHTML = html; 
+            document.getElementById('modal-perfil').style.display = 'flex';
         }
 
         function verPerfilAjeno(uid) {
@@ -451,8 +448,6 @@
             let miUid = localStorage.getItem('current_user_uid'); if (uid === miUid) { abrirMiPerfil(); return; }
             firebase.database().ref('users/' + uid).once('value', snap => {
                 let u = snap.val(); if (!u) return; let colorOnline = u.isOnline ? 'var(--green)' : '#555';
-                let elos = u.elos || {}; let defaults = { base: 0, storm: 1700, ciego: 1700, radar: 1700, lectura: 1700 };
-                for (let k in defaults) { if (!elos[k]) elos[k] = { current: defaults[k] }; }
                 let xpInfo = (typeof window.obtenerInfoRango === 'function') ? window.obtenerInfoRango(u.xpTotal || 0) : { nombre: 'Jugador', icono: '♟️', color: '#fff' };
                 let html = `
                     <div class="profile-header" style="justify-content: space-between;">
@@ -465,11 +460,17 @@
                             <div style="color: var(--green); font-weight: bold; font-size: 1.5em;">${u.xpTotal || 0} XP</div>
                         </div>
                     </div>
-                    <div style="display: flex; gap: 15px; margin-bottom: 25px;">
-                        <button class="btn-modal" style="background:var(--blue); color:white; width:50%; padding:15px; margin:0;" onclick="abrirChat('${uid}', '${u.nombreJugador}')">💬 Mensaje</button>
+                    <div class="activity-log" style="max-width: 500px; margin: 0 auto; margin-bottom: 25px;">
+                        <h3 style="margin-top:0; color:var(--blue); border-bottom:1px solid #444; padding-bottom:10px; text-align:center;">📊 Estadísticas Principales</h3>
+                        <div class="activity-item"><span>🔥 Constancia:</span> <strong style="color:#ff6600;">Racha de ${u.rachaDias || 0} Días</strong></div>
+                        <div class="activity-item" style="border-bottom:none;"><span>⚡ Récord Arcade:</span> <strong style="color:var(--accent);">${u.arcadeGlobalMax || 0} Pts</strong></div>
+                    </div>
+                    <div style="display: flex; gap: 15px; margin-bottom: 5px;">
+                        <button class="btn-modal" style="background:var(--blue); color:white; width:100%; padding:15px; margin:0;" onclick="abrirChat('${uid}', '${u.nombreJugador}')">💬 Enviar Mensaje Privado</button>
                     </div>
                 `;
-                document.getElementById('perfil-ajeno-body').innerHTML = html; document.getElementById('modal-perfil').style.display = 'flex';
+                document.getElementById('perfil-ajeno-body').innerHTML = html; 
+                document.getElementById('modal-perfil').style.display = 'flex';
             });
         }
 
