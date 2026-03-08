@@ -98,7 +98,7 @@
     </div>
 
     <div id="pantalla-carga">
-        <button class="btn-azul" style="width: 100%; padding: 15px; font-size: 1.2em;" onclick="iniciarPantallaJuego(false)">🎮 JUGAR EN SOLITARIO</button>
+        <button id="btn-defecto" class="btn-azul" style="width: 100%; padding: 15px; font-size: 1.2em;">🎮 JUGAR EN SOLITARIO</button>
         <hr style="border: 1px solid #444; margin: 25px 0;">
         <button id="btn-torneo" class="btn-amarillo" style="width: 100%; padding: 15px; font-size: 1.2em;" onclick="abrirLobbyTorneo()">🏆 CREAR / UNIRSE A TORNEO</button>
         
@@ -237,15 +237,24 @@
 
         const piezasES = { 'rey': 'k', 'r': 'k', 'dama': 'q', 'd': 'q', 'torre': 'r', 't': 'r', 'alfil': 'b', 'a': 'b', 'caballo': 'n', 'c': 'n', 'peon': 'p', 'p': 'p' };
 
-        inicializarCargaBaseDatos('mis_puzzles.json', 'btn-defecto', 'archivoInput', function(data) {
-            todosLosPuzzles = data; 
-            if (!TorneoManager.enTorneo && !DueloManager.enDuelo) { 
-                document.getElementById('titulo-carga').innerText = "✅ Base Cargada"; 
-                if (modoJuego !== 'zen') {
-                    // Auto-arranque si es Arcade Solitario
-                    iniciarPantallaJuego(false);
-                }
+        // SOLUCIÓN: Auto-arranque si vienes del Hub en modo Arcade
+        window.onload = () => {
+            if (modoJuego === 'arcade' && !TorneoManager.enTorneo && !DueloManager.enDuelo) {
+                document.getElementById('pantalla-carga').classList.add('oculto');
+                fetch('memoria_gm.json')
+                    .then(r => r.json())
+                    .then(data => {
+                        todosLosPuzzles = data;
+                        iniciarPantallaJuego(false);
+                    })
+                    .catch(e => alert("Error cargando la base memoria_gm.json"));
             }
+        };
+
+        // SOLUCIÓN: Carga por defecto al pulsar Jugar en Solitario
+        inicializarCargaBaseDatos('memoria_gm.json', 'btn-defecto', 'archivoInput', function(data) {
+            todosLosPuzzles = data; 
+            iniciarPantallaJuego(false);
         });
 
         // ---------------- RELOJ ARCADE ----------------
@@ -285,7 +294,8 @@
             if (btn) btn.innerText = "Cargando Arena...";
             if (Object.keys(todosLosPuzzles).length > 0) { ejecutarLobby(); }
             else {
-                fetch('mis_puzzles.json').then(r => r.json()).then(data => { todosLosPuzzles = data; ejecutarLobby(); })
+                // SOLUCIÓN: Apuntado también a memoria_gm.json
+                fetch('memoria_gm.json').then(r => r.json()).then(data => { todosLosPuzzles = data; ejecutarLobby(); })
                 .catch(e => { alert("Error cargando base"); if (btn) btn.innerText = "🏆 CREAR / UNIRSE A TORNEO"; });
             }
         }

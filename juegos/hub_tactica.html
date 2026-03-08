@@ -83,6 +83,7 @@
             margin-bottom: 30px;
         }
 
+        /* ESTILOS DE LAS TARJETAS BASE */
         .option-card {
             background: #1a1917;
             border: 2px solid #444;
@@ -98,11 +99,23 @@
         }
 
         .option-card:hover { border-color: #888; transform: translateY(-3px); }
+        .option-icon { font-size: 2.5em; margin-bottom: 10px; display: block; text-shadow: 2px 2px 0 #000; }
+        .option-name { font-weight: bold; color: #fff; font-size: 1.1em; margin-bottom: 5px; transition: 0.2s;}
+        .option-desc { font-size: 0.85em; color: #888; flex-grow: 1;}
+
+        /* ESTILO POR DEFECTO PARA SELECCIONADOS (Amarillo/Azul genérico) */
         .option-card.selected { border-color: var(--blue); background: rgba(54, 146, 231, 0.1); box-shadow: 0 0 15px rgba(54, 146, 231, 0.3); }
         
-        .option-icon { font-size: 2.5em; margin-bottom: 10px; display: block; text-shadow: 2px 2px 0 #000; }
-        .option-name { font-weight: bold; color: #fff; font-size: 1.1em; margin-bottom: 5px;}
-        .option-desc { font-size: 0.85em; color: #888; flex-grow: 1;}
+        /* ESTILOS ESPECÍFICOS PARA LA FILA 1 (VERDE, AZUL, MORADO) */
+        .card-completo.selected { border-color: var(--green); background: rgba(98, 153, 36, 0.1); box-shadow: 0 0 15px rgba(98, 153, 36, 0.3); }
+        .card-completo.selected .option-name { color: var(--green); }
+
+        .card-vacio.selected { border-color: var(--blue); background: rgba(54, 146, 231, 0.1); box-shadow: 0 0 15px rgba(54, 146, 231, 0.3); }
+        .card-vacio.selected .option-name { color: var(--blue); }
+
+        .card-ciego.selected { border-color: var(--purple); background: rgba(138, 43, 226, 0.1); box-shadow: 0 0 15px rgba(138, 43, 226, 0.3); }
+        .card-ciego.selected .option-name { color: var(--purple); }
+
 
         /* CAJA DE EXPLICACIÓN */
         #info-box {
@@ -165,19 +178,19 @@
             
             <div class="category-title">1. Información Visual (Tablero)</div>
             <div class="options-grid" id="grid-visibilidad">
-                <div class="option-card selected" onclick="seleccionar('visibilidad', 'completo', this)">
+                <div class="option-card card-completo selected" onclick="seleccionar('visibilidad', 'completo', this)">
                     <span class="option-icon">👁️</span>
                     <div class="option-name">Completo</div>
                     <div class="option-desc">Tablero y piezas visibles. Nivel base.</div>
                 </div>
-                <div class="option-card" onclick="seleccionar('visibilidad', 'vacio', this)">
+                <div class="option-card card-vacio" onclick="seleccionar('visibilidad', 'vacio', this)">
                     <span class="option-icon">👻</span>
                     <div class="option-name">Tablero Vacío</div>
                     <div class="option-desc">Las piezas son invisibles. Nivel Avanzado.</div>
                 </div>
-                <div class="option-card" onclick="seleccionar('visibilidad', 'ciego', this)" style="border-bottom: 3px solid var(--purple);">
+                <div class="option-card card-ciego" onclick="seleccionar('visibilidad', 'ciego', this)">
                     <span class="option-icon">🦇</span>
-                    <div class="option-name" style="color: var(--purple);">Ciego Total</div>
+                    <div class="option-name">Ciego Total</div>
                     <div class="option-desc">Sin tablero. Responde usando el teclado. Nivel Maestro.</div>
                 </div>
             </div>
