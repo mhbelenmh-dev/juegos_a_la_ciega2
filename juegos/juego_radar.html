@@ -459,6 +459,7 @@
 
             if (esCorrecto) {
                 reproducirSonido('correcto');
+                avanzarMisionDiaria('memoria');
                 if (TorneoManager.enTorneo) { misPuntosLocales += 15; TorneoManager.enviarPuntos(misPuntosLocales); } 
                 else if (typeof DueloManager !== 'undefined' && DueloManager.enDuelo) { misPuntosLocales++; DueloManager.enviarPuntos(misPuntosLocales); }
                 else if (modoJuego === 'arcade') {

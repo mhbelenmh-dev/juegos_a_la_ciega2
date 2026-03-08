@@ -452,6 +452,7 @@
             if (esPerfecto) {
                 puntosRonda += 15; // Bonus Perfecto
                 reproducirSonido('correcto');
+                avanzarMisionDiaria('memoria'); // <--- AQUÍ VA LA LÍNEA MÁGICA
             } else {
                 reproducirSonido('incorrecto');
             }

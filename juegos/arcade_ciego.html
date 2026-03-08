@@ -389,7 +389,7 @@
                 
                 this.score += (typeInfo.pts * mult);
                 reproducirSonido('correcto'); this.flash('green'); this.updateHUD();
-                
+                avanzarMisionDiaria('geo');
                 if(TorneoManager.enTorneo) TorneoManager.enviarPuntos(this.score);
             },
 

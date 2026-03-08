@@ -518,3 +518,27 @@ window.borrarFallo = function(key) {
     if (!uid || typeof firebase === 'undefined') return;
     firebase.database().ref('users/' + uid + '/errores/' + key).remove();
 };
+
+// ==========================================
+// SISTEMA DE MISIÓN DIARIA
+// ==========================================
+function avanzarMisionDiaria(categoria) {
+    // categoria debe ser: 'tactica', 'memoria' o 'geo'
+    let hoy = new Date().toDateString();
+    let mision = JSON.parse(localStorage.getItem('mision_diaria'));
+    
+    // Si no existe la misión o es de un día anterior, la creamos desde cero
+    if (!mision || mision.fecha !== hoy) {
+        mision = { fecha: hoy, tactica: 0, memoria: 0, geo: 0, reclamado: false };
+    }
+    
+    // Si ya ha reclamado los 100 XP hoy, ya no hace falta seguir sumando
+    if (mision.reclamado) return;
+
+    // Sumar 1 a la categoría correspondiente (hasta un máximo de 3)
+    if (mision[categoria] < 3) {
+        mision[categoria]++;
+        localStorage.setItem('mision_diaria', JSON.stringify(mision));
+        console.log(`Misión Actualizada: ${categoria} tiene ${mision[categoria]}/3`);
+    }
+}

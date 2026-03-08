@@ -464,6 +464,7 @@
         }
 
         function puzzleFinalizado() {
+            avanzarMisionDiaria('tactica'); // <--- AQUÍ VA LA LÍNEA MÁGICA
             reproducirSonido('fin'); let pts = 15 + (racha * 5); racha++; misPuntosLocales += pts; totalPuzzlesResueltos++;
             document.getElementById('rachaDisplay').innerText = racha; document.getElementById('ratingDisplay').innerText = misPuntosLocales;
             

@@ -261,6 +261,7 @@
             let real = ((col + fil) % 2 === 0) ? 'negra' : 'blanca';
             if (eleccion === real) {
                 reproducirSonido('correcto'); mostrarStatus("✅ Correcto", "correcto");
+                avanzarMisionDiaria('geo');
                 sumarPuntosDuelo(50, 'basico', true); setTimeout(iniciarEj1, 600);
             } else { reproducirSonido('incorrecto'); mostrarStatus("❌ Fallo", "incorrecto"); sumarPuntosDuelo(-10, 'basico', false); }
         }
@@ -282,6 +283,7 @@
             let user = input.match(/[a-h][1-8]/g) || [];
             if (ej2_soluciones.slice().sort().join(',') === user.slice().sort().join(',') && user.length > 0) {
                 reproducirSonido('correcto'); mostrarStatus("✅ Perfecto", "correcto");
+                avanzarMisionDiaria('geo');
                 sumarPuntosDuelo(100, 'medio', true); setTimeout(iniciarEj2, 800);
             } else { reproducirSonido('incorrecto'); mostrarStatus("❌ Revisa", "incorrecto"); sumarPuntosDuelo(-20, 'medio', false); }
         }
@@ -344,7 +346,9 @@
                 }
                 if(block.has(a)) { reproducirSonido('incorrecto'); mostrarStatus("❌ Casilla vigilada", "incorrecto"); sumarPuntosDuelo(-20, dif, false); return; }
             }
-            reproducirSonido('correcto'); mostrarStatus("✅ Ruta válida", "correcto"); sumarPuntosDuelo(pts, dif, true); setTimeout(cb, 1000);
+            reproducirSonido('correcto'); mostrarStatus("✅ Ruta válida", "correcto");
+            avanzarMisionDiaria('geo');
+            sumarPuntosDuelo(pts, dif, true); setTimeout(cb, 1000);
         }
 
         function rutaBFS(s, e, b) {

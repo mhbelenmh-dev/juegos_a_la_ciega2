@@ -417,6 +417,7 @@
                     generarTextoPosicion(game.fen());
                 } else { 
                     aciertosTotal++;
+                    avanzarMisionDiaria('tactica'); // <--- AQUÍ VA LA LÍNEA MÁGICA
                     if (TorneoManager.enTorneo || (typeof DueloManager !== 'undefined' && DueloManager.enDuelo)) { 
                         puntosCiegosLocales += 15; if(TorneoManager.enTorneo) TorneoManager.enviarPuntos(puntosCiegosLocales); 
                     } else if (modoVidas === 'infinito') { 
