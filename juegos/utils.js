@@ -295,7 +295,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnAjustes = document.createElement('button');
     btnAjustes.innerHTML = '⚙️';
     btnAjustes.id = "btn-ajustes-flotante";
-    btnAjustes.title = "Ajustes del Gimnasio";
+    btnAjustes.title = "Ajustes";
     btnAjustes.style.cssText = 'position: fixed; bottom: 20px; left: 20px; background: #262421; border: 2px solid #444; color: white; font-size: 1.5em; width: 50px; height: 50px; border-radius: 50%; cursor: pointer; z-index: 9998; box-shadow: 0 4px 10px rgba(0,0,0,0.5); display: flex; justify-content: center; align-items: center; transition: 0.2s;';
     
     btnAjustes.onmouseover = () => { btnAjustes.style.transform = 'scale(1.1)'; btnAjustes.style.borderColor = '#3692e7'; };
