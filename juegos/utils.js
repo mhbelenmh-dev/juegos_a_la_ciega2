@@ -355,7 +355,6 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.insertAdjacentHTML('beforeend', modalHTML);
 });
 
-
 /* ==========================================
    OPTIMIZACIÓN MÓVIL GLOBAL
    ========================================== */
@@ -363,22 +362,67 @@ document.addEventListener('DOMContentLoaded', () => {
     const mobileStyle = document.createElement('style');
     mobileStyle.innerHTML = `
         @media (max-width: 768px) {
-            #top-bar { padding: 0 10px !important; overflow-x: auto; justify-content: flex-start !important; gap: 15px; }
-            #brand-logo { font-size: 1.2em !important; display: none; }
-            #nav-menu { gap: 10px !important; }
-            .nav-link { font-size: 0.9em !important; padding: 5px !important; }
-            .search-container { width: 140px !important; }
-            #search-input { font-size: 0.8em !important; padding: 8px !important; }
-            #layout-wrapper { flex-direction: column !important; height: auto !important; overflow-y: visible !important; }
+        /* RE-ACTIVAR EL SCROLL EN MÓVIL */
+            body { overflow-y: auto !important; height: auto !important; }
+            /* TOP BAR MÓVIL (Se expande hacia abajo en bloque) */
+            #top-bar { 
+                padding: 10px !important; 
+                height: auto !important; 
+                flex-direction: column !important; 
+                align-items: stretch !important;
+                gap: 12px !important; 
+            }
+            #brand-logo { display: none !important; }
+            
+            /* Pestañas de menú */
+            #nav-menu { 
+                width: 100% !important; 
+                justify-content: center !important; 
+                flex-wrap: wrap !important; 
+                gap: 8px !important; 
+            }
+            .nav-link { font-size: 0.85em !important; padding: 6px !important; }
+            
+            /* Contenedor de Búsqueda y Botones */
+            #top-bar > div:last-child {
+                flex-direction: column !important;
+                gap: 10px !important;
+                width: 100% !important;
+                align-items: stretch !important;
+            }
+            
+            .search-container { width: 100% !important; }
+            #search-input { width: 100% !important; padding: 10px !important; box-sizing: border-box !important; }
+            
+            /* Botones Baúl, Perfil, Salir */
+            #top-bar > div:last-child > div:last-child {
+                width: 100% !important;
+                border-left: none !important;
+                padding-left: 0 !important;
+                justify-content: space-between !important;
+                gap: 5px !important;
+            }
+            #top-bar > div:last-child > div:last-child button {
+                flex: 1 !important;
+                padding: 10px 5px !important;
+                font-size: 0.85em !important;
+                white-space: nowrap !important;
+            }
+
+            /* AJUSTE DE MARGEN SUPERIOR PARA COMPENSAR LA BARRA MÁS ALTA */
+            #layout-wrapper { flex-direction: column !important; height: auto !important; overflow-y: visible !important; margin-top: 145px !important; }
             #main-content { padding: 15px !important; width: 100% !important; box-sizing: border-box; }
             #sidebar-right { width: 100% !important; border-left: none !important; border-top: 2px solid #444 !important; }
-            #hub-container { padding: 10px !important; margin-top: 80px !important;}
+            
+            #hub-container { padding: 10px !important; margin-top: 145px !important; }
             .config-section { padding: 15px !important; }
-            .hub-title { font-size: 2em !important; }
-            #main-layout { flex-direction: column !important; align-items: center !important; gap: 15px !important; padding: 5px !important; margin-top: 70px !important;}
+            .hub-title { font-size: 2em !important; text-align: center; }
+            
+            #main-layout { flex-direction: column !important; align-items: center !important; gap: 15px !important; padding: 5px !important; margin-top: 145px !important; }
             #tablero-wrapper { width: 100% !important; flex: none !important; max-width: 100vw !important; padding: 0 !important; box-sizing: border-box; }
             #tablero { width: 100% !important; max-width: 100% !important; border-width: 3px !important; }
             .sidebar-panel { width: 100% !important; max-width: 100% !important; padding: 0 !important; box-sizing: border-box;}
+            
             #chat-modal { width: 100% !important; right: 0 !important; bottom: 0 !important; height: 60vh !important; border-radius: 15px 15px 0 0 !important; border-bottom: none !important; z-index: 9999 !important;}
             .caja-modal { width: 95% !important; padding: 25px 15px !important; }
         }

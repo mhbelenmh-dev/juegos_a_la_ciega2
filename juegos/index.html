@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jomibema - Cuartel General</title>
+    <title></title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>♞</text></svg>">
 
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
@@ -81,7 +81,7 @@
 <body>
 
     <div id="top-bar">
-        <a href="index.html" id="brand-logo">♞ JOMIBEMA</a>
+        <a href="index.html" id="brand-logo">♞ </a>
 
         <div id="nav-menu">
             <a href="hub_basico.html" class="nav-link">TABLERO</a>
@@ -92,7 +92,7 @@
 
         <div style="display: flex; gap: 20px; align-items: center;">
             <div class="search-container">
-                <input type="text" id="search-input" placeholder="🔍 Buscar jugador..." oninput="buscarUsuarios(this.value)">
+                <input type="text" id="search-input" placeholder="🔍 Buscar jugador..." aria-label="Buscar jugador" oninput="buscarUsuarios(this.value)">
                 <div id="search-results"></div>
             </div>
 
@@ -217,8 +217,8 @@
             <div style="font-size: 4em; margin-bottom: 10px;">♞</div>
             <h2 style="color:var(--accent); margin-top:0; text-transform: uppercase; letter-spacing: 2px;">Identificación</h2>
             <form onsubmit="event.preventDefault(); iniciarSesion();">
-                <input type="text" id="auth-user" class="input-modal" placeholder="Usuario" required>
-                <input type="password" id="auth-pass" class="input-modal" placeholder="Contraseña" required>
+                <input type="text" id="auth-user" class="input-modal" placeholder="Usuario" aria-label="Usuario" autocomplete="username" required>
+                <input type="password" id="auth-pass" class="input-modal" placeholder="Contraseña" aria-label="Contraseña" autocomplete="current-password" required>
                 <div id="auth-error" style="color:var(--danger); margin-bottom:15px; font-weight:bold;"></div>
                 <button type="submit" class="btn-modal" style="background:var(--blue);">INICIAR SESIÓN</button>
                 <button type="button" class="btn-modal" style="background:#444;" onclick="registrarUsuario()">NUEVO USUARIO</button>
@@ -240,7 +240,7 @@
         </div>
         <div id="chat-messages"></div>
         <div id="chat-input-container">
-            <input type="text" id="chat-input" placeholder="Mensaje..." autocomplete="off" onkeydown="if(event.key==='Enter') mandarMensaje()">
+            <input type="text" id="chat-input" placeholder="Mensaje..." aria-label="Escribir mensaje" autocomplete="off" onkeydown="if(event.key==='Enter') mandarMensaje()">
             <button onclick="mandarMensaje()" style="background:var(--blue); color:white; border:none; padding:10px 15px; border-radius:5px; cursor:pointer; font-weight:bold;">Enviar</button>
         </div>
     </div>
@@ -275,6 +275,7 @@
                         firebase.database().ref('users/' + user.uid).once('value').then(snap => {
                             let p = snap.exists() ? snap.val() : obtenerPerfil();
                             p.nombreJugador = nombre;
+                            p.nombreJugadorLower = nombre.toLowerCase(); // GUARDA EL NOMBRE EN MINÚSCULAS PARA EL BUSCADOR
                             
                             // ---- LÓGICA DE LA RACHA DIARIA ----
                             let hoy = new Date().toDateString();
@@ -286,7 +287,10 @@
                                 if (p.ultimaConexion === ayer.toDateString()) { racha++; } else { racha = 1; }
                                 p.rachaDias = racha;
                                 p.ultimaConexion = hoy;
-                                firebase.database().ref('users/' + user.uid).update({ rachaDias: racha, ultimaConexion: hoy });
+                                firebase.database().ref('users/' + user.uid).update({ rachaDias: racha, ultimaConexion: hoy, nombreJugadorLower: nombre.toLowerCase() });
+                            } else {
+                                // Forzamos la actualización del nombre en minúsculas aunque la racha no cambie
+                                firebase.database().ref('users/' + user.uid).update({ nombreJugadorLower: nombre.toLowerCase() });
                             }
                             document.getElementById('racha-dias').innerText = racha + (racha === 1 ? " Día" : " Días");
                             guardarPerfil(p);
@@ -474,12 +478,22 @@
             });
         }
 
+        // BUSCADOR ACTUALIZADO Y CORREGIDO
         function buscarUsuarios(val) {
-            const results = document.getElementById('search-results'); val = val.trim();
+            const results = document.getElementById('search-results'); 
+            val = val.trim().toLowerCase(); // Convertimos todo a minúsculas
+            
             if (val.length < 2) { results.style.display = 'none'; return; }
-            firebase.database().ref('users').orderByChild('nombreJugador').startAt(val).endAt(val + '\uf8ff').limitToFirst(6).once('value', snap => {
+            
+            // Buscamos en el campo oculto nombreJugadorLower
+            firebase.database().ref('users').orderByChild('nombreJugadorLower').startAt(val).endAt(val + '\uf8ff').limitToFirst(6).once('value', snap => {
                 let html = '';
-                snap.forEach(child => { let u = child.val(); let color = u.isOnline ? 'var(--green)' : '#555'; html += `<div class="search-item" onclick="verPerfilAjeno('${child.key}')"><div class="dot-online" style="background:${color};"></div><span style="font-weight:bold;">${u.nombreJugador}</span></div>`; });
+                snap.forEach(child => { 
+                    let u = child.val(); 
+                    let color = u.isOnline ? 'var(--green)' : '#555'; 
+                    // Seguimos mostrando u.nombreJugador para que se vea con las mayúsculas bonitas
+                    html += `<div class="search-item" onclick="verPerfilAjeno('${child.key}')"><div class="dot-online" style="background:${color};"></div><span style="font-weight:bold;">${u.nombreJugador}</span></div>`; 
+                });
                 results.innerHTML = html || '<div class="search-item" style="color:#888; font-style:italic;">Nadie encontrado.</div>'; results.style.display = 'block';
             });
         }
