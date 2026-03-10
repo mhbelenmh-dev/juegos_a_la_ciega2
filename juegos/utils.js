@@ -229,20 +229,23 @@ window.TorneoManager = {
 
 
 /* ==========================================
-   SISTEMA DE AJUSTES GLOBALES (PANEL FLOTANTE)
+   SISTEMA SÚPER-PANEL DE AJUSTES GLOBALES
    ========================================== */
 
 // 1. Lógica de guardado y lectura
 window.obtenerAjustesGlobales = function() {
-    let defaults = { sonido: true, piezas: 'wikipedia' };
+    let defaults = { sonido: true, chatNotif: true, piezas: 'wikipedia', colorTablero: 'verde' };
     let guardado = localStorage.getItem('chessgym_ajustes');
     return guardado ? JSON.parse(guardado) : defaults;
 };
 
 window.guardarAjustesGlobal = function() {
     let s = document.getElementById('ajuste-sonido-global').value === "on";
+    let cn = document.getElementById('ajuste-chat-global').value === "on";
     let p = document.getElementById('ajuste-piezas-oculto').value; 
-    localStorage.setItem('chessgym_ajustes', JSON.stringify({ sonido: s, piezas: p }));
+    let c = document.getElementById('ajuste-color-oculto').value; 
+    
+    localStorage.setItem('chessgym_ajustes', JSON.stringify({ sonido: s, chatNotif: cn, piezas: p, colorTablero: c }));
     document.getElementById('modal-ajustes-global').style.display = 'none';
     location.reload(); 
 };
@@ -261,7 +264,47 @@ window.seleccionarPiezaVisual = function(estilo) {
     }
 };
 
-// 2. Interceptar el Sonido
+window.seleccionarColorVisual = function(color) {
+    document.getElementById('ajuste-color-oculto').value = color;
+    let cards = document.getElementsByClassName('color-card');
+    for(let i=0; i<cards.length; i++) { cards[i].style.borderColor = '#555'; cards[i].style.transform = 'scale(1)'; }
+    let selectedCard = document.getElementById('card-color-' + color);
+    if(selectedCard) { selectedCard.style.borderColor = '#fff'; selectedCard.style.transform = 'scale(1.1)'; }
+};
+
+// 2. Modificación de Seguridad (Nombre y Pass)
+window.cambiarNombreUsuario = function() {
+    let nuevo = document.getElementById('ajuste-nuevo-nombre').value.trim();
+    if(nuevo.length < 3) return alert("El nombre debe tener al menos 3 letras.");
+    let user = firebase.auth().currentUser;
+    if(user) {
+        user.updateProfile({ displayName: nuevo }).then(() => {
+            let uid = user.uid;
+            firebase.database().ref('users/' + uid).update({ nombreJugador: nuevo, nombreJugadorLower: nuevo.toLowerCase() }).then(() => {
+                localStorage.setItem('current_user_name', nuevo);
+                alert("Nombre cambiado con éxito. Se actualizará al recargar.");
+                location.reload();
+            });
+        }).catch(e => alert("Error: " + e.message));
+    } else { alert("Debes iniciar sesión para cambiar tu nombre."); }
+};
+
+window.cambiarPasswordUsuario = function() {
+    let pass = document.getElementById('ajuste-nueva-pass').value;
+    if(pass.length < 6) return alert("Mínimo 6 caracteres.");
+    let user = firebase.auth().currentUser;
+    if(user) {
+        user.updatePassword(pass).then(() => {
+            alert("Contraseña cambiada con éxito.");
+            document.getElementById('ajuste-nueva-pass').value = '';
+        }).catch(e => {
+            if(e.code === 'auth/requires-recent-login') { alert("Por seguridad, debes cerrar sesión y volver a entrar antes de cambiar la contraseña."); } 
+            else { alert("Error: " + e.message); }
+        });
+    }
+};
+
+// 3. Interceptar el Sonido
 if (typeof window.reproducirSonidoOriginal === 'undefined' && typeof window.reproducirSonido === 'function') {
     window.reproducirSonidoOriginal = window.reproducirSonido;
     window.reproducirSonido = function(tipo) {
@@ -272,7 +315,7 @@ if (typeof window.reproducirSonidoOriginal === 'undefined' && typeof window.repr
     };
 }
 
-// 3. Interceptar ChessboardJS
+// 4. Interceptar ChessboardJS
 if (typeof window.Chessboard !== 'undefined' && typeof window._originalChessboard === 'undefined') {
     window._originalChessboard = window.Chessboard;
     window.Chessboard = function(el, config) {
@@ -290,12 +333,46 @@ if (typeof window.Chessboard !== 'undefined' && typeof window._originalChessboar
     };
 }
 
-// 4. Inyectar el botón flotante y el modal visual en el HTML
+// 5. Inyectar el botón flotante y el modal visual en el HTML
 document.addEventListener('DOMContentLoaded', () => {
+    const style = document.createElement('style');
+    style.innerHTML = `
+        /* Colores de Tablero Personalizados */
+        body.board-verde .black-3c85d { background-color: #769656 !important; color: #eeeed2 !important; }
+        body.board-verde .white-1e1d7 { background-color: #eeeed2 !important; color: #769656 !important; }
+        
+        body.board-azul .black-3c85d { background-color: #4b7399 !important; color: #eae9d2 !important; }
+        body.board-azul .white-1e1d7 { background-color: #eae9d2 !important; color: #4b7399 !important; }
+        
+        body.board-madera .black-3c85d { background-color: #855e42 !important; color: #d18b47 !important; }
+        body.board-madera .white-1e1d7 { background-color: #d18b47 !important; color: #855e42 !important; }
+        
+        body.board-gris .black-3c85d { background-color: #777777 !important; color: #cccccc !important; }
+        body.board-gris .white-1e1d7 { background-color: #cccccc !important; color: #777777 !important; }
+
+        body.board-lichess .black-3c85d { background-color: #b58863 !important; color: #f0d9b5 !important;} 
+        body.board-lichess .white-1e1d7 { background-color: #f0d9b5 !important; color: #b58863 !important;}
+
+        .pieza-card { flex: 1; background: #1a1917; border: 2px solid #555; border-radius: 8px; padding: 15px 10px; text-align: center; cursor: pointer; transition: 0.2s; color: #fff; font-size: 0.95em; font-weight: bold; }
+        .pieza-card:hover { border-color: #888; transform: translateY(-2px); }
+        .pieza-card img { width: 50px; height: 50px; margin-bottom: 8px; filter: drop-shadow(0 4px 5px rgba(0,0,0,0.5)); }
+        
+        .color-card { flex:1; height:45px; border-radius:8px; cursor:pointer; border:3px solid transparent; transition:0.2s; }
+        .color-card:hover { transform: scale(1.05); }
+        
+        .seccion-ajuste { background: #1a1917; padding: 15px; border-radius: 8px; border: 1px solid #444; margin-bottom: 20px; }
+        .label-ajuste { color: var(--accent, #e5bf00); font-weight: bold; display: block; margin-bottom: 10px; font-size: 1.1em; text-transform: uppercase; border-bottom: 1px solid #333; padding-bottom: 5px;}
+    `;
+    document.head.appendChild(style);
+
+    // Aplicar color de tablero actual al body
+    let misAjustes = window.obtenerAjustesGlobales();
+    document.body.classList.add('board-' + (misAjustes.colorTablero || 'verde'));
+
     const btnAjustes = document.createElement('button');
     btnAjustes.innerHTML = '⚙️';
     btnAjustes.id = "btn-ajustes-flotante";
-    btnAjustes.title = "Ajustes";
+    btnAjustes.title = "Centro de Control";
     btnAjustes.style.cssText = 'position: fixed; bottom: 20px; left: 20px; background: #262421; border: 2px solid #444; color: white; font-size: 1.5em; width: 50px; height: 50px; border-radius: 50%; cursor: pointer; z-index: 9998; box-shadow: 0 4px 10px rgba(0,0,0,0.5); display: flex; justify-content: center; align-items: center; transition: 0.2s;';
     
     btnAjustes.onmouseover = () => { btnAjustes.style.transform = 'scale(1.1)'; btnAjustes.style.borderColor = '#3692e7'; };
@@ -304,57 +381,74 @@ document.addEventListener('DOMContentLoaded', () => {
     btnAjustes.onclick = () => {
         let a = window.obtenerAjustesGlobales();
         document.getElementById('ajuste-sonido-global').value = a.sonido ? "on" : "off";
+        document.getElementById('ajuste-chat-global').value = a.chatNotif ? "on" : "off";
         window.seleccionarPiezaVisual(a.piezas || 'wikipedia');
+        window.seleccionarColorVisual(a.colorTablero || 'verde');
         document.getElementById('modal-ajustes-global').style.display = 'flex';
     };
     document.body.appendChild(btnAjustes);
 
-    const style = document.createElement('style');
-    style.innerHTML = `
-        .pieza-card {
-            flex: 1; background: #1a1917; border: 2px solid #555; border-radius: 8px; 
-            padding: 15px 10px; text-align: center; cursor: pointer; transition: 0.2s; 
-            color: #fff; font-size: 0.95em; font-weight: bold;
-        }
-        .pieza-card:hover { border-color: #888; transform: translateY(-2px); }
-        .pieza-card img { width: 50px; height: 50px; margin-bottom: 8px; filter: drop-shadow(0 4px 5px rgba(0,0,0,0.5)); }
-    `;
-    document.head.appendChild(style);
-
     const modalHTML = `
         <div id="modal-ajustes-global" class="overlay-modal" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(10, 10, 10, 0.95); z-index: 9999; display: none; justify-content: center; align-items: center;">
-            <div class="caja-modal" style="background: #262421; padding: 40px; border-radius: 12px; border: 2px solid #3692e7; width: 100%; max-width: 450px; text-align: left; position: relative; box-shadow: 0 15px 50px rgba(0,0,0,0.8); font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
-                <span style="position: absolute; top: 15px; right: 20px; font-size: 2em; cursor: pointer; color: #888; line-height: 1;" onclick="document.getElementById('modal-ajustes-global').style.display='none'" onmouseover="this.style.color='#cc3333'" onmouseout="this.style.color='#888'">&times;</span>
-                <h2 style="color:#e5bf00; margin-top:0; text-align: center; text-transform: uppercase; letter-spacing: 2px;">⚙️ Ajustes</h2>
+            <div class="caja-modal" style="background: #262421; padding: 30px; border-radius: 12px; border: 2px solid #3692e7; width: 90%; max-width: 500px; max-height: 85vh; overflow-y: auto; text-align: left; position: relative; box-shadow: 0 15px 50px rgba(0,0,0,0.8); font-family: 'Segoe UI', Tahoma, sans-serif;">
+                <span style="position: absolute; top: 15px; right: 20px; font-size: 2em; cursor: pointer; color: #888; line-height: 1;" onclick="document.getElementById('modal-ajustes-global').style.display='none'">&times;</span>
+                <h2 style="color:#3692e7; margin-top:0; text-align: center; text-transform: uppercase; letter-spacing: 2px;">⚙️ Centro de Control</h2>
                 
-                <label style="color: #fff; font-weight: bold; display: block; margin-bottom: 10px; font-size: 1.1em;">🔊 Efectos de Sonido:</label>
-                <select id="ajuste-sonido-global" style="width: 100%; padding: 15px; margin-bottom: 25px; background: #1a1917; color: #fff; border: 1px solid #555; border-radius: 6px; font-size: 1.1em; outline: none; cursor: pointer;">
-                    <option value="on">Activado</option>
-                    <option value="off">Silenciado</option>
-                </select>
-
-                <label style="color: #fff; font-weight: bold; display: block; margin-bottom: 10px; font-size: 1.1em;">♟️ Diseño de Piezas:</label>
-                <input type="hidden" id="ajuste-piezas-oculto" value="wikipedia">
-                
-                <div style="display: flex; gap: 15px; margin-bottom: 30px;">
-                    <div class="pieza-card" id="card-pieza-wikipedia" onclick="seleccionarPiezaVisual('wikipedia')">
-                        <img src="https://chessboardjs.com/img/chesspieces/wikipedia/wN.png"><br>Clásico
+                <div class="seccion-ajuste">
+                    <label class="label-ajuste">🎮 Preferencias</label>
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+                        <span style="color:#fff; font-weight:bold;">🔊 Efectos de Sonido:</span>
+                        <select id="ajuste-sonido-global" style="padding: 8px; background: #111; color: #fff; border: 1px solid #555; border-radius: 4px;">
+                            <option value="on">Activado</option><option value="off">Silenciado</option>
+                        </select>
                     </div>
-                    <div class="pieza-card" id="card-pieza-alpha" onclick="seleccionarPiezaVisual('alpha')">
-                        <img src="https://chessboardjs.com/img/chesspieces/alpha/wN.png"><br>Moderno
-                    </div>
-                    <div class="pieza-card" id="card-pieza-uscf" onclick="seleccionarPiezaVisual('uscf')">
-                        <img src="https://chessboardjs.com/img/chesspieces/uscf/wN.png"><br>Torneo
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <span style="color:#fff; font-weight:bold;">💬 Notificaciones Chat:</span>
+                        <select id="ajuste-chat-global" style="padding: 8px; background: #111; color: #fff; border: 1px solid #555; border-radius: 4px;">
+                            <option value="on">Activado</option><option value="off">Silenciado</option>
+                        </select>
                     </div>
                 </div>
 
-                <button style="width: 100%; color: #fff; padding: 15px; border: none; border-radius: 6px; font-weight: bold; font-size: 1.2em; cursor: pointer; background: #629924; transition: 0.2s; box-shadow: 0 4px 0 #4a751b;" onmouseover="this.style.filter='brightness(1.2)'; this.style.transform='translateY(-2px)';" onmouseout="this.style.filter='brightness(1)'; this.style.transform='translateY(0)';" onclick="guardarAjustesGlobal()">Guardar Cambios</button>
+                <div class="seccion-ajuste">
+                    <label class="label-ajuste">🎨 Apariencia del Tablero</label>
+                    <span style="color:#ddd; font-size:0.9em; margin-bottom:10px; display:block;">Estilo de Piezas:</span>
+                    <input type="hidden" id="ajuste-piezas-oculto" value="wikipedia">
+                    <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+                        <div class="pieza-card" id="card-pieza-wikipedia" onclick="seleccionarPiezaVisual('wikipedia')"><img src="https://chessboardjs.com/img/chesspieces/wikipedia/wN.png"><br>Clásico</div>
+                        <div class="pieza-card" id="card-pieza-alpha" onclick="seleccionarPiezaVisual('alpha')"><img src="https://chessboardjs.com/img/chesspieces/alpha/wN.png"><br>Moderno</div>
+                        <div class="pieza-card" id="card-pieza-uscf" onclick="seleccionarPiezaVisual('uscf')"><img src="https://chessboardjs.com/img/chesspieces/uscf/wN.png"><br>Torneo</div>
+                    </div>
+
+                    <span style="color:#ddd; font-size:0.9em; margin-bottom:10px; display:block;">Color de Casillas:</span>
+                    <input type="hidden" id="ajuste-color-oculto" value="verde">
+                    <div style="display: flex; gap: 15px;">
+                        <div class="color-card" id="card-color-verde" onclick="seleccionarColorVisual('verde')" style="background: linear-gradient(135deg, #eeeed2 50%, #769656 50%);"></div>
+                        <div class="color-card" id="card-color-azul" onclick="seleccionarColorVisual('azul')" style="background: linear-gradient(135deg, #eae9d2 50%, #4b7399 50%);"></div>
+                        <div class="color-card" id="card-color-madera" onclick="seleccionarColorVisual('madera')" style="background: linear-gradient(135deg, #d18b47 50%, #855e42 50%);"></div>
+                        <div class="color-card" id="card-color-gris" onclick="seleccionarColorVisual('gris')" style="background: linear-gradient(135deg, #cccccc 50%, #777777 50%);"></div>
+                    <div class="color-card" id="card-color-lichess" onclick="seleccionarColorVisual('lichess')" style="background: linear-gradient(135deg, #f0d9b5 50%, #b58863 50%);" title="Clásico Lichess"></div>
+                    </div>
+                </div>
+
+                <div class="seccion-ajuste">
+                    <label class="label-ajuste" style="color: #cc3333;">🔒 Cuenta y Seguridad</label>
+                    <div style="display:flex; gap:10px; margin-bottom:15px;">
+                        <input type="text" id="ajuste-nuevo-nombre" placeholder="Nuevo Nombre" style="flex:1; padding:10px; background:#111; color:#fff; border:1px solid #555; border-radius:4px;">
+                        <button onclick="cambiarNombreUsuario()" style="background:#cc3333; color:white; border:none; padding:10px 15px; border-radius:4px; cursor:pointer; font-weight:bold;">Cambiar</button>
+                    </div>
+                    <div style="display:flex; gap:10px;">
+                        <input type="password" id="ajuste-nueva-pass" placeholder="Nueva Contraseña" style="flex:1; padding:10px; background:#111; color:#fff; border:1px solid #555; border-radius:4px;">
+                        <button onclick="cambiarPasswordUsuario()" style="background:#cc3333; color:white; border:none; padding:10px 15px; border-radius:4px; cursor:pointer; font-weight:bold;">Cambiar</button>
+                    </div>
+                </div>
+
+                <button style="width: 100%; color: #fff; padding: 15px; border: none; border-radius: 6px; font-weight: bold; font-size: 1.2em; cursor: pointer; background: #629924; transition: 0.2s; box-shadow: 0 4px 0 #4a751b; margin-top: 10px;" onclick="guardarAjustesGlobal()">✅ Guardar Todo y Recargar</button>
             </div>
         </div>
     `;
     document.body.insertAdjacentHTML('beforeend', modalHTML);
 });
-
 /* ==========================================
    OPTIMIZACIÓN MÓVIL GLOBAL
    ========================================== */
