@@ -212,7 +212,7 @@
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.2/chess.js"></script>
-    <script src="utils.js?v=2"></script>
+    <script src="utils.js?v=3"></script>
 
     <script>
         // ==========================================
@@ -241,14 +241,9 @@
             
             setTimeout(() => { if (typeof DueloManager !== 'undefined' && DueloManager.enDuelo) { refSalaChat = `duelos/${DueloManager.sala}/chat`; document.getElementById('btn-abrir-chat').style.display = 'block'; escucharChatSala(); } }, 1000); 
             
-            fetch('mis_puzzles.json')
-                .then(r => { if(!r.ok) throw new Error("No encontrado"); return r.json(); })
-                .then(data => { todosLosPuzzles = data; empezarPartida(false); })
-                .catch(err => {
-                    console.warn("Cargando puzzle de emergencia.");
-                    todosLosPuzzles = { "1700": [ { fen: "r1bqkbnr/pppp1ppp/2n5/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R w KQkq - 2 3", moves: ["Nxe5", "Nxe5"] } ] };
-                    empezarPartida(false);
-                });
+            // --- INICIO CON SMART LOAD ---
+            todosLosPuzzles = {};
+            empezarPartida(false);
         };
 
         // ==========================================
@@ -346,10 +341,10 @@
             cargarNuevoPuzzle(); 
         }
 
-        function cargarNuevoPuzzle() {
+        async function cargarNuevoPuzzle() {
             if (!juegoActivo) return;
             puzzleResuelto = false; indiceMovimiento = 0; 
-            document.getElementById('status').innerText = ""; document.getElementById('status').className = "";
+            document.getElementById('status').innerText = "Pensando..."; document.getElementById('status').className = "";
             document.getElementById('ultimo-movimiento').classList.add('oculto');
             document.getElementById('jugadaInput').value = ""; document.getElementById('jugadaInput').disabled = false; document.getElementById('jugadaInput').focus();
             document.getElementById('descripcion-posicion').classList.remove('oculto'); document.getElementById('tablero-container').classList.add('oculto'); 
@@ -365,17 +360,44 @@
                 rango = (Math.floor(Math.min(puntosCiegosLocales, 2500) / 50) * 50).toString();
             }
 
-            if (!todosLosPuzzles[rango]) rango = Object.keys(todosLosPuzzles)[0] || "1700";
-            lista = todosLosPuzzles[rango];
-            
-            let indice = TorneoManager.enTorneo ? TorneoManager.obtenerIndiceSincronizado(lista.length) : Math.floor(Math.random() * lista.length);
-            puzzleActual = lista[indice];
+            // --- MAGIA SMART LOAD ---
+            if (!todosLosPuzzles[rango]) {
+                try {
+                    let res = await fetch('puzzles_db/puzzles_' + rango + '.json');
+                    if (res.ok) {
+                        todosLosPuzzles[rango] = await res.json();
+                    } else {
+                        rango = Object.keys(todosLosPuzzles)[0] || "1700";
+                    }
+                } catch(e) {
+                    rango = Object.keys(todosLosPuzzles)[0] || "1700";
+                }
+            }
+            // ------------------------
 
-            if (typeof puzzleActual.moves === 'string') puzzleActual.moves = puzzleActual.moves.split(' ');
+            lista = todosLosPuzzles[rango];
+            if (!lista || lista.length === 0) {
+                lista = [{ fen: "r1bqkbnr/pppp1ppp/2n5/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R w KQkq - 2 3", moves: ["Nxe5", "Nxe5"] }];
+            }
+            
+            // --- NUEVA LÓGICA DE SEMILLA ---
+            let indice;
+            if (TorneoManager.enTorneo) {
+                indice = TorneoManager.obtenerIndiceSincronizado(lista.length);
+            } else if (typeof DueloManager !== 'undefined' && DueloManager.enDuelo) {
+                indice = DueloManager.obtenerIndiceSincronizado(lista.length);
+            } else {
+                indice = Math.floor(Math.random() * lista.length);
+            }
+            puzzleActual = lista[indice];
+            // -------------------------------
+
+            if (typeof puzzleActual.moves === 'string') puzzleActual.moves = puzzleActual.moves.split(' ');            
             document.getElementById('eloDisplay').innerText = puntosCiegosLocales;
 
             game.load(puzzleActual.fen); let moveRival = puzzleActual.moves[0]; hacerMovimiento(moveRival); indiceMovimiento++; 
             generarTextoPosicion(game.fen()); actualizarTurnoVisual();
+            document.getElementById('status').innerText = ""; // Limpiamos el status de carga
         }
 
         function generarTextoPosicion(fen) {
@@ -435,9 +457,9 @@
                 // --- NUEVO: GUARDAR FALLO EN EL BAÚL ---
                 if (typeof window.guardarFallo === 'function' && puzzleActual) {
                     let solucionCompleta = puzzleActual.moves.slice(indiceMovimiento).join(' ');
-                    window.guardarFallo("Cálculo Puro", game.fen(), solucionCompleta, textoUsuario);
+                    window.guardarFallo("Cálculo Puro", game.fen(), solucionCompleta, textoUsuario, puzzleActual.id);
                 }
-                // ---------------------------------------
+                // ---------------------------------------                // ---------------------------------------
 
                 if (TorneoManager.enTorneo || (typeof DueloManager !== 'undefined' && DueloManager.enDuelo)) { 
                     puntosCiegosLocales = Math.max(0, puntosCiegosLocales - 10); if(TorneoManager.enTorneo) TorneoManager.enviarPuntos(puntosCiegosLocales); 
@@ -474,9 +496,8 @@
             // --- NUEVO: GUARDAR FALLO EN EL BAÚL ---
             if (typeof window.guardarFallo === 'function' && puzzleActual) {
                 let solucionCompleta = puzzleActual.moves.slice(indiceMovimiento).join(' ');
-                window.guardarFallo("Cálculo Puro", game.fen(), solucionCompleta, "Me rendí");
-            }
-            // ---------------------------------------
+                window.guardarFallo("Cálculo Puro", game.fen(), solucionCompleta, "Me rendí", puzzleActual.id);
+            }            // ---------------------------------------
 
             if (TorneoManager.enTorneo || (typeof DueloManager !== 'undefined' && DueloManager.enDuelo)) { 
                 puntosCiegosLocales = Math.max(0, puntosCiegosLocales - 5); if(TorneoManager.enTorneo) TorneoManager.enviarPuntos(puntosCiegosLocales); 

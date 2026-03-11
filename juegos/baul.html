@@ -116,7 +116,7 @@
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
-    <script src="utils.js?v=2"></script>
+    <script src="utils.js?v=3"></script>
     
     <script>
         window.erroresGlobales = {}; 
@@ -161,13 +161,15 @@
                 errores.sort((a, b) => b.timestamp - a.timestamp);
 
                 errores.forEach(e => {
+                    // Si el error es antiguo y no tiene ID, le ponemos "Clásico"
+                    let idMostrar = e.puzzleId ? `#${e.puzzleId}` : "Clásico";
+
                     html += `
                         <div class="error-card" id="card-${e.key}">
                             <div class="error-header">
-                                <span class="error-modulo">⚡ ${e.modulo}</span>
+                                <span class="error-modulo">⚡ ${e.modulo} <span style="font-size: 0.8em; color: #888; font-family: monospace;">(${idMostrar})</span></span>
                                 <span class="error-fecha">${e.fecha}</span>
-                            </div>
-                            
+                            </div>                            
                             <div class="error-body">
                                 <span class="jugada-label">❌ Lo que intentaste</span>
                                 <span class="jugada-value">${e.tuJugada || '---'}</span>

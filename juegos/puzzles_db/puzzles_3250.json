@@ -1,0 +1,8 @@
+[
+  {
+    "id": "zhl5i",
+    "fen": "7k/4QP2/2p2n2/p3P3/P1pP4/1pP2K2/1q3P2/8 b - - 1 33",
+    "moves": "b2c3 f3g2 f6h7 e7d7 c3b4 e5e6 h7f8 d7d8 b3b2 e6e7 b4e7 d8e7",
+    "themes": "advancedPawn crushing defensiveMove endgame pin veryLong"
+  }
+]

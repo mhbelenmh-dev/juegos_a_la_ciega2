@@ -1,0 +1,20 @@
+[
+  {
+    "id": "UMEVR",
+    "fen": "r3k2r/p4ppp/b1p1p3/8/3PnP2/P4N1K/2QB1qPP/R6R b kq - 3 20",
+    "moves": "g7g5 c2c6 e8f8 f4g5 e4d2 a1a2",
+    "themes": "advantage fork long middlegame"
+  },
+  {
+    "id": "WDc9D",
+    "fen": "r1r3k1/7p/2p3bP/2BpP1R1/1pn1p3/1N6/P7/2K4R b - - 2 34",
+    "moves": "a8a2 e5e6 c8c7 h1f1 a2a8 g5f5 g6f5 f1f5",
+    "themes": "advantage middlegame quietMove sacrifice veryLong"
+  },
+  {
+    "id": "g7STS",
+    "fen": "4rr2/pb5R/3p2p1/1qpP1kN1/2p2PP1/2Q5/PP6/2K5 b - - 0 30",
+    "moves": "f5g4 g5e4 e8e4 c3h3 g4f4 h7h4 f4g5 h4e4",
+    "themes": "crushing deflection middlegame sacrifice skewer veryLong"
+  }
+]

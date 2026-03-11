@@ -194,7 +194,7 @@
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.2/chess.js"></script>
-<script src="utils.js?v=2"></script>
+    <script src="utils.js?v=3"></script>
     <script>
         // ==========================================
         // CEREBRO: LECTURA DE PARÁMETROS DEL HUB
@@ -222,25 +222,9 @@
             // 2. Comprobar si venimos de un duelo para activar el chat
             setTimeout(() => { if (typeof DueloManager !== 'undefined' && DueloManager.enDuelo) { refSalaChat = `duelos/${DueloManager.sala}/chat`; document.getElementById('btn-abrir-chat').style.display = 'block'; escucharChatSala(); } }, 1000); 
             
-            // 3. Auto-cargar la base de datos y arrancar
-            fetch('mis_puzzles.json')
-                .then(r => {
-                    if(!r.ok) throw new Error("Archivo mis_puzzles.json no encontrado.");
-                    return r.json();
-                })
-                .then(data => { 
-                    todosLosPuzzles = data; 
-                    iniciarPantallaJuego(false); 
-                })
-                .catch(err => {
-                    console.warn("Entorno local detectado. Cargando puzzle de emergencia para evitar bloqueo.", err);
-                    todosLosPuzzles = {
-                        "1700": [
-                            { fen: "r1bqkbnr/pppp1ppp/2n5/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R w KQkq - 2 3", moves: ["Nxe5", "Nxe5"] }
-                        ]
-                    };
-                    iniciarPantallaJuego(false);
-                });
+            // 3. Simplemente iniciamos el juego vacío, ya descargará lo que necesite
+            todosLosPuzzles = {}; 
+            iniciarPantallaJuego(false); 
         };
 
         function actualizarHUDEntrenamiento() {
@@ -358,19 +342,61 @@
             document.getElementById('txt-negras').innerText = negras.join(', ');
         }
 
-        function cargarNuevoPuzzle() {
-            if (!juegoActivo) return; document.getElementById('status').innerText = "Pensando..."; let rango = "1700"; let lista = [];
-            if (TorneoManager.enTorneo) { rango = (Math.floor(Math.min(1200 + Math.floor(TorneoManager.contador / 2) * 50, 2500) / 50) * 50).toString(); } 
-            else if (modoVidas !== 'infinito') { rango = (Math.floor(Math.min(1200 + (totalPuzzlesResueltos * 50), 2500) / 50) * 50).toString(); } // Sube dificultad progresiva en survival
-            else { rango = (Math.floor(Math.min(misPuntosLocales, 2500) / 50) * 50).toString(); } // Racha infinita usa tu ELO
-
-            if (!todosLosPuzzles[rango]) rango = Object.keys(todosLosPuzzles)[0] || "1700";
-            lista = todosLosPuzzles[rango]; let pz = TorneoManager.enTorneo ? lista[TorneoManager.obtenerIndiceSincronizado(lista.length)] : lista[Math.floor(Math.random() * lista.length)];
-            puzzleActual = pz; if (typeof pz.moves === 'string') pz.moves = pz.moves.split(' ');
-            indiceMovimiento = 0; game.load(pz.fen); hacerMovimiento(pz.moves[0]); indiceMovimiento++;
-            let turn = game.turn() === 'w' ? 'white' : 'black'; board.orientation(turn); board.position(game.fen());
+        async function cargarNuevoPuzzle() {
+            if (!juegoActivo) return; 
+            document.getElementById('status').innerText = "Pensando..."; 
             
-            // Actualizar el texto si estamos en modo fantasma
+            let rango = "1700"; 
+            let lista = [];
+            
+            if (TorneoManager.enTorneo) { rango = (Math.floor(Math.min(1200 + Math.floor(TorneoManager.contador / 2) * 50, 2500) / 50) * 50).toString(); } 
+            else if (modoVidas !== 'infinito') { rango = (Math.floor(Math.min(1200 + (totalPuzzlesResueltos * 50), 2500) / 50) * 50).toString(); } 
+            else { rango = (Math.floor(Math.min(misPuntosLocales, 2500) / 50) * 50).toString(); } 
+
+            // --- MAGIA SMART LOAD ---
+            if (!todosLosPuzzles[rango]) {
+                try {
+                    // Descargamos solo el archivo de este nivel desde la nueva carpeta
+                    let res = await fetch('puzzles_db/puzzles_' + rango + '.json');
+                    if (res.ok) {
+                        todosLosPuzzles[rango] = await res.json();
+                    } else {
+                        rango = Object.keys(todosLosPuzzles)[0] || "1700";
+                    }
+                } catch(e) {
+                    rango = Object.keys(todosLosPuzzles)[0] || "1700";
+                }
+            }
+            // ------------------------
+
+            lista = todosLosPuzzles[rango]; 
+            if (!lista || lista.length === 0) {
+                // Si aún así no hay lista, cargamos uno por defecto
+                lista = [{ fen: "r1bqkbnr/pppp1ppp/2n5/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R w KQkq - 2 3", moves: ["Nxe5", "Nxe5"] }];
+            }
+            
+            let indice;
+            if (TorneoManager.enTorneo) {
+                indice = TorneoManager.obtenerIndiceSincronizado(lista.length);
+            } else if (typeof DueloManager !== 'undefined' && DueloManager.enDuelo) {
+                indice = DueloManager.obtenerIndiceSincronizado(lista.length);
+            } else {
+                indice = Math.floor(Math.random() * lista.length);
+            }
+            
+            let pz = lista[indice];
+            puzzleActual = pz; 
+            if (typeof pz.moves === 'string') pz.moves = pz.moves.split(' ');            
+            
+            indiceMovimiento = 0; 
+            game.load(pz.fen); 
+            hacerMovimiento(pz.moves[0]); 
+            indiceMovimiento++;
+            
+            let turn = game.turn() === 'w' ? 'white' : 'black'; 
+            board.orientation(turn); 
+            board.position(game.fen());
+            
             if(modoVis === 'vacio') generarTextoPosicion(game.fen());
 
             document.getElementById('status').innerHTML = `Juegan <strong style="color:var(--accent);">${turn === 'white' ? 'BLANCAS' : 'NEGRAS'}</strong>`;
@@ -430,7 +456,7 @@
             } else {
                 reproducirSonido('incorrecto'); game.undo(); // Deshacer en memoria
                 
-// --- NUEVO: GUARDAR FALLO EN EL BAÚL ---
+                // --- NUEVO: GUARDAR FALLO EN EL BAÚL ---
                 if (typeof window.guardarFallo === 'function' && puzzleActual) {
                     let nombreModo = (modoVis === 'vacio') ? "Tablero Fantasma" : "Asalto Visual";
                     let movFallado = source + target; 
@@ -439,9 +465,9 @@
                     // Magia: Cogemos todos los movimientos desde el error hasta el final del puzzle
                     let solucionCompleta = puzzleActual.moves.slice(indiceMovimiento).join(' ');
                     
-                    window.guardarFallo(nombreModo, game.fen(), solucionCompleta, movFallado);
-                }
+                    window.guardarFallo(nombreModo, game.fen(), solucionCompleta, movFallado, puzzleActual.id);                }
                 // ----------------------------------------                
+                
                 // GESTIÓN DE FALLOS REALES (Movimiento equivocado del puzzle)
                 if (TorneoManager.enTorneo || (typeof DueloManager !== 'undefined' && DueloManager.enDuelo)) { 
                     misPuntosLocales = Math.max(0, misPuntosLocales - 5); if(TorneoManager.enTorneo) TorneoManager.enviarPuntos(misPuntosLocales); 
@@ -476,7 +502,7 @@
             setTimeout(cargarNuevoPuzzle, 600);
         }
 
-function saltarPuzzle() {
+        function saltarPuzzle() {
             // --- NUEVO: GUARDAR FALLO AL SALTAR ---
             if (typeof window.guardarFallo === 'function' && puzzleActual) {
                 let nombreModo = (modoVis === 'vacio') ? "Tablero Fantasma" : "Asalto Visual";
@@ -484,8 +510,7 @@ function saltarPuzzle() {
                 // Magia: Cogemos todos los movimientos que quedaban
                 let solucionCompleta = puzzleActual.moves.slice(indiceMovimiento).join(' ');
                 
-                window.guardarFallo(nombreModo, game.fen(), solucionCompleta, "Saltado");
-            }
+                window.guardarFallo(nombreModo, game.fen(), solucionCompleta, "Saltado", puzzleActual.id);            }
             // ----------------------------------------            
             misPuntosLocales = Math.max(0, misPuntosLocales - 5); racha = 0;
             document.getElementById('rachaDisplay').innerText = racha; document.getElementById('ratingDisplay').innerText = misPuntosLocales;

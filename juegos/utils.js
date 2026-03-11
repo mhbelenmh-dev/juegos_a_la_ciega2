@@ -569,11 +569,12 @@ window.obtenerInfoRango = function(xpTotal) {
 /* ==========================================
    BAÚL DE ERRORES
    ========================================== */
-window.guardarFallo = function(modulo, fen, solucionCorrecta, tuJugada) {
+window.guardarFallo = function(modulo, fen, solucionCorrecta, tuJugada, puzzleId) {
     let uid = localStorage.getItem('current_user_uid');
     if (!uid || typeof firebase === 'undefined') return;
 
     let nuevoFallo = {
+        puzzleId: puzzleId || "sin_id", // 🔥 AÑADIMOS EL ID AQUÍ
         modulo: modulo,
         fen: fen,
         solucion: solucionCorrecta,

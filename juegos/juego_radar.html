@@ -210,7 +210,7 @@
 
         let refSalaTorneo = null; let intervaloTorneo = null;
 
-        inicializarCargaBaseDatos('mis_puzzles.json', 'btn-defecto', 'archivoInput', function(data) {
+        inicializarCargaBaseDatos('memoria_gm.json', 'btn-defecto', 'archivoInput', function(data) {
             todosLosPuzzles = data; 
             if (!TorneoManager.enTorneo && !DueloManager.enDuelo) iniciarPantallaJuego(false);
         });
@@ -221,7 +221,7 @@
             if (btn) btn.innerText = "Cargando Arena...";
             if (Object.keys(todosLosPuzzles).length > 0) { ejecutarLobby(); }
             else {
-                fetch('mis_puzzles.json').then(r => r.json()).then(data => { todosLosPuzzles = data; ejecutarLobby(); })
+                fetch('memoria_gm.json').then(r => r.json()).then(data => { todosLosPuzzles = data; ejecutarLobby(); })
                 .catch(e => { alert("Error cargando base"); if (btn) btn.innerText = "🏆 CREAR / UNIRSE A TORNEO"; });
             }
         }

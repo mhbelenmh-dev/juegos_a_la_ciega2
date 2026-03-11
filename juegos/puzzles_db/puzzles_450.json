@@ -1,0 +1,6002 @@
+[
+  {
+    "id": "004iZ",
+    "fen": "r2r2k1/2q1bpp1/3p1n1p/1ppN4/1P1BP3/P5Q1/4RPPP/R5K1 b - - 1 20",
+    "moves": "f6d5 g3g7",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "008GK",
+    "fen": "1k1r4/ppp3p1/8/1P5p/8/P3n2P/2P1r1P1/B3NRK1 b - - 4 31",
+    "moves": "d8d1 f1f8 d1d8 f8d8",
+    "themes": "backRankMate endgame mate mateIn2 short"
+  },
+  {
+    "id": "008Nz",
+    "fen": "6k1/2p2ppp/pnp5/B7/2P3PP/1P1bPPR1/r6r/3R2K1 b - - 1 29",
+    "moves": "d3e2 d1d8",
+    "themes": "backRankMate mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "008o6",
+    "fen": "Q5k1/p1p3p1/5rP1/8/3P4/7P/q3r3/B4RK1 b - - 1 34",
+    "moves": "f6f8 a8f8",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "00Cfq",
+    "fen": "6k1/ppR2pp1/4p1p1/4P1N1/3r2P1/1P4K1/P6r/8 b - - 5 30",
+    "moves": "h2e2 c7c8 d4d8 c8d8",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "00DU5",
+    "fen": "r1bq1rk1/5ppp/p2p1b2/1p1Pn3/1P2Q3/P1NB3P/1B3PP1/R4RK1 b - - 2 17",
+    "moves": "c8b7 e4h7",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "00FHX",
+    "fen": "2r3k1/5p1p/4pP2/3p3P/8/5P2/p1b3P1/2R3K1 b - - 0 30",
+    "moves": "c2b1 c1c8",
+    "themes": "endgame hangingPiece mate mateIn1 oneMove"
+  },
+  {
+    "id": "00K48",
+    "fen": "6Qk/6pp/p2B4/2pP4/P1q5/6P1/2P1p2P/5RK1 b - - 0 26",
+    "moves": "h8g8 f1f8",
+    "themes": "endgame master mate mateIn1 oneMove operaMate"
+  },
+  {
+    "id": "00all",
+    "fen": "6k1/5ppp/4p1b1/1N1pP3/1P1n4/r7/5PPP/2R2BK1 b - - 0 25",
+    "moves": "d4b5 c1c8",
+    "themes": "backRankMate endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "00dOP",
+    "fen": "r2q1k1r/pbp1bppp/1p2pn2/1B2N3/3P1Q2/8/PPP2PPP/R1B2RK1 b - - 5 12",
+    "moves": "f6d5 f4f7",
+    "themes": "mate mateIn1 oneMove opening"
+  },
+  {
+    "id": "00o7c",
+    "fen": "2r3k1/p4ppp/1pb1pq2/1P6/2Q1PP2/6P1/P5BP/2R3K1 b - - 0 24",
+    "moves": "c6b7 c4c8 b7c8 c1c8 f6d8 c8d8",
+    "themes": "backRankMate endgame long mate mateIn3"
+  },
+  {
+    "id": "0119E",
+    "fen": "5R1k/4q2p/3Np1bP/4P3/3P2P1/2n5/8/5QK1 b - - 6 45",
+    "moves": "e7f8 f1f8",
+    "themes": "endgame hangingPiece mate mateIn1 oneMove"
+  },
+  {
+    "id": "01DM2",
+    "fen": "6k1/5p2/1p2pn2/3pN3/1P1P1Pp1/P3r1Pp/2q1RP1P/6K1 w - - 0 32",
+    "moves": "e2c2 e3e1",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "01GC2",
+    "fen": "3b4/pp2kprp/8/1Bp5/4R3/1P6/P4PPP/1K6 b - - 0 22",
+    "moves": "e7f8 e4e8",
+    "themes": "endgame mate mateIn1 oneMove operaMate"
+  },
+  {
+    "id": "01N7E",
+    "fen": "1r4k1/5ppp/p7/3R4/2p5/PrP5/1P3PPP/3R2K1 b - - 0 23",
+    "moves": "b3b2 d5d8 b8d8 d1d8",
+    "themes": "backRankMate endgame master mate mateIn2 rookEndgame short"
+  },
+  {
+    "id": "01Ou9",
+    "fen": "5N1k/5qp1/p6p/8/8/4r3/6PP/5R1K w - - 0 32",
+    "moves": "f1f7 e3e1 f7f1 e1f1",
+    "themes": "backRankMate endgame mate mateIn2 short"
+  },
+  {
+    "id": "01RuT",
+    "fen": "8/8/8/1P5R/4bk2/4R2P/5P2/r5K1 w - - 1 43",
+    "moves": "g1h2 a1h1",
+    "themes": "endgame mate mateIn1 oneMove operaMate"
+  },
+  {
+    "id": "01Siq",
+    "fen": "5rk1/5p2/p2p1Rp1/1p1P2Pp/7r/8/PPPR4/1K6 w - - 0 28",
+    "moves": "f6d6 h4h1 d2d1 h1d1",
+    "themes": "backRankMate endgame mate mateIn2 rookEndgame short"
+  },
+  {
+    "id": "01ZUY",
+    "fen": "r2q3r/ppp2k1p/5np1/8/4p1b1/4Q3/PPP2PPP/RNB1K2R w KQ - 2 13",
+    "moves": "h2h3 d8d1",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "01dfQ",
+    "fen": "r1bq1r1k/1pp3p1/p1np3B/2b4Q/4p3/P2P3P/BPP2PPN/R4RK1 b - - 0 15",
+    "moves": "g7h6 h5h6",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "01ei6",
+    "fen": "r3kbnr/pp3ppp/4q3/2p1P3/8/1PB5/2PQ1PPP/2KRR3 b kq - 4 18",
+    "moves": "a8d8 d2d8",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "01gl3",
+    "fen": "3q1r1k/6pp/3p2p1/pppP4/5RP1/3P4/PPPQ4/2K5 b - - 0 25",
+    "moves": "d8g5 f4f8",
+    "themes": "backRankMate endgame hangingPiece mate mateIn1 oneMove"
+  },
+  {
+    "id": "01m0z",
+    "fen": "1r4k1/5ppp/1Q2p3/3p4/1p6/3PP3/5PPP/R5K1 b - - 0 31",
+    "moves": "b8b6 a1a8 b6b8 a8b8",
+    "themes": "backRankMate endgame mate mateIn2 rookEndgame short"
+  },
+  {
+    "id": "01ujj",
+    "fen": "8/K7/8/6kp/8/8/P7/8 w - - 0 46",
+    "moves": "a7b7 h5h4 a2a4 h4h3 a4a5 h3h2 b7b8 h2h1q",
+    "themes": "advancedPawn crushing endgame pawnEndgame promotion quietMove veryLong"
+  },
+  {
+    "id": "01zaV",
+    "fen": "7k/6pp/8/8/R7/2P4r/1P4K1/8 b - - 1 42",
+    "moves": "h3d3 a4a8 d3d8 a8d8",
+    "themes": "backRankMate endgame master mate mateIn2 rookEndgame short"
+  },
+  {
+    "id": "022dd",
+    "fen": "r7/3r1kp1/8/4B2R/7R/p6P/5PP1/2n2K2 w - - 8 33",
+    "moves": "h4c4 d7d1",
+    "themes": "endgame master mate mateIn1 oneMove"
+  },
+  {
+    "id": "028pN",
+    "fen": "2r5/6pk/5p1p/5P2/3P1P1N/bP4P1/P2q3P/1K1R4 w - - 0 41",
+    "moves": "d1d2 c8c1",
+    "themes": "endgame mate mateIn1 oneMove operaMate"
+  },
+  {
+    "id": "02HQm",
+    "fen": "4r2k/p6p/1p4pP/2p1Q3/2Pp1R2/6PK/P1P5/8 b - - 6 41",
+    "moves": "e8e5 f4f8",
+    "themes": "endgame master mate mateIn1 oneMove rookEndgame"
+  },
+  {
+    "id": "02IQK",
+    "fen": "4r2k/pb1Q1npp/1p6/8/8/5P2/P5PP/6K1 b - - 0 25",
+    "moves": "f7d8 d7e8",
+    "themes": "backRankMate endgame hangingPiece mate mateIn1 oneMove"
+  },
+  {
+    "id": "02O7b",
+    "fen": "8/1P4P1/1P3k1K/1B6/8/8/8/4r3 w - - 3 69",
+    "moves": "g7g8q e1h1",
+    "themes": "endgame master mate mateIn1 oneMove"
+  },
+  {
+    "id": "02XKt",
+    "fen": "4rQ1k/6pp/3p4/3P4/8/2P3B1/PP3R2/4qBK1 b - - 2 32",
+    "moves": "e8f8 f2f8",
+    "themes": "backRankMate endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "02jkb",
+    "fen": "r1bqr1k1/4bppp/p4B2/1pp5/8/1P1B4/P2PQPPP/RN2R1K1 b - - 0 15",
+    "moves": "e7f6 e2e8 d8e8 e1e8",
+    "themes": "kingsideAttack mate mateIn2 middlegame short"
+  },
+  {
+    "id": "02lza",
+    "fen": "rQ4k1/5ppp/4p3/4P2P/4P3/p3P1P1/PR4K1/2qr4 b - - 1 29",
+    "moves": "a8b8 b2b8 c1c8 b8c8 d1d8 c8d8",
+    "themes": "backRankMate endgame long mate mateIn3 queenRookEndgame"
+  },
+  {
+    "id": "02wjb",
+    "fen": "2r2rk1/1R4pp/p7/2Np4/8/4b3/P1R3PP/3Q1q1K w - - 2 30",
+    "moves": "d1f1 f8f1",
+    "themes": "backRankMate master mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "02ygH",
+    "fen": "5q1k/r1p4p/5P1p/ppQ5/8/1P4P1/5P1P/RN1R2K1 b - - 0 25",
+    "moves": "f8c5 d1d8 c5f8 d8f8",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "035Fr",
+    "fen": "rnb2rk1/p1p2pP1/3qpb1p/8/3PQ3/3B1N2/PpP2PP1/1K1R3R b - - 1 16",
+    "moves": "f6g7 e4h7",
+    "themes": "master mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "03Bzk",
+    "fen": "3r1bk1/1b1p1p1p/p1q1pPp1/1pr5/7Q/1BN1B3/PPP2PPP/R4RK1 w - - 8 19",
+    "moves": "e3c5 c6g2",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "03IcO",
+    "fen": "2k1r3/1pp2pq1/1pp5/5R2/5B1p/2P3Q1/PP2r1PP/R6K w - - 0 23",
+    "moves": "g3g7 e2e1 a1e1 e8e1",
+    "themes": "backRankMate endgame mate mateIn2 short"
+  },
+  {
+    "id": "03QVV",
+    "fen": "2r3k1/p2p1ppp/b3p3/3pP3/8/1P4R1/q4PPP/Q5K1 w - - 0 22",
+    "moves": "a1a2 c8c1",
+    "themes": "backRankMate endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "03lD4",
+    "fen": "5rk1/3bbppp/pqr1pB2/3p4/2pP4/P3PN1P/1PQ2PP1/1BR2RK1 b - - 0 18",
+    "moves": "e7f6 c2h7",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "03lZs",
+    "fen": "8/5ppp/4pk2/8/3P4/r1P5/5PPP/4R1K1 w - - 2 32",
+    "moves": "e1e3 a3a1 e3e1 a1e1",
+    "themes": "backRankMate endgame mate mateIn2 rookEndgame short"
+  },
+  {
+    "id": "03sTE",
+    "fen": "3r2k1/p2Q1ppp/1p2p3/3p4/3P4/P3P2P/1P3PP1/2R3K1 b - - 0 22",
+    "moves": "d8d7 c1c8 d7d8 c8d8",
+    "themes": "backRankMate endgame mate mateIn2 rookEndgame short"
+  },
+  {
+    "id": "043MW",
+    "fen": "r5k1/1p3p2/p2bpPp1/3p3R/P5Qp/3q3P/3B2P1/5R1K w - - 1 27",
+    "moves": "d2h6 d3f1",
+    "themes": "hangingPiece kingsideAttack master mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "046wZ",
+    "fen": "6rk/R2R2pp/4b3/5p2/B3p3/r7/2P2PPP/6K1 w - - 1 29",
+    "moves": "d7e7 a3a1",
+    "themes": "backRankMate endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "047Pv",
+    "fen": "3r2k1/5ppp/8/8/P7/2P1R2P/3r4/4R1K1 b - - 0 32",
+    "moves": "d8a8 e3e8 a8e8 e1e8",
+    "themes": "backRankMate endgame mate mateIn2 rookEndgame short"
+  },
+  {
+    "id": "04Bqv",
+    "fen": "6k1/1n1r1p1p/p2PbB1P/5p2/8/P4P2/6P1/1R4K1 b - - 2 34",
+    "moves": "b7d6 b1b8 d6c8 b8c8 d7d8 c8d8",
+    "themes": "endgame long mate mateIn3"
+  },
+  {
+    "id": "04O1o",
+    "fen": "1k2q3/1p3p2/1p3R2/p2p4/P2Pb3/1Q4P1/1P6/K7 w - - 0 29",
+    "moves": "b3b6 e8a4",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "04TL9",
+    "fen": "8/8/4K1p1/p5P1/4P3/8/4k3/8 w - - 0 57",
+    "moves": "e6f6 a5a4 e4e5 a4a3 f6f7 a3a2 e5e6 a2a1q",
+    "themes": "advancedPawn crushing endgame pawnEndgame promotion quietMove veryLong"
+  },
+  {
+    "id": "04ejN",
+    "fen": "4r3/8/8/p1p3p1/3R2k1/6N1/r5PP/3R3K b - - 0 33",
+    "moves": "c5d4 d1d4 e8e4 d4e4",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "04gq1",
+    "fen": "2k2r2/pppn2p1/3b4/6n1/3P2q1/2P5/PP2R3/RN1KQ3 b - - 6 28",
+    "moves": "g5f3 e2e8 f8e8 e1e8",
+    "themes": "mate mateIn2 middlegame queensideAttack short"
+  },
+  {
+    "id": "04q0u",
+    "fen": "r1b1kbnr/ppp1qppp/8/4PnB1/8/5N2/PPP2PPP/RN1Q1RK1 b kq - 4 9",
+    "moves": "e7e6 d1d8",
+    "themes": "mate mateIn1 oneMove opening"
+  },
+  {
+    "id": "04rhx",
+    "fen": "r4rk1/1bBn2pp/p3p3/5pb1/2BPq3/P3PN1P/5PP1/2RQ1RK1 w - - 1 18",
+    "moves": "f3g5 e4g2",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "04wOM",
+    "fen": "3R1rk1/pp3ppp/1b6/8/8/4QN2/PPq2PPP/4R1K1 b - - 0 19",
+    "moves": "f8d8 e3e8 d8e8 e1e8",
+    "themes": "backRankMate endgame mate mateIn2 sacrifice short"
+  },
+  {
+    "id": "050dT",
+    "fen": "r1b2rk1/p5qp/2p1p1p1/3p4/7Q/2PB4/P1P2PP1/R2K3R b - - 3 18",
+    "moves": "g7c3 h4h7",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "051Fx",
+    "fen": "7k/p4rp1/8/2R2Bp1/5bP1/2p2K2/P7/8 b - - 1 47",
+    "moves": "f4d2 c5c8 f7f8 c8f8",
+    "themes": "endgame mate mateIn2 pillsburysMate short"
+  },
+  {
+    "id": "051II",
+    "fen": "1r4k1/pp1b2pp/8/2PNq3/1P3p2/P4Q2/5PPP/2R3K1 w - - 0 27",
+    "moves": "c1e1 e5e1",
+    "themes": "endgame hangingPiece mate mateIn1 oneMove"
+  },
+  {
+    "id": "052is",
+    "fen": "2r3k1/1p4pp/6P1/2R2P1P/b7/P2R2K1/2n5/8 b - - 6 44",
+    "moves": "c8c5 d3d8 a4e8 d8e8",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "05332",
+    "fen": "2b1r2k/2p4p/p2b1ppB/1p1P4/3p4/PB5P/1PP2PP1/3R2K1 w - - 2 26",
+    "moves": "d1d4 e8e1",
+    "themes": "endgame mate mateIn1 oneMove pillsburysMate"
+  },
+  {
+    "id": "05JWm",
+    "fen": "r1r4k/4pQ1p/3p1bp1/8/1P2P3/5N2/B4PPP/R1q3K1 w - - 0 23",
+    "moves": "a1c1 c8c1 f3e1 c1e1",
+    "themes": "backRankMate mate mateIn2 middlegame short"
+  },
+  {
+    "id": "05Kna",
+    "fen": "r3r1k1/6pp/2p3q1/pp6/4b3/4B2P/1PP2PP1/R2QR1K1 w - - 2 24",
+    "moves": "c2c3 g6g2",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "05SaQ",
+    "fen": "rn2r1k1/1b1n1ppp/ppqPp3/2p5/P1B5/3P1NB1/1PP3PP/R2Q1RK1 w - - 1 16",
+    "moves": "f3g5 c6g2",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "05XbM",
+    "fen": "rn1qk2r/ppp1ppb1/5n1p/4P1Q1/2B3b1/8/PPP2PPP/RNB1K1NR w KQkq - 0 9",
+    "moves": "g5f4 d8d1",
+    "themes": "mate mateIn1 oneMove opening"
+  },
+  {
+    "id": "05YqI",
+    "fen": "r1k1Rq2/ppr5/7p/1Q4pn/3P2b1/2P5/PP1N2PP/R5K1 b - - 1 22",
+    "moves": "f8e8 b5e8",
+    "themes": "hangingPiece mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "05f0T",
+    "fen": "2k2r2/pppb2pr/3bpq2/3pN2p/3PpB1P/2P1P3/PP3PP1/R2Q1K1R w - - 1 17",
+    "moves": "f4g5 f6f2",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "05jvp",
+    "fen": "8/4p2k/3p2p1/3q3p/7P/2Q1P1P1/5P2/6K1 b - - 1 45",
+    "moves": "h7h6 c3h8",
+    "themes": "endgame master mate mateIn1 oneMove queenEndgame"
+  },
+  {
+    "id": "05lQW",
+    "fen": "3rk2r/p1p1b1pp/8/4p3/8/4Q3/PP1qNPPP/R4RK1 w k - 0 20",
+    "moves": "f1d1 d2d1 a1d1 d8d1",
+    "themes": "backRankMate mate mateIn2 middlegame short"
+  },
+  {
+    "id": "05nVL",
+    "fen": "1r1q1k1r/3npp2/4bb2/1B1p3p/P2P4/2B1PPR1/1P4Q1/2K3R1 b - - 4 24",
+    "moves": "b8b5 g3g8 h8g8 g2g8",
+    "themes": "mate mateIn2 middlegame short"
+  },
+  {
+    "id": "05qB7",
+    "fen": "2r1k3/b4p2/4p1p1/8/P2P4/8/6PP/1Bq1R2K w - - 0 43",
+    "moves": "e1c1 c8c1",
+    "themes": "backRankMate endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "063Hf",
+    "fen": "2kr1r2/p1p1np1p/8/4P2Q/5P2/2B2N2/PP5P/K2q3R w - - 1 21",
+    "moves": "h1d1 d8d1",
+    "themes": "backRankMate mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0641k",
+    "fen": "r1b1r1k1/ppp2ppp/2p5/2P5/4P3/7P/PPP1BPP1/2KR3R b - - 0 14",
+    "moves": "e8e4 d1d8 e4e8 d8e8",
+    "themes": "backRankMate endgame mate mateIn2 short"
+  },
+  {
+    "id": "0649B",
+    "fen": "r4rk1/2p3pp/p1pbq3/6N1/2p5/4P1P1/PPQ2PP1/R4RK1 b - - 3 18",
+    "moves": "e6d5 c2h7",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "06JX6",
+    "fen": "5k2/p3bp2/3qpr2/7Q/3P3P/1PP3R1/P5PK/8 b - - 14 54",
+    "moves": "f6g6 h5h8 g6g8 h8g8",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "06RPl",
+    "fen": "8/8/6K1/7P/1p6/1k6/8/8 b - - 0 58",
+    "moves": "b3b2 h5h6 b2c2 h6h7 b4b3 h7h8q",
+    "themes": "advancedPawn crushing endgame long master pawnEndgame promotion"
+  },
+  {
+    "id": "06YFE",
+    "fen": "r1b1kbnr/pppp1pp1/2n3qp/4P1B1/2Qp2PN/1B6/P2N1P1P/1R2K2R b Kkq - 2 13",
+    "moves": "g6h7 c4f7",
+    "themes": "attackingF2F7 mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "06aqI",
+    "fen": "3R1r1k/p5pp/1p6/2p2pq1/5b2/1NP3P1/PP2Q1KP/4R3 b - - 0 26",
+    "moves": "f8d8 e2e8 d8e8 e1e8",
+    "themes": "backRankMate endgame mate mateIn2 sacrifice short"
+  },
+  {
+    "id": "06dj7",
+    "fen": "2r1r1k1/p1q2ppp/4p1b1/2pP4/2P5/P3QB1P/5PP1/3RR1K1 b - - 0 24",
+    "moves": "e6d5 e3e8 c8e8 e1e8",
+    "themes": "backRankMate mate mateIn2 middlegame short"
+  },
+  {
+    "id": "06eZh",
+    "fen": "2r3k1/p4p2/1p3p1p/3r4/8/P3P3/1P3PPP/3R2K1 w - - 0 24",
+    "moves": "d1d5 c8c1 d5d1 c1d1",
+    "themes": "backRankMate endgame mate mateIn2 rookEndgame short"
+  },
+  {
+    "id": "06g3S",
+    "fen": "4r3/2p5/2Rb2k1/p4p2/P7/4B2P/5PP1/6K1 w - - 0 42",
+    "moves": "e3c5 e8e1",
+    "themes": "endgame mate mateIn1 oneMove pillsburysMate"
+  },
+  {
+    "id": "06jHQ",
+    "fen": "2r2k2/1p1R1p2/2nR1Pp1/8/5rp1/8/2B2PP1/6K1 b - - 2 41",
+    "moves": "c6e5 d7d8 c8d8 d6d8",
+    "themes": "endgame master mate mateIn2 short"
+  },
+  {
+    "id": "06kMR",
+    "fen": "6rk/p6p/q4b2/5p2/1P2pP2/P3P1B1/2RQ3P/7K w - - 4 38",
+    "moves": "d2d5 a6f1",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "06z5j",
+    "fen": "2b2r1k/1p3Rp1/p1p4p/7n/8/P6P/1P4P1/1B1R2K1 b - - 0 30",
+    "moves": "f8f7 d1d8 f7f8 d8f8",
+    "themes": "endgame fork mate mateIn2 pillsburysMate short"
+  },
+  {
+    "id": "074Ca",
+    "fen": "8/Rp2r1pk/3R4/6p1/2P5/1P5P/2n2PP1/5K2 w - - 3 43",
+    "moves": "d6b6 e7e1",
+    "themes": "endgame master mate mateIn1 oneMove"
+  },
+  {
+    "id": "075fC",
+    "fen": "6k1/p5pp/3R4/8/8/1P3pP1/P1r2P1P/5K2 w - - 0 32",
+    "moves": "a2a4 c2c1 d6d1 c1d1",
+    "themes": "endgame mate mateIn2 rookEndgame short"
+  },
+  {
+    "id": "076Lz",
+    "fen": "2rR2k1/5bpp/5p2/p7/1pr1PPP1/2BQ4/PPK4P/6q1 b - - 1 30",
+    "moves": "c8d8 d3d8 f7e8 d8e8",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "078Jc",
+    "fen": "3r4/p1r3k1/R4b1p/1R2pB2/2p1P1b1/P1P2pP1/5P1B/6K1 w - - 5 37",
+    "moves": "f5g4 d8d1",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "07MqV",
+    "fen": "3rr1k1/pp1b1ppp/3b4/3P2q1/2BQp3/1P6/PB3PPP/2R2R1K b - - 0 21",
+    "moves": "g5f4 d4g7",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "07Qlo",
+    "fen": "6k1/5pp1/7p/1p1pB3/1P2n3/2P5/2r2PPP/3R2K1 w - - 3 24",
+    "moves": "d1d5 c2c1 d5d1 c1d1",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "07TZ4",
+    "fen": "r3r1k1/pp1q1pp1/2pb1n1p/4p3/4B3/2P2P1P/PPQ2P2/R1B3RK w - - 5 18",
+    "moves": "c1h6 d7h3",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "07bUX",
+    "fen": "r2qkb1r/p2bpp1p/2pp2p1/8/3NP3/2N1PQ2/PPP3PP/R4RK1 b kq - 0 11",
+    "moves": "f8g7 f3f7",
+    "themes": "attackingF2F7 mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "07eYQ",
+    "fen": "1r3rk1/3bppbp/3p2p1/q2B4/1p1BP2P/5P2/1PPQ2P1/2KR3R w - - 1 18",
+    "moves": "d4g7 a5a1",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "07gGe",
+    "fen": "r4rk1/ppb2ppp/3qpn2/3p2B1/3P4/1NP4P/PP3PP1/R2Q1RK1 w - - 3 15",
+    "moves": "g5f6 d6h2",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "07guY",
+    "fen": "r2qkb1r/pp1np2p/2pppn2/6pB/4P3/2NP4/PPP2PPP/R1BQK2R b KQkq - 1 8",
+    "moves": "f6h5 d1h5",
+    "themes": "mate mateIn1 oneMove opening"
+  },
+  {
+    "id": "07zlv",
+    "fen": "2r4k/6p1/3p2bp/p1q5/Pp2p3/1r2P3/R1P2PPP/Q1R3K1 w - - 0 29",
+    "moves": "c2b3 c5c1 a1c1 c8c1",
+    "themes": "backRankMate endgame mate mateIn2 short"
+  },
+  {
+    "id": "07zsM",
+    "fen": "2rkr3/3n2Q1/p3p1P1/4PB2/3R1P2/q1p1P3/b1R4P/3K4 b - - 3 32",
+    "moves": "a2b3 g7d7",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "088yl",
+    "fen": "1rk1q3/1p1n3p/p2Prnp1/2p5/P4B2/1Q3B1P/1P3PP1/R4RK1 w - - 2 25",
+    "moves": "f1e1 e6e1 a1e1 e8e1",
+    "themes": "advantage kingsideAttack middlegame short"
+  },
+  {
+    "id": "08FDm",
+    "fen": "4r1k1/2p2ppp/3pq3/1Q6/2r5/2P5/P4PPP/R4RK1 w - - 3 23",
+    "moves": "f1e1 e6e1 a1e1 e8e1",
+    "themes": "backRankMate endgame mate mateIn2 short"
+  },
+  {
+    "id": "08FIk",
+    "fen": "1rb2rk1/p1p2ppp/1p2P3/3P4/8/2Pn1QB1/P1q1N2P/R4RK1 b - - 0 18",
+    "moves": "f7e6 f3f8",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "08LBX",
+    "fen": "6k1/6p1/R5K1/8/p1r1p3/8/5P1P/8 b - - 11 40",
+    "moves": "c4d4 a6a8 d4d8 a8d8",
+    "themes": "endgame mate mateIn2 rookEndgame short"
+  },
+  {
+    "id": "08W6I",
+    "fen": "1r1r2k1/4Qpp1/7p/4p3/8/3R1P2/PP4PP/3q3K w - - 0 25",
+    "moves": "d3d1 d8d1",
+    "themes": "backRankMate endgame master mate mateIn1 oneMove queenRookEndgame"
+  },
+  {
+    "id": "08WP9",
+    "fen": "7N/6k1/P2b4/8/8/7p/8/7K b - - 0 61",
+    "moves": "g7h8 a6a7 h8g7 a7a8q",
+    "themes": "advancedPawn bishopEndgame crushing endgame promotion short"
+  },
+  {
+    "id": "08XtR",
+    "fen": "r1bqk1nr/ppp2p1p/2n4b/3p4/2B1PQ2/8/PPPP2PP/RNB1NRK1 b kq - 0 8",
+    "moves": "d5c4 f4f7",
+    "themes": "attackingF2F7 mate mateIn1 oneMove opening"
+  },
+  {
+    "id": "08eOQ",
+    "fen": "8/ppR3pp/4rk2/n4p2/3q4/1P6/P4PPP/3R2K1 w - - 6 29",
+    "moves": "d1d4 e6e1",
+    "themes": "backRankMate endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "08igm",
+    "fen": "r5k1/1b2rppp/1p3n2/1B1qp3/3p4/P6P/NPP1QPP1/3R1RK1 w - - 2 18",
+    "moves": "c2c4 d5g2",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "08mWX",
+    "fen": "1r1q1rk1/1p1bppbp/3p1np1/p2N4/2PQ4/1P2P1P1/PB3PBP/R4RK1 b - - 2 13",
+    "moves": "f6d5 d4g7",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "08ysH",
+    "fen": "8/3N2k1/5b2/5R2/r5KP/8/8/8 w - - 3 48",
+    "moves": "g4h5 a4h4",
+    "themes": "endgame master masterVsMaster mate mateIn1 oneMove operaMate"
+  },
+  {
+    "id": "08zxV",
+    "fen": "2r2bk1/2N2pp1/p6p/4p3/4N1n1/P3B3/1P1R1PPP/6K1 w - - 1 26",
+    "moves": "c7a6 c8c1 d2d1 c1d1",
+    "themes": "mate mateIn2 middlegame short"
+  },
+  {
+    "id": "0905I",
+    "fen": "r4rk1/pbp2ppp/1p2pn2/3qn3/3P4/P1BBP3/1P2QPPP/3R1RK1 w - - 0 15",
+    "moves": "d4e5 d5g2",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "09GYu",
+    "fen": "rnb1k1nr/ppp2ppp/3b4/8/8/5Nq1/PPPPP2P/RNBQKB1R w KQkq - 0 6",
+    "moves": "h2g3 d6g3",
+    "themes": "bodenMate mate mateIn1 oneMove opening"
+  },
+  {
+    "id": "09HuJ",
+    "fen": "2k2b1r/1bp2ppp/1n5r/Q1p1p3/P1P5/1P2N1P1/1B2BP1K/R4R2 w - - 1 21",
+    "moves": "h2g1 h6h1",
+    "themes": "master mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "09RHB",
+    "fen": "8/1R6/8/4pK2/5bpk/8/8/8 b - - 1 58",
+    "moves": "g4g3 b7h7 f4h6 h7h6",
+    "themes": "endgame master masterVsMaster mate mateIn2 short"
+  },
+  {
+    "id": "09dIt",
+    "fen": "6k1/6pp/3RP3/5p2/2rp3P/6P1/2p2PK1/8 b - - 0 49",
+    "moves": "c2c1q d6d8",
+    "themes": "endgame mate mateIn1 oneMove queenRookEndgame"
+  },
+  {
+    "id": "09hMh",
+    "fen": "r1b4k/3n2pp/4B3/8/8/P7/5PPP/3R2K1 b - - 0 27",
+    "moves": "d7c5 d1d8",
+    "themes": "backRankMate endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "09lnw",
+    "fen": "6k1/p3rpp1/4b2p/2r1P3/3R3P/R2B4/2P3P1/2K5 b - - 7 26",
+    "moves": "c5e5 d4d8 e7e8 d8e8",
+    "themes": "endgame mate mateIn2 pillsburysMate short"
+  },
+  {
+    "id": "09mHi",
+    "fen": "r4rk1/3qbppp/b1n1p3/pN1pP3/1p1P4/3Q4/P1BB1PPP/2R2RK1 b - - 7 18",
+    "moves": "c6d4 d3h7",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "09rxF",
+    "fen": "6k1/6pp/p1p2pq1/Pp1p4/3P4/3N1PP1/1P4P1/4Q1K1 b - - 0 33",
+    "moves": "g6d3 e1e8",
+    "themes": "endgame mate mateIn1 oneMove queenEndgame"
+  },
+  {
+    "id": "09sGW",
+    "fen": "r2r3k/pbp2ppp/1p3b2/1P1qp3/Q2PN3/2B5/P4PPP/R3R1K1 w - - 3 20",
+    "moves": "e4f6 d5g2",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "09xyt",
+    "fen": "6k1/p5p1/1p4rp/3p4/5p2/P1P4r/1P3qP1/3QN1RK w - - 0 37",
+    "moves": "g2h3 f2g1",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "0A3gJ",
+    "fen": "r1bq2k1/pp3ppp/2pb4/2n1r3/2PQ1PPP/1P2P3/PB1PB3/R3K1R1 b Q - 0 16",
+    "moves": "e5e8 d4g7",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0A8ZI",
+    "fen": "rn3rk1/pp4pp/8/4p3/2PpR3/8/Pq2Q1PP/RN5K w - - 0 18",
+    "moves": "e2b2 f8f1",
+    "themes": "backRankMate mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0ACeu",
+    "fen": "2b2r1k/p1p3pp/2Q5/3B4/8/P7/6PP/R4q1K w - - 2 24",
+    "moves": "a1f1 f8f1",
+    "themes": "backRankMate endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "0ADtg",
+    "fen": "1k4nr/p1q3pp/B1pR1p2/4pQ2/4P3/2N5/PPP3PP/2K5 b - - 0 18",
+    "moves": "c7d6 f5c8",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "0AHE4",
+    "fen": "8/p4R2/8/4N1p1/P7/2r3k1/8/6K1 w - - 2 43",
+    "moves": "f7a7 c3c1",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "0AO2l",
+    "fen": "6k1/p4pp1/7p/8/1P1B4/r2P4/5PPP/2R3K1 w - - 1 28",
+    "moves": "c1c3 a3a1 c3c1 a1c1",
+    "themes": "backRankMate endgame mate mateIn2 short"
+  },
+  {
+    "id": "0Aedf",
+    "fen": "r4rk1/pRB3pp/4p3/8/3b4/8/PP4PP/4R2K w - - 4 27",
+    "moves": "e1e6 f8f1",
+    "themes": "backRankMate endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "0B90s",
+    "fen": "rnb1Q2k/pp4bp/3P2p1/q7/2B5/8/P1P2PPP/1K4NR b - - 2 17",
+    "moves": "g7f8 e8f8",
+    "themes": "hangingPiece kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0BI4w",
+    "fen": "4rk2/1pq2p2/p4QnN/2P5/2P2p2/8/PP3PPP/R3r1K1 w - - 1 29",
+    "moves": "a1e1 e8e1",
+    "themes": "backRankMate endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "0BMax",
+    "fen": "4B1k1/5ppp/p2B4/8/8/8/P1r2PPP/RN4K1 w - - 0 20",
+    "moves": "e8a4 c2c1 a4d1 c1d1",
+    "themes": "backRankMate endgame mate mateIn2 short"
+  },
+  {
+    "id": "0BR3l",
+    "fen": "r4r2/pp2k1bp/2np2p1/2pq4/4P1Q1/8/PPPP2PP/R1B4K w - - 0 16",
+    "moves": "e4d5 f8f1",
+    "themes": "backRankMate mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0BXzp",
+    "fen": "5r1k/p5pp/8/3p4/2q5/2P3P1/PP3Q1P/4R1K1 b - - 0 27",
+    "moves": "f8f2 e1e8 f2f8 e8f8",
+    "themes": "backRankMate endgame mate mateIn2 queenRookEndgame short"
+  },
+  {
+    "id": "0BZRD",
+    "fen": "r3kb1r/p2p2pp/b1p1pp1n/q7/3QP3/2N1BN1P/PPP2PP1/2KR3R b kq - 2 10",
+    "moves": "h6f7 d4d7",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0BgEX",
+    "fen": "2kr3r/pppqnb2/3p4/5ppp/2PP4/1P3QP1/PB3PBP/R4RK1 b - - 1 16",
+    "moves": "h5h4 f3b7",
+    "themes": "mate mateIn1 middlegame oneMove queensideAttack"
+  },
+  {
+    "id": "0BjZ6",
+    "fen": "6k1/N5p1/7p/3pr3/1b6/1P6/P1R2P2/2Kr4 w - - 0 37",
+    "moves": "c1d1 e5e1",
+    "themes": "endgame master mate mateIn1 oneMove operaMate"
+  },
+  {
+    "id": "0Bluz",
+    "fen": "5r1k/p1p3pp/8/6q1/3P2r1/2P2Q2/P1P3PP/R3R1K1 b - - 8 32",
+    "moves": "f8f3 e1e8 f3f8 e8f8",
+    "themes": "backRankMate endgame mate mateIn2 queenRookEndgame short"
+  },
+  {
+    "id": "0Br35",
+    "fen": "2kr4/pR2nRpp/2p5/8/8/2Pr1B2/P4PPP/6K1 w - - 1 21",
+    "moves": "f7e7 d3d1 f3d1 d8d1 e7e1 d1e1",
+    "themes": "backRankMate endgame long mate mateIn3 sacrifice"
+  },
+  {
+    "id": "0CL90",
+    "fen": "r2k4/p3qp2/Qp2p3/2bpP3/8/5P2/PP4Pr/RNB2R1K w - - 0 20",
+    "moves": "h1h2 e7h4",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0CLrY",
+    "fen": "r1b1r1k1/1pp2ppp/p1n1pq2/3P4/P2b2PP/1PN5/1BPPQPB1/2KR3R b - - 0 13",
+    "moves": "e6d5 e2e8",
+    "themes": "hangingPiece kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0CMHc",
+    "fen": "2r2rk1/4pp2/6pp/8/1R6/3b4/2P1RPPP/6K1 w - - 0 31",
+    "moves": "c2d3 c8c1 e2e1 c1e1",
+    "themes": "backRankMate endgame mate mateIn2 rookEndgame short"
+  },
+  {
+    "id": "0CNsS",
+    "fen": "1k1Q3r/1rp2q2/p4P2/1p2p2p/1P6/P3B2P/6P1/2RR2K1 b - - 1 38",
+    "moves": "h8d8 d1d8",
+    "themes": "endgame mate mateIn1 oneMove pillsburysMate queensideAttack"
+  },
+  {
+    "id": "0CNvZ",
+    "fen": "rn2k2r/pbp2pb1/1p2p2p/3q4/6p1/2PP1NB1/PP2BPPP/R2Q1RK1 w kq - 0 13",
+    "moves": "f3d2 d5g2",
+    "themes": "kingsideAttack mate mateIn1 oneMove opening"
+  },
+  {
+    "id": "0CPjY",
+    "fen": "1k2R2r/ppp2Q2/8/6pp/1B1p1p2/P6P/2q2PP1/6K1 b - - 1 28",
+    "moves": "h8e8 f7e8",
+    "themes": "backRankMate endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "0Cgq1",
+    "fen": "2r3k1/4Rpp1/7p/8/3P1Q2/8/P4PPP/2q3K1 w - - 2 35",
+    "moves": "f4c1 c8c1 e7e1 c1e1",
+    "themes": "backRankMate endgame mate mateIn2 short"
+  },
+  {
+    "id": "0CkeR",
+    "fen": "4RQ1k/6p1/6Pp/8/5r2/Pp6/1Pp5/K1Rq4 b - - 0 45",
+    "moves": "f4f8 e8f8",
+    "themes": "endgame master mate mateIn1 oneMove queenRookEndgame"
+  },
+  {
+    "id": "0DNcn",
+    "fen": "4r2k/2p3p1/3b3p/8/Q2P4/2P5/P3rPPP/R5K1 w - - 3 26",
+    "moves": "c3c4 e2e1 a1e1 e8e1",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "0DR3B",
+    "fen": "5B1R/7R/4kb2/p1p2p2/Pp2r3/1P6/2P5/1K6 w - - 2 42",
+    "moves": "h8g8 e4e1 b1a2 e1a1",
+    "themes": "endgame mate mateIn2 operaMate short"
+  },
+  {
+    "id": "0DSKt",
+    "fen": "rn2r1k1/ppp2ppp/8/4R1B1/8/2N5/PPP2PPP/3R1K2 b - - 0 14",
+    "moves": "e8e5 d1d8 e5e8 d8e8",
+    "themes": "backRankMate endgame mate mateIn2 short"
+  },
+  {
+    "id": "0DUS1",
+    "fen": "2rr2k1/pp4p1/7p/3p1p1P/4p3/1Q2P3/PP1q2P1/K2R4 w - - 0 28",
+    "moves": "d1d2 c8c1",
+    "themes": "backRankMate endgame master mate mateIn1 oneMove queenRookEndgame"
+  },
+  {
+    "id": "0DUcv",
+    "fen": "r3k2r/4npp1/p2q2p1/1p1p4/4p3/2P2N2/PP2QPPP/R1B2RK1 w kq - 0 18",
+    "moves": "f3d4 d6h2",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0DcL1",
+    "fen": "1r2Q1k1/2q2r1p/2p2p1B/p2b2p1/3P4/P7/5PPP/4RNK1 b - - 3 28",
+    "moves": "b8e8 e1e8 f7f8 e8f8",
+    "themes": "mate mateIn2 middlegame operaMate short"
+  },
+  {
+    "id": "0DdWe",
+    "fen": "r1bqk2r/5p2/p1p1p3/3pP3/3b3p/4BQ2/PPP3PP/RN3R1K b kq - 5 17",
+    "moves": "d4b2 f3f7",
+    "themes": "attackingF2F7 mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0Dr4B",
+    "fen": "4r1k1/p3r1p1/2p4p/5pb1/4N3/P2P4/RP3PPP/3R2K1 w - - 0 26",
+    "moves": "e4g5 e7e1 d1e1 e8e1",
+    "themes": "backRankMate endgame mate mateIn2 short"
+  },
+  {
+    "id": "0Dy2w",
+    "fen": "4r2k/ppp2p1p/3b1r2/3P4/8/2N4P/PPP3P1/5R1K w - - 0 26",
+    "moves": "f1f6 e8e1 f6f1 e1f1",
+    "themes": "endgame mate mateIn2 pillsburysMate short"
+  },
+  {
+    "id": "0E1lm",
+    "fen": "rn1q1rk1/pp2nppp/2p1p3/3pP1N1/1b1P4/2NQ4/PPP2PPP/R1B2RK1 b - - 4 9",
+    "moves": "h7h6 d3h7",
+    "themes": "mate mateIn1 oneMove opening"
+  },
+  {
+    "id": "0E2MQ",
+    "fen": "r3kb1r/pbPpq2p/1p2pBp1/2p1N3/2P5/8/PP3PPP/R2QKB1R b KQkq - 0 14",
+    "moves": "e7f6 d1d7",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0E5sD",
+    "fen": "2r5/2rkqp1p/p2p1p2/4pP2/1p1R2P1/2P1Q2P/PP3PB1/2K1R3 b - - 0 20",
+    "moves": "e5d4 e3e7",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "0E6At",
+    "fen": "5rk1/pp4pp/8/2p1p3/2BpP3/6PP/Pr6/5RK1 b - - 3 25",
+    "moves": "g8h8 f1f8",
+    "themes": "backRankMate endgame hangingPiece mate mateIn1 oneMove"
+  },
+  {
+    "id": "0EFKN",
+    "fen": "3Rr1kb/2q2p1p/pp2b1pB/4p3/P1p1P3/3Q1N1P/1PP2PP1/3R2K1 b - - 0 21",
+    "moves": "e8d8 d3d8 c7d8 d1d8",
+    "themes": "kingsideAttack mate mateIn2 middlegame pillsburysMate short"
+  },
+  {
+    "id": "0EIQt",
+    "fen": "6k1/3bpp1p/3p2p1/pB3P2/1p1BP3/1P2K1PP/r7/2R5 b - - 0 30",
+    "moves": "d7b5 c1c8 b5e8 c8e8",
+    "themes": "endgame mate mateIn2 pillsburysMate short"
+  },
+  {
+    "id": "0EJAj",
+    "fen": "3R4/p3n1pk/1p5p/4Bb2/1P6/2P2N2/2r2PPP/6K1 w - - 2 28",
+    "moves": "f3h4 c2c1 d8d1 c1d1",
+    "themes": "backRankMate endgame mate mateIn2 short"
+  },
+  {
+    "id": "0EV01",
+    "fen": "3r4/1k4pp/5p2/4b3/1Pb5/P3B2P/R2N1PP1/6K1 w - - 12 34",
+    "moves": "d2c4 d8d1",
+    "themes": "endgame mate mateIn1 oneMove pillsburysMate"
+  },
+  {
+    "id": "0EX06",
+    "fen": "r2q1rk1/2bp2pp/pp2pp1P/8/1PP5/P1Q1PP2/1B3P2/R4RK1 b - - 0 19",
+    "moves": "f6f5 c3g7",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0Ebcb",
+    "fen": "r3r3/1p3p1k/6p1/p1Pp2qp/P2Qn2n/1NP1P2P/1P2BPP1/3R1RK1 w - - 4 21",
+    "moves": "f2f4 g5g2",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0Ef3p",
+    "fen": "8/1k6/7R/p3p1p1/P3N3/1P3bPP/1r3P2/6K1 w - - 1 35",
+    "moves": "e4g5 b2b1 g1h2 b1h1",
+    "themes": "endgame mate mateIn2 operaMate short"
+  },
+  {
+    "id": "0Ej4i",
+    "fen": "r1b2rk1/ppq4p/3b1pp1/5p2/3N1P1Q/2P4R/P1PB2PP/R5K1 b - - 1 19",
+    "moves": "c8d7 h4h7",
+    "themes": "kingsideAttack master mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0Ejde",
+    "fen": "r5k1/pp1q4/2pp1r2/4p1np/2P1Qp2/3P1B1P/PP2N2K/R4R2 w - - 4 25",
+    "moves": "f1g1 d7h3",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0EsFd",
+    "fen": "3r1rk1/pbp3pp/1p2R3/8/2BP2Q1/2P5/PP4PP/5q1K w - - 2 21",
+    "moves": "c4f1 f8f1",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "0Etou",
+    "fen": "3qQ2k/p2r2pp/8/2rn4/8/P2B4/1PP3PP/1R2R1K1 b - - 2 27",
+    "moves": "d8e8 e1e8",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0EunY",
+    "fen": "5Rkr/3p2p1/3Pp3/4PpNp/5Pn1/2Q5/1K1B2q1/8 b - - 0 40",
+    "moves": "g8f8 c3c8",
+    "themes": "endgame master mate mateIn1 oneMove"
+  },
+  {
+    "id": "0EzHM",
+    "fen": "r2qkb1r/pp1b1p1p/4p1p1/2ppP3/3P4/PP2PQ2/1BP3PP/RN3RK1 b kq - 1 13",
+    "moves": "f8g7 f3f7",
+    "themes": "attackingF2F7 mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0F5QD",
+    "fen": "3Q1r1k/p5pp/8/8/8/P5PP/7K/3R4 b - - 0 39",
+    "moves": "f8d8 d1d8",
+    "themes": "backRankMate endgame mate mateIn1 oneMove rookEndgame"
+  },
+  {
+    "id": "0FRLL",
+    "fen": "8/p2r1p1p/1p2k1pP/6P1/5P2/2P2K2/8/4R3 b - - 7 44",
+    "moves": "e6f5 e1e5",
+    "themes": "endgame mate mateIn1 oneMove rookEndgame"
+  },
+  {
+    "id": "0FSGo",
+    "fen": "5r2/6p1/R5np/3k4/1P1P4/4n1P1/1B5P/6K1 w - - 4 41",
+    "moves": "a6g6 f8f1",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "0FWoy",
+    "fen": "rn1qk2r/pp3ppp/2pbp3/8/3PQ3/3B3P/PPP2PP1/R1B1K2R b KQkq - 0 10",
+    "moves": "e8g8 e4h7",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0FXtq",
+    "fen": "8/pR2ppk1/3p4/2p1b3/4P3/5R1P/6P1/r6K w - - 6 30",
+    "moves": "f3f1 a1f1",
+    "themes": "endgame hangingPiece mate mateIn1 oneMove pillsburysMate"
+  },
+  {
+    "id": "0Fb5d",
+    "fen": "1Q2kb1r/p1prpppp/6b1/4q3/6P1/2N4P/PPn3K1/R1BR4 b k - 1 16",
+    "moves": "d7d8 d1d8",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0FjAf",
+    "fen": "2r2rk1/1bpnn2p/p3p1p1/1p1qNp2/3PN3/P2QP2P/1PB2PP1/2R2RK1 w - - 0 18",
+    "moves": "e4c3 d5g2",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0FxWD",
+    "fen": "2r2rk1/pp1b1pp1/5q1p/3pp3/1Pn5/P2QPP2/1PB1N1PP/2R2RK1 b - - 3 20",
+    "moves": "c4b2 d3h7",
+    "themes": "master mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0FyRS",
+    "fen": "r4rk1/pb3ppp/4p3/1pp5/2P1q3/1P6/P2QBPPP/3R1RK1 w - - 0 18",
+    "moves": "c4b5 e4g2",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0G0SK",
+    "fen": "5r2/p6k/4p2p/2p2p1Q/q1N2BpP/8/P4PP1/2Rr1K2 w - - 4 30",
+    "moves": "c1d1 a4d1",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "0G1Uu",
+    "fen": "rn1q1rk1/pp1bnppp/3bp3/3p4/3P4/2PQ1N2/PPB2PPP/RNB1K2R b KQ - 2 9",
+    "moves": "a7a6 d3h7",
+    "themes": "kingsideAttack mate mateIn1 oneMove opening"
+  },
+  {
+    "id": "0GC0V",
+    "fen": "8/4k3/4p1R1/4p2p/4B2P/3P2PK/r7/6b1 w - - 1 55",
+    "moves": "g6h6 a2h2",
+    "themes": "endgame mate mateIn1 oneMove operaMate"
+  },
+  {
+    "id": "0GGd8",
+    "fen": "r4rk1/p2b1pp1/1n5p/3p4/3P3q/3QP3/P1B2PPP/2KR3R b - - 2 18",
+    "moves": "a8c8 d3h7",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0GLqN",
+    "fen": "rnbqkbnr/ppp2pp1/4p2p/3p4/5PP1/N7/PPPPP2P/R1BQKBNR w KQkq - 0 4",
+    "moves": "a3b1 d8h4",
+    "themes": "mate mateIn1 oneMove opening"
+  },
+  {
+    "id": "0GM2F",
+    "fen": "8/R5pk/6rp/5Q2/5P2/7P/1q4PK/8 w - - 5 33",
+    "moves": "h3h4 b2g2",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "0GVM7",
+    "fen": "8/4p1k1/p1P5/8/1P6/2r3p1/4p1P1/4R1K1 w - - 1 40",
+    "moves": "e1e2 c3c1 e2e1 c1e1",
+    "themes": "endgame master mate mateIn2 rookEndgame short"
+  },
+  {
+    "id": "0Gb50",
+    "fen": "rn2r1k1/ppp2ppp/5bb1/1Q1q4/3P2P1/2P1BN1P/PP3P2/R3KB1R b KQ - 2 13",
+    "moves": "d5f3 b5e8",
+    "themes": "hangingPiece kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0GfpJ",
+    "fen": "5Q1k/6pp/1p6/1N6/Pp2n1q1/1P3rPN/6KP/5R2 b - - 0 26",
+    "moves": "f3f8 f1f8",
+    "themes": "backRankMate endgame master mate mateIn1 oneMove"
+  },
+  {
+    "id": "0Gomm",
+    "fen": "1br2rk1/ppq2ppp/2n1p3/3p4/3P4/1NP1PN1P/PP3QP1/4RRK1 w - - 5 17",
+    "moves": "f3g5 c7h2",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0GphI",
+    "fen": "2rqkbnr/5p1p/p3p1p1/3pN3/Np6/1P3Q2/1Pb2PPP/R1B1R1K1 b k - 1 16",
+    "moves": "f8g7 f3f7",
+    "themes": "attackingF2F7 mate mateIn1 oneMove opening"
+  },
+  {
+    "id": "0H6x2",
+    "fen": "2rq1rk1/3bbppp/p2ppB2/n7/2pP4/PPN2N2/2Q2PPP/RB3RK1 b - - 0 15",
+    "moves": "e7f6 c2h7",
+    "themes": "kingsideAttack mate mateIn1 oneMove opening"
+  },
+  {
+    "id": "0HCKN",
+    "fen": "3r1rk1/1ppb1ppp/p2bpq2/5n2/3P4/2PQBN1P/PPB2PP1/R4RK1 b - - 4 14",
+    "moves": "f5e3 d3h7",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0HDhy",
+    "fen": "8/5ppk/4p2p/2B1P3/1Pp5/5P2/2pKb1PP/rrR1R3 w - - 0 33",
+    "moves": "d2e2 b1c1 e1c1 a1c1",
+    "themes": "advantage endgame short"
+  },
+  {
+    "id": "0HFYA",
+    "fen": "r2k1Q1r/1p2p3/pq1p4/1NpPb3/2P1P1B1/6nP/PP4P1/1R3RK1 b - - 1 23",
+    "moves": "h8f8 f1f8",
+    "themes": "mate mateIn1 middlegame oneMove pillsburysMate"
+  },
+  {
+    "id": "0HPRh",
+    "fen": "r1b2rk1/pp1nbpp1/1qn1p2p/3pP3/3P4/3Q1N2/PPB1NPPP/R1B2RK1 b - - 3 12",
+    "moves": "c6b4 d3h7",
+    "themes": "mate mateIn1 oneMove opening"
+  },
+  {
+    "id": "0HhlA",
+    "fen": "1b1r2k1/6pp/ppR1ppn1/4P3/1P6/P4N1P/1B3PP1/6K1 w - - 0 31",
+    "moves": "e5f6 d8d1 f3e1 d1e1",
+    "themes": "endgame mate mateIn2 pillsburysMate short"
+  },
+  {
+    "id": "0Hm4g",
+    "fen": "r2q1rk1/npp1bppb/p3p2p/4B3/1PBPP1Q1/P1N5/5PPP/2R2RK1 b - - 2 15",
+    "moves": "e7d6 g4g7",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0HsPa",
+    "fen": "r4rk1/p2bnpp1/4p2p/4P3/1Pq2P2/P6Q/2B3PP/3R1R1K w - - 0 28",
+    "moves": "d1d7 c4f1",
+    "themes": "hangingPiece kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0Hv5v",
+    "fen": "7k/pp3rpp/8/8/8/2P5/P5PP/4R2K b - - 0 26",
+    "moves": "f7f2 e1e8 f2f8 e8f8",
+    "themes": "backRankMate endgame mate mateIn2 rookEndgame short"
+  },
+  {
+    "id": "0I3RT",
+    "fen": "r2q1rk1/3bbpp1/p1n4p/1p1p3n/8/1P1Q1NB1/P1BN1PPP/R3K2R b KQ - 1 16",
+    "moves": "e7f6 d3h7",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0I7Xb",
+    "fen": "4r1k1/pp3ppp/8/3n4/3P4/5K2/Pq4PP/R1B1R3 b - - 5 26",
+    "moves": "b2a1 e1e8",
+    "themes": "backRankMate endgame hangingPiece mate mateIn1 oneMove"
+  },
+  {
+    "id": "0I85l",
+    "fen": "3n2k1/1Nr5/p2qp2p/1p1p1pp1/1P1P1P2/P1r1P1P1/B1R2K1P/2Q5 w - - 0 31",
+    "moves": "b7d6 c3c2 c1c2 c7c2",
+    "themes": "crushing fork middlegame short"
+  },
+  {
+    "id": "0IIo7",
+    "fen": "5Qk1/5ppp/pq6/1p3N2/4p3/4P3/bP3PPP/2R3K1 b - - 0 24",
+    "moves": "g8f8 c1c8 b6d8 c8d8",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "0IJB1",
+    "fen": "r2R2k1/2p3pp/4Pp2/5P2/4p3/8/bnP4P/2KR4 b - - 1 33",
+    "moves": "a8d8 d1d8",
+    "themes": "endgame master mate mateIn1 oneMove"
+  },
+  {
+    "id": "0IJxl",
+    "fen": "3rb1k1/ppn3pB/4p3/2ppP1N1/8/2P2R2/PP5P/2K5 b - - 8 23",
+    "moves": "g8h8 f3f8",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "0IR1y",
+    "fen": "8/8/k7/6K1/2p3P1/8/8/8 w - - 0 46",
+    "moves": "g5f6 c4c3 g4g5 c3c2 g5g6 c2c1q",
+    "themes": "advancedPawn crushing endgame long pawnEndgame promotion"
+  },
+  {
+    "id": "0IVqx",
+    "fen": "r2q1rk1/3b1p2/p3p1p1/1pppB2p/5PQ1/1P1PP2R/P1PN3P/R5K1 b - - 0 18",
+    "moves": "h5g4 h3h8",
+    "themes": "mate mateIn1 middlegame oneMove operaMate"
+  },
+  {
+    "id": "0IbPX",
+    "fen": "8/8/2Pk3p/P1R4P/3P1p2/1r4p1/6P1/4R1K1 w - - 2 55",
+    "moves": "e1e2 b3b1 c5c1 b1c1 e2e1 c1e1",
+    "themes": "endgame long mate mateIn3 rookEndgame"
+  },
+  {
+    "id": "0Ifqg",
+    "fen": "2kr3r/1pp2p1p/p4Pn1/8/4b3/8/PPP3PP/R1B1R2K w - - 3 19",
+    "moves": "e1e4 d8d1 e4e1 d1e1",
+    "themes": "backRankMate endgame mate mateIn2 short"
+  },
+  {
+    "id": "0Ihux",
+    "fen": "4r1k1/1p3pb1/p5p1/2p2nBp/P7/2PR3Q/1P4PP/3Rq2K w - - 1 28",
+    "moves": "d1e1 e8e1",
+    "themes": "backRankMate mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0IrBB",
+    "fen": "2b1r1k1/1pp3pp/4r3/5p2/2P5/3P1B2/3B1PPP/3Qq1K1 w - - 0 25",
+    "moves": "d2e1 e6e1 d1e1 e8e1",
+    "themes": "backRankMate endgame fork mate mateIn2 short"
+  },
+  {
+    "id": "0IvDY",
+    "fen": "1r3rk1/p3q1pp/2p2p2/2Np1b2/3P4/5Q2/PP3PPP/RN4K1 w - - 0 19",
+    "moves": "f3f5 e7e1",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0J0jI",
+    "fen": "6k1/ppp2ppp/8/3p1q2/2Q5/8/P3r3/R1KR4 b - - 0 33",
+    "moves": "d5c4 d1d8 e2e8 d8e8",
+    "themes": "backRankMate endgame mate mateIn2 queenRookEndgame short"
+  },
+  {
+    "id": "0J3YU",
+    "fen": "1k1r4/1pp5/p7/8/6PP/1Q6/PPPr4/1K3R1q w - - 0 27",
+    "moves": "f1h1 d2d1 h1d1 d8d1",
+    "themes": "backRankMate endgame mate mateIn2 queenRookEndgame short"
+  },
+  {
+    "id": "0JEtL",
+    "fen": "7k/p4pp1/2N4p/8/4B3/r3P3/1b3PPP/3R2K1 w - - 0 31",
+    "moves": "d1d7 a3a1 e4b1 a1b1 d7d1 b1d1",
+    "themes": "backRankMate endgame long mate mateIn3"
+  },
+  {
+    "id": "0JPQR",
+    "fen": "6k1/2p2p2/1p2p2p/3p4/1Q1P3q/3B2R1/5KPP/r7 b - - 7 33",
+    "moves": "g8h8 b4f8",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "0JTgy",
+    "fen": "8/1R3pk1/8/3N2pp/3P4/4P3/r4PPP/2R3K1 w - - 0 28",
+    "moves": "c1c7 a2a1 b7b1 a1b1 c7c1 b1c1",
+    "themes": "backRankMate endgame long mate mateIn3"
+  },
+  {
+    "id": "0JWuL",
+    "fen": "8/p1N2kp1/8/8/2pB1p2/3b1P2/P2R2P1/4K2r w - - 4 35",
+    "moves": "e1f2 h1f1",
+    "themes": "endgame mate mateIn1 oneMove operaMate"
+  },
+  {
+    "id": "0JZKx",
+    "fen": "4k3/p2R1R2/2p4p/6p1/2p5/6P1/PPP1r1PP/7K w - - 1 27",
+    "moves": "d7a7 e2e1 f7f1 e1f1",
+    "themes": "backRankMate endgame mate mateIn2 rookEndgame short"
+  },
+  {
+    "id": "0JfkT",
+    "fen": "rn2r1k1/pp3ppp/2p3b1/3p4/3PnPPq/2B1Q2P/PPP1B3/2KR3R b - - 0 15",
+    "moves": "e4f2 e3e8",
+    "themes": "hangingPiece kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0JhUS",
+    "fen": "3Q4/2r2kpp/p1r1pp2/1bNp4/1P1P4/4P3/5PPP/R5K1 w - - 14 34",
+    "moves": "c5a6 c6c1 a1c1 c7c1",
+    "themes": "backRankMate endgame mate mateIn2 short"
+  },
+  {
+    "id": "0JltE",
+    "fen": "4q1k1/pp3p1p/2pb1p2/3p4/3P4/2N2Q2/PPP2PPP/6K1 w - - 0 17",
+    "moves": "h2h3 e8e1",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "0Jn8l",
+    "fen": "6k1/5ppp/5b2/2R2P2/3p4/2pK2N1/Pr4PP/8 b - - 6 33",
+    "moves": "b2a2 c5c8 f6d8 c8d8",
+    "themes": "backRankMate endgame mate mateIn2 short"
+  },
+  {
+    "id": "0Jp5L",
+    "fen": "r1b2rk1/5pp1/p1nppq1p/1p6/3P4/2PQ1N2/P4PPP/1BR1R1K1 b - - 3 16",
+    "moves": "c8b7 d3h7",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0JuYL",
+    "fen": "5rk1/1brR1ppp/p3p2n/1p6/4P3/1Bq4P/P4PP1/1Q1R2K1 b - - 0 18",
+    "moves": "f8c8 d7d8 c8d8 d1d8",
+    "themes": "backRankMate mate mateIn2 middlegame short"
+  },
+  {
+    "id": "0K5Kv",
+    "fen": "1k1r3r/ppp5/5p1p/4p1p1/2B1P1P1/1PPR1P2/1PK2bP1/3R4 b - - 1 28",
+    "moves": "f2g3 d3d8 h8d8 d1d8",
+    "themes": "backRankMate endgame mate mateIn2 short"
+  },
+  {
+    "id": "0K7Lm",
+    "fen": "rnb2rk1/5pp1/4pq1p/pp6/2pPQ3/2P2N1P/PPB2PP1/R3K2R b KQ - 1 15",
+    "moves": "a8a7 e4h7",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0K7xE",
+    "fen": "8/5rkp/p4pp1/1p6/1Pp4Q/P1P1R3/5PPP/3q2K1 w - - 1 29",
+    "moves": "e3e1 d1e1",
+    "themes": "endgame hangingPiece mate mateIn1 oneMove"
+  },
+  {
+    "id": "0K8V2",
+    "fen": "1Qr3k1/p4ppp/3q4/5b2/3PB3/4PN2/P4PPP/6K1 w - - 2 23",
+    "moves": "b8d6 c8c1 f3e1 c1e1",
+    "themes": "backRankMate endgame mate mateIn2 short"
+  },
+  {
+    "id": "0KOyJ",
+    "fen": "4Nrk1/ppr3p1/2n1R1Q1/3p4/3P4/2P5/PP4PP/4Rq1K w - - 2 27",
+    "moves": "e1f1 f8f1",
+    "themes": "backRankMate mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0KTAo",
+    "fen": "r6r/pp3kb1/4q2p/3R1pp1/3P4/8/PP3PPP/R1BQ2K1 w - - 1 18",
+    "moves": "d1b3 e6e1",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0KeMx",
+    "fen": "2r3k1/ppb3p1/3q3p/8/2Pp2r1/3P4/PP2QP1P/R1B2RK1 w - - 2 23",
+    "moves": "e2g4 d6h2",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0KzIY",
+    "fen": "2k3nr/p1p2ppp/2p5/4P3/1PPr2b1/P7/4PPPP/RN2KB1R w KQ - 0 14",
+    "moves": "e2e3 d4d1",
+    "themes": "mate mateIn1 middlegame oneMove operaMate"
+  },
+  {
+    "id": "0L3Yj",
+    "fen": "r6k/6pp/2R5/4p3/2p5/p3P3/P4P2/2K5 b - - 1 46",
+    "moves": "a8a4 c6c8",
+    "themes": "backRankMate endgame mate mateIn1 oneMove rookEndgame"
+  },
+  {
+    "id": "0L4L2",
+    "fen": "r3k1nr/1pp2ppp/p1pb4/4q3/4P3/P1N2b2/1PP2PPP/R1BQ1RK1 w kq - 0 10",
+    "moves": "d1f3 e5h2",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0L6wV",
+    "fen": "5r1k/R5pp/8/8/4p3/3b3P/5QPK/8 b - - 0 35",
+    "moves": "f8f2 a7a8 f2f8 a8f8",
+    "themes": "backRankMate endgame mate mateIn2 short"
+  },
+  {
+    "id": "0LYZk",
+    "fen": "r4rk1/pp2npp1/1b2p3/3pq1NP/8/2PQ4/PP1N1P1R/R4K2 b - - 1 21",
+    "moves": "e5h2 d3h7",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0LZvV",
+    "fen": "r5k1/p4ppp/6q1/3p2N1/P1pP4/1nP5/4QPPP/4R1K1 b - - 3 25",
+    "moves": "h7h6 e2e8 a8e8 e1e8",
+    "themes": "endgame kingsideAttack mate mateIn2 sacrifice short"
+  },
+  {
+    "id": "0LaWf",
+    "fen": "r2r2k1/4bpp1/p2qpn1p/1p6/2pP4/P1P2N1P/1PQ1N1P1/1BR3K1 b - - 6 25",
+    "moves": "f6d5 c2h7 g8f8 h7h8",
+    "themes": "kingsideAttack mate mateIn2 middlegame short"
+  },
+  {
+    "id": "0Lo4G",
+    "fen": "r1bq1rk1/1ppn1pp1/p3p2p/3pP3/3P4/1nPQ1N2/PPB2PPP/R4RK1 b - - 1 14",
+    "moves": "b3a5 d3h7",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0LoVi",
+    "fen": "1k6/2p5/2b5/3r2p1/4p3/5p2/5P1B/2R3K1 w - - 0 38",
+    "moves": "c1c6 d5d1",
+    "themes": "endgame master mate mateIn1 oneMove"
+  },
+  {
+    "id": "0M2Lc",
+    "fen": "rn1qr1k1/pp3pp1/2p1bb1p/3p4/3P3P/2NB1N2/PPP1QPP1/2K1R2R b - - 0 12",
+    "moves": "e6g4 e2e8 d8e8 e1e8",
+    "themes": "kingsideAttack mate mateIn2 middlegame pillsburysMate short"
+  },
+  {
+    "id": "0M7YV",
+    "fen": "rn2k2r/4qpp1/4p1bp/pB1p4/1p1P1PP1/P1Q1B2P/1PP5/2KR3R b kq - 1 17",
+    "moves": "e8f8 c3c8 e7d8 c8d8",
+    "themes": "mate mateIn2 middlegame short"
+  },
+  {
+    "id": "0MElq",
+    "fen": "8/pp2k3/2p5/4pQ2/4Pn2/2N4P/PPq3P1/7K w - - 2 30",
+    "moves": "h1h2 c2g2",
+    "themes": "endgame master mate mateIn1 oneMove"
+  },
+  {
+    "id": "0MFmf",
+    "fen": "4r1k1/pp1r4/5p1p/4B1pn/7P/2R1R3/PP3PP1/6K1 w - - 0 26",
+    "moves": "e5h2 d7d1 e3e1 d1e1",
+    "themes": "backRankMate endgame mate mateIn2 short"
+  },
+  {
+    "id": "0MFrU",
+    "fen": "4r1k1/p1p2ppp/2p2P2/5q2/8/8/PP4PP/5Q1K w - - 1 24",
+    "moves": "f1f5 e8e1 f5f1 e1f1",
+    "themes": "backRankMate endgame mate mateIn2 queenRookEndgame short"
+  },
+  {
+    "id": "0MIXn",
+    "fen": "r5k1/5p1p/p1R1pPp1/4P3/5PK1/P2r2P1/8/2R5 b - - 2 39",
+    "moves": "d3a3 c6c8 a8c8 c1c8",
+    "themes": "endgame mate mateIn2 rookEndgame short"
+  },
+  {
+    "id": "0MPjP",
+    "fen": "r3qrk1/pb1n4/1p2pp2/2p3N1/2P5/1P1P4/PB1QBPP1/R5K1 b - - 0 22",
+    "moves": "f6g5 d2g5 e8g6 g5g6",
+    "themes": "kingsideAttack mate mateIn2 middlegame short"
+  },
+  {
+    "id": "0MSco",
+    "fen": "r4r1k/6np/1ppp1R2/8/1PP5/2N4Q/2BR2PP/4q1K1 w - - 1 29",
+    "moves": "f6f1 e1f1",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0MkWL",
+    "fen": "krr5/pp2Qp2/3p2p1/1P5p/P7/R7/5PPP/1Rq3K1 w - - 7 29",
+    "moves": "b1c1 c8c1 e7e1 c1e1",
+    "themes": "backRankMate endgame mate mateIn2 queenRookEndgame short"
+  },
+  {
+    "id": "0MunM",
+    "fen": "6k1/5p1p/5pp1/8/4P3/r4P2/3r2PP/3R3K w - - 0 30",
+    "moves": "d1d2 a3a1 d2d1 a1d1",
+    "themes": "backRankMate endgame mate mateIn2 rookEndgame short"
+  },
+  {
+    "id": "0MzlY",
+    "fen": "7k/1p4p1/4q2p/3p4/1P6/r7/5PPP/4R1K1 w - - 0 27",
+    "moves": "e1e6 a3a1 e6e1 a1e1",
+    "themes": "backRankMate endgame mate mateIn2 rookEndgame short"
+  },
+  {
+    "id": "0N7ZD",
+    "fen": "r1b2qk1/pppp2p1/6Qp/2b1P3/7P/2N5/PPPP1P2/R1B2K1R w - - 1 18",
+    "moves": "h1g1 f8f2",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0N9FX",
+    "fen": "8/4k3/3r4/2N2p2/1p4B1/1Nn1p2P/P5P1/4K3 w - - 0 51",
+    "moves": "g4f5 d6d1",
+    "themes": "endgame master mate mateIn1 oneMove"
+  },
+  {
+    "id": "0NHUO",
+    "fen": "r2qr1k1/pbpn1ppp/1p2p3/3n4/3P4/B1PQPN2/P1B2PPP/R4R1K b - - 9 13",
+    "moves": "a7a5 d3h7",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0NPs1",
+    "fen": "4r1k1/pp1n1p2/2p1r1p1/5p2/3PP2P/8/PPPN2R1/2K3R1 w - - 0 24",
+    "moves": "e4f5 e6e1 g1e1 e8e1",
+    "themes": "backRankMate endgame mate mateIn2 short"
+  },
+  {
+    "id": "0Ncyr",
+    "fen": "4r2k/p1q3pp/2pb2p1/3p4/1P1Prn1P/P3PN1Q/R4PP1/2B1R1K1 w - - 3 22",
+    "moves": "e3f4 e4e1 f3e1 e8e1",
+    "themes": "advantage kingsideAttack middlegame short"
+  },
+  {
+    "id": "0NgY4",
+    "fen": "r4rk1/pp1n1ppp/1qp1p3/3nP1N1/3P2b1/3Q1NP1/PP3PBP/R4RK1 b - - 2 14",
+    "moves": "h7h6 d3h7",
+    "themes": "master mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0Nr1h",
+    "fen": "r1b1k2r/1p3pp1/p2b1n1p/3Pq3/3Np3/4B2P/PP2BPP1/2RQ1RK1 w kq - 1 18",
+    "moves": "a2a3 e5h2",
+    "themes": "mate mateIn1 oneMove opening"
+  },
+  {
+    "id": "0NyNv",
+    "fen": "1Q6/p7/1p4pk/2p2p1p/2Pq1P1P/8/P5PK/8 b - - 12 42",
+    "moves": "d4c4 b8h8",
+    "themes": "endgame mate mateIn1 oneMove queenEndgame"
+  },
+  {
+    "id": "0O08P",
+    "fen": "2r1rnk1/pb4q1/1p5p/2p1P2Q/3p1P1b/2N1P2P/PP4PB/3R1RK1 w - - 2 25",
+    "moves": "h5h4 g7g2",
+    "themes": "kingsideAttack master mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0O7vj",
+    "fen": "6k1/ppp2r1p/2n3pB/1N1p1b1n/8/3P4/PPP5/4RNK1 b - - 10 26",
+    "moves": "a7a6 e1e8 f7f8 e8f8",
+    "themes": "kingsideAttack mate mateIn2 middlegame operaMate short"
+  },
+  {
+    "id": "0OA2V",
+    "fen": "r4rk1/ppp3p1/3p3p/1P2p3/P3P2R/2BP4/2P3NP/R4q1K w - - 0 26",
+    "moves": "a1f1 f8f1",
+    "themes": "backRankMate endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "0OBrj",
+    "fen": "3r2k1/4r1p1/8/5p2/2B1p1p1/8/1b4K1/7R b - - 1 40",
+    "moves": "g8f8 h1h8",
+    "themes": "endgame mate mateIn1 oneMove pillsburysMate"
+  },
+  {
+    "id": "0OGFD",
+    "fen": "8/8/1p6/8/6K1/2k3P1/8/8 w - - 1 52",
+    "moves": "g4f5 b6b5 g3g4 b5b4 g4g5 b4b3",
+    "themes": "crushing endgame long pawnEndgame quietMove"
+  },
+  {
+    "id": "0OYom",
+    "fen": "7k/6pp/1p6/4r3/1PK5/2PR4/rq5P/8 b - - 13 43",
+    "moves": "a2a3 d3d8 e5e8 d8e8",
+    "themes": "backRankMate endgame mate mateIn2 queenRookEndgame short"
+  },
+  {
+    "id": "0Ocz9",
+    "fen": "6k1/6p1/2b5/p3p2p/P1P5/1P2Q1P1/4pB1P/1q4K1 w - - 2 40",
+    "moves": "f2e1 b1e1",
+    "themes": "endgame hangingPiece mate mateIn1 oneMove"
+  },
+  {
+    "id": "0Ofev",
+    "fen": "2r3k1/1p1qbppp/p3p1b1/3pPn2/Q2P1N2/2r1BN2/PP3PPP/2R3K1 w - - 0 19",
+    "moves": "a4d7 c3c1 e3c1 c8c1 f3e1 c1e1",
+    "themes": "backRankMate long mate mateIn3 middlegame"
+  },
+  {
+    "id": "0Or1R",
+    "fen": "2k5/p1p5/1p3P2/3q4/8/P4n1P/1P4Q1/1B5K w - - 3 34",
+    "moves": "b1g6 d5d1 g2f1 d1f1",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "0Os1V",
+    "fen": "3r2k1/5ppp/p1p5/3p4/PP2Q3/4P2P/5qPK/3RR3 b - - 0 31",
+    "moves": "d5e4 d1d8",
+    "themes": "backRankMate endgame hangingPiece mate mateIn1 oneMove queenRookEndgame"
+  },
+  {
+    "id": "0P64b",
+    "fen": "rn1qr1k1/ppp2ppp/1n3N2/3p4/2P3b1/1P3NP1/P2PQPBP/1R3RK1 b - - 0 15",
+    "moves": "d8f6 e2e8",
+    "themes": "hangingPiece kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0PABd",
+    "fen": "r2q1rk1/1b3pp1/p2ppb1p/1p2P1N1/7P/PP1Q4/2P2PP1/RN2K2R b KQ - 0 16",
+    "moves": "f6e5 d3h7",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0PGFX",
+    "fen": "r2qkb1r/1pp2p1p/p3bP2/8/3N4/4Q3/PPP2PPP/R1B3K1 w kq - 1 16",
+    "moves": "d4e6 d8d1 e3e1 d1e1",
+    "themes": "kingsideAttack mate mateIn2 middlegame short"
+  },
+  {
+    "id": "0PJcm",
+    "fen": "1Qq2k1r/2p1ppb1/6p1/3R2p1/8/7P/PP3PP1/3R2K1 b - - 0 19",
+    "moves": "c8b8 d5d8 b8d8 d1d8",
+    "themes": "backRankMate endgame fork mate mateIn2 short"
+  },
+  {
+    "id": "0POUO",
+    "fen": "3r2k1/6p1/1p2q2p/p1b5/P7/2P3B1/5PPP/4R1K1 w - - 0 27",
+    "moves": "e1e6 d8d1 e6e1 d1e1",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "0PPPx",
+    "fen": "r1b2r2/4bppk/ppp4p/5P2/2q1P1n1/2N3Q1/PPP3PP/R1B2R1K w - - 0 17",
+    "moves": "g3g4 c4f1",
+    "themes": "hangingPiece kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0PTaL",
+    "fen": "rn1q1rk1/1b1pbppp/p3pn2/1p2P3/8/3Q1N2/PBBN1PPP/R4RK1 b - - 0 12",
+    "moves": "f6d5 d3h7",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0PcuK",
+    "fen": "r1b2k2/1p2bp1p/p1nqp1p1/8/2BN4/2P2Q1P/P1P3P1/R2K1R2 b - - 5 18",
+    "moves": "c6d4 f3f7",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0PhzA",
+    "fen": "8/8/8/6p1/6P1/r4PkP/8/1R4K1 w - - 0 49",
+    "moves": "b1b5 a3a1 b5b1 a1b1",
+    "themes": "endgame mate mateIn2 rookEndgame short"
+  },
+  {
+    "id": "0Pp62",
+    "fen": "5r2/3q1p1k/3p1BpQ/1p6/4PR2/3p3P/1PP3PK/r7 b - - 0 31",
+    "moves": "h7h6 f4h4",
+    "themes": "endgame mate mateIn1 oneMove pillsburysMate"
+  },
+  {
+    "id": "0PwC5",
+    "fen": "2rq1rk1/pb2bpp1/1p2N2p/8/2B1n1Q1/P3P3/1P1B1PPP/2R2RK1 b - - 0 18",
+    "moves": "d8d2 g4g7",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0Q1N2",
+    "fen": "5k2/1R3p1p/6p1/4p3/1P2n3/P7/2r2PPP/3R2K1 w - - 0 26",
+    "moves": "d1d7 c2c1 d7d1 c1d1",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "0Q5DX",
+    "fen": "7k/7p/5Qp1/1p2b1B1/nP6/1BPp1K1P/4r1P1/8 b - - 6 39",
+    "moves": "e5f6 g5f6",
+    "themes": "doubleBishopMate endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "0QFaq",
+    "fen": "2kr3r/ppp2pRp/2n5/8/2B5/4Pb2/PP3P1P/R1BNK3 w Q - 1 13",
+    "moves": "g7f7 d8d1",
+    "themes": "mate mateIn1 middlegame oneMove operaMate"
+  },
+  {
+    "id": "0QI7D",
+    "fen": "r3r1k1/pp1qbppp/8/4R3/3p4/1P1P3P/PB2QPP1/4R2K b - - 3 22",
+    "moves": "e7f6 e5e8 a8e8 e2e8 d7e8 e1e8",
+    "themes": "backRankMate long mate mateIn3 middlegame"
+  },
+  {
+    "id": "0QPsa",
+    "fen": "8/6pk/7p/1p1N4/6n1/2P4P/3r2P1/1R4K1 w - - 1 36",
+    "moves": "b1b5 d2d1",
+    "themes": "endgame master mate mateIn1 oneMove"
+  },
+  {
+    "id": "0QQ7y",
+    "fen": "5Rk1/p3pp2/6p1/3r3p/PP5P/4PqP1/1BQ2P2/6K1 b - - 0 37",
+    "moves": "g8f8 c2c8 d5d8 c8d8",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "0QRC4",
+    "fen": "5r1k/pR4p1/2p5/4p3/3b2P1/3B3P/P1P5/7K b - - 0 25",
+    "moves": "f8f3 b7b8 f3f8 b8f8",
+    "themes": "endgame mate mateIn2 pillsburysMate short"
+  },
+  {
+    "id": "0QSZn",
+    "fen": "4B3/2p3pp/p3q3/2k2p2/1R1R1b2/2P4P/P4PP1/6K1 w - - 2 29",
+    "moves": "e8a4 e6e1",
+    "themes": "endgame master mate mateIn1 oneMove"
+  },
+  {
+    "id": "0QTAt",
+    "fen": "k3r3/pp3p1p/r5p1/2R1B3/Pn6/1P1P1K2/5PPP/2R5 b - - 2 26",
+    "moves": "b4d3 c5c8 e8c8 c1c8",
+    "themes": "backRankMate endgame mate mateIn2 short"
+  },
+  {
+    "id": "0QUH2",
+    "fen": "6k1/6pp/p3p1qr/P2p4/1pRPpP1P/Q5P1/7K/2R5 b - - 0 34",
+    "moves": "b4a3 c4c8 g6e8 c8e8",
+    "themes": "crushing endgame queenRookEndgame short"
+  },
+  {
+    "id": "0QYTr",
+    "fen": "3r2k1/pp3pp1/2n2P1p/8/P3pQb1/2q5/5PPP/2R1KB1R w K - 0 19",
+    "moves": "c1c3 d8d1",
+    "themes": "mate mateIn1 middlegame oneMove operaMate"
+  },
+  {
+    "id": "0QaRv",
+    "fen": "1r3k2/pp1Rn1bp/4B1p1/2P1p3/8/5r1P/PP3P2/3R2K1 b - - 1 23",
+    "moves": "f3f6 d7d8 b8d8 d1d8",
+    "themes": "mate mateIn2 middlegame pillsburysMate short"
+  },
+  {
+    "id": "0Qdft",
+    "fen": "6r1/ppp2k2/2p2p2/4pR1P/3PPb2/8/PPP1N3/1K6 w - - 1 29",
+    "moves": "e2f4 g8g1",
+    "themes": "backRankMate endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "0RHoV",
+    "fen": "6k1/2p2ppp/1B2b3/8/2P5/6P1/1r1r1P1P/R1R3K1 b - - 0 22",
+    "moves": "c7b6 a1a8 e6c8 a8c8 d2d8 c8d8",
+    "themes": "backRankMate endgame long mate mateIn3"
+  },
+  {
+    "id": "0RNs8",
+    "fen": "1Q4k1/5ppp/8/2p1p3/2P5/P7/1r1r4/1R4K1 b - - 0 39",
+    "moves": "b2b8 b1b8 d2d8 b8d8",
+    "themes": "backRankMate endgame mate mateIn2 rookEndgame short"
+  },
+  {
+    "id": "0RbvH",
+    "fen": "r5k1/pp3ppp/1qp2P2/4Qb2/n4B2/P2P3P/1PP2P2/2K1R3 b - - 0 28",
+    "moves": "f5g6 e5e8 a8e8 e1e8",
+    "themes": "kingsideAttack mate mateIn2 middlegame sacrifice short"
+  },
+  {
+    "id": "0Rnb1",
+    "fen": "1r4k1/1P3ppp/3p4/R3p3/8/7P/1P3PP1/6K1 b - - 0 29",
+    "moves": "b8b7 a5a8 b7b8 a8b8",
+    "themes": "backRankMate endgame mate mateIn2 rookEndgame short"
+  },
+  {
+    "id": "0Rzo9",
+    "fen": "5k2/4rpp1/3P3p/pp6/8/2R2KP1/5P1P/8 b - - 0 32",
+    "moves": "e7d7 c3c8 d7d8 c8d8",
+    "themes": "endgame mate mateIn2 rookEndgame short"
+  },
+  {
+    "id": "0S2UK",
+    "fen": "3r2k1/pbp2p1p/1pp3p1/4Q3/3P4/1PP3N1/P2q1PPP/4R1K1 w - - 0 23",
+    "moves": "g3e4 d2e1",
+    "themes": "endgame hangingPiece kingsideAttack mate mateIn1 oneMove"
+  },
+  {
+    "id": "0S41n",
+    "fen": "2rq1rk1/3nbppp/2n1p3/pp1pP2b/3P4/1N1Q1N1P/PP1B1PP1/RB2R1K1 b - - 1 17",
+    "moves": "a5a4 d3h7",
+    "themes": "kingsideAttack master mate mateIn1 oneMove opening"
+  },
+  {
+    "id": "0S92h",
+    "fen": "2r3k1/p3n1p1/1p2q2p/3p1p2/5P2/P4Q2/6PP/4R2K w - - 0 43",
+    "moves": "e1e6 c8c1 e6e1 c1e1 f3f1 e1f1",
+    "themes": "backRankMate endgame long mate mateIn3"
+  },
+  {
+    "id": "0SAMm",
+    "fen": "2r2rk1/6pp/1p6/p5P1/3pQ2P/1Pq5/P1B2P2/1KR5 b - - 0 35",
+    "moves": "g8h8 e4h7",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "0SM6C",
+    "fen": "r2q1rk1/1ppbbppn/3p3p/8/pNPQP3/5N1P/1B3PP1/R4RK1 b - - 0 17",
+    "moves": "h7g5 d4g7",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0SML6",
+    "fen": "6k1/5ppb/1p5p/p1p1r3/6P1/P4P1P/1P4B1/3R2K1 b - - 1 26",
+    "moves": "e5e2 d1d8 e2e8 d8e8",
+    "themes": "backRankMate endgame mate mateIn2 short"
+  },
+  {
+    "id": "0SMdO",
+    "fen": "2b1Q2k/2q3pp/p4nn1/1p1p4/3P4/2PB3P/PP3PP1/R3R1K1 b - - 1 25",
+    "moves": "f6e8 e1e8 g6f8 e8f8",
+    "themes": "kingsideAttack mate mateIn2 middlegame short"
+  },
+  {
+    "id": "0SNs4",
+    "fen": "rnbk1b1r/pppp1Bpp/8/5qB1/4n3/3P4/PPP1QPPP/RN2K2R b KQ - 2 8",
+    "moves": "e4g5 e2e8",
+    "themes": "mate mateIn1 oneMove opening"
+  },
+  {
+    "id": "0SvtB",
+    "fen": "r2qk2r/npp2pp1/p2p3p/3Q3n/2B1P3/2N2P2/PPP2P1P/R4RK1 b kq - 2 14",
+    "moves": "h5f4 d5f7",
+    "themes": "attackingF2F7 mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0SyGE",
+    "fen": "5k2/1Bq2pbn/pp4p1/2p1p2p/P3P3/2P1BP1P/1P2N1P1/3Q2K1 b - - 0 27",
+    "moves": "c7b7 d1d8",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "0T05w",
+    "fen": "5r1k/4b1p1/2Q5/2P2r2/8/P7/6PP/R4q1K w - - 2 32",
+    "moves": "a1f1 f5f1",
+    "themes": "backRankMate endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "0T1nV",
+    "fen": "8/1r3ppk/4p2p/8/2bP4/1PR5/5PPP/6K1 w - - 0 34",
+    "moves": "b3c4 b7b1 c3c1 b1c1",
+    "themes": "backRankMate endgame mate mateIn2 rookEndgame short"
+  },
+  {
+    "id": "0T4hB",
+    "fen": "3q1k2/p1p2p1Q/1pB1p1p1/2b1P3/2b5/5R2/P1P3PP/R2r3K w - - 3 27",
+    "moves": "a1d1 d8d1 f3f1 d1f1",
+    "themes": "kingsideAttack mate mateIn2 middlegame short"
+  },
+  {
+    "id": "0TJPG",
+    "fen": "r3r1k1/ppp2pp1/3p2B1/4P1q1/8/P7/1PP4Q/1K1b3R b - - 0 22",
+    "moves": "g5g6 h2h8",
+    "themes": "endgame master mate mateIn1 oneMove"
+  },
+  {
+    "id": "0TNfJ",
+    "fen": "1r2k3/2p1p1bp/6p1/pp2p1P1/7Q/2N1P3/PPP4R/1K3r2 w - - 0 31",
+    "moves": "c3d1 f1d1",
+    "themes": "backRankMate endgame hangingPiece mate mateIn1 oneMove"
+  },
+  {
+    "id": "0TPYD",
+    "fen": "1k6/pBr1q1Q1/Pp6/2nR3p/2P4P/1P4P1/8/6K1 b - - 0 40",
+    "moves": "e7g7 d5d8 c7c8 d8c8",
+    "themes": "endgame mate mateIn2 operaMate short"
+  },
+  {
+    "id": "0TwHA",
+    "fen": "3qr1k1/1p3ppp/p7/3p4/3pn3/PP1B2PP/4Q1P1/4R1K1 b - - 1 26",
+    "moves": "e4g3 e2e8 d8e8 e1e8",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "0U08G",
+    "fen": "r1b1r1k1/p1p1qppp/1p3n2/8/5Q2/2NB4/PPP2PPP/3R1RK1 w - - 2 15",
+    "moves": "f1e1 e7e1 d1e1 e8e1",
+    "themes": "advantage kingsideAttack middlegame short"
+  },
+  {
+    "id": "0UCIm",
+    "fen": "8/6p1/7k/5K1P/8/pr2p3/4R3/8 b - - 1 44",
+    "moves": "h6h5 e2h2",
+    "themes": "endgame master mate mateIn1 oneMove rookEndgame"
+  },
+  {
+    "id": "0UFQN",
+    "fen": "r1b2r2/ppp2kpp/2pB2q1/3n4/3P4/2P2Q2/P1P2PPP/R4K1R b - - 4 13",
+    "moves": "f7g8 f3f8",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0UJ8c",
+    "fen": "2R5/6pk/7p/r1N5/1p1n4/7P/5PP1/5K2 w - - 6 35",
+    "moves": "c8d8 a5a1",
+    "themes": "endgame master mate mateIn1 oneMove"
+  },
+  {
+    "id": "0UNEP",
+    "fen": "3q1rk1/1pp2ppp/1pnpb3/4P3/3P4/3Q4/1rBN1PPP/R4RK1 b - - 0 16",
+    "moves": "d6e5 d3h7",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0URFn",
+    "fen": "6k1/3n1p1p/3p2p1/2pP4/1p2qP2/8/rPP3PP/4Q2K w - - 0 26",
+    "moves": "e1e4 a2a1 e4e1 a1e1",
+    "themes": "backRankMate endgame mate mateIn2 short"
+  },
+  {
+    "id": "0URgB",
+    "fen": "3r3k/pq4pp/4Qr2/3R4/2p1p3/8/P1P2PPP/3R2K1 b - - 0 30",
+    "moves": "f6e6 d5d8 e6e8 d8e8",
+    "themes": "backRankMate endgame hangingPiece mate mateIn2 queenRookEndgame short"
+  },
+  {
+    "id": "0UWxU",
+    "fen": "1r1R2k1/5ppb/7p/7P/1r1R2P1/3p2K1/1P6/8 b - - 1 38",
+    "moves": "b8d8 d4d8",
+    "themes": "backRankMate endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "0Ubr0",
+    "fen": "3r2k1/pp4b1/7p/4p3/8/2P2rpb/PP2R1P1/RB4K1 w - - 0 29",
+    "moves": "g2f3 d8d1 e2e1 d1e1",
+    "themes": "endgame mate mateIn2 pillsburysMate short"
+  },
+  {
+    "id": "0UdRc",
+    "fen": "8/1p3kpQ/2p2r2/3p4/5P1R/8/5RPP/4q2K w - - 1 44",
+    "moves": "f2f1 e1f1",
+    "themes": "endgame hangingPiece master mate mateIn1 oneMove"
+  },
+  {
+    "id": "0UjC3",
+    "fen": "1q2r1k1/p4ppp/2R2n2/1p2rB2/8/1P3Q1P/P4PP1/5RK1 w - - 1 24",
+    "moves": "f1c1 e5e1 c1e1 e8e1",
+    "themes": "kingsideAttack mate mateIn2 middlegame short"
+  },
+  {
+    "id": "0Uvpr",
+    "fen": "r1bq1rk1/1pp1ppb1/2np3p/p5Nn/2PP4/P1N1P1B1/1PQ1BPPP/R3K2R b KQ - 0 11",
+    "moves": "h5g3 c2h7",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0V0hJ",
+    "fen": "r1bq1rk1/p2n1ppp/2p5/2bp4/P7/2P1B3/2QN1PPP/RB3RK1 b - - 3 18",
+    "moves": "c5e3 c2h7",
+    "themes": "kingsideAttack mate mateIn1 oneMove opening"
+  },
+  {
+    "id": "0V1ah",
+    "fen": "2Q3k1/5ppp/2r5/1q1p4/1p1P4/4PKP1/2Q2P2/8 b - - 0 31",
+    "moves": "c6c8 c2c8 b5e8 c8e8",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "0VBOL",
+    "fen": "r1b2r1k/pp2n1pp/2q1p3/2p2p1B/2P2P1n/3PP2P/PBQ2NP1/R4RK1 w - - 3 22",
+    "moves": "c2c3 c6g2",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0VLOD",
+    "fen": "r1bqk2r/2p2pbp/p2p1np1/1p4P1/3pP3/P4Q1P/BPPP1P2/RNB1K2R b KQkq - 0 11",
+    "moves": "f6d7 f3f7",
+    "themes": "attackingF2F7 mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0VLjJ",
+    "fen": "r5k1/1pqbbrPn/4pN2/p2p4/2pP1P2/2P1P2Q/PPB4P/1R2K1R1 b - - 2 21",
+    "moves": "e7f6 h3h7",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0VQjD",
+    "fen": "2r3k1/pR3p1p/4p1p1/2bp2N1/1nq2P2/2Q5/2P3PP/5R1K w - - 3 22",
+    "moves": "c3f6 c4f1",
+    "themes": "hangingPiece kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0VTyc",
+    "fen": "6k1/6pp/p2p2q1/1p1Pn3/8/1Pr4P/P4RP1/5RK1 b - - 4 38",
+    "moves": "c3h3 f2f8",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "0VURU",
+    "fen": "b2qR1k1/p1p2ppp/8/1QpP2b1/8/1B6/P1P2PPP/1rB3K1 b - - 8 23",
+    "moves": "d8e8 b5e8",
+    "themes": "hangingPiece kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0VYwV",
+    "fen": "r2q1rk1/pb3p2/1p3B1p/2pp2p1/2P5/2PQ4/P1B2PPP/R4RK1 b - - 0 18",
+    "moves": "d8f6 d3h7",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0Vpaq",
+    "fen": "2k3r1/2p5/pp3p2/3p4/3P1Pqp/P1B1P3/1P3QrK/5RN1 w - - 4 35",
+    "moves": "f2g2 g4g2",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "0VqSp",
+    "fen": "6Qk/r3P1pp/1p6/p4RB1/8/6PK/PPP4P/3q4 b - - 0 32",
+    "moves": "h8g8 e7e8q",
+    "themes": "advancedPawn endgame mate mateIn1 oneMove promotion"
+  },
+  {
+    "id": "0W8wj",
+    "fen": "6k1/2q2ppp/2P1pn2/p3Q3/1p6/5P1P/P5P1/3R2K1 b - - 0 35",
+    "moves": "c7e5 d1d8 f6e8 d8e8",
+    "themes": "backRankMate endgame mate mateIn2 short"
+  },
+  {
+    "id": "0WFFR",
+    "fen": "r3k2r/pp3ppp/2b2n2/3q4/1b1N4/2N1B3/PP3PPP/R2QK2R w KQkq - 0 12",
+    "moves": "e1g1 d5g2",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0WJZ5",
+    "fen": "2kr4/1b3pp1/pR1r3p/2p1p3/8/2P5/P1P2PPP/1R4K1 w - - 0 24",
+    "moves": "b6b7 d6d1 b1d1 d8d1",
+    "themes": "backRankMate endgame mate mateIn2 rookEndgame short"
+  },
+  {
+    "id": "0WL2F",
+    "fen": "5r2/ppb2rk1/2n3pp/P7/3pp3/1Q5P/1PPB2P1/R3Rq1K w - - 4 32",
+    "moves": "e1f1 f7f1 a1f1 f8f1",
+    "themes": "kingsideAttack mate mateIn2 middlegame pillsburysMate short"
+  },
+  {
+    "id": "0WLS4",
+    "fen": "r3k2r/p1Rp1pbp/3Pp1p1/4P3/2bN4/7P/P4PP1/2R3K1 b kq - 6 24",
+    "moves": "c4a2 c7c8 a8c8 c1c8",
+    "themes": "mate mateIn2 middlegame short"
+  },
+  {
+    "id": "0WNMy",
+    "fen": "r4rk1/1p4pp/p3R1b1/3N4/3N4/8/PP4PP/4Rq1K w - - 2 23",
+    "moves": "e1f1 f8f1",
+    "themes": "backRankMate mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0WO0S",
+    "fen": "8/3k1N1p/3PpBp1/2b1P3/q7/8/6PP/3r1R1K w - - 2 38",
+    "moves": "f1d1 a4d1",
+    "themes": "backRankMate endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "0WRox",
+    "fen": "r1bq1k1r/ppp2Bpp/3pP3/2b1B3/8/7P/P4PP1/RN1Q1RK1 b - - 0 13",
+    "moves": "d6e5 d1d8",
+    "themes": "hangingPiece master mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0WXJs",
+    "fen": "6k1/R4ppp/5n2/1pn5/6P1/3r4/P3r2P/R4K2 b - - 5 32",
+    "moves": "e2h2 a7a8 d3d8 a8d8 f6e8 d8e8",
+    "themes": "backRankMate endgame long mate mateIn3"
+  },
+  {
+    "id": "0WeYH",
+    "fen": "1r4k1/4n3/b2pN1pr/p1p1n3/Pp2P3/3P3P/1PP2RP1/5RK1 b - - 4 32",
+    "moves": "h6h7 f2f8 b8f8 f1f8",
+    "themes": "kingsideAttack mate mateIn2 middlegame short"
+  },
+  {
+    "id": "0WhPI",
+    "fen": "2r3k1/pR3ppp/4p3/3pP3/P7/5P1P/2Q2P2/6K1 b - - 0 25",
+    "moves": "c8c2 b7b8 c2c8 b8c8",
+    "themes": "backRankMate endgame mate mateIn2 rookEndgame short"
+  },
+  {
+    "id": "0Wk0E",
+    "fen": "6rk/3p2rp/p1b2p2/1p2pp2/4Pb2/P1P2P1q/1PB1R1P1/3Q1NRK w - - 0 33",
+    "moves": "g2h3 g7g1",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove pillsburysMate"
+  },
+  {
+    "id": "0WzL2",
+    "fen": "r3kbnr/ppp1pppp/2q5/8/2Q3b1/8/PP2PPPP/RNB1KB1R w KQkq - 0 8",
+    "moves": "c4g4 c6c1",
+    "themes": "hangingPiece mate mateIn1 oneMove opening"
+  },
+  {
+    "id": "0X06D",
+    "fen": "2r1r1k1/7p/p2p2pP/5R2/NpnB4/1N6/PPP5/2K1q2R w - - 1 28",
+    "moves": "h1e1 e8e1",
+    "themes": "master mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0X0yF",
+    "fen": "3r3r/p1pk1pp1/Q1p1b3/4q2p/N5n1/4B3/PPP2PPP/R4RK1 w - - 4 16",
+    "moves": "h2h3 e5h2",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0X5EW",
+    "fen": "5kr1/8/5K2/8/R7/4p3/8/8 b - - 1 68",
+    "moves": "g8g7 a4a8",
+    "themes": "endgame mate mateIn1 oneMove rookEndgame"
+  },
+  {
+    "id": "0XJIe",
+    "fen": "5rkr/6Rp/p2pb3/1p3n2/3p1Q2/8/PP4PP/5RK1 b - - 0 35",
+    "moves": "f5g7 f4f8",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "0XJfs",
+    "fen": "6k1/6P1/1P4K1/p7/2p5/1P6/8/8 b - - 0 53",
+    "moves": "c4b3 b6b7 b3b2 b7b8q",
+    "themes": "advancedPawn endgame mate mateIn2 pawnEndgame promotion short"
+  },
+  {
+    "id": "0XPAx",
+    "fen": "r2b1rk1/2qn1ppp/p2p4/1pp2N1n/4P1Q1/3P1N2/PPP3PP/R1B2RK1 b - - 4 15",
+    "moves": "h5f6 g4g7",
+    "themes": "kingsideAttack mate mateIn1 oneMove opening"
+  },
+  {
+    "id": "0XZBc",
+    "fen": "2r2rk1/pb2qppp/1p2p3/3pP3/4n3/2NQP3/PP3PPP/1BR2RK1 b - - 0 15",
+    "moves": "e4c5 d3h7",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0XezC",
+    "fen": "Q5k1/5ppp/8/P7/8/2b4P/3p1KP1/4r3 b - - 0 44",
+    "moves": "e1e8 a8e8",
+    "themes": "endgame hangingPiece mate mateIn1 oneMove"
+  },
+  {
+    "id": "0XfeE",
+    "fen": "r5k1/ppp2ppp/8/3P4/2Pn3B/P4P2/R3r1PP/2R3K1 w - - 0 22",
+    "moves": "a2e2 d4e2 g1f2 e2c1",
+    "themes": "crushing endgame fork short"
+  },
+  {
+    "id": "0Xge4",
+    "fen": "r1b2r1k/2p2Qpp/p2p4/1pb5/3p2qN/6B1/PPP2PPP/R3R1K1 b - - 0 19",
+    "moves": "f8f7 e1e8 f7f8 e8f8",
+    "themes": "backRankMate mate mateIn2 middlegame short"
+  },
+  {
+    "id": "0Xrd8",
+    "fen": "1q3rk1/p1pQ1ppp/3b4/4p3/2P5/4B3/P2R1PPP/Rr4K1 w - - 1 19",
+    "moves": "a1b1 b8b1 d2d1 b1d1",
+    "themes": "backRankMate mate mateIn2 middlegame short"
+  },
+  {
+    "id": "0Xvwb",
+    "fen": "3r2k1/pp3ppp/2n2n2/4p3/4P3/PbB2P2/1P2N1PP/2K2B1R w - - 3 17",
+    "moves": "g2g3 d8d1",
+    "themes": "mate mateIn1 middlegame oneMove operaMate"
+  },
+  {
+    "id": "0Y3oP",
+    "fen": "4r1k1/5ppp/Q7/4p3/4b1q1/4P3/P1B3PP/5RK1 w - - 0 30",
+    "moves": "a6a4 g4g2",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "0Y725",
+    "fen": "1r4k1/1p1r1pp1/p2P2q1/2B1Pp2/PP2bP1p/7P/5QP1/R3R1K1 w - - 1 33",
+    "moves": "f2h4 g6g2",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0Y7Jy",
+    "fen": "2rq1rk1/2p2pp1/p2bbn1p/1p1N4/1P1Q4/P3P1P1/1B3PBP/R2R2K1 b - - 2 18",
+    "moves": "f6d5 d4g7",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0YJ1s",
+    "fen": "r5rk/pb3p1Q/5Pp1/2p1p1P1/6P1/3PpR2/PP5P/R5K1 b - - 0 24",
+    "moves": "h8h7 f3h3",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "0YRmo",
+    "fen": "3r4/1k3ppp/1p6/4Pb2/Rp1r1P2/1B6/1PP3PP/5R1K w - - 0 25",
+    "moves": "f1a1 d4d1 a1d1 d8d1",
+    "themes": "backRankMate endgame mate mateIn2 short"
+  },
+  {
+    "id": "0YT6t",
+    "fen": "5r1k/4bnpp/3p1p2/q3pP2/p1PpP2P/Pp1P1Q2/1P1N1P2/1K4RR w - - 1 27",
+    "moves": "d2f1 a5e1 f3d1 e1d1",
+    "themes": "mate mateIn2 middlegame queensideAttack short"
+  },
+  {
+    "id": "0YaMp",
+    "fen": "2Q3k1/pp3ppp/2pP4/5b2/2P5/6P1/Pq3PBP/4R1K1 b - - 0 25",
+    "moves": "f5c8 e1e8",
+    "themes": "backRankMate endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "0YogV",
+    "fen": "r1q4r/Rk2n1bp/1p1p2p1/1Pp1p3/2P1P3/Q3B3/1P3PPP/R5K1 b - - 7 23",
+    "moves": "a8a7 a3a7",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0Yq6A",
+    "fen": "7k/6pp/R1p5/8/8/2n2PK1/4r1PP/8 b - - 3 33",
+    "moves": "e2e6 a6a8 e6e8 a8e8",
+    "themes": "backRankMate endgame mate mateIn2 short"
+  },
+  {
+    "id": "0Ysin",
+    "fen": "4k3/3r1p2/p7/1nPN4/2K1p3/7b/8/7R b - - 5 42",
+    "moves": "h3e6 h1h8",
+    "themes": "endgame master mate mateIn1 oneMove"
+  },
+  {
+    "id": "0YtJI",
+    "fen": "2R3k1/p4ppp/4rb2/1r1p4/8/PP2P2P/5PP1/4RK2 b - - 1 28",
+    "moves": "e6e8 c8e8",
+    "themes": "backRankMate endgame hangingPiece mate mateIn1 oneMove"
+  },
+  {
+    "id": "0Z0jU",
+    "fen": "3r2k1/5ppp/1n2q3/Q7/1P4b1/P3P3/2K4P/8 b - - 5 40",
+    "moves": "b6d5 a5d8 e6e8 d8e8",
+    "themes": "endgame hangingPiece mate mateIn2 short"
+  },
+  {
+    "id": "0Z5vT",
+    "fen": "2rq1rk1/1p1bbppp/4p3/4P3/1pPP2P1/3Q1N2/5P1P/RB3R1K b - - 1 20",
+    "moves": "d7c6 d3h7",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0ZEqV",
+    "fen": "r1bq1Q1k/pp4pp/3p4/2b5/4PRn1/2N5/PP4PP/R1B4K b - - 2 17",
+    "moves": "d8f8 f4f8",
+    "themes": "backRankMate mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0ZHka",
+    "fen": "3r2k1/5ppp/p3p3/1p6/8/P3P3/1P1r1PPP/R1R3K1 w - - 2 26",
+    "moves": "c1c6 d2d1 a1d1 d8d1",
+    "themes": "backRankMate endgame mate mateIn2 rookEndgame short"
+  },
+  {
+    "id": "0ZJCN",
+    "fen": "3r3r/pp1k2pp/2nbpp2/3p4/2q1PP2/1NPQ4/PP4PP/R1B2R1K w - - 3 16",
+    "moves": "d3g3 c4f1",
+    "themes": "hangingPiece kingsideAttack master mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0ZOJI",
+    "fen": "3r2k1/1p3ppp/8/1Np5/8/P3PN2/1P3PPP/1R1r2K1 w - - 1 27",
+    "moves": "b1d1 d8d1 f3e1 d1e1",
+    "themes": "backRankMate endgame mate mateIn2 short"
+  },
+  {
+    "id": "0ZQlS",
+    "fen": "8/7p/6p1/2P2pk1/8/2K5/8/8 b - - 0 41",
+    "moves": "h7h5 c5c6 h5h4 c6c7 h4h3 c7c8q",
+    "themes": "advancedPawn crushing endgame long pawnEndgame promotion"
+  },
+  {
+    "id": "0ZSOP",
+    "fen": "r1bb3k/pp3Bpp/2n5/5p2/4p1n1/2P2N1P/PP2RPP1/R1B3K1 b - - 0 18",
+    "moves": "e4f3 e2e8",
+    "themes": "backRankMate mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0ZfF1",
+    "fen": "2rr2k1/Rp3ppp/8/2n5/4p3/Q1N5/2P2PPP/3q2K1 w - - 0 24",
+    "moves": "c3d1 d8d1",
+    "themes": "backRankMate endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "0Zoxb",
+    "fen": "2rr3k/1p2nppB/p3p3/3pP3/7Q/5N2/PP3PPP/1Rq3K1 w - - 2 22",
+    "moves": "b1c1 c8c1 f3e1 c1e1",
+    "themes": "backRankMate mate mateIn2 middlegame short"
+  },
+  {
+    "id": "0a2DX",
+    "fen": "8/8/4K1B1/8/3k1P2/2p3P1/8/8 w - - 0 57",
+    "moves": "f4f5 c3c2 f5f6 c2c1q",
+    "themes": "advancedPawn advantage bishopEndgame endgame promotion short"
+  },
+  {
+    "id": "0a5Ij",
+    "fen": "5rk1/1p4p1/p1PRnr2/7p/1P6/2P3N1/6PP/3R1q1K w - - 1 35",
+    "moves": "g3f1 f6f1 d1f1 f8f1",
+    "themes": "backRankMate endgame mate mateIn2 short"
+  },
+  {
+    "id": "0a8M7",
+    "fen": "r4rk1/1b3ppp/1b2pn2/p1pq4/P1Np1P2/1P1N4/1BPP2PP/R2Q1R1K w - - 2 16",
+    "moves": "c4b6 d5g2",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0aCuZ",
+    "fen": "3r2k1/5ppp/8/8/4P3/6P1/r2p1P1P/1R1R1K2 b - - 1 30",
+    "moves": "d8d4 b1b8 d4d8 b8d8",
+    "themes": "backRankMate endgame mate mateIn2 rookEndgame short"
+  },
+  {
+    "id": "0aGHL",
+    "fen": "5rk1/1Rn2pp1/4p2p/1pr1P3/8/1P4B1/P4PPP/3R2K1 w - - 2 27",
+    "moves": "d1d7 c5c1 d7d1 c1d1",
+    "themes": "backRankMate endgame mate mateIn2 short"
+  },
+  {
+    "id": "0aXrh",
+    "fen": "r4rk1/pb2bppp/1pq1pn2/1Nn5/2P5/1P3N2/PBB2PPP/R2QR1K1 w - - 4 15",
+    "moves": "f3e5 c6g2",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0aY6c",
+    "fen": "2k5/2P5/2K4P/p7/p5p1/P6P/8/8 b - - 0 61",
+    "moves": "g4h3 h6h7 h3h2 h7h8q",
+    "themes": "advancedPawn endgame master mate mateIn2 pawnEndgame promotion short"
+  },
+  {
+    "id": "0aagU",
+    "fen": "r1b2rk1/p1q1bppp/1p1ppn2/6P1/2PQP3/2B5/PP1NBP1P/R3K2R b KQ - 0 12",
+    "moves": "f6d7 d4g7",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0acg9",
+    "fen": "3q1rk1/1b1nbppp/p3p3/1p1pP3/2r2B2/P1PQ1N2/1PB2PPP/R3R1K1 b - - 6 16",
+    "moves": "c4f4 d3h7",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0alcM",
+    "fen": "8/5pkp/p1R5/5NPK/r7/2p4P/8/4b3 b - - 7 38",
+    "moves": "g7f8 c6c8",
+    "themes": "endgame master mate mateIn1 oneMove"
+  },
+  {
+    "id": "0b2r7",
+    "fen": "3qr3/p3Nkp1/7p/1pB5/8/8/PPP2PPP/4Q1K1 w - - 1 30",
+    "moves": "e1e4 d8d1 e4e1 d1e1",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "0b39f",
+    "fen": "r4R2/p2q2kp/1p4p1/3pP3/2pP1Qb1/3BP3/PP4P1/5RK1 b - - 0 25",
+    "moves": "a8f8 f4f8",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "0b6N0",
+    "fen": "3q2k1/rr4p1/2p1p2p/p1ppBp1b/P4P2/1P1PP1QP/2P2RP1/R5K1 b - - 2 22",
+    "moves": "h5f7 g3g7",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0b7rH",
+    "fen": "8/pR5p/2p1r1pk/3p4/8/2P5/P4PPP/6K1 w - - 2 34",
+    "moves": "b7a7 e6e1",
+    "themes": "backRankMate endgame master mate mateIn1 oneMove rookEndgame"
+  },
+  {
+    "id": "0bE3n",
+    "fen": "8/8/2R5/1r6/3p4/3P1BPp/P1Pk1P1P/5K2 w - - 0 37",
+    "moves": "c6e6 b5b1 f3d1 b1d1 e6e1 d1e1",
+    "themes": "endgame long mate mateIn3"
+  },
+  {
+    "id": "0bI3m",
+    "fen": "8/8/8/p7/P1P1K1p1/1P6/7k/8 w - - 0 68",
+    "moves": "e4d5 g4g3 c4c5 g3g2 c5c6 g2g1q",
+    "themes": "advancedPawn crushing endgame long pawnEndgame promotion"
+  },
+  {
+    "id": "0bKek",
+    "fen": "6k1/6p1/p1pBR1pp/3p4/2pP4/2P5/Pr3PPP/6K1 w - - 0 23",
+    "moves": "a2a3 b2b1 e6e1 b1e1",
+    "themes": "backRankMate endgame mate mateIn2 short"
+  },
+  {
+    "id": "0bY9B",
+    "fen": "3r1k2/pp2ppbp/6p1/4P3/5P2/1B2K1P1/P6P/2R5 b - - 0 24",
+    "moves": "d8d7 c1c8 d7d8 c8d8",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "0brls",
+    "fen": "8/1p4pk/p2P3p/5b2/1P1Q2q1/2B5/5K1P/8 b - - 2 34",
+    "moves": "g4h3 d4g7",
+    "themes": "endgame master mate mateIn1 oneMove"
+  },
+  {
+    "id": "0bsn3",
+    "fen": "br1rQ2k/1q4pp/1p6/2p5/5P2/1P1PR1P1/P1P2N1P/4R1K1 b - - 2 31",
+    "moves": "d8e8 e3e8 b8e8 e1e8",
+    "themes": "backRankMate mate mateIn2 middlegame short"
+  },
+  {
+    "id": "0c1cG",
+    "fen": "2r3k1/6p1/4pp1p/1N1p4/P4P2/8/2R1nPPP/6K1 w - - 2 32",
+    "moves": "c2e2 c8c1 e2e1 c1e1",
+    "themes": "backRankMate endgame mate mateIn2 short"
+  },
+  {
+    "id": "0c8V3",
+    "fen": "2k5/1pp2p1p/p6b/4Q3/1P2P3/P5P1/4qPKP/8 b - - 0 31",
+    "moves": "h6e3 e5e8",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "0c9yz",
+    "fen": "4k3/8/4K1pR/8/8/8/6r1/8 b - - 1 66",
+    "moves": "g6g5 h6h8",
+    "themes": "endgame master mate mateIn1 oneMove rookEndgame"
+  },
+  {
+    "id": "0cFsU",
+    "fen": "8/8/8/8/n1p4P/5kP1/2K5/8 b - - 0 53",
+    "moves": "f3g3 h4h5 a4b6 h5h6",
+    "themes": "crushing endgame knightEndgame quietMove short"
+  },
+  {
+    "id": "0cOMr",
+    "fen": "rb1q1rk1/5ppp/bnp1pN2/p7/PpPP4/3Q1P2/1PB1NBPP/R4RK1 b - - 0 19",
+    "moves": "d8f6 d3h7",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0cU7v",
+    "fen": "r5k1/ppp4p/2n3P1/3p4/3P1bP1/2PB4/PP1N4/R1KQq3 b - - 1 20",
+    "moves": "e1d2 d1d2 f4d2 c1d2",
+    "themes": "advantage middlegame short"
+  },
+  {
+    "id": "0ckUa",
+    "fen": "4q1k1/ppb3pp/2p5/8/3P4/3Q2NP/PPP3P1/7K w - - 0 29",
+    "moves": "g3f5 e8e1 d3f1 e1f1",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "0cri4",
+    "fen": "b3kb1r/5ppp/2q5/1p2Pp2/2p2P2/1PPp1N2/3P2PP/2BQ1R1K w k - 0 18",
+    "moves": "f3d4 c6g2",
+    "themes": "kingsideAttack master mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0d1JB",
+    "fen": "r2qk2r/pp3ppp/2p1pn2/4b3/2BP1Qb1/2P5/PP3PPP/R1B1K2R w KQkq - 0 12",
+    "moves": "d4e5 d8d1",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0d3pQ",
+    "fen": "3r1bk1/1b1p1r1p/p1q1p1p1/2p1Pp2/2B2P2/2P1B2R/P1PR2PP/3Q2K1 w - - 2 22",
+    "moves": "e3f2 c6g2",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0d9gC",
+    "fen": "r4rk1/ppq2p2/2p3p1/7p/2P3nQ/4P3/PB3PPP/R4RK1 w - - 1 18",
+    "moves": "h2h3 c7h2",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0dJks",
+    "fen": "8/8/7p/6p1/P1K3k1/8/8/8 b - - 0 48",
+    "moves": "h6h5 a4a5 g4h4 a5a6 g5g4 a6a7 g4g3 a7a8q",
+    "themes": "advancedPawn crushing endgame pawnEndgame promotion quietMove veryLong"
+  },
+  {
+    "id": "0dLGN",
+    "fen": "6k1/8/1P1p3p/3P2p1/2P2p2/1P1p1rP1/3Rp2P/4K3 w - - 0 35",
+    "moves": "b6b7 f3f1",
+    "themes": "endgame mate mateIn1 oneMove rookEndgame"
+  },
+  {
+    "id": "0denv",
+    "fen": "8/2p3pk/1p1br2p/8/P2B4/3q3P/1P3PP1/3R2K1 w - - 0 30",
+    "moves": "d1d3 e6e1",
+    "themes": "endgame mate mateIn1 oneMove pillsburysMate"
+  },
+  {
+    "id": "0dvyx",
+    "fen": "4q1k1/1pN2ppp/8/2bp4/r4P2/2P5/3Q2PP/R6K w - - 0 31",
+    "moves": "c7e8 a4a1 d2c1 a1c1",
+    "themes": "backRankMate endgame hangingPiece mate mateIn2 short"
+  },
+  {
+    "id": "0dw5M",
+    "fen": "6k1/pp3ppp/3b1n2/2p2P2/6Bq/P1NP1Q1P/1PP3P1/R3r2K w - - 2 22",
+    "moves": "a1e1 h4e1 f3f1 e1f1",
+    "themes": "kingsideAttack mate mateIn2 middlegame short"
+  },
+  {
+    "id": "0e1Ab",
+    "fen": "r2q1rk1/pp1n1ppp/2pbp3/7N/3P2Qn/2PB3P/PP3PP1/R1B2RK1 b - - 8 14",
+    "moves": "f7f5 g4g7",
+    "themes": "kingsideAttack mate mateIn1 oneMove opening"
+  },
+  {
+    "id": "0e6Kj",
+    "fen": "1r4k1/p1p2p1p/1r4p1/3qB3/5Q2/P7/1P3RPP/K7 b - - 1 31",
+    "moves": "b6e6 f4f7",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "0eEPI",
+    "fen": "r2qk2r/pp1n1ppn/2pp3p/3Pp3/2B1P3/2N1PQ1P/PPP3P1/3R1RK1 b kq - 0 13",
+    "moves": "c6c5 f3f7",
+    "themes": "attackingF2F7 mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0eMWT",
+    "fen": "1r1r4/4kpp1/4p2p/4P2P/1pPR4/pP3BP1/P5K1/3R4 w - - 1 32",
+    "moves": "d4d7 d8d7 d1d7 e7d7",
+    "themes": "endgame"
+  },
+  {
+    "id": "0eQlI",
+    "fen": "8/2p5/p5K1/1p6/1P5P/k7/8/8 b - - 0 47",
+    "moves": "a3b4 h4h5 b4c5 h5h6 b5b4 h6h7 b4b3 h7h8q",
+    "themes": "advancedPawn crushing endgame pawnEndgame promotion quietMove veryLong"
+  },
+  {
+    "id": "0eR0D",
+    "fen": "r4rk1/1b2bp2/p6p/3qN1p1/Pp1P4/2P3P1/NP3PP1/R2QR1K1 w - - 1 23",
+    "moves": "d1h5 d5g2",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0eREW",
+    "fen": "5rk1/pp1b2pp/2p1p3/3pP3/3Np3/4P2Q/P1P2rPP/q3R2K w - - 0 22",
+    "moves": "e1a1 f2f1 a1f1 f8f1",
+    "themes": "backRankMate endgame mate mateIn2 short"
+  },
+  {
+    "id": "0eT9i",
+    "fen": "1r1r2k1/5pp1/2B1p2p/qP6/8/4P3/5PPP/4Q1K1 w - - 0 28",
+    "moves": "e1a5 d8d1 a5e1 d1e1",
+    "themes": "backRankMate endgame master mate mateIn2 short"
+  },
+  {
+    "id": "0eUfT",
+    "fen": "2r4r/1k3ppp/p1q5/Qp1p4/3P4/4P2P/RP3PP1/1K5R w - - 2 29",
+    "moves": "b1a1 c6c1 h1c1 c8c1",
+    "themes": "backRankMate endgame mate mateIn2 sacrifice short"
+  },
+  {
+    "id": "0eg10",
+    "fen": "2R5/6p1/5p1k/5P2/7K/8/2p3r1/8 b - - 1 45",
+    "moves": "g2d2 c8h8",
+    "themes": "endgame master mate mateIn1 oneMove rookEndgame"
+  },
+  {
+    "id": "0ejGI",
+    "fen": "r5kr/1b1nb1p1/p3N2p/1p2q3/6Q1/P1NB4/1PP3PP/R6K b - - 1 19",
+    "moves": "d7f6 g4g7",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0emUJ",
+    "fen": "6k1/pp5p/3p4/4p3/2q1P3/5R2/1P3K1P/6R1 b - - 1 37",
+    "moves": "g8h8 f3f8 c4g8 g1g8",
+    "themes": "endgame mate mateIn2 queenRookEndgame short"
+  },
+  {
+    "id": "0fIh8",
+    "fen": "r1b2rk1/pp2ppbp/3pq3/8/3PBB1Q/2P2P2/PP4P1/R3K1N1 b Q - 0 15",
+    "moves": "d6d5 h4h7",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0fYUn",
+    "fen": "1r4k1/5ppp/p7/8/1P1R4/P1r4P/3R2P1/6K1 b - - 0 27",
+    "moves": "c3a3 d4d8 b8d8 d2d8",
+    "themes": "backRankMate endgame mate mateIn2 rookEndgame short"
+  },
+  {
+    "id": "0fYcm",
+    "fen": "5k2/3b2pQ/p2b2Bp/1ppP4/2P5/P6P/1P1q2P1/R3r2K w - - 2 30",
+    "moves": "a1e1 d2e1",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "0fo32",
+    "fen": "6k1/3nbppp/p2p4/qp1Pp3/4P3/P3BP2/NPr2QPP/6K1 w - - 0 22",
+    "moves": "f2c2 a5e1",
+    "themes": "endgame master mate mateIn1 oneMove"
+  },
+  {
+    "id": "0fqZN",
+    "fen": "8/pp3k1p/2bQp1pB/4P3/7P/P5P1/5P2/1q4K1 w - - 3 37",
+    "moves": "g1h2 b1h1",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "0fy7N",
+    "fen": "5rk1/1p5p/p3q1p1/P2p2P1/3b4/3N4/1P4PP/4R2K w - - 0 32",
+    "moves": "e1e6 f8f1",
+    "themes": "backRankMate endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "0g44x",
+    "fen": "r2Q1knr/1b2ppbp/p5p1/1Bq5/4P3/P1N2N2/1PP2PPP/3R1RK1 b - - 2 15",
+    "moves": "a8d8 d1d8",
+    "themes": "backRankMate mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0g4hy",
+    "fen": "1k1r4/1pp3pp/5p2/1N6/1P6/8/5PPP/1R1r2K1 w - - 3 24",
+    "moves": "b1d1 d8d1",
+    "themes": "backRankMate endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "0g9EW",
+    "fen": "5r1k/ppp3pp/7q/2Q1p3/7n/2PP1PN1/PP2KR1P/8 b - - 16 26",
+    "moves": "c7c6 c5f8",
+    "themes": "endgame hangingPiece kingsideAttack mate mateIn1 oneMove"
+  },
+  {
+    "id": "0g9sn",
+    "fen": "1r4k1/4ppnp/6p1/2pP4/8/2Q5/P5PP/1qR4K w - - 0 25",
+    "moves": "c1b1 b8b1 c3c1 b1c1",
+    "themes": "backRankMate endgame mate mateIn2 short"
+  },
+  {
+    "id": "0gBwm",
+    "fen": "1r4k1/2p2ppp/4pn2/Q7/p4P2/5P1P/1Pq3PK/8 b - - 1 31",
+    "moves": "b8b2 a5a8 b2b8 a8b8 f6e8 b8e8",
+    "themes": "endgame long mate mateIn3"
+  },
+  {
+    "id": "0gLiO",
+    "fen": "8/8/6k1/1p6/5K2/7P/8/8 w - - 2 65",
+    "moves": "f4g4 b5b4 g4f3 b4b3 f3e4 b3b2",
+    "themes": "advancedPawn crushing endgame long master masterVsMaster pawnEndgame quietMove"
+  },
+  {
+    "id": "0gMFp",
+    "fen": "6k1/p3r2p/2Q3p1/3p4/5P2/P5Pb/1P5P/3Rq2K w - - 3 34",
+    "moves": "d1e1 e7e1",
+    "themes": "endgame mate mateIn1 oneMove pillsburysMate"
+  },
+  {
+    "id": "0gR49",
+    "fen": "2r3k1/1R3ppp/4p3/4N3/3Pn3/4P2P/6P1/6K1 b - - 1 33",
+    "moves": "c8c3 b7b8 c3c8 b8c8",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "0gXoH",
+    "fen": "2Q5/2pr2kp/1p6/6p1/4ppn1/P6P/1P3PP1/6rK w - - 0 39",
+    "moves": "h1g1 d7d1",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "0ggsR",
+    "fen": "r3k2r/p1p1b1p1/1qp2N2/7p/6n1/2P3P1/PP1PQP1P/R1B1R1K1 b kq - 0 18",
+    "moves": "g4f6 e2e7",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0giPt",
+    "fen": "rn3rk1/2q2pb1/b1p1p2p/1p1pP3/p2P1Pp1/2PQ4/PPBN2PP/R2RN1K1 b - - 1 18",
+    "moves": "h6h5 d3h7",
+    "themes": "mate mateIn1 oneMove opening"
+  },
+  {
+    "id": "0gpSK",
+    "fen": "5k2/2B2pp1/p2P3p/P2b4/8/6P1/3r1P1P/1R4K1 w - - 3 36",
+    "moves": "b1b6 d2d1",
+    "themes": "endgame mate mateIn1 oneMove pillsburysMate"
+  },
+  {
+    "id": "0gpSf",
+    "fen": "6k1/2r1pp1p/Pq1p1np1/1PrP4/4PPP1/3Q3P/4B3/RR5K w - - 1 34",
+    "moves": "b1b3 c5c1 a1c1 c7c1",
+    "themes": "advantage master middlegame short"
+  },
+  {
+    "id": "0gszH",
+    "fen": "2N3k1/7p/4p1pP/1p2P1P1/1Pp5/P3P3/8/6K1 w - - 0 40",
+    "moves": "c8d6 c4c3 d6b5 c3c2",
+    "themes": "advancedPawn advantage endgame knightEndgame master short"
+  },
+  {
+    "id": "0gwZl",
+    "fen": "1rk2bnr/1p3ppp/pB1p4/4N3/2b1P3/8/PPP2PPP/2KR3R b - - 0 15",
+    "moves": "d6e5 d1d8",
+    "themes": "mate mateIn1 middlegame oneMove operaMate"
+  },
+  {
+    "id": "0h4c5",
+    "fen": "r1Nkn2r/1p1p1Rpp/p1n1p3/8/4P1P1/2N5/PPP1B2P/2KR4 b - - 0 18",
+    "moves": "a8c8 d1d7",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0h5OD",
+    "fen": "1r3rk1/1bpn1pb1/pp1p2p1/4p1qp/2PP2B1/P1N1P2P/1P3PPB/R2Q1RK1 w - - 0 15",
+    "moves": "g4d7 g5g2",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0h8MF",
+    "fen": "5k2/p1r4p/P1p2K2/8/1R6/8/8/8 b - - 0 49",
+    "moves": "c6c5 b4b8 c7c8 b8c8",
+    "themes": "endgame mate mateIn2 rookEndgame short"
+  },
+  {
+    "id": "0hAWh",
+    "fen": "8/6p1/2K5/8/8/1P4k1/8/8 b - - 0 52",
+    "moves": "g3f4 b3b4 g7g5 b4b5 g5g4 b5b6 g4g3 b6b7",
+    "themes": "advancedPawn crushing endgame master pawnEndgame quietMove veryLong"
+  },
+  {
+    "id": "0hMWh",
+    "fen": "r4rk1/1b3ppp/p4n2/2pqp3/3b4/1PPB2B1/P3QPPP/3R1RK1 w - - 0 18",
+    "moves": "c3d4 d5g2",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0hQ0Z",
+    "fen": "4Q1k1/1p3ppp/3p4/1b1r4/5P2/P2P2P1/1P5P/1K2R3 b - - 8 33",
+    "moves": "b5e8 e1e8",
+    "themes": "backRankMate endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "0hSod",
+    "fen": "rn2k1nr/pp3pbp/2p2qp1/4p1B1/4P1b1/1P3N2/P1P1PP1P/RN1QK2R b KQkq - 2 10",
+    "moves": "f6e6 d1d8",
+    "themes": "mate mateIn1 oneMove opening"
+  },
+  {
+    "id": "0haR8",
+    "fen": "rnbq1rk1/pppp1ppp/7B/4N3/4n1Q1/2P5/PPP2PPP/R3KB1R b KQ - 3 7",
+    "moves": "f8e8 g4g7",
+    "themes": "kingsideAttack mate mateIn1 oneMove opening"
+  },
+  {
+    "id": "0hbeR",
+    "fen": "1Qk5/1pp2p1p/8/4p3/4P3/P1P1Bq1P/5Pr1/R2R1K2 b - - 0 29",
+    "moves": "c8b8 d1d8",
+    "themes": "endgame mate mateIn1 oneMove pillsburysMate"
+  },
+  {
+    "id": "0hhfL",
+    "fen": "6rk/pRp4p/1b1p1p2/3Pp3/8/5q1P/P6P/3Q3K w - - 0 32",
+    "moves": "d1f3 g8g1",
+    "themes": "endgame mate mateIn1 oneMove operaMate"
+  },
+  {
+    "id": "0hqni",
+    "fen": "2r2rk1/pb2qppp/1p2p3/2pnP3/3P4/2PQ1N2/P1B2PPP/2RR2K1 b - - 2 18",
+    "moves": "c5c4 d3h7",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0hrpj",
+    "fen": "8/2k5/2p4R/6p1/2b2r2/4p3/2R3PP/4K3 w - - 1 44",
+    "moves": "h6h3 f4f1",
+    "themes": "endgame mate mateIn1 oneMove operaMate"
+  },
+  {
+    "id": "0htpB",
+    "fen": "r3k2r/pbp1bppp/5n2/3qN3/8/3p4/PPP2PPP/RNBQR1K1 w kq - 0 13",
+    "moves": "b1c3 d5g2",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0hyjw",
+    "fen": "3r2k1/5ppp/8/1p6/1P2P3/3p4/5PPP/2R2K2 b - - 1 24",
+    "moves": "d8d4 c1c8 d4d8 c8d8",
+    "themes": "backRankMate endgame mate mateIn2 rookEndgame short"
+  },
+  {
+    "id": "0i8qx",
+    "fen": "7k/p6p/2pp2p1/1p2q3/1P1pP3/1B1Pb2P/P1P3P1/5Q1K b - - 2 28",
+    "moves": "e5g5 f1f8",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "0iEPY",
+    "fen": "2q4k/p5p1/5b1p/1Rp1p3/5p2/2PP1P2/P5K1/1R6 b - - 1 32",
+    "moves": "c8d8 b5b8 h8h7 b8d8",
+    "themes": "crushing endgame pin short"
+  },
+  {
+    "id": "0iIkO",
+    "fen": "8/8/8/p5K1/1k4P1/8/8/8 w - - 0 46",
+    "moves": "g5f6 a5a4 g4g5 a4a3 g5g6 a3a2 g6g7 a2a1q",
+    "themes": "advancedPawn crushing endgame pawnEndgame promotion quietMove veryLong"
+  },
+  {
+    "id": "0iMU5",
+    "fen": "1k2R2r/pp4bp/1B2Q1p1/2pn4/P2r4/5P2/2P2P1P/6K1 b - - 9 23",
+    "moves": "h8e8 e6e8",
+    "themes": "endgame master mate mateIn1 oneMove"
+  },
+  {
+    "id": "0iNgb",
+    "fen": "5k1r/p4p2/1ppR4/4PNp1/7p/P5P1/1PP3b1/2K5 b - - 5 31",
+    "moves": "h4h3 d6d8",
+    "themes": "endgame master mate mateIn1 oneMove"
+  },
+  {
+    "id": "0iSH3",
+    "fen": "4r1k1/6p1/p3q2p/1p2N3/6b1/P7/1QP2PPP/2R3K1 w - - 2 32",
+    "moves": "e5g4 e6e1 c1e1 e8e1",
+    "themes": "backRankMate endgame mate mateIn2 sacrifice short"
+  },
+  {
+    "id": "0iSSs",
+    "fen": "r5k1/pp4rp/2pQ4/4pPq1/4P3/2N1b2P/PPP3P1/3R1R1K w - - 3 21",
+    "moves": "d6e5 g5g2",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0iUIh",
+    "fen": "8/p2R1pk1/1p2p1p1/2p1B2p/2P5/q1P5/5PK1/8 b - - 3 34",
+    "moves": "g7g8 d7d8 g8h7 d8h8",
+    "themes": "endgame mate mateIn2 operaMate short"
+  },
+  {
+    "id": "0ihM3",
+    "fen": "6k1/5r1p/p4r1P/P7/8/8/3Q2PK/8 b - - 2 56",
+    "moves": "g8f8 d2d8",
+    "themes": "endgame mate mateIn1 oneMove queenRookEndgame"
+  },
+  {
+    "id": "0ijIk",
+    "fen": "1r2k2r/2qp3p/4pp2/1pb5/3pPPn1/1B1Q4/1PPB2PP/R4RK1 w k - 0 18",
+    "moves": "f4f5 c7h2",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0ijKw",
+    "fen": "2r2rk1/pb3pbp/2q1pnp1/8/N1B5/1P6/PB2QPPP/3R1RK1 w - - 1 18",
+    "moves": "f1e1 c6g2",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0ipsO",
+    "fen": "1r2Q2k/6pp/6q1/8/2P5/7r/4QPP1/4R1K1 b - - 0 39",
+    "moves": "b8e8 e2e8 g6e8 e1e8",
+    "themes": "backRankMate endgame mate mateIn2 short"
+  },
+  {
+    "id": "0irLv",
+    "fen": "r1b4k/1p3rNp/p1p1p3/3pqp2/2P1n3/4P2P/PPQ3R1/2K2BR1 b - - 0 21",
+    "moves": "f7g7 g2g7 e5g7 g1g7",
+    "themes": "advantage middlegame short"
+  },
+  {
+    "id": "0isZi",
+    "fen": "8/3p2kp/1p1r1p2/8/4bb2/5N2/P1Q1NPPP/6K1 w - - 7 30",
+    "moves": "c2b2 d6d1 f3e1 d1e1",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "0izYD",
+    "fen": "r4rk1/1pp1qppp/p3p3/1Pn1P1N1/P1P2P2/5R2/2Q3PP/R6K b - - 1 21",
+    "moves": "h7h6 c2h7",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0j0rn",
+    "fen": "8/5p2/p2k3p/P1p2PP1/3pKP1P/2r5/8/R7 w - - 1 33",
+    "moves": "a1h1 c3e3",
+    "themes": "endgame mate mateIn1 oneMove rookEndgame"
+  },
+  {
+    "id": "0j1cQ",
+    "fen": "8/1b4pk/7p/6b1/1P3N2/P3r1B1/3R2PP/7K w - - 7 41",
+    "moves": "d2f2 e3e1 f2f1 e1f1",
+    "themes": "endgame master mate mateIn2 short"
+  },
+  {
+    "id": "0jQEu",
+    "fen": "5k2/1R6/2r5/p7/1P1P4/6B1/PP3PPP/4R1K1 w - - 3 35",
+    "moves": "e1e7 c6c1 e7e1 c1e1",
+    "themes": "backRankMate endgame mate mateIn2 short"
+  },
+  {
+    "id": "0jand",
+    "fen": "5r1k/1Q4pp/p7/1p6/8/q1P3RP/6PK/8 b - - 3 36",
+    "moves": "a3d6 b7g7",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "0jbTH",
+    "fen": "8/4R3/8/5p2/2b4p/5PkP/3b2P1/6K1 b - - 5 46",
+    "moves": "f5f4 e7g7",
+    "themes": "endgame master mate mateIn1 oneMove"
+  },
+  {
+    "id": "0joTL",
+    "fen": "1r5k/2Q2q1p/1r1p1bpP/3P4/8/pP2RpB1/K4P2/4R3 b - - 0 34",
+    "moves": "f7c7 e3e8 b8e8 e1e8",
+    "themes": "mate mateIn2 middlegame short"
+  },
+  {
+    "id": "0jwFo",
+    "fen": "1k6/2R4p/p1bP4/8/8/6B1/PPP3rP/1K6 w - - 4 39",
+    "moves": "c7c6 g2g1 g3e1 g1e1",
+    "themes": "backRankMate endgame mate mateIn2 short"
+  },
+  {
+    "id": "0kDAY",
+    "fen": "rnb2bkr/ppp3pp/5P2/6q1/2Q5/2P5/PP3PPP/RN2K2R b KQ - 1 13",
+    "moves": "c8e6 c4e6",
+    "themes": "hangingPiece kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0kHQ5",
+    "fen": "3R2k1/p3r1pp/1p6/4ppN1/2P2P2/P5P1/4n2P/7K b - - 1 27",
+    "moves": "e7e8 d8e8",
+    "themes": "endgame hangingPiece mate mateIn1 oneMove"
+  },
+  {
+    "id": "0kHZf",
+    "fen": "8/1p6/p7/8/3P1p2/1P4k1/1P6/5K2 b - - 0 56",
+    "moves": "f4f3 d4d5 g3f4 d5d6 f4e5 d6d7",
+    "themes": "advancedPawn crushing endgame long pawnEndgame quietMove"
+  },
+  {
+    "id": "0kKcK",
+    "fen": "r1b1r1k1/1pppnppp/p7/b7/B2P4/B3RN2/P4PPP/5RK1 b - - 7 16",
+    "moves": "e7d5 e3e8",
+    "themes": "backRankMate hangingPiece mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0keTL",
+    "fen": "2k5/p4p1R/2Kp4/1p6/3R2r1/6r1/P5P1/8 b - - 0 30",
+    "moves": "g4d4 h7h8 g3g8 h8g8",
+    "themes": "endgame mate mateIn2 rookEndgame short"
+  },
+  {
+    "id": "0kfFs",
+    "fen": "2r5/5ppk/Q6p/8/P2P4/4P3/1r3PPP/6K1 w - - 0 28",
+    "moves": "a6c8 b2b1 c8c1 b1c1",
+    "themes": "backRankMate endgame mate mateIn2 queenRookEndgame short"
+  },
+  {
+    "id": "0khd9",
+    "fen": "r1b3kr/pp1n2pp/2p1q3/2N1p1B1/3P4/2P2Q2/P1P3PP/R4RK1 b - - 6 15",
+    "moves": "d7c5 f3f8",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0khib",
+    "fen": "r2q1rk1/p1b1nppp/1pp1p3/2PpP1N1/3P4/P2QB3/2P2PPP/R4RK1 b - - 1 15",
+    "moves": "h7h6 d3h7",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0khlX",
+    "fen": "8/3q2kp/2Q3p1/1P3p2/3p4/6P1/5P1P/6K1 b - - 2 37",
+    "moves": "d7c6 b5c6 g7f7 c6c7",
+    "themes": "advancedPawn crushing endgame master short"
+  },
+  {
+    "id": "0l9ym",
+    "fen": "4r1k1/pb3ppp/8/8/3q2n1/2N2P2/PPP3PP/R1BQ2K1 w - - 0 16",
+    "moves": "d1d4 e8e1",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0lIN9",
+    "fen": "8/7k/p1R4p/P5p1/3r2K1/B6P/6P1/8 w - - 2 37",
+    "moves": "g4h5 d4h4",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "0lLwr",
+    "fen": "r4rk1/pp3pp1/2p4B/3p4/2P1n1Q1/P5PP/1q2PP2/3RR1K1 b - - 0 22",
+    "moves": "b2b6 g4g7",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0lOuX",
+    "fen": "8/8/5R1p/5K1k/5Pp1/6r1/8/8 b - - 0 43",
+    "moves": "h5h4 f6h6",
+    "themes": "endgame master mate mateIn1 oneMove rookEndgame"
+  },
+  {
+    "id": "0lQ2E",
+    "fen": "6k1/7p/p4Kp1/8/4R3/7r/4B3/6r1 b - - 3 53",
+    "moves": "g1e1 e4e8",
+    "themes": "endgame master mate mateIn1 oneMove"
+  },
+  {
+    "id": "0lbhx",
+    "fen": "Q4rk1/p1pR1ppp/1p2p3/4P3/8/8/q4PPP/3R2K1 b - - 0 18",
+    "moves": "f8a8 d7d8 a8d8 d1d8",
+    "themes": "backRankMate endgame mate mateIn2 queenRookEndgame short"
+  },
+  {
+    "id": "0lo1D",
+    "fen": "1b2r1k1/pp4p1/5nQ1/2p5/2Pp4/5N1P/PP3PP1/4q1K1 w - - 0 26",
+    "moves": "f3e1 e8e1",
+    "themes": "endgame master mate mateIn1 oneMove pillsburysMate"
+  },
+  {
+    "id": "0loIt",
+    "fen": "5rk1/1B3ppp/p3pB2/3p4/3P2Q1/2q5/P1P2PPP/R4bK1 b - - 0 17",
+    "moves": "c3a1 g4g7",
+    "themes": "endgame kingsideAttack mate mateIn1 oneMove"
+  },
+  {
+    "id": "0lw7q",
+    "fen": "rn3rk1/p2pb1pp/3Bp3/5q2/8/P7/1P2NPPP/R2Q1K1R w - - 3 18",
+    "moves": "d6e7 f5f2",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0lzms",
+    "fen": "6k1/4rppp/b2n4/6P1/Np2PB1P/5K2/PPn5/3R4 b - - 1 27",
+    "moves": "d6c4 d1d8 e7e8 d8e8",
+    "themes": "backRankMate mate mateIn2 middlegame short"
+  },
+  {
+    "id": "0m22a",
+    "fen": "3rQ1k1/pp3p1p/2p2Pp1/7q/8/3B4/PPP3PP/4R2K b - - 5 25",
+    "moves": "d8e8 e1e8",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "0mD5a",
+    "fen": "8/8/8/5Pp1/4R1P1/1k6/1p4r1/1K6 w - - 4 65",
+    "moves": "e4e8 g2g1 e8e1 g1e1",
+    "themes": "endgame mate mateIn2 rookEndgame short"
+  },
+  {
+    "id": "0mLaS",
+    "fen": "k2Q2r1/pp4q1/2p5/7p/4p1p1/P1N1B2P/1PP2PP1/3R2K1 b - - 2 28",
+    "moves": "g8d8 d1d8",
+    "themes": "endgame mate mateIn1 oneMove queensideAttack"
+  },
+  {
+    "id": "0mUt0",
+    "fen": "1q2r1k1/5pp1/4b2p/2B1b2n/1P1pQ3/P2B4/5PP1/3R1K2 b - - 1 30",
+    "moves": "h5f4 e4h7",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0miFa",
+    "fen": "1r6/2N3kp/3p4/p7/P7/2PK3P/5P2/8 b - - 11 50",
+    "moves": "b8f8 c7e6 g7g8 e6f8",
+    "themes": "crushing endgame fork master short"
+  },
+  {
+    "id": "0mlzb",
+    "fen": "rn4k1/5ppp/2p5/1p1q4/pB6/P3PP1P/6P1/2RQ1K2 b - - 3 25",
+    "moves": "d5b3 d1d8",
+    "themes": "backRankMate endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "0mnKe",
+    "fen": "2r2rk1/1p1b1ppp/p3p2n/3pP3/3P1Pq1/P1NQ2P1/1P5P/1BR2RK1 b - - 2 18",
+    "moves": "g4h3 d3h7",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0msDJ",
+    "fen": "r1b3k1/p1p2ppp/1q6/3pr3/2B2P2/2P5/P1P3PP/R2Q1R1K b - - 2 15",
+    "moves": "d5c4 d1d8 e5e8 d8e8",
+    "themes": "kingsideAttack mate mateIn2 middlegame short"
+  },
+  {
+    "id": "0mspe",
+    "fen": "4R3/8/8/3p1p2/4k1p1/6P1/2r2P2/5K2 b - - 11 60",
+    "moves": "e4f3 e8e3",
+    "themes": "endgame mate mateIn1 oneMove rookEndgame"
+  },
+  {
+    "id": "0muYX",
+    "fen": "6k1/1b3ppp/4p3/8/4qP2/4P1QP/6rK/4R3 w - - 0 32",
+    "moves": "g3g2 e4g2",
+    "themes": "endgame master mate mateIn1 oneMove"
+  },
+  {
+    "id": "0mxC5",
+    "fen": "2bq1k1r/p3nppp/8/8/1QB5/4P3/1Pp2PPP/R1B1K1NR w KQ - 0 13",
+    "moves": "g1f3 d8d1",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0my1m",
+    "fen": "6k1/2Rn1pp1/B3pb1p/1N6/4P3/3nBP2/1r4PP/6K1 w - - 2 30",
+    "moves": "c7d7 b2b1 e3c1 b1c1",
+    "themes": "master mate mateIn2 middlegame short"
+  },
+  {
+    "id": "0n4IE",
+    "fen": "6k1/5ppb/p6p/8/BP2n3/4PN2/6PP/2rR2K1 b - - 2 30",
+    "moves": "c1c3 d1d8",
+    "themes": "backRankMate endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "0nOsT",
+    "fen": "1k6/1p2Rp1r/pP2p3/4P3/8/3r4/6PP/6K1 b - - 5 33",
+    "moves": "d3d5 e7e8 d5d8 e8d8",
+    "themes": "endgame mate mateIn2 rookEndgame short"
+  },
+  {
+    "id": "0nQDT",
+    "fen": "8/2r1k1pp/P3p3/5p2/8/1RNn1P2/6PP/6K1 w - - 1 36",
+    "moves": "c3b5 c7c1",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "0nWfj",
+    "fen": "r3kb1r/ppn1q2p/2p3p1/3pQ1N1/8/2N5/PPPP2PP/R1B3K1 w kq - 1 15",
+    "moves": "e5h8 e7e1",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0naFF",
+    "fen": "3r2k1/3R1ppp/4p3/3pP3/rp1P4/N2n4/1PR1NPPP/6K1 b - - 0 25",
+    "moves": "d8d7 c2c8 d7d8 c8d8",
+    "themes": "backRankMate endgame mate mateIn2 short"
+  },
+  {
+    "id": "0nhra",
+    "fen": "6k1/6p1/7p/p4R2/r4b2/1pP4P/1P3PP1/3R2K1 w - - 0 35",
+    "moves": "d1d4 a4a1 d4d1 a1d1",
+    "themes": "endgame mate mateIn2 pillsburysMate short"
+  },
+  {
+    "id": "0nilP",
+    "fen": "1nk5/2p2r2/pr5p/2Np2p1/P7/4RP2/1PP1K1PP/8 b - - 4 32",
+    "moves": "b8d7 e3e8",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "0nrQh",
+    "fen": "r2q2k1/1p3pp1/2p2n1p/1n2r3/pQ6/2P5/PP3PPP/RN2R1K1 w - - 0 22",
+    "moves": "e1e5 d8d1 e5e1 d1e1",
+    "themes": "kingsideAttack mate mateIn2 middlegame short"
+  },
+  {
+    "id": "0nuQj",
+    "fen": "1r4k1/5ppp/Q3p3/3pP3/P1pP4/8/5PPP/6qK w - - 0 28",
+    "moves": "h1g1 b8b1",
+    "themes": "backRankMate endgame mate mateIn1 oneMove queenRookEndgame"
+  },
+  {
+    "id": "0o1nB",
+    "fen": "r4rk1/5ppp/p1pp4/q1b5/1p2PB2/1P1P3P/1PPQ2P1/2KR3R w - - 1 18",
+    "moves": "d3d4 a5a1",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0o2i4",
+    "fen": "2Q2r1k/6pp/p7/4R3/8/2P5/Pq4PP/4R2K b - - 0 31",
+    "moves": "f8c8 e5e8 c8e8 e1e8",
+    "themes": "backRankMate endgame mate mateIn2 queenRookEndgame short"
+  },
+  {
+    "id": "0oBdA",
+    "fen": "1r4k1/p1p3b1/4r2p/2P3p1/5p2/7P/PP1R1PPB/2R3K1 w - - 2 29",
+    "moves": "c1c2 e6e1",
+    "themes": "backRankMate endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "0oCl4",
+    "fen": "r4k2/ppp2ppp/8/4N3/3n4/2b1R3/P4PPP/R5K1 w - - 0 18",
+    "moves": "e3c3 d4e2 g1f1 e2c3",
+    "themes": "advantage endgame fork short"
+  },
+  {
+    "id": "0oJqZ",
+    "fen": "8/p7/8/8/1k4K1/7P/8/8 b - - 1 46",
+    "moves": "a7a6 h3h4 a6a5 h4h5 a5a4 h5h6 a4a3 h6h7",
+    "themes": "advancedPawn crushing endgame pawnEndgame quietMove veryLong"
+  },
+  {
+    "id": "0oNAx",
+    "fen": "2r2rk1/1b3pp1/p1n1pq1p/1p1p4/1b1P4/1PPQ1N1P/4NPP1/RB3RK1 b - - 0 20",
+    "moves": "b4d6 d3h7",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0oQ0k",
+    "fen": "r1bqk2r/p2p1ppp/2p1p3/8/2PQP3/2B5/PP3PPP/R3K2R b KQkq - 0 11",
+    "moves": "e8g8 d4g7",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0oXY6",
+    "fen": "1b3r1k/pp1R2pp/8/8/2Q2B2/1P4P1/P4q1P/5r1K w - - 0 26",
+    "moves": "c4f1 f2f1",
+    "themes": "endgame hangingPiece mate mateIn1 oneMove"
+  },
+  {
+    "id": "0obWu",
+    "fen": "6k1/1b1r4/2nqr1p1/3P3p/2P4Q/6R1/5PPP/R5K1 w - - 0 32",
+    "moves": "d5e6 d6d1 a1d1 d7d1",
+    "themes": "backRankMate mate mateIn2 middlegame sacrifice short"
+  },
+  {
+    "id": "0oj7Q",
+    "fen": "rnb1k2r/1pp2pbp/p5p1/1N2q3/8/4BP2/PPPQ2PP/R3KB1R w KQkq - 0 12",
+    "moves": "e1c1 e5b2",
+    "themes": "master mate mateIn1 oneMove opening queensideAttack"
+  },
+  {
+    "id": "0olOp",
+    "fen": "1r4k1/p3r1pp/2p2B1b/1q1p4/7P/6Q1/PPP3P1/1K1R4 w - - 0 24",
+    "moves": "f6e7 b5b2",
+    "themes": "endgame mate mateIn1 oneMove queensideAttack"
+  },
+  {
+    "id": "0on8M",
+    "fen": "r5k1/p1r3p1/2bN1p2/Q1Pqp2p/P2p4/6P1/1R3P1P/1R4K1 w - - 2 29",
+    "moves": "a5c7 d5g2",
+    "themes": "master mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0owbt",
+    "fen": "2r3k1/1p3ppp/pq6/3b2N1/8/1P2R3/P4PPP/4Q1K1 b - - 4 24",
+    "moves": "h7h6 e3e8 c8e8 e1e8",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "0oyiq",
+    "fen": "6k1/p4pp1/Pr2p2p/2N1P3/2bp4/8/5PPP/2R3K1 w - - 0 33",
+    "moves": "c1c4 b6b1 c4c1 b1c1",
+    "themes": "backRankMate endgame mate mateIn2 short"
+  },
+  {
+    "id": "0ozCT",
+    "fen": "2r3k1/1b2qppp/p3p3/2QpP3/3P4/1P3N2/1P3PPP/2R3K1 w - - 1 23",
+    "moves": "c5e7 c8c1 f3e1 c1e1",
+    "themes": "backRankMate endgame hangingPiece mate mateIn2 short"
+  },
+  {
+    "id": "0p3XN",
+    "fen": "q6k/6bp/2p1Q1p1/2P2p2/3Pp2P/4P1P1/5PK1/8 b - - 0 56",
+    "moves": "a8b7 e6e8 g7f8 e8f8",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "0p5of",
+    "fen": "r2qr1k1/1p3pp1/p1p1pn1p/4B3/2PP4/3R2Q1/5PPP/4R1K1 b - - 0 29",
+    "moves": "f6d7 g3g7",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0pYP4",
+    "fen": "rn3rk1/1b2nppp/p7/qp1pP3/2pP4/1PN2N2/P1Q2PPP/RB2K2R b KQ - 3 14",
+    "moves": "b5b4 c2h7",
+    "themes": "kingsideAttack mate mateIn1 oneMove opening"
+  },
+  {
+    "id": "0pgWd",
+    "fen": "6k1/8/5Rp1/8/pB6/P2rp3/6PP/6K1 w - - 0 38",
+    "moves": "f6e6 d3d1 b4e1 d1e1",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "0ppj5",
+    "fen": "4r1k1/1p3p2/p2b1pbQ/2pP4/P7/1PN4P/1B3PP1/R3q1K1 w - - 1 25",
+    "moves": "a1e1 e8e1",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove pillsburysMate"
+  },
+  {
+    "id": "0pqtk",
+    "fen": "3r2k1/pp4pp/2p1p3/4R3/8/2P5/P4PPP/1R1r2K1 w - - 2 29",
+    "moves": "b1d1 d8d1 e5e1 d1e1",
+    "themes": "backRankMate endgame mate mateIn2 rookEndgame short"
+  },
+  {
+    "id": "0ps6c",
+    "fen": "r3r1k1/4qpp1/pp3n1p/R3N3/8/5Q2/PPP2PPP/R5K1 w - - 0 23",
+    "moves": "e5c6 e7e1 a1e1 e8e1",
+    "themes": "backRankMate mate mateIn2 middlegame sacrifice short"
+  },
+  {
+    "id": "0qfMh",
+    "fen": "5k2/5r2/3R1P1p/p4bPP/3p3K/8/P4P2/8 b - - 2 44",
+    "moves": "d4d3 d6d8",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "0qgF5",
+    "fen": "8/8/1P6/N5K1/nk6/8/8/8 b - - 0 60",
+    "moves": "b4a5 b6b7 a4b6 b7b8q",
+    "themes": "advancedPawn crushing endgame knightEndgame master promotion short"
+  },
+  {
+    "id": "0qsz8",
+    "fen": "3n1k2/5pp1/p1p5/1p2qN2/6Q1/2n5/PP3PPP/6K1 w - - 0 27",
+    "moves": "b2c3 e5e1",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "0r2AO",
+    "fen": "4r1k1/4Qppp/4b3/4B3/3P4/5P1P/1R4PK/5r2 b - - 0 37",
+    "moves": "e8e7 b2b8 e6c8 b8c8 e7e8 c8e8",
+    "themes": "endgame long mate mateIn3"
+  },
+  {
+    "id": "0r4Dc",
+    "fen": "6k1/pp4pp/1bp5/3p2N1/1P5P/P1r5/8/4R2K b - - 1 32",
+    "moves": "c3a3 e1e8",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "0rDHC",
+    "fen": "rnb1k2r/ppp2pbp/4p1p1/4P1B1/2P3n1/2N5/PP2BPPP/3RK1NR b Kkq - 2 9",
+    "moves": "g4e5 d1d8",
+    "themes": "mate mateIn1 oneMove opening operaMate"
+  },
+  {
+    "id": "0rELk",
+    "fen": "5rk1/1p3pb1/2pr4/p4pPR/8/3B4/PPP3P1/1K1R4 w - - 1 25",
+    "moves": "d3f5 d6d1",
+    "themes": "endgame hangingPiece mate mateIn1 oneMove"
+  },
+  {
+    "id": "0rGD6",
+    "fen": "r3r1k1/1p3ppp/2p5/npbP4/3N4/P1P2P2/1PQ3PP/R1BRq2K w - - 1 21",
+    "moves": "d1e1 e8e1",
+    "themes": "backRankMate mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0rOCm",
+    "fen": "2kr3r/1p3p1p/p1p1p3/8/4B3/1R6/2P3PP/5R1K w - - 0 24",
+    "moves": "f1f7 d8d1 f7f1 d1f1",
+    "themes": "backRankMate endgame mate mateIn2 short"
+  },
+  {
+    "id": "0rPox",
+    "fen": "4qk1r/1pQn1ppp/p1p5/8/8/8/PPP2PPP/1K1R4 w - - 0 24",
+    "moves": "d1d7 e8e1 d7d1 e1d1",
+    "themes": "endgame mate mateIn2 queensideAttack short"
+  },
+  {
+    "id": "0rRHX",
+    "fen": "2r1q1k1/5ppp/1p1b1n2/p1pP4/5B2/1QN2B2/PP3PPP/6K1 w - - 0 22",
+    "moves": "f4d6 e8e1",
+    "themes": "master mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0rZPh",
+    "fen": "1r4k1/5pbp/3p1np1/2pP4/1q3P2/8/1PQ3PP/2BBR2K w - - 0 27",
+    "moves": "d1f3 b4e1",
+    "themes": "backRankMate hangingPiece master mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0raFT",
+    "fen": "r4rk1/p1b2pp1/7p/1p6/4Q2P/P2BP1P1/1qP2P2/3R2K1 b - - 1 19",
+    "moves": "a8b8 e4h7",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0rgp8",
+    "fen": "k3r3/1b1p1p2/p7/1p2r2Q/8/PB6/1P3PPP/2R3K1 w - - 0 32",
+    "moves": "h5f7 e5e1 c1e1 e8e1",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "0rjXw",
+    "fen": "r3brk1/ppb2ppp/2pq1n2/3p4/N2P4/3P1P2/PP2N1PP/R1BQ1R1K w - - 2 18",
+    "moves": "c1g5 d6h2",
+    "themes": "kingsideAttack mate mateIn1 oneMove opening"
+  },
+  {
+    "id": "0rm7q",
+    "fen": "4rrk1/Rpp3p1/7p/3P4/2P5/2B2p2/1P3R1P/4q2K w - - 0 33",
+    "moves": "c3e1 e8e1 f2f1 e1f1",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "0rnEU",
+    "fen": "r1bq1rk1/pp2bppp/4pn2/2p1p1N1/2Bn4/2NQ4/PPPP1PPP/R1B1K2R b KQ - 9 10",
+    "moves": "f6h5 d3h7",
+    "themes": "kingsideAttack mate mateIn1 oneMove opening"
+  },
+  {
+    "id": "0rncv",
+    "fen": "2rq2rk/1b1n1p1Q/3p1Pp1/p2P4/1pp1PR2/7P/PP2B1P1/3N1RK1 b - - 0 28",
+    "moves": "h8h7 f4h4",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0ruBm",
+    "fen": "6k1/pp3p2/2pb2p1/6Qp/2PP3P/1Pq5/P4PR1/3Rr1K1 w - - 3 29",
+    "moves": "d1e1 c3e1",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "0rv8m",
+    "fen": "4q1k1/p5pp/2p2p2/2N5/3P2Q1/8/bP3PPP/6K1 w - - 0 27",
+    "moves": "b2b3 e8e1",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "0s970",
+    "fen": "2k5/1b2Q2p/2p3p1/B2np3/2P5/8/1r3PPP/3R2K1 b - - 2 24",
+    "moves": "d5e7 d1d8",
+    "themes": "endgame master mate mateIn1 oneMove operaMate"
+  },
+  {
+    "id": "0s9Ok",
+    "fen": "r4rk1/1b2nppp/pp2p3/1N1qN3/3P4/8/PP3PPP/2RQ1RK1 w - - 0 17",
+    "moves": "b5c7 d5g2",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0sj2Q",
+    "fen": "4r2k/6pp/1p2Qp2/8/8/6P1/P6P/3R3K b - - 0 39",
+    "moves": "e8e6 d1d8 e6e8 d8e8",
+    "themes": "backRankMate endgame mate mateIn2 rookEndgame short"
+  },
+  {
+    "id": "0slU9",
+    "fen": "1k3r2/ppp3p1/2q5/4p2p/4P2P/2P2nP1/PP3R2/1K2R3 b - - 2 26",
+    "moves": "f3e1 f2f8 c6e8 f8e8",
+    "themes": "backRankMate endgame hangingPiece mate mateIn2 short"
+  },
+  {
+    "id": "0srvL",
+    "fen": "2Rb1k2/7p/5pp1/4p3/4P3/6NP/3r1PP1/5K2 w - - 4 34",
+    "moves": "g3e2 d2d1",
+    "themes": "backRankMate endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "0t8lo",
+    "fen": "2b2r1k/2r4p/2p5/5pR1/p1B5/8/PP3P2/2K3R1 b - - 0 28",
+    "moves": "c7e7 g5g8 f8g8 g1g8",
+    "themes": "endgame mate mateIn2 operaMate short"
+  },
+  {
+    "id": "0tGFO",
+    "fen": "r3rnk1/ppb2ppp/2pq1p2/8/3P2b1/2PBB2P/PPQN1PP1/R4RK1 w - - 1 14",
+    "moves": "h3g4 d6h2",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0tHKI",
+    "fen": "8/8/6k1/5p1p/1P4pK/P5P1/3r3r/7Q w - - 2 53",
+    "moves": "h1h2 d2h2",
+    "themes": "endgame hangingPiece mate mateIn1 oneMove"
+  },
+  {
+    "id": "0tM8n",
+    "fen": "r1b1r1k1/pp3ppp/2p5/4B3/4n1P1/5B2/PPP2P1P/3R1RK1 b - - 4 14",
+    "moves": "e8e5 d1d8 e5e8 d8e8",
+    "themes": "backRankMate mate mateIn2 middlegame short"
+  },
+  {
+    "id": "0tUdM",
+    "fen": "r1b2rk1/p1pp1p1p/1p1b1Np1/8/3P3Q/2P1B3/PPB1KP2/6q1 b - - 1 23",
+    "moves": "g8h8 h4h7",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0tW43",
+    "fen": "r1bq3r/3npp1k/p2p1npP/2pP2P1/Np3Q2/8/PPP1B3/R3K1NR b KQ - 0 18",
+    "moves": "f6g8 f4f7",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0taDY",
+    "fen": "6k1/5pp1/5q2/3Q3p/3P1P2/4P3/5RPP/1Nr4K w - - 1 30",
+    "moves": "f2f1 c1f1",
+    "themes": "backRankMate endgame hangingPiece mate mateIn1 oneMove"
+  },
+  {
+    "id": "0tcBo",
+    "fen": "5rk1/pp3rp1/2p5/4P3/4p1Q1/4b3/PPP3PP/R4RK1 w - - 0 23",
+    "moves": "g1h1 f7f1 a1f1 f8f1",
+    "themes": "backRankMate endgame mate mateIn2 short"
+  },
+  {
+    "id": "0tcCP",
+    "fen": "r5k1/1p3ppb/p4P1p/2b3r1/8/1PBP1R2/1P2B2P/R4K2 w - - 3 25",
+    "moves": "f6g7 g5g1",
+    "themes": "mate mateIn1 middlegame oneMove operaMate"
+  },
+  {
+    "id": "0tkwp",
+    "fen": "1r1q2k1/5p1p/b3p1p1/8/8/2Q1P3/1P3PPP/R5K1 w - - 0 24",
+    "moves": "a1a6 d8d1 c3e1 d1e1",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "0tm1R",
+    "fen": "8/8/1K6/pP6/P5k1/5p2/8/8 w - - 0 48",
+    "moves": "b6a5 f3f2 b5b6 f2f1q",
+    "themes": "advancedPawn crushing endgame pawnEndgame promotion short"
+  },
+  {
+    "id": "0tnGZ",
+    "fen": "r1b2rk1/1p2npp1/1qn1p3/p2pP1N1/1b1P4/1P1Q4/PB2BP1P/RN3RK1 b - - 0 15",
+    "moves": "f7f6 d3h7",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0tpVo",
+    "fen": "R7/Pq3pk1/4p2p/2Pp2p1/3P4/4Q3/5PPP/6K1 w - - 1 41",
+    "moves": "a8d8 b7b1 e3c1 b1c1",
+    "themes": "backRankMate endgame mate mateIn2 short"
+  },
+  {
+    "id": "0twze",
+    "fen": "rn3rk1/pbp2ppp/1pq5/5Nb1/8/5N2/PPP2PPP/R2Q1RK1 w - - 0 15",
+    "moves": "f3g5 c6g2",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0u1Nh",
+    "fen": "8/P4p2/r7/1R6/5P2/5k2/5P2/5K2 w - - 1 44",
+    "moves": "b5b7 a6a1 b7b1 a1b1",
+    "themes": "endgame mate mateIn2 rookEndgame short"
+  },
+  {
+    "id": "0u4qH",
+    "fen": "r5k1/5pp1/7p/2Qp4/1P6/4P3/2q2PPP/6K1 w - - 0 27",
+    "moves": "c5c2 a8a1 c2b1 a1b1",
+    "themes": "backRankMate endgame mate mateIn2 queenRookEndgame short"
+  },
+  {
+    "id": "0u9dQ",
+    "fen": "r3Q2k/ppR3pp/8/6q1/8/P7/1P3PPP/4R1K1 b - - 2 28",
+    "moves": "a8e8 e1e8",
+    "themes": "endgame mate mateIn1 oneMove queenRookEndgame"
+  },
+  {
+    "id": "0uBqI",
+    "fen": "r4Q1k/p2p2pp/2n1p3/2r5/8/8/P1P3PP/5RK1 b - - 3 34",
+    "moves": "a8f8 f1f8",
+    "themes": "backRankMate endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "0uNOT",
+    "fen": "1r6/6kp/3bppp1/Q3N3/8/7P/5PP1/6K1 w - - 0 34",
+    "moves": "e5d7 b8b1 a5e1 b1e1",
+    "themes": "endgame mate mateIn2 pillsburysMate short"
+  },
+  {
+    "id": "0uNYR",
+    "fen": "3r1rk1/1n3pbp/pp2p1p1/2p5/P1N1qP2/2P2R2/1PQ3PP/R1B4K w - - 0 22",
+    "moves": "c2e4 d8d1 e4e1 d1e1 f3f1 e1f1",
+    "themes": "backRankMate long mate mateIn3 middlegame"
+  },
+  {
+    "id": "0uXyI",
+    "fen": "5k2/6p1/5pb1/1p1p4/1P1P2P1/4PKPB/P1r5/R7 w - - 1 40",
+    "moves": "f3f4 c2f2",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "0ucT5",
+    "fen": "r4rk1/1b3p2/p3pn1p/1ppq2p1/3P4/2PB2B1/PP3PPP/2RQ1RK1 w - - 2 18",
+    "moves": "g3e5 d5g2",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0ueru",
+    "fen": "2k3r1/1b1p4/p3p2p/1pp1B3/4PRr1/1P6/1PP2R1K/8 b - - 2 30",
+    "moves": "h6h5 f4f8 g8f8 f2f8",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "0ujYX",
+    "fen": "r1bqkb1r/1p3ppp/p1n5/1BppP3/8/2P2Q2/P1PPN1PP/R1B2RK1 b kq - 1 9",
+    "moves": "a6b5 f3f7",
+    "themes": "attackingF2F7 mate mateIn1 oneMove opening"
+  },
+  {
+    "id": "0ujw3",
+    "fen": "r2q2k1/5p2/2p2Pp1/pp2Q2p/2b1P2P/2P1P3/PPN5/1K1r1R2 w - - 1 27",
+    "moves": "f1d1 d8d1",
+    "themes": "endgame master mate mateIn1 oneMove queensideAttack"
+  },
+  {
+    "id": "0uqmt",
+    "fen": "r4rk1/1p3ppp/8/p2pPQ2/2n4q/2R5/PPP3PP/R1B4K w - - 1 20",
+    "moves": "c3h3 h4e1 f5f1 e1f1",
+    "themes": "kingsideAttack mate mateIn2 middlegame short"
+  },
+  {
+    "id": "0vFsy",
+    "fen": "8/8/2q2QK1/1p4P1/8/1k6/8/8 b - - 13 62",
+    "moves": "c6e8 f6f7 e8f7 g6f7 b5b4 g5g6",
+    "themes": "crushing endgame long queenEndgame"
+  },
+  {
+    "id": "0vKvL",
+    "fen": "2kr3r/1ppq1pb1/R3p2p/3p2p1/P1QP4/2P1PN1P/5PPB/R5K1 b - - 0 21",
+    "moves": "d5c4 a6a8",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0vNd1",
+    "fen": "6k1/5pp1/p3p2n/6N1/8/7P/P3r1P1/3R3K b - - 0 39",
+    "moves": "e2a2 d1d8",
+    "themes": "endgame master mate mateIn1 oneMove"
+  },
+  {
+    "id": "0vPS2",
+    "fen": "2r3k1/pq4pp/2b1p3/1p6/1PpB2Q1/P3P3/5PPP/2R3K1 b - - 2 26",
+    "moves": "c6d7 g4g7",
+    "themes": "endgame kingsideAttack master mate mateIn1 oneMove"
+  },
+  {
+    "id": "0vTpF",
+    "fen": "3r2k1/6p1/2b4p/b3p3/P7/1P2B3/5PPP/2R3K1 w - - 0 44",
+    "moves": "c1c6 d8d1",
+    "themes": "backRankMate endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "0vawh",
+    "fen": "6k1/r4ppp/4p3/3p4/1P1P4/1bp1P3/2R2PPP/1Q4K1 w - - 0 33",
+    "moves": "b1b3 a7a1 c2c1 a1c1 b3d1 c1d1",
+    "themes": "backRankMate endgame long mate mateIn3 queenRookEndgame"
+  },
+  {
+    "id": "0veGw",
+    "fen": "4rk2/ppp2p2/3p3p/8/6P1/2NB4/PPP3P1/1K2q2R w - - 1 23",
+    "moves": "h1e1 e8e1 c3d1 e1d1",
+    "themes": "backRankMate endgame mate mateIn2 short"
+  },
+  {
+    "id": "0vqUu",
+    "fen": "3rnrk1/p5pp/8/2p1Q3/3p4/1P1P4/PBP3PP/4Rq1K w - - 3 26",
+    "moves": "e1f1 f8f1",
+    "themes": "backRankMate endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "0vruA",
+    "fen": "r1br2k1/1pp2p1p/pbp2p1B/5q2/3P4/2P5/PP2QPPP/RN2R1K1 b - - 5 16",
+    "moves": "f5g6 e2e8 d8e8 e1e8",
+    "themes": "kingsideAttack mate mateIn2 middlegame pillsburysMate sacrifice short"
+  },
+  {
+    "id": "0vstJ",
+    "fen": "1k2r3/1p5Q/p7/1qpNb3/8/7P/P5P1/2R2r1K w - - 2 33",
+    "moves": "c1f1 b5f1",
+    "themes": "endgame master mate mateIn1 oneMove"
+  },
+  {
+    "id": "0vxr0",
+    "fen": "r1b2rk1/5ppp/p3pqn1/1p1p4/3P4/2PQ1N2/PPB2PPP/R4RK1 b - - 2 18",
+    "moves": "g6f4 d3h7",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0vzLq",
+    "fen": "3rr1k1/1b4bp/p2p1pp1/3P4/2P2B2/7P/Pq3PP1/1R1QR1K1 b - - 1 18",
+    "moves": "e8e1 d1e1 b2b1 e1b1",
+    "themes": "advantage middlegame short"
+  },
+  {
+    "id": "0w0rd",
+    "fen": "r4rk1/2q1Npp1/bpn1p2p/p2pP3/3P4/P1PQ4/2B2PPP/R1B2RK1 b - - 2 16",
+    "moves": "c7e7 d3h7",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0w3aJ",
+    "fen": "2Q3k1/p4p2/2P1p1p1/7p/3B1q2/2P5/P5Pb/1K6 b - - 3 30",
+    "moves": "g8h7 c8h8",
+    "themes": "endgame master mate mateIn1 oneMove"
+  },
+  {
+    "id": "0wF76",
+    "fen": "r4Qk1/3b2pp/p1n1p3/2Bp4/q1p5/1NP5/PKP3PP/5R2 b - - 1 23",
+    "moves": "a8f8 f1f8",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove operaMate"
+  },
+  {
+    "id": "0wPlj",
+    "fen": "2r5/4n2p/2N4k/p2p1ppN/Pr1Pb1P1/2R4P/6P1/2R3K1 b - - 0 35",
+    "moves": "e7c6 c3c6 c8c6 c1c6",
+    "themes": "mate mateIn2 middlegame short"
+  },
+  {
+    "id": "0wT9k",
+    "fen": "8/3k4/R7/5p2/1P6/P5p1/3r2P1/6K1 w - - 0 44",
+    "moves": "b4b5 d2d1",
+    "themes": "endgame mate mateIn1 oneMove rookEndgame"
+  },
+  {
+    "id": "0wUeS",
+    "fen": "r3kn1r/1b2bp2/p1Nq1p2/1p1B3p/5B2/P7/1P2QPPP/2R1K2R b Kkq - 4 20",
+    "moves": "d6d5 e2e7",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0weGg",
+    "fen": "r2q1k1r/p3p2p/Q5p1/1B3p2/2P1b3/8/PP3bPP/R1B1R2K w - - 0 18",
+    "moves": "e1e4 d8d1 e4e1 d1e1",
+    "themes": "backRankMate mate mateIn2 middlegame short"
+  },
+  {
+    "id": "0woci",
+    "fen": "8/6p1/2kp3p/4p3/2P1Pp2/1pK2P1P/1PbN2P1/8 b - - 1 40",
+    "moves": "c6c5 d2b3 c2b3 c3b3",
+    "themes": "crushing endgame master short"
+  },
+  {
+    "id": "0wsXE",
+    "fen": "8/5K2/8/1p2P3/p6p/P6k/1P6/8 b - - 0 52",
+    "moves": "h3g2 e5e6 h4h3 e6e7 h3h2 e7e8q",
+    "themes": "advancedPawn crushing endgame long pawnEndgame promotion"
+  },
+  {
+    "id": "0x3wF",
+    "fen": "5k2/6p1/1R2K2p/r4p2/1b3P1P/6P1/5P2/8 b - - 3 47",
+    "moves": "b4c3 b6b8",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "0x8y4",
+    "fen": "4r1k1/p4p1p/2pp2pB/3n4/8/b4N1P/5PP1/1R4K1 b - - 0 23",
+    "moves": "e8e7 b1b8 e7e8 b8e8",
+    "themes": "endgame mate mateIn2 pillsburysMate short"
+  },
+  {
+    "id": "0xAWK",
+    "fen": "2R5/pp1p1R1k/6pp/4B3/4B1n1/Pq6/7P/7K b - - 0 26",
+    "moves": "b3f7 c8h8",
+    "themes": "endgame mate mateIn1 oneMove operaMate"
+  },
+  {
+    "id": "0xDwY",
+    "fen": "rn3rk1/1b1p1pbp/ppqPpnp1/2p5/2P5/2N1PN1P/PP2BPP1/R1BQR1K1 w - - 3 12",
+    "moves": "f3g5 c6g2",
+    "themes": "kingsideAttack mate mateIn1 oneMove opening"
+  },
+  {
+    "id": "0xFqk",
+    "fen": "r1r3k1/2q2pp1/4p2p/7P/3bQP2/pP1P4/B1P3P1/2KR3R w - - 0 27",
+    "moves": "e4d4 c7c2",
+    "themes": "mate mateIn1 middlegame oneMove queensideAttack"
+  },
+  {
+    "id": "0xLvw",
+    "fen": "r1b2rk1/p1p2ppp/1p1p1q2/8/2P5/4P3/P1Q2PPP/RB3RK1 b - - 1 18",
+    "moves": "f6a1 c2h7",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0xWFq",
+    "fen": "r2R2k1/4pr1p/pq3ppB/2p1bn2/8/2P5/PP1Q2PP/3R2K1 b - - 2 21",
+    "moves": "a8d8 d2d8 b6d8 d1d8 f7f8 d8f8",
+    "themes": "kingsideAttack long mate mateIn3 middlegame operaMate"
+  },
+  {
+    "id": "0xiez",
+    "fen": "rn3rk1/1p3p1p/p1pb2p1/3p2q1/3Pb3/4P2P/PP1BBPPN/2QR1RK1 w - - 2 18",
+    "moves": "f2f4 g5g2",
+    "themes": "kingsideAttack mate mateIn1 oneMove opening"
+  },
+  {
+    "id": "0xn9V",
+    "fen": "2r3k1/p3b1Rp/1pb1P3/3p2q1/3Q4/PP4P1/nB1N2BP/6K1 b - - 0 27",
+    "moves": "g5g7 d4g7",
+    "themes": "kingsideAttack master mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0xpeH",
+    "fen": "r1bqk2r/2pp1ppp/p1n1p3/1p1nP3/3P4/P2Q1N2/PBB2PPP/R4RK1 b kq - 3 13",
+    "moves": "e8g8 d3h7",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0xq6R",
+    "fen": "1r3rk1/1bp3pp/p4qp1/1pb4Q/3R4/2P3P1/PP1N1P1P/R5K1 w - - 0 20",
+    "moves": "h5c5 f6f2",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0xumS",
+    "fen": "6k1/1p3bp1/p1r5/P7/1P1R4/2BK4/8/8 b - - 5 60",
+    "moves": "g7g6 d4d8 f7e8 d8e8",
+    "themes": "advantage endgame short"
+  },
+  {
+    "id": "0xzqb",
+    "fen": "r2q1r2/pppb1R1k/3p3p/2P3pP/2QBP3/8/P3B1P1/6K1 b - - 3 23",
+    "moves": "f8f7 c4f7",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0y4ga",
+    "fen": "8/pQ3ppk/4r3/8/8/5P1p/PP3P1P/6qK w - - 0 29",
+    "moves": "h1g1 e6e1",
+    "themes": "endgame mate mateIn1 oneMove queenRookEndgame"
+  },
+  {
+    "id": "0yPAT",
+    "fen": "8/4k3/p3p1Rp/1p2r3/2bN2P1/P1P5/1P5P/K7 w - - 0 36",
+    "moves": "g6h6 e5e1",
+    "themes": "endgame mate mateIn1 oneMove pillsburysMate"
+  },
+  {
+    "id": "0yXvL",
+    "fen": "8/4r1kp/6p1/2pB1p2/1p2P3/1PbR3P/5PP1/5K2 w - - 2 34",
+    "moves": "e4f5 e7e1",
+    "themes": "endgame mate mateIn1 oneMove operaMate"
+  },
+  {
+    "id": "0ycKO",
+    "fen": "3rR1k1/p4p2/1p4p1/n2r2Pn/8/KP6/1B6/4R3 b - - 1 37",
+    "moves": "d8e8 e1e8 g8h7 e8h8",
+    "themes": "endgame mate mateIn2 operaMate short"
+  },
+  {
+    "id": "0yl8R",
+    "fen": "r1b4k/3p1rpp/p7/1p2R3/4P1R1/8/PPP3PP/2K5 b - - 0 27",
+    "moves": "d7d6 e5e8 f7f8 e8f8",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "0ymPY",
+    "fen": "R5k1/3r1ppp/3np3/3bP3/3B4/5PP1/6P1/1R4K1 b - - 0 30",
+    "moves": "d5a8 b1b8 d6c8 b8c8 d7d8 c8d8",
+    "themes": "backRankMate endgame fork long master mate mateIn3"
+  },
+  {
+    "id": "0yx9T",
+    "fen": "rnb2rk1/pp3pqB/4p3/3pP3/3P4/2P4Q/P4PP1/R3K2R b KQ - 0 17",
+    "moves": "g7h7 h3h7",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0zAzZ",
+    "fen": "8/8/p7/6P1/1k2p1K1/8/8/8 b - - 1 45",
+    "moves": "a6a5 g5g6 a5a4 g6g7",
+    "themes": "advancedPawn crushing endgame master pawnEndgame short"
+  },
+  {
+    "id": "0zEej",
+    "fen": "r5k1/2pR3p/2P2p2/8/1N2p3/1p6/1P3PPP/6K1 w - - 0 33",
+    "moves": "d7c7 a8a1",
+    "themes": "backRankMate endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "0zFyV",
+    "fen": "7r/p5RP/1p6/3p1NK1/3k4/8/5n2/8 b - - 2 58",
+    "moves": "d4e5 g7e7",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "0zHeb",
+    "fen": "r1b1kb1r/p4ppp/p1N2n2/4p3/4pB2/5P2/PPP3PP/3RK1NR b Kkq - 0 10",
+    "moves": "e5f4 d1d8",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0zSFi",
+    "fen": "6k1/3r1p1p/1p3Bp1/p1p2n2/8/2P3P1/5P1P/4R1K1 b - - 1 31",
+    "moves": "h7h5 e1e8 g8h7 e8h8",
+    "themes": "endgame mate mateIn2 operaMate short"
+  },
+  {
+    "id": "0zURy",
+    "fen": "rn1qk1nr/2p2pb1/pp1pp3/8/P1PP4/2N1PQPp/1P1N3P/R3BRK1 b kq - 0 16",
+    "moves": "b8d7 f3f7",
+    "themes": "attackingF2F7 mate mateIn1 oneMove opening"
+  },
+  {
+    "id": "0zZq9",
+    "fen": "3RbR2/pp2N2k/7p/4p1p1/4p3/7Q/P5PP/2q4K w - - 1 32",
+    "moves": "d8d1 c1d1 f8f1 d1f1",
+    "themes": "endgame hangingPiece mate mateIn2 short"
+  },
+  {
+    "id": "0zfzO",
+    "fen": "r2q1rk1/p1pp1ppp/bp2pP2/8/2PP4/P1NQ4/4NPPP/nB3RK1 b - - 0 15",
+    "moves": "d8f6 d3h7",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0zlKB",
+    "fen": "2Q3k1/1b3pp1/p6q/1pB1b1p1/1P6/8/P1B2PP1/3R2K1 b - - 0 28",
+    "moves": "b7c8 d1d8",
+    "themes": "endgame mate mateIn1 oneMove pillsburysMate"
+  },
+  {
+    "id": "0zu3c",
+    "fen": "3N4/8/1RP5/5k1p/6pn/2r3K1/5P2/8 w - - 2 46",
+    "moves": "g3h4 c3h3",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "0zxTY",
+    "fen": "4Q2k/ppr4p/3p1r1P/4p1p1/6P1/2P4q/PP6/1K1R4 b - - 1 32",
+    "moves": "f6f8 e8f8",
+    "themes": "endgame hangingPiece mate mateIn1 oneMove"
+  },
+  {
+    "id": "0zyYY",
+    "fen": "2k2n1r/pp3pr1/4B3/3pP1q1/2pP1R1p/2P5/P1P2QPN/6RK b - - 0 22",
+    "moves": "f7e6 f4f8 h8f8 f2f8",
+    "themes": "crushing master middlegame short"
+  },
+  {
+    "id": "104Ja",
+    "fen": "r1b1k2r/pp2nPpp/2p5/8/Q1B1Pq2/8/P4PPP/bN1R2K1 b kq - 0 14",
+    "moves": "e8f8 d1d8",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "10Dho",
+    "fen": "4r3/2pq1bpk/p2p1r1p/5pR1/1P3B1Q/4R3/1PP2PPP/6K1 w - - 6 24",
+    "moves": "e3g3 e8e1",
+    "themes": "backRankMate mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "10OCF",
+    "fen": "5rk1/3r1ppp/8/ppp2N2/5B2/1PN1R3/PR3PPP/6K1 w - - 0 30",
+    "moves": "c3b5 d7d1 e3e1 d1e1",
+    "themes": "backRankMate mate mateIn2 middlegame short"
+  },
+  {
+    "id": "10QPk",
+    "fen": "r6k/4Nppp/8/1Q3P2/2n1b2P/8/1PP1P3/1Kq5 w - - 0 30",
+    "moves": "b1c1 a8a1",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "10Qo7",
+    "fen": "r2q1rk1/ppp1bpp1/3p1n1p/8/2NQPP2/1P6/PBP3PP/2KR3R b - - 0 12",
+    "moves": "f6h7 d4g7",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "10RU6",
+    "fen": "6k1/2B3p1/6K1/p7/P3R3/1rb5/7P/8 b - - 5 44",
+    "moves": "b3b4 e4e8",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "10T7s",
+    "fen": "r1bQ1k1r/p1q1npbp/6p1/1BB1p3/4P3/8/PPP2PPP/2KR3R b - - 4 14",
+    "moves": "c7d8 d1d8",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "10YFm",
+    "fen": "3r3k/pp4p1/4Bp1p/3npP2/6Q1/5PR1/P4KPq/8 b - - 3 36",
+    "moves": "d5f4 g4g7",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "10cWO",
+    "fen": "4rrk1/ppp1qppp/3p4/2b4Q/8/2P2RnP/PPB3P1/R1B2K2 w - - 6 19",
+    "moves": "f3g3 e7e1",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "10ePo",
+    "fen": "5rk1/pp3p1p/4p2Q/4r2p/8/8/PP1R2PP/7K w - - 0 30",
+    "moves": "h6f4 e5e1 f4f1 e1f1",
+    "themes": "backRankMate endgame mate mateIn2 queenRookEndgame short"
+  },
+  {
+    "id": "10jfE",
+    "fen": "r3k1nr/pp3pp1/4p1p1/2bpP3/3P3q/8/PP3PPP/RNBQ1RK1 w kq - 1 12",
+    "moves": "d4c5 h4h2",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "10uK1",
+    "fen": "1r4k1/5pp1/7p/p7/8/4B3/5PPP/R5K1 w - - 0 36",
+    "moves": "a1a5 b8b1 e3c1 b1c1",
+    "themes": "backRankMate endgame mate mateIn2 short"
+  },
+  {
+    "id": "113wA",
+    "fen": "7k/p2R2p1/1p5p/5B2/8/2P2bP1/PP3P2/4r1K1 w - - 1 29",
+    "moves": "g1h2 e1h1",
+    "themes": "endgame mate mateIn1 oneMove operaMate"
+  },
+  {
+    "id": "115WX",
+    "fen": "1r2n3/5p1k/6p1/8/p2BPbP1/P4P2/1P4K1/7R b - - 6 36",
+    "moves": "h7g8 h1h8",
+    "themes": "endgame mate mateIn1 oneMove operaMate"
+  },
+  {
+    "id": "117PJ",
+    "fen": "8/Pr6/8/8/5pP1/6k1/7p/7K w - - 0 65",
+    "moves": "a7a8q b7b1",
+    "themes": "endgame master mate mateIn1 oneMove queenRookEndgame"
+  },
+  {
+    "id": "11Djd",
+    "fen": "rn3rk1/2pqnppp/1p1p4/p2P4/2P1P3/P1Q2N2/1B3PPP/R4RK1 b - - 1 17",
+    "moves": "b8a6 c3g7",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "11I0F",
+    "fen": "r1b1k2r/ppp2ppp/4q3/8/1b6/P2n4/1PP1QPPP/R1B2KNR w kq - 0 12",
+    "moves": "e2d3 e6e1",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "11UAR",
+    "fen": "6k1/1p3ppp/4p3/8/rp1R4/P7/5PPP/6K1 b - - 0 27",
+    "moves": "a4a3 d4d8",
+    "themes": "backRankMate endgame mate mateIn1 oneMove rookEndgame"
+  },
+  {
+    "id": "11ahr",
+    "fen": "r4rk1/2p2pRp/3p1Q1q/pN6/P7/4Pb2/1BP2P2/2K5 b - - 0 20",
+    "moves": "h6g7 f6g7",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "11d6F",
+    "fen": "r1b2rk1/pp1p1ppp/4p3/q3P1Nn/3P1B2/P1PQ4/5PPP/R4RK1 b - - 0 14",
+    "moves": "h5f4 d3h7",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "11dQ2",
+    "fen": "6k1/1p1R1p1p/p1n1r1pB/2P5/KP6/P5r1/8/3R4 b - - 13 40",
+    "moves": "g3h3 d7d8 c6d8 d1d8 e6e8 d8e8",
+    "themes": "endgame long mate mateIn3 pillsburysMate sacrifice"
+  },
+  {
+    "id": "11eDp",
+    "fen": "rn2r1k1/pp2q1b1/6Q1/3p4/3p4/8/PPP1NP2/R1B1K2R w KQ - 1 17",
+    "moves": "h1h7 e7e2",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "127GH",
+    "fen": "8/RPP3p1/8/1P3Pkp/6n1/6P1/6P1/2r1R1K1 w - - 1 43",
+    "moves": "b7b8q c1e1",
+    "themes": "endgame hangingPiece master mate mateIn1 oneMove"
+  },
+  {
+    "id": "12907",
+    "fen": "rnbr1Q1k/ppp3pp/4p3/8/3N4/2P1P1P1/1qPK3P/3R1R2 b - - 2 16",
+    "moves": "d8f8 f1f8",
+    "themes": "backRankMate mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "12ADO",
+    "fen": "r5k1/1p1R1p1p/6pB/5p2/r7/2b3P1/5P1P/3R2K1 b - - 3 31",
+    "moves": "c3h8 d7d8 a8d8 d1d8",
+    "themes": "endgame mate mateIn2 pillsburysMate short"
+  },
+  {
+    "id": "12Nr8",
+    "fen": "r4Rk1/1b5p/p3r1pQ/1p1q2B1/6n1/3B4/PPP3PP/5R1K b - - 0 23",
+    "moves": "a8f8 f1f8",
+    "themes": "killBoxMate kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "12Q2j",
+    "fen": "6k1/qp3ppp/p3bn2/n3p3/1P2P3/2r2P2/P3B1PP/1N1Q1R1K b - - 4 22",
+    "moves": "c3e3 d1d8 f6e8 d8e8",
+    "themes": "fork mate mateIn2 middlegame short"
+  },
+  {
+    "id": "12SdQ",
+    "fen": "rn1qk2r/pb2bp1p/1p2p1p1/2p1P3/2B1Q3/2n2N2/PPP2PPP/R1B1K2R w KQkq - 0 12",
+    "moves": "e4b7 d8d1",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "12ctY",
+    "fen": "3r2k1/6pp/1p1pB1b1/1P1P4/2r1pR2/8/6PP/5RK1 b - - 1 27",
+    "moves": "g8h8 f4f8 d8f8 f1f8",
+    "themes": "backRankMate endgame mate mateIn2 short"
+  },
+  {
+    "id": "12hcd",
+    "fen": "3r4/p2rnkb1/1pn1p1pp/2p1p3/2N1P3/2P1B1PB/PP3P1P/R2R2K1 w - - 6 20",
+    "moves": "g1f1 d7d1 a1d1 d8d1",
+    "themes": "advantage master middlegame short"
+  },
+  {
+    "id": "12jag",
+    "fen": "4r1k1/1q4r1/p3p2p/2p1N1p1/6Qn/2P5/PP3PPP/3RR1K1 w - - 7 30",
+    "moves": "g4h5 b7g2",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "12oxf",
+    "fen": "r1b2rk1/ppp2pbp/3p1qp1/3N4/4PP1P/1n1B4/PBP3P1/2KR2QR w - - 0 17",
+    "moves": "c2b3 f6b2",
+    "themes": "mate mateIn1 oneMove opening queensideAttack"
+  },
+  {
+    "id": "12u4h",
+    "fen": "6k1/5pp1/r2p1np1/6N1/1p1P4/RR5P/2P3PK/8 b - - 0 32",
+    "moves": "b4a3 b3b8 f6e8 b8e8",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "130GT",
+    "fen": "2r3k1/p3bppp/1p2b1n1/4p3/3pP3/1P1n1NBP/P3NPP1/1K3B1R w - - 0 19",
+    "moves": "e2d4 c8c1",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "136JQ",
+    "fen": "r4k2/1pp1brpp/p1pq4/6N1/1P2R3/2P5/P3QPPP/4R1K1 b - - 2 21",
+    "moves": "e7g5 e4e8 a8e8 e2e8",
+    "themes": "mate mateIn2 middlegame short"
+  },
+  {
+    "id": "1388Z",
+    "fen": "rn3rk1/1b3pbp/1p2p1p1/pP1q4/3P4/4PN2/1B2BPPP/R2Q1RK1 w - - 0 15",
+    "moves": "f3d2 d5g2",
+    "themes": "kingsideAttack mate mateIn1 oneMove opening"
+  },
+  {
+    "id": "138Ut",
+    "fen": "6k1/p4ppp/2pr2b1/3p4/3P4/P4B2/5PPP/1R4K1 b - - 1 26",
+    "moves": "d6d7 b1b8 d7d8 b8d8",
+    "themes": "backRankMate endgame mate mateIn2 short"
+  },
+  {
+    "id": "139dr",
+    "fen": "8/p7/3kp2p/8/5q2/3P4/r5PP/5R1K w - - 0 33",
+    "moves": "f1f4 a2a1 f4f1 a1f1",
+    "themes": "backRankMate endgame mate mateIn2 rookEndgame short"
+  },
+  {
+    "id": "13ESS",
+    "fen": "r2qk2r/3b1ppp/2nbp3/pp6/2pPQP2/2P2N2/PPB3PP/R1B2RK1 b kq - 0 13",
+    "moves": "e8g8 e4h7",
+    "themes": "kingsideAttack mate mateIn1 oneMove opening"
+  },
+  {
+    "id": "13Jdk",
+    "fen": "2r5/rb1k1p2/1p2pB1p/3pPp2/PPP5/R7/3R1PPP/6K1 w - - 1 30",
+    "moves": "c4d5 c8c1 d2d1 c1d1",
+    "themes": "backRankMate endgame mate mateIn2 short"
+  },
+  {
+    "id": "13Npn",
+    "fen": "8/8/8/1k2qQKp/7P/8/8/8 b - - 2 81",
+    "moves": "e5c5 f5c5 b5c5 g5h5",
+    "themes": "crushing endgame master queenEndgame short"
+  },
+  {
+    "id": "13T7J",
+    "fen": "8/1pB4k/p3Q2p/6q1/2PP4/P4pP1/5PnP/1R4K1 w - - 3 28",
+    "moves": "b1b7 g5c1 e6e1 c1e1",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "13XDq",
+    "fen": "2r3k1/3r1ppp/Q3p3/3p4/3P4/4P2P/PPq2PP1/5RK1 b - - 0 25",
+    "moves": "c2b2 a6c8 d7d8 c8d8",
+    "themes": "backRankMate endgame fork hangingPiece mate mateIn2 short"
+  },
+  {
+    "id": "13a11",
+    "fen": "3Q2k1/5pp1/p3pn1p/1p6/1P6/4nNPK/P4q1P/1B6 b - - 5 41",
+    "moves": "f6e8 d8e8",
+    "themes": "endgame hangingPiece master mate mateIn1 oneMove"
+  },
+  {
+    "id": "13c3x",
+    "fen": "rn2k2r/ppb2ppp/2pqpn2/3p4/1P1P4/P3PB2/2PN1PPP/R1BQ1RK1 w kq - 3 10",
+    "moves": "c1b2 d6h2",
+    "themes": "kingsideAttack mate mateIn1 oneMove opening"
+  },
+  {
+    "id": "13dIX",
+    "fen": "2k3nr/pp4p1/2pbN2p/8/4qP2/1Q6/PPP3PP/3R2K1 w - - 0 20",
+    "moves": "d1d6 e4e1",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "13miG",
+    "fen": "3r2k1/p2rb2p/1p4p1/3bP3/8/1P1RB3/P6P/1B1R2K1 b - - 0 39",
+    "moves": "d5e4 d3d7 d8d7 d1d7",
+    "themes": "crushing middlegame short"
+  },
+  {
+    "id": "13pj2",
+    "fen": "r1b2rk1/4qppp/p3p3/1p6/2P1Q3/1P1BP3/2K2PPP/R6R b - - 3 18",
+    "moves": "c8b7 e4h7",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "13w3c",
+    "fen": "8/8/1p1K4/1P5p/8/6k1/PP6/8 w - - 0 51",
+    "moves": "d6c6 h5h4 c6b6 h4h3 b6a7 h3h2 b5b6 h2h1q",
+    "themes": "advancedPawn crushing endgame pawnEndgame promotion quietMove veryLong"
+  },
+  {
+    "id": "13x5l",
+    "fen": "r4r2/p3b1kp/5qp1/3Qp3/7P/3P2N1/PPPB1P2/R4K1R w - - 1 25",
+    "moves": "d2g5 f6f2",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "145HX",
+    "fen": "r2q1rk1/pbp2pb1/1pn1p2p/4p1p1/2PP4/2NQ1NP1/PPB2PP1/R4RK1 b - - 1 15",
+    "moves": "e5d4 d3h7",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "14FRZ",
+    "fen": "r2qk2r/pb1nb3/1p2ppB1/3p3Q/3P1P2/2P5/PP1B2PP/R4RK1 b kq - 0 15",
+    "moves": "e8f8 h5h8",
+    "themes": "hangingPiece mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "14Hth",
+    "fen": "2r5/3nkppp/3pp3/p7/1q2P3/2R1BP2/PPR3PP/6K1 w - - 0 24",
+    "moves": "c3c8 b4e1",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "14m20",
+    "fen": "r4rk1/3R3p/p3pqp1/8/2Q1B3/1Pn1n3/P4PPP/5R1K w - - 1 24",
+    "moves": "f2e3 f6f1 c4f1 f8f1",
+    "themes": "backRankMate mate mateIn2 middlegame short"
+  },
+  {
+    "id": "14mAE",
+    "fen": "3k1r2/2p2q2/p1Qp3p/P1b1p3/2P3pN/2P5/6PP/1R1R1r1K w - - 4 32",
+    "moves": "d1f1 f7f1 b1f1 f8f1",
+    "themes": "backRankMate mate mateIn2 middlegame short"
+  },
+  {
+    "id": "14owl",
+    "fen": "r1b2rk1/5ppp/pp1p1nn1/3P4/P1q1PP2/2N2B2/1BQ3PP/3R1R1K w - - 0 23",
+    "moves": "d1d4 c4f1",
+    "themes": "hangingPiece kingsideAttack master mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "14yWl",
+    "fen": "6Rk/pb3ppp/1p6/8/P3p3/r3P3/5PPP/3R2K1 b - - 0 27",
+    "moves": "h8g8 d1d8",
+    "themes": "backRankMate endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "1522k",
+    "fen": "1rn5/1p1k1p1q/p3pQ2/4b3/2P5/1P6/PB1PPP2/R3K3 w Q - 0 28",
+    "moves": "b2e5 h7h1",
+    "themes": "backRankMate endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "1552v",
+    "fen": "4r1k1/pb2rppp/1b6/8/RP1P4/2B5/1Q4PP/5R1K w - - 0 31",
+    "moves": "f1f2 e7e1 c3e1 e8e1 f2f1 e1f1",
+    "themes": "long mate mateIn3 middlegame sacrifice"
+  },
+  {
+    "id": "15AEu",
+    "fen": "8/8/1p5p/p1P5/R6P/5kP1/P1r5/5K2 w - - 1 44",
+    "moves": "c5b6 c2c1",
+    "themes": "endgame master mate mateIn1 oneMove rookEndgame"
+  },
+  {
+    "id": "15Fdq",
+    "fen": "1k4r1/ppp1n3/7r/3P4/5p2/8/PBP1RKP1/4R3 b - - 0 28",
+    "moves": "e7d5 e2e8 g8e8 e1e8",
+    "themes": "backRankMate endgame mate mateIn2 short"
+  },
+  {
+    "id": "15Hdo",
+    "fen": "r1b2knr/pp2ppb1/2B3pp/Q7/5P2/8/P1P3PP/2q1NK1R b - - 1 15",
+    "moves": "b7c6 a5d8",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "15UPr",
+    "fen": "4r1k1/ppp1qpp1/6p1/5N2/2P5/1P2Qn2/P4PPP/3R2K1 w - - 0 20",
+    "moves": "e3f3 e7e1 d1e1 e8e1",
+    "themes": "backRankMate endgame mate mateIn2 sacrifice short"
+  },
+  {
+    "id": "15Y7t",
+    "fen": "rn1q1rk1/4nppp/b1p1p3/pp6/3P4/P1NQP3/1PB2PPP/2R1K1NR b K - 3 12",
+    "moves": "b5b4 d3h7",
+    "themes": "kingsideAttack mate mateIn1 oneMove opening"
+  },
+  {
+    "id": "15d8S",
+    "fen": "3r2k1/pp4pp/2p5/4r3/8/2P5/PP3PPP/4R1K1 w - - 0 23",
+    "moves": "e1e5 d8d1 e5e1 d1e1",
+    "themes": "backRankMate endgame mate mateIn2 rookEndgame short"
+  },
+  {
+    "id": "15h0s",
+    "fen": "r1b1kb1r/pp3ppp/2N2n2/2q1p3/2p2B2/2N1P3/PP3PPP/R2QKB1R b KQkq - 0 9",
+    "moves": "e5f4 d1d8",
+    "themes": "mate mateIn1 oneMove opening"
+  },
+  {
+    "id": "15q8u",
+    "fen": "1k1r3r/ppp3pp/8/2b5/2P3RN/8/PP4PP/RbB4K w - - 0 18",
+    "moves": "c1f4 d8d1",
+    "themes": "backRankMate mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "15sDl",
+    "fen": "8/P1R5/3k2p1/7p/2P5/6PK/6P1/r7 w - - 1 45",
+    "moves": "c7g7 a1h1",
+    "themes": "endgame master masterVsMaster mate mateIn1 oneMove rookEndgame"
+  },
+  {
+    "id": "15uLN",
+    "fen": "r7/2R5/6pk/4R2p/8/1p1P4/P1P3PP/7K w - - 0 33",
+    "moves": "a2b3 a8a1 e5e1 a1e1",
+    "themes": "backRankMate endgame mate mateIn2 rookEndgame short"
+  },
+  {
+    "id": "15xHK",
+    "fen": "r4Rk1/ppp4p/3p2pB/3P4/2b1q3/P1P5/5QPP/6K1 b - - 1 31",
+    "moves": "a8f8 f2f8",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "15y3a",
+    "fen": "r2q1rk1/1b3pp1/1pnbp2p/p1p5/3P1B2/P1PQ1N2/1PB2PPP/R3R1K1 b - - 4 15",
+    "moves": "d6f4 d3h7",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "164An",
+    "fen": "r4r1k/1pp4p/p7/8/4p1Q1/3b4/PP1R2PP/6qK w - - 0 26",
+    "moves": "h1g1 f8f1",
+    "themes": "endgame mate mateIn1 oneMove operaMate"
+  },
+  {
+    "id": "16BQ4",
+    "fen": "2r2rk1/pp3ppp/4p3/8/3P3Q/1P3N2/P4PPP/R1q3K1 w - - 3 20",
+    "moves": "a1c1 c8c1 f3e1 c1e1",
+    "themes": "backRankMate endgame mate mateIn2 short"
+  },
+  {
+    "id": "16QcX",
+    "fen": "6k1/6p1/8/6N1/1K6/r3n3/P1P5/3R4 b - - 0 37",
+    "moves": "a3a2 d1d8",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "16Tee",
+    "fen": "rnb1k1nr/ppp2p1p/3b4/8/6p1/3P2q1/PPPNP2P/RNBQKB1R w KQkq - 0 9",
+    "moves": "h2g3 d6g3",
+    "themes": "bodenMate master mate mateIn1 oneMove opening"
+  },
+  {
+    "id": "16Y4g",
+    "fen": "8/6k1/2Kp4/3P4/5p2/P1P5/1P6/8 w - - 0 44",
+    "moves": "c6d6 f4f3 d6c7 f3f2 d5d6 f2f1q",
+    "themes": "advancedPawn crushing endgame long pawnEndgame promotion"
+  },
+  {
+    "id": "16dip",
+    "fen": "7k/6pp/8/R7/5p2/5P1P/5KP1/4r3 b - - 2 40",
+    "moves": "e1c1 a5a8 c1c8 a8c8",
+    "themes": "backRankMate endgame mate mateIn2 rookEndgame short"
+  },
+  {
+    "id": "16igW",
+    "fen": "2r3k1/1pr2ppp/p3p3/3p1N2/P7/2P2P1P/1P2R1PK/4R3 b - - 0 24",
+    "moves": "e6f5 e2e8 c8e8 e1e8",
+    "themes": "backRankMate endgame mate mateIn2 rookEndgame short"
+  },
+  {
+    "id": "170Qq",
+    "fen": "r1b2rk1/ppq1bppp/1nn1p3/3pP3/3P4/P4N2/1PQN1PPP/RBBR2K1 b - - 8 14",
+    "moves": "c8d7 c2h7",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "172Cf",
+    "fen": "q5k1/5ppp/2Q1p3/3p4/P2P4/4P3/5PPP/1R4K1 b - - 0 30",
+    "moves": "a8c6 b1b8 c6c8 b8c8",
+    "themes": "backRankMate endgame mate mateIn2 queenRookEndgame short"
+  },
+  {
+    "id": "172Q8",
+    "fen": "6k1/p5pp/1p6/3p4/2q5/2P2P2/PP2Q1PP/5K2 b - - 0 34",
+    "moves": "c4a2 e2e8",
+    "themes": "endgame mate mateIn1 oneMove queenEndgame"
+  },
+  {
+    "id": "1787Q",
+    "fen": "2r4k/6p1/R6p/1p1pb3/8/5R1P/P5P1/7K w - - 1 32",
+    "moves": "f3e3 c8c1 e3e1 c1e1",
+    "themes": "endgame mate mateIn2 pillsburysMate short"
+  },
+  {
+    "id": "17CXf",
+    "fen": "3r4/p4pkp/2P1p1p1/8/8/2q1P2B/P4PPP/2R3K1 w - - 0 27",
+    "moves": "c1c3 d8d1",
+    "themes": "backRankMate endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "17CZi",
+    "fen": "r1bq1rk1/3nbppp/p3p3/1p2P1N1/2pP4/2P3P1/2Q2PBP/R1B2RK1 b - - 1 14",
+    "moves": "a8b8 c2h7",
+    "themes": "kingsideAttack mate mateIn1 oneMove opening"
+  },
+  {
+    "id": "17OM6",
+    "fen": "8/1k6/8/6PK/8/8/7n/8 b - - 0 50",
+    "moves": "h2f3 g5g6 f3d4 g6g7",
+    "themes": "advancedPawn crushing endgame knightEndgame short"
+  },
+  {
+    "id": "17P2h",
+    "fen": "8/8/7R/5ppb/8/5p1k/5K2/8 b - - 1 65",
+    "moves": "g5g4 h6h5",
+    "themes": "endgame hangingPiece master mate mateIn1 oneMove"
+  },
+  {
+    "id": "17PxU",
+    "fen": "r2q3k/1pp3pp/p3Q3/2b5/4n3/2P5/PP4PP/R1B4K w - - 0 20",
+    "moves": "e6e4 d8d1 e4e1 d1e1",
+    "themes": "backRankMate endgame mate mateIn2 short"
+  },
+  {
+    "id": "17SqN",
+    "fen": "2r2k1r/pR2ppbp/2B3p1/8/8/4BNP1/P4P1P/6K1 b - - 0 25",
+    "moves": "c8c6 b7b8 c6c8 b8c8",
+    "themes": "backRankMate endgame mate mateIn2 short"
+  },
+  {
+    "id": "17Uww",
+    "fen": "1k1r4/ppp2pp1/2b4p/8/4Pb2/5PP1/PPP1NQ1P/1K1q3R w - - 0 19",
+    "moves": "h1d1 d8d1 e2c1 d1c1",
+    "themes": "endgame mate mateIn2 operaMate queensideAttack short"
+  },
+  {
+    "id": "17X3l",
+    "fen": "k3r3/p4pp1/5n1p/2p5/2P2B2/7P/q4PP1/1R3RK1 b - - 0 33",
+    "moves": "e8e2 b1b8",
+    "themes": "endgame mate mateIn1 oneMove operaMate"
+  },
+  {
+    "id": "17ez2",
+    "fen": "r1b2r2/p2k2b1/2pppq1p/Q7/8/8/PPPB1PPP/2KR2NR w - - 2 19",
+    "moves": "g1f3 f6b2",
+    "themes": "mate mateIn1 middlegame oneMove queensideAttack"
+  },
+  {
+    "id": "180kg",
+    "fen": "r1bqkn1r/p3bppp/2pp1n2/1p2p1P1/4P3/P1N2Q1P/BPPP1P2/R1B1K1NR b KQkq - 0 9",
+    "moves": "f6d7 f3f7",
+    "themes": "attackingF2F7 mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "182rs",
+    "fen": "8/6R1/6P1/5K1k/8/5P2/1p6/1r1n4 b - - 0 63",
+    "moves": "b1a1 g7h7",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "187jC",
+    "fen": "5r1k/pp3rpp/8/4p3/2P5/1P5N/P3Q1PP/5qK1 w - - 0 27",
+    "moves": "e2f1 f7f1",
+    "themes": "endgame master mate mateIn1 oneMove"
+  },
+  {
+    "id": "18SvN",
+    "fen": "1Q3rk1/5ppp/3p4/3q4/2p5/7P/PP2RPP1/4R1K1 b - - 0 29",
+    "moves": "f8b8 e2e8 b8e8 e1e8",
+    "themes": "backRankMate endgame mate mateIn2 queenRookEndgame short"
+  },
+  {
+    "id": "18VM3",
+    "fen": "2rq1rk1/p4ppp/3b1B2/1pp5/3p4/2P1PP1b/PPQN1P1P/1BR1K2R b K - 0 16",
+    "moves": "d8f6 c2h7",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "18Wri",
+    "fen": "rn1qkbnr/3bpppp/p1p5/1N6/2B5/4PQ2/PP1P1PPP/RNB1K2R b KQkq - 0 7",
+    "moves": "a6b5 f3f7",
+    "themes": "attackingF2F7 mate mateIn1 oneMove opening"
+  },
+  {
+    "id": "18bD5",
+    "fen": "rbb2rk1/pp3ppp/3q1n2/3p4/8/2P2Q1P/PPBN1PP1/R1B2RK1 w - - 5 13",
+    "moves": "d2b3 d6h2",
+    "themes": "mate mateIn1 oneMove opening"
+  },
+  {
+    "id": "18bWk",
+    "fen": "5k2/p2r1p2/2R4p/5Np1/5nK1/1P3P2/P7/8 b - - 7 39",
+    "moves": "d7d2 c6c8 d2d8 c8d8",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "18cHl",
+    "fen": "6k1/R5p1/4Nb1p/5p2/Pp4n1/4P3/1r3PPP/2R3K1 w - - 0 27",
+    "moves": "c1c7 b2b1 c7c1 b1c1",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "18jRR",
+    "fen": "1r5k/6np/8/2pPp3/2P3PK/1P3R1P/5P2/8 b - - 0 41",
+    "moves": "b8b4 f3f8",
+    "themes": "backRankMate endgame master mate mateIn1 oneMove"
+  },
+  {
+    "id": "194tx",
+    "fen": "8/5bkp/1p3R2/3p4/1r1P4/5N2/5PPP/6K1 w - - 1 34",
+    "moves": "f6d6 b4b1 f3e1 b1e1",
+    "themes": "backRankMate endgame mate mateIn2 short"
+  },
+  {
+    "id": "195t4",
+    "fen": "rbb2rk1/p1qn1ppp/2p1p3/1p4B1/3PN3/5Q2/PPP1BPPP/R4RK1 w - - 2 13",
+    "moves": "g5e7 c7h2",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "19P6Z",
+    "fen": "4r1k1/1p3qB1/2b5/8/p1pP3P/P3p1Q1/1P6/1K4R1 b - - 0 34",
+    "moves": "f7g7 g3g7",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "19Tzs",
+    "fen": "r3r2k/5pb1/p4np1/2NP4/6b1/8/PP3PPP/R1BQ2K1 w - - 1 20",
+    "moves": "d1a4 e8e1",
+    "themes": "backRankMate mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "19WJM",
+    "fen": "3r4/pp4k1/6pr/2p1qbN1/5N2/1QP5/PP3PPP/3R2K1 w - - 2 33",
+    "moves": "d1d8 e5e1",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "19XLU",
+    "fen": "3r2k1/5pp1/1qp1p2p/8/8/4PN2/5PPP/1R4K1 w - - 0 29",
+    "moves": "b1b6 d8d1 f3e1 d1e1",
+    "themes": "backRankMate endgame mate mateIn2 short"
+  },
+  {
+    "id": "19dsz",
+    "fen": "r1b1k1nr/2q1ppbp/6p1/pBp5/Np2P3/1P3N2/P1PQ1PPP/2KR3R b kq - 1 13",
+    "moves": "e8f8 d2d8 c7d8 d1d8",
+    "themes": "backRankMate mate mateIn2 middlegame short"
+  },
+  {
+    "id": "19elp",
+    "fen": "rn1q1rk1/pb4pp/1p2p3/1Ppp1p2/P1P5/2Q1PPnP/1B1P2P1/RNK2B2 b - - 1 15",
+    "moves": "g3f1 c3g7",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "19hKW",
+    "fen": "4r1k1/5pp1/2b4p/pr3q2/7P/2Qp2P1/1B6/R4BK1 b - - 2 44",
+    "moves": "c6f3 c3g7",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "19roU",
+    "fen": "2r3k1/1R3ppp/1p6/3p4/p2Nb3/P5PP/1P4P1/6K1 b - - 2 28",
+    "moves": "c8c4 b7b8 c4c8 b8c8",
+    "themes": "backRankMate endgame mate mateIn2 short"
+  },
+  {
+    "id": "1AJdy",
+    "fen": "2r1k2r/pp1bbppp/nq2p3/3pP3/2Pp1P2/P4N2/1PQN2PP/1BR1K2R b Kk - 2 15",
+    "moves": "e8g8 c2h7",
+    "themes": "kingsideAttack master mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "1AP2u",
+    "fen": "r5k1/5ppp/4pnb1/3p4/8/2PP4/pR2BPPP/N5K1 b - - 0 31",
+    "moves": "a8a3 b2b8 f6e8 b8e8",
+    "themes": "backRankMate endgame mate mateIn2 short"
+  },
+  {
+    "id": "1AS9b",
+    "fen": "3r2k1/ppN2ppp/8/5b2/8/5N2/Pn3PPP/1R4K1 w - - 0 24",
+    "moves": "b1b2 d8d1 f3e1 d1e1",
+    "themes": "backRankMate endgame mate mateIn2 short"
+  },
+  {
+    "id": "1AfoY",
+    "fen": "8/7K/6p1/p7/1k4P1/8/5P2/8 w - - 1 39",
+    "moves": "h7g6 a5a4 g6f7 a4a3 g4g5 a3a2 g5g6 a2a1q",
+    "themes": "advancedPawn crushing endgame pawnEndgame promotion quietMove veryLong"
+  },
+  {
+    "id": "1AiZH",
+    "fen": "5rk1/pp1b1rp1/2nb3B/3p2QN/4p3/1P6/P5PP/3RRq1K w - - 2 27",
+    "moves": "e1f1 f7f1 d1f1 f8f1",
+    "themes": "kingsideAttack mate mateIn2 middlegame short"
+  },
+  {
+    "id": "1Amwx",
+    "fen": "r5k1/5pp1/3R3p/2P5/8/P1b3PP/2Bp1P1K/4r3 b - - 2 34",
+    "moves": "a8a3 d6d8 e1e8 d8e8",
+    "themes": "endgame mate mateIn2 pillsburysMate short"
+  },
+  {
+    "id": "1Ao7q",
+    "fen": "r1b3k1/1p1n2pp/p2p4/2pP2b1/Q1P1PN1q/4KP2/PP2N1B1/R7 b - - 4 20",
+    "moves": "d7e5 a4e8",
+    "themes": "master mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "1B5xr",
+    "fen": "4r2k/pp2B2p/2p1Q1p1/3rb3/8/1P5P/P1P2PP1/6K1 w - - 1 21",
+    "moves": "c2c4 d5d1",
+    "themes": "endgame mate mateIn1 oneMove pillsburysMate"
+  },
+  {
+    "id": "1B8kO",
+    "fen": "2r3k1/1p3r1p/p3R1p1/3N1pQ1/3q1Nn1/8/P5PP/3R2K1 w - - 0 28",
+    "moves": "d1d4 c8c1 d4d1 c1d1 e6e1 d1e1",
+    "themes": "long mate mateIn3 middlegame"
+  },
+  {
+    "id": "1BHHG",
+    "fen": "6k1/p1q3pp/5p2/2P5/Q2P4/4PNPP/5P1K/1r6 b - - 0 30",
+    "moves": "b1b2 a4e8",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "1BJ3T",
+    "fen": "r2qr1k1/1ppb1ppp/3bp3/1pn5/1n2P3/2QP1N2/PB2BPPP/RN3RK1 b - - 4 14",
+    "moves": "b4a2 c3g7",
+    "themes": "kingsideAttack mate mateIn1 oneMove opening"
+  },
+  {
+    "id": "1BJfa",
+    "fen": "r3kb1r/1b1p1p2/p3pP2/2p4p/8/PqPQ2N1/1P3PPP/1R1R2K1 b kq - 1 19",
+    "moves": "h5h4 d3d7",
+    "themes": "master mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "1BK1x",
+    "fen": "r4rk1/pp3ppp/8/3pP3/4qPQ1/1P6/P5RP/R6K b - - 3 24",
+    "moves": "d5d4 g4g7",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "1BMsJ",
+    "fen": "1k5r/pbp2Qp1/1pq5/4P3/P1n2B2/4P2P/2P2PP1/3R1RK1 w - - 5 26",
+    "moves": "e5e6 c6g2",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "1BSJc",
+    "fen": "3r1Q1k/p5rp/2q3p1/8/P1Bn2P1/1P6/7P/2B2RK1 b - - 1 32",
+    "moves": "d8f8 f1f8 g7g8 f8g8",
+    "themes": "mate mateIn2 middlegame operaMate short"
+  },
+  {
+    "id": "1BTCm",
+    "fen": "r3r1k1/pp3ppp/2pb4/3p1q2/5P2/1PB1P1Q1/P2P2PP/R4RK1 b - - 4 16",
+    "moves": "e8e6 g3g7",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "1BWol",
+    "fen": "r2k1b1r/pbp2ppp/8/1B2p1q1/1n1P4/6P1/PP1PQP1P/RNB2RK1 b - - 4 12",
+    "moves": "e5d4 e2e8",
+    "themes": "mate mateIn1 oneMove opening"
+  },
+  {
+    "id": "1BaAy",
+    "fen": "4r1k1/5ppp/p2p4/2p2P2/6R1/2P5/PP2rPPP/1R4K1 w - - 2 24",
+    "moves": "f5f6 e2e1 b1e1 e8e1",
+    "themes": "backRankMate endgame mate mateIn2 rookEndgame short"
+  },
+  {
+    "id": "1BaOs",
+    "fen": "1r1Q3k/6p1/6Pp/p3Pp1P/q3pP2/8/2P1K3/3R4 b - - 1 44",
+    "moves": "b8d8 d1d8 a4e8 d8e8",
+    "themes": "endgame mate mateIn2 queenRookEndgame short"
+  },
+  {
+    "id": "1BbKW",
+    "fen": "7r/5kp1/1p2R1P1/p2p1p2/3P2p1/8/PPr5/4R1K1 b - - 0 32",
+    "moves": "f7f8 e6e8",
+    "themes": "endgame master mate mateIn1 oneMove rookEndgame"
+  },
+  {
+    "id": "1BbbR",
+    "fen": "2r2k1r/1p2bp2/p1qp2pp/3Rp3/4P2P/5NP1/PPP1QP2/2KR4 w - - 1 18",
+    "moves": "f3d2 c6c2",
+    "themes": "master mate mateIn1 middlegame oneMove queensideAttack"
+  },
+  {
+    "id": "1BkC2",
+    "fen": "8/8/7p/4q2k/6p1/6P1/5Q1K/8 b - - 0 62",
+    "moves": "e5f5 f2f5",
+    "themes": "endgame hangingPiece mate mateIn1 oneMove queenEndgame"
+  },
+  {
+    "id": "1Bl3t",
+    "fen": "4r1k1/2p2p1p/1p4p1/p7/2PP4/3n3P/PR3PP1/3B1K2 w - - 0 27",
+    "moves": "b2d2 e8e1",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "1Bmoz",
+    "fen": "r5k1/ppp2ppp/6q1/2B1p3/P1P5/3P1b2/2PQ1P1P/R4RK1 w - - 2 17",
+    "moves": "d2g5 g6g5",
+    "themes": "hangingPiece mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "1BtMy",
+    "fen": "r1b1k2r/pppp1ppp/3b1n2/4q3/8/2NBP3/PPP2PPP/R1BQK2R w KQkq - 3 8",
+    "moves": "e1g1 e5h2",
+    "themes": "kingsideAttack mate mateIn1 oneMove opening"
+  },
+  {
+    "id": "1Bxs2",
+    "fen": "6k1/rNRR4/6pp/P2p4/3b4/1r5P/6P1/5K2 b - - 3 36",
+    "moves": "d4e5 c7c8",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "1C1Ry",
+    "fen": "r1q3kr/p4ppp/8/4Q3/1R6/3nP3/5PPP/3R2K1 w - - 3 25",
+    "moves": "d1d3 c8c1 d3d1 c1d1",
+    "themes": "backRankMate endgame mate mateIn2 short"
+  },
+  {
+    "id": "1CAFh",
+    "fen": "4Rbk1/2p4p/p2p2p1/1p1P2q1/5p2/2P2n1P/PPQ2P2/5N1K w - - 1 27",
+    "moves": "c2e4 g5g1",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "1CDva",
+    "fen": "rnbqkbnr/p1pp1ppp/1p6/4p3/2B1P3/5Q2/PPPP1PPP/RNB1K1NR b KQkq - 1 3",
+    "moves": "c8b7 f3f7",
+    "themes": "attackingF2F7 mate mateIn1 oneMove opening"
+  },
+  {
+    "id": "1COAN",
+    "fen": "2kr4/ppp3pp/2B2n2/5b2/8/P1b1PN2/1P3PPP/R1B3K1 w - - 0 17",
+    "moves": "b2c3 d8d1 f3e1 d1e1",
+    "themes": "backRankMate mate mateIn2 middlegame short"
+  },
+  {
+    "id": "1CUMb",
+    "fen": "8/1R6/6pk/6p1/8/7P/1p4K1/1r6 b - - 1 45",
+    "moves": "h6h5 b7h7",
+    "themes": "endgame master mate mateIn1 oneMove rookEndgame"
+  },
+  {
+    "id": "1CazC",
+    "fen": "3q2k1/p4ppp/1b2p3/1Qpb4/N7/4P3/PP2NP1P/2K5 b - - 3 23",
+    "moves": "d8c7 b5e8",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "1CoBa",
+    "fen": "8/p1r2kpp/1p3p2/8/5n2/PN5P/1P1R1PP1/5K2 w - - 3 39",
+    "moves": "b3d4 c7c1 d2d1 c1d1",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "1Cono",
+    "fen": "8/1N1P4/8/4p3/p1P5/6pk/PP3r1p/7K w - - 4 47",
+    "moves": "d7d8q g3g2",
+    "themes": "advancedPawn endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "1CqjE",
+    "fen": "6k1/p5pp/1pPP1r2/5b2/5q2/P6P/1B2Qp2/K4R2 b - - 2 35",
+    "moves": "f6d6 e2e8",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "1CzRh",
+    "fen": "k7/p4Rp1/P4n2/3p3p/3P4/6P1/3r1P1P/6K1 b - - 0 28",
+    "moves": "d2d4 f7f8 f6e8 f8e8",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "1CzRq",
+    "fen": "r2qkb1r/pb1p2pp/2p1pB2/4N3/3Q4/8/PPP2PPP/RN2K2R b KQkq - 0 10",
+    "moves": "d8f6 d4d7",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "1D24Q",
+    "fen": "5rk1/pQ1R2bp/2p1b1p1/8/2P1p3/P3P3/1P4PP/3R1q1K w - - 0 27",
+    "moves": "d1f1 f8f1",
+    "themes": "backRankMate endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "1D6fT",
+    "fen": "2k1Qr2/pbp4B/1p4pq/3P4/2P5/2P5/P3Q1PP/6K1 b - - 0 31",
+    "moves": "f8e8 e2e8",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "1DASc",
+    "fen": "r5k1/ppP3pp/2n5/2b1qb2/3p1R2/8/PPP2PPP/R1BQ2K1 w - - 3 17",
+    "moves": "d1f3 e5e1",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "1DBN5",
+    "fen": "6k1/1p3ppp/8/P2bP3/8/2Q1KN2/5PPP/3q4 b - - 3 39",
+    "moves": "d5f3 c3c8 d1d8 c8d8",
+    "themes": "backRankMate endgame mate mateIn2 short"
+  },
+  {
+    "id": "1DFEU",
+    "fen": "1r4k1/pbp2ppp/5q2/6r1/8/P3P1P1/3Q1P1P/R2R1BK1 b - - 0 23",
+    "moves": "f6f3 d2d8 b8d8 d1d8",
+    "themes": "backRankMate mate mateIn2 middlegame sacrifice short"
+  },
+  {
+    "id": "1DRLq",
+    "fen": "2r3k1/1p5p/1Br3p1/4bp2/P3p3/1R2P2P/5PP1/1R4K1 w - - 1 28",
+    "moves": "a4a5 c6c1 b1c1 c8c1",
+    "themes": "endgame mate mateIn2 pillsburysMate short"
+  },
+  {
+    "id": "1Da4Y",
+    "fen": "6k1/5p1p/6p1/2P1P3/2r5/8/5PPP/3R2K1 w - - 1 31",
+    "moves": "d1d5 c4c1 d5d1 c1d1",
+    "themes": "backRankMate endgame mate mateIn2 rookEndgame short"
+  },
+  {
+    "id": "1DeiQ",
+    "fen": "rn1q1rk1/6pn/p1pp2b1/2b1p2p/2P1P3/2NP1PQ1/P3N1B1/R1B2R1K w - - 2 19",
+    "moves": "g3g6 d8h4 g2h3 h4h3",
+    "themes": "kingsideAttack mate mateIn2 middlegame short"
+  },
+  {
+    "id": "1DhzD",
+    "fen": "2r1kn2/5pp1/2pQpnp1/pqPp2B1/1p1P1N2/4P3/PPB2P2/1K5R w - - 2 23",
+    "moves": "h1h8 b5f1 c2d1 f1d1",
+    "themes": "mate mateIn2 middlegame queensideAttack short"
+  },
+  {
+    "id": "1DlVU",
+    "fen": "rn1q1rk1/pppb1ppp/4p3/3n4/3PQ3/3B1N2/PPPB1PPP/R3K2R b KQ - 4 10",
+    "moves": "h7h6 e4h7",
+    "themes": "master mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "1Dnrl",
+    "fen": "r4rk1/1bqn1ppp/ppp1p3/4P2n/2P2B2/2NQ3P/PPB2PP1/R4RK1 b - - 2 17",
+    "moves": "h5f4 d3h7",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "1Do3D",
+    "fen": "2r1k3/1b3p2/3Qp2p/3p4/3P1B2/2r5/5PPP/R1q3K1 w - - 0 42",
+    "moves": "f4c1 c3c1 a1c1 c8c1",
+    "themes": "backRankMate endgame mate mateIn2 short"
+  },
+  {
+    "id": "1Dpll",
+    "fen": "3Q1bnr/p1p2ppp/2N3k1/8/4p3/2P4b/PP1P1PqP/RNB1KR2 w Q - 5 13",
+    "moves": "d8d4 g2f1",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "1DrUx",
+    "fen": "3qr1k1/2p2ppp/8/5P2/1R6/2bp4/r3n1QP/3K2R1 b - - 0 29",
+    "moves": "c3b4 g2g7",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "1DvIp",
+    "fen": "r3k2r/pbpp1p1p/1p3q2/8/3bP1Q1/1B6/PPPP2PP/R1B2RK1 w kq - 1 15",
+    "moves": "g1h1 f6f1",
+    "themes": "hangingPiece kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "1E1Zf",
+    "fen": "2k5/2p1nppp/q1br4/8/4P3/2Q5/1PP2PPP/R5K1 w - - 0 26",
+    "moves": "a1a6 d6d1 c3e1 d1e1",
+    "themes": "backRankMate endgame mate mateIn2 short"
+  },
+  {
+    "id": "1E93M",
+    "fen": "8/7r/5Pk1/p1p1R1P1/1p1p4/8/PPP5/1K6 w - - 0 42",
+    "moves": "e5c5 h7h1",
+    "themes": "backRankMate endgame mate mateIn1 oneMove rookEndgame"
+  },
+  {
+    "id": "1EAW2",
+    "fen": "Q3r1k1/5ppp/2p3q1/1p6/8/2PR1PP1/PP2P2P/3R2K1 b - - 0 28",
+    "moves": "e8a8 d3d8 a8d8 d1d8",
+    "themes": "backRankMate endgame mate mateIn2 queenRookEndgame short"
+  },
+  {
+    "id": "1EJlo",
+    "fen": "7k/1brp1p1p/p4N2/1p2p3/4P3/1B3P2/PPr4Q/1K4R1 b - - 0 28",
+    "moves": "c2h2 g1g8",
+    "themes": "arabianMate endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "1EMrw",
+    "fen": "4r2k/2Qnq2p/6p1/5p2/8/2NP1N2/2P2PPP/5RK1 w - - 1 27",
+    "moves": "f1e1 e7e1 f3e1 e8e1",
+    "themes": "backRankMate mate mateIn2 middlegame short"
+  },
+  {
+    "id": "1Ec7M",
+    "fen": "3Q2k1/5pp1/1p2pb1p/p5r1/P7/2P2q1P/1PB3P1/3R2K1 b - - 1 32",
+    "moves": "f6d8 d1d8",
+    "themes": "endgame mate mateIn1 oneMove pillsburysMate"
+  },
+  {
+    "id": "1F0FT",
+    "fen": "r1bqk2r/pp1p2p1/2nBp1B1/4P3/5n1P/2P2N2/P1Q2PP1/1R2K2R b Kkq - 2 17",
+    "moves": "f4g6 c2g6",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "1F9ED",
+    "fen": "rn3rk1/2p1qppp/bp1b4/p2Pp1N1/8/2P3P1/PPQ2PBP/R1BR2K1 b - - 2 16",
+    "moves": "b8d7 c2h7",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "1FG7A",
+    "fen": "r2r4/p4kp1/2p2p1p/8/P7/bP6/4RPPP/R5K1 w - - 0 22",
+    "moves": "a1a3 d8d1 e2e1 d1e1",
+    "themes": "backRankMate endgame mate mateIn2 rookEndgame short"
+  },
+  {
+    "id": "1FNBk",
+    "fen": "5rk1/1p2qpb1/p4np1/P4bBp/2NR3Q/1B6/1P2N1PP/7K w - - 1 28",
+    "moves": "e2g3 e7e1 g3f1 e1f1",
+    "themes": "kingsideAttack mate mateIn2 middlegame short"
+  },
+  {
+    "id": "1FQQY",
+    "fen": "r2q4/pbpp2kp/1p4p1/6r1/2Q5/1PP2N2/5P1P/4RRK1 w - - 4 27",
+    "moves": "f3g5 d8g5 c4g4 g5g4",
+    "themes": "mate mateIn2 middlegame short"
+  },
+  {
+    "id": "1FTfH",
+    "fen": "5nk1/5p2/5Pb1/3q4/3B4/2Pp2KR/7R/q7 b - - 1 58",
+    "moves": "a1d1 h3h8",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "1FZ1C",
+    "fen": "rnb3k1/ppp5/6q1/3pB3/3Ppr1p/P1P4p/3Q1PP1/R4RK1 w - - 0 21",
+    "moves": "d2f4 g6g2",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "1FbSW",
+    "fen": "2kr4/2p5/pp5p/5n2/4Np2/P1P5/1P3PPP/4R1K1 w - - 0 24",
+    "moves": "e1e2 d8d1 e2e1 d1e1",
+    "themes": "backRankMate endgame mate mateIn2 short"
+  },
+  {
+    "id": "1FfYx",
+    "fen": "4Q2k/1b3qpp/8/2P5/1p6/8/1P3PPP/4R1K1 b - - 0 27",
+    "moves": "f7e8 e1e8",
+    "themes": "backRankMate endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "1FgNr",
+    "fen": "3r4/p4pkp/1pn3p1/2p5/P1P5/6Q1/3r1PPP/1q3RK1 w - - 0 27",
+    "moves": "f1b1 d2d1 b1d1 d8d1",
+    "themes": "backRankMate endgame mate mateIn2 short"
+  },
+  {
+    "id": "1FoMr",
+    "fen": "2r1k2r/p2bnpp1/1pq1p2p/4P2P/3Q1PP1/2N4B/PPP5/2KR3R w k - 0 18",
+    "moves": "c3e4 c6c2",
+    "themes": "mate mateIn1 middlegame oneMove queensideAttack"
+  },
+  {
+    "id": "1GAwu",
+    "fen": "8/p1kr3p/1p6/2p1q3/8/B7/P5PP/4R2K w - - 0 33",
+    "moves": "e1e5 d7d1 e5e1 d1e1",
+    "themes": "backRankMate endgame mate mateIn2 short"
+  },
+  {
+    "id": "1GCpm",
+    "fen": "rn1qr1k1/ppp2ppp/3b4/5b2/3Pp3/3B1N2/PPP1QPPP/R1B1R1K1 b - - 1 11",
+    "moves": "e4d3 e2e8 d8e8 e1e8",
+    "themes": "advantage kingsideAttack opening short"
+  },
+  {
+    "id": "1GI4V",
+    "fen": "2q1r1k1/5pp1/7r/6Q1/6RN/PP4PK/8/8 b - - 2 33",
+    "moves": "c8e6 g5g7",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "1GIPq",
+    "fen": "3r4/1b3kbQ/pp2p1p1/5p2/P7/2N3R1/1P4PP/3q3K w - - 3 30",
+    "moves": "c3d1 d8d1",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "1GPGY",
+    "fen": "r7/r4pk1/6p1/3R2Qp/7P/1B3P2/PPq3P1/K2R4 w - - 3 31",
+    "moves": "b3c2 a7a2 a1b1 a2a1",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "1GPQy",
+    "fen": "8/1b3pk1/p7/1p5p/1P2p3/3rN1PP/1R3PK1/8 b - - 3 41",
+    "moves": "d3d4 e3f5 g7f6 f5d4",
+    "themes": "advantage endgame fork short"
+  },
+  {
+    "id": "1GTEt",
+    "fen": "rQ4k1/5ppp/3p4/2p5/2rpq3/7P/1Q3PP1/6K1 b - - 0 29",
+    "moves": "a8b8 b2b8 e4e8 b8e8",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "1GVOY",
+    "fen": "r2r2k1/4bpp1/p1Rp3p/N2Pp2b/Q3P3/BB6/P4qPP/2R1n2K w - - 4 27",
+    "moves": "c1e1 f2e1",
+    "themes": "backRankMate hangingPiece mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "1GeNk",
+    "fen": "5rk1/1p3pp1/p2qpn1p/8/1P6/P3PN2/1Q3PPP/2R3K1 w - - 1 25",
+    "moves": "c1c4 d6d1 f3e1 d1e1",
+    "themes": "endgame kingsideAttack mate mateIn2 short"
+  },
+  {
+    "id": "1Gkol",
+    "fen": "r4rk1/ppqb1ppp/2nbp3/8/2pPQ3/2P2N1P/PPB2PP1/R1B2RK1 b - - 0 13",
+    "moves": "c6e7 e4h7",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "1GlQS",
+    "fen": "2k5/1p2n1p1/p3Np2/3r3P/8/1P6/P4P2/2KR4 b - - 2 25",
+    "moves": "d5h5 d1d8",
+    "themes": "endgame master mate mateIn1 oneMove"
+  },
+  {
+    "id": "1Guc8",
+    "fen": "2r2rk1/1b3pbp/pnq1pnp1/1p2P3/3P4/PPNBB2P/3QN1P1/3R1RK1 w - - 1 18",
+    "moves": "e5f6 c6g2",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "1Gxbh",
+    "fen": "6k1/5pp1/4p1Pp/R7/7P/4K3/1p6/5r2 b - - 2 46",
+    "moves": "b2b1q a5a8 b1b8 a8b8",
+    "themes": "endgame mate mateIn2 queenRookEndgame short"
+  },
+  {
+    "id": "1Gzgx",
+    "fen": "r1b4r/ppp2pk1/2np3p/4p1q1/2B1P1P1/2NP1Q2/PPP2P2/R3K2R b KQ - 1 13",
+    "moves": "c8g4 f3f7",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "1H6Jo",
+    "fen": "1r4k1/R4ppp/4p3/2BpP3/3P4/5PK1/2r3PP/8 b - - 6 28",
+    "moves": "b8b2 a7a8 b2b8 a8b8",
+    "themes": "backRankMate endgame master mate mateIn2 short"
+  },
+  {
+    "id": "1H6Nd",
+    "fen": "r1bR2k1/pp2rppp/2p1p2n/8/2B4q/1Q5P/P5P1/5R1K b - - 1 25",
+    "moves": "e7e8 d8e8",
+    "themes": "hangingPiece kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "1HHNZ",
+    "fen": "1br2rk1/ppqn1ppp/2p1pn2/8/1PPP4/P1N2b1P/1BQ1BPP1/R4RK1 w - - 0 18",
+    "moves": "e2f3 c7h2",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "1HJVr",
+    "fen": "5rk1/pb3ppp/1p2p3/3q4/P2P4/1P2Q3/2r2PPP/R2RN1K1 w - - 4 22",
+    "moves": "e1c2 d5g2",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "1HRgN",
+    "fen": "6k1/p4p1p/n1p1rP1p/8/8/PP5P/2P3P1/3R3K b - - 2 25",
+    "moves": "a6c5 d1d8 e6e8 d8e8",
+    "themes": "endgame master mate mateIn2 short"
+  },
+  {
+    "id": "1Ha5D",
+    "fen": "8/7p/pR3ppk/1p1p4/3P4/1Pr2N2/P4PPP/6K1 w - - 0 28",
+    "moves": "b6f6 c3c1 f3e1 c1e1",
+    "themes": "backRankMate endgame mate mateIn2 short"
+  },
+  {
+    "id": "1Hg5G",
+    "fen": "2r2rk1/1bnn1ppp/p3p3/3pP3/2pP4/q1P2PN1/2Q3PP/RB1N1R1K b - - 3 20",
+    "moves": "a3a1 c2h7",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "1HlU5",
+    "fen": "1r2k3/p1p2pp1/2p1p1q1/3p4/3Pb2r/1N2P1P1/PP2QP1K/R4R2 w - - 0 18",
+    "moves": "g3h4 g6g2",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "1HuOh",
+    "fen": "3r1k2/3P1p1p/2R2Kp1/6P1/5P2/7P/8/8 b - - 0 47",
+    "moves": "d8d7 c6c8 d7d8 c8d8",
+    "themes": "endgame mate mateIn2 rookEndgame short"
+  },
+  {
+    "id": "1Hv38",
+    "fen": "5rk1/5ppp/p3p3/1p6/6Q1/8/2qN3P/6RK b - - 1 29",
+    "moves": "f7f5 g4g7",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "1HxMt",
+    "fen": "r4rk1/2q2pp1/p1p1b2p/3p1PB1/B2P2n1/8/PP2Q1P1/RN3RbK w - - 1 18",
+    "moves": "e2g4 c7h2",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "1I45Y",
+    "fen": "r2k3r/2pq1Bpp/p7/8/3Q4/8/PP3PPP/RN4K1 w - - 2 26",
+    "moves": "d4g7 d7d1",
+    "themes": "backRankMate mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "1IBrp",
+    "fen": "r2q1rk1/4nbpp/pnp1pp2/1p1p4/1P1P1P2/P1P2N1P/2QN1PP1/1BR2RK1 b - - 2 15",
+    "moves": "a6a5 c2h7",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "1IGoD",
+    "fen": "5r1k/3Q1pp1/p6p/1p1P4/2p5/3qP3/1nR2PPP/5R1K w - - 1 31",
+    "moves": "c2b2 d3f1",
+    "themes": "endgame hangingPiece mate mateIn1 oneMove"
+  },
+  {
+    "id": "1IlhZ",
+    "fen": "rnb1k1nr/pppp1p1p/5q2/2b1p3/4P1p1/3P1NP1/PPP2PBP/RNBQK2R w KQkq - 0 6",
+    "moves": "f3d2 f6f2",
+    "themes": "attackingF2F7 mate mateIn1 oneMove opening"
+  },
+  {
+    "id": "1Iw3x",
+    "fen": "1r4k1/p4p1p/4p1p1/3p4/8/2q1P3/PP3PPP/1Q4K1 w - - 0 22",
+    "moves": "b2c3 b8b1",
+    "themes": "backRankMate endgame hangingPiece master mate mateIn1 oneMove superGM"
+  },
+  {
+    "id": "1IwOE",
+    "fen": "8/3k4/2p5/2K5/7P/8/8/8 b - - 1 39",
+    "moves": "d7c7 h4h5 c7d8 h5h6 d8e7 h6h7",
+    "themes": "endgame"
+  },
+  {
+    "id": "1Iy7m",
+    "fen": "r4rk1/4qpp1/p2pb2p/1ppP4/2n5/2PQ1N1P/PPB3P1/R4RK1 b - - 2 23",
+    "moves": "c4b2 d3h7",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "1Iydp",
+    "fen": "3r1rk1/3q1pp1/1p2p2p/pP1b4/Pp1Qn3/4P3/1B1PBPPP/R4RK1 b - - 1 18",
+    "moves": "d7b7 d4g7",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "1J0l2",
+    "fen": "r1b2k1r/pp3pbp/6p1/1B6/3q3B/8/P3QPPP/R4RK1 b - - 3 18",
+    "moves": "d4h4 e2e8",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "1JCer",
+    "fen": "2kr4/6Q1/p6p/3p1Pp1/8/1qP4R/1P4PP/7K w - - 3 34",
+    "moves": "g7e5 b3d1 e5e1 d1e1",
+    "themes": "backRankMate endgame mate mateIn2 short"
+  },
+  {
+    "id": "1JDWo",
+    "fen": "5Q1k/2n3pp/8/1pq1n1P1/3pP2P/1P6/r1P1K3/2R2R2 b - - 7 32",
+    "moves": "c5f8 f1f8",
+    "themes": "backRankMate endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "1JF3i",
+    "fen": "r2q1r1k/ppb3p1/7p/2Pp3b/2PQ1p2/5N1P/PB4P1/R4nK1 b - - 0 23",
+    "moves": "h5f3 d4g7",
+    "themes": "kingsideAttack master mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "1JRDG",
+    "fen": "3r1rk1/ppp2p2/6p1/3q4/P2p4/1P2QNP1/6K1/B6R b - - 0 28",
+    "moves": "d4e3 h1h8",
+    "themes": "endgame mate mateIn1 oneMove operaMate"
+  },
+  {
+    "id": "1JUbL",
+    "fen": "r2q1rk1/pp2bpp1/n3pN1p/2p5/2PP4/P2Q3P/1P3PP1/RBB1R1K1 b - - 0 18",
+    "moves": "e7f6 d3h7",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "1JUhj",
+    "fen": "2Q4k/5pqp/8/3p4/1p6/1P6/6PP/b6K b - - 0 30",
+    "moves": "g7f8 c8f8",
+    "themes": "endgame hangingPiece mate mateIn1 oneMove"
+  },
+  {
+    "id": "1JVnc",
+    "fen": "5k2/5p1p/5p2/5N1b/8/3r2P1/6PP/2R3K1 b - - 2 30",
+    "moves": "h5g6 c1c8 d3d8 c8d8",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "1JWku",
+    "fen": "3kr3/1pp3pp/2b1p1qn/p3P3/P2p4/2P4P/1P1NQPP1/R3R1K1 w - - 0 19",
+    "moves": "c3d4 g6g2",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "1Jj3k",
+    "fen": "4r1k1/3R1pp1/4r2p/p7/Pp3P2/6B1/3p2PP/4R2K w - - 0 39",
+    "moves": "d7d2 e6e1 g3e1 e8e1",
+    "themes": "backRankMate endgame mate mateIn2 short"
+  },
+  {
+    "id": "1JnYx",
+    "fen": "2r5/P7/1B2ppkn/6pp/8/3R4/5PPP/6K1 w - - 0 43",
+    "moves": "d3d8 c8c1 d8d1 c1d1",
+    "themes": "backRankMate endgame mate mateIn2 short"
+  },
+  {
+    "id": "1JpwF",
+    "fen": "7k/r2q1r1p/5Qp1/p3RN2/P1P5/3P3P/1P3PP1/4R1K1 b - - 0 28",
+    "moves": "f7f6 e5e8 d7e8 e1e8 f6f8 e8f8",
+    "themes": "endgame long mate mateIn3"
+  },
+  {
+    "id": "1K2Ce",
+    "fen": "Q7/p1p1kpp1/1p1q3p/1P6/8/7P/P4PP1/5K2 w - - 6 32",
+    "moves": "a8a7 d6d1",
+    "themes": "endgame mate mateIn1 oneMove queenEndgame"
+  },
+  {
+    "id": "1K2SR",
+    "fen": "5rk1/2p3pp/1p4r1/p2PQ3/2P1P1b1/5pP1/1BB2P1q/R5RK w - - 0 33",
+    "moves": "h1h2 g6h6 e5h5 h6h5",
+    "themes": "mate mateIn2 middlegame short"
+  },
+  {
+    "id": "1K618",
+    "fen": "2q3k1/6bp/p3ppp1/Qp1pP3/5P2/1B6/PP3PPP/6K1 w - - 0 26",
+    "moves": "e5f6 c8c1 b3d1 c1d1 a5e1 d1e1",
+    "themes": "endgame long mate mateIn3"
+  },
+  {
+    "id": "1K61q",
+    "fen": "1r5k/2Q2pp1/1r2p2p/3bP3/8/3BP2P/5PP1/6K1 b - - 2 30",
+    "moves": "b8b7 c7c8",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "1K9Ib",
+    "fen": "2r2r2/3b1ppk/p1qPp2p/1pN5/8/3RQ2P/PPP2PP1/2KR4 w - - 6 22",
+    "moves": "c5d7 c6c2",
+    "themes": "mate mateIn1 middlegame oneMove queensideAttack"
+  },
+  {
+    "id": "1KEec",
+    "fen": "3r3k/1p1R2pp/p7/2p2p2/2P5/8/PP3PPP/4R1K1 b - - 0 22",
+    "moves": "d8d7 e1e8",
+    "themes": "backRankMate endgame mate mateIn1 oneMove rookEndgame"
+  },
+  {
+    "id": "1KHZs",
+    "fen": "r3R2k/6pp/p6q/1p1N4/3P4/2P2r1P/PP6/4R2K b - - 3 34",
+    "moves": "a8e8 e1e8 f3f8 e8f8",
+    "themes": "backRankMate endgame mate mateIn2 short"
+  },
+  {
+    "id": "1KICz",
+    "fen": "r3r3/pb2qpkp/1p3np1/2pp4/2N1P3/1P3Q2/P1B2PPP/3RR1K1 w - - 2 21",
+    "moves": "e4d5 e7e1 d1e1 e8e1",
+    "themes": "backRankMate mate mateIn2 middlegame short"
+  },
+  {
+    "id": "1KMXs",
+    "fen": "5r1k/pp4pp/3P4/2P3b1/8/1P3QPb/P7/4R1K1 b - - 0 28",
+    "moves": "f8f3 e1e8 f3f8 e8f8",
+    "themes": "backRankMate endgame mate mateIn2 short"
+  },
+  {
+    "id": "1KSVR",
+    "fen": "r1b3k1/p5pp/4p2r/3p4/3P3q/P3Pp2/1P1Q1P1P/R4BRK w - - 6 22",
+    "moves": "h2h3 h4h3 f1h3 h6h3",
+    "themes": "kingsideAttack mate mateIn2 middlegame sacrifice short"
+  },
+  {
+    "id": "1KYS7",
+    "fen": "3r2k1/1q3p2/4p2p/1p1pPp2/p3n3/6P1/PPQ1PPBP/2R3K1 b - - 0 24",
+    "moves": "d8c8 c2c8 b7c8 c1c8",
+    "themes": "crushing endgame short"
+  },
+  {
+    "id": "1KZYW",
+    "fen": "3r1rk1/1p3p1p/p3p1p1/8/PQ2PP2/6N1/BP4PP/R1Bq1b1K w - - 0 23",
+    "moves": "g3f1 d1f1",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "1Kb1h",
+    "fen": "r1Q3k1/pp3p2/6q1/3pB3/8/3n4/P4PPP/2R3K1 b - - 2 26",
+    "moves": "a8c8 c1c8 g8h7 c8h8",
+    "themes": "endgame mate mateIn2 operaMate short"
+  },
+  {
+    "id": "1KdQi",
+    "fen": "r3k1nr/1b1p1ppp/p1q1p3/1p6/1b2PB2/2N3P1/PPP2PBP/R2Q1RK1 w kq - 2 11",
+    "moves": "e4e5 c6g2",
+    "themes": "kingsideAttack mate mateIn1 oneMove opening"
+  },
+  {
+    "id": "1KiG0",
+    "fen": "r2qr1k1/ppp2ppp/3p4/3P4/2PQ2b1/5N2/PB3PPP/R5K1 b - - 2 17",
+    "moves": "g4f3 d4g7",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "1Kqlt",
+    "fen": "3r2k1/pp4p1/1np2bBp/1r5P/8/1P2R3/2P3P1/1K2R3 b - - 15 38",
+    "moves": "g8f8 e3e8 d8e8 e1e8",
+    "themes": "mate mateIn2 middlegame operaMate short"
+  },
+  {
+    "id": "1KxHK",
+    "fen": "r5k1/pp2qpp1/3b4/2p4p/4Q3/2P4P/PP3PP1/R1B3K1 w - - 1 18",
+    "moves": "e4f3 e7e1",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "1LBXx",
+    "fen": "8/2Q5/p7/1p1r1p1B/2p5/Pk1q4/1P6/K3R3 w - - 1 41",
+    "moves": "h5d1 d3d1 e1d1 d5d1",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "1LIrw",
+    "fen": "4Br2/5P2/1p5k/5Kp1/8/pr6/R7/8 b - - 1 50",
+    "moves": "h6h5 a2h2 b3h3 h2h3",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "1LPAo",
+    "fen": "8/4R2p/3r2pk/8/8/1P6/6PP/7K w - - 1 38",
+    "moves": "b3b4 d6d1 e7e1 d1e1",
+    "themes": "backRankMate endgame mate mateIn2 rookEndgame short"
+  },
+  {
+    "id": "1LRTS",
+    "fen": "1r3r1k/p3R2p/1p6/2pB2p1/2Pq4/6P1/P3QPK1/8 b - - 9 40",
+    "moves": "f8f2 e2f2 d4f2 g2f2",
+    "themes": "advantage endgame short"
+  },
+  {
+    "id": "1LabH",
+    "fen": "4r1k1/p2R2p1/6p1/6N1/6P1/P1b1P3/3p3P/5K2 b - - 2 33",
+    "moves": "e8e3 d7d8 e3e8 d8e8",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "1Ljlg",
+    "fen": "N6q/1p1k4/3p2Q1/p5p1/P1n1P1b1/1N3rP1/1PP5/2K4R w - - 1 27",
+    "moves": "h1h8 f3f1",
+    "themes": "master mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "1Ln6Q",
+    "fen": "3rR1k1/p2Q1ppp/5b2/8/8/1P3PP1/P1qp1PKP/8 b - - 1 41",
+    "moves": "d8e8 d7e8",
+    "themes": "endgame master mate mateIn1 oneMove"
+  },
+  {
+    "id": "1LpQb",
+    "fen": "3r2k1/pQ3pp1/1b5p/8/8/nPP5/P4PPP/4R2K w - - 1 28",
+    "moves": "e1e7 d8d1 e7e1 d1e1",
+    "themes": "backRankMate endgame mate mateIn2 short"
+  },
+  {
+    "id": "1M0HW",
+    "fen": "r1q2b1r/ppNk1pp1/6bp/3p4/5Q1P/1P3P2/PBP3P1/2K3NR w - - 1 17",
+    "moves": "c7a8 c8c2",
+    "themes": "mate mateIn1 middlegame oneMove queensideAttack"
+  },
+  {
+    "id": "1M0xA",
+    "fen": "5k2/4pp2/3n4/3P3Q/1r4B1/5PK1/2r5/8 b - - 0 40",
+    "moves": "b4b2 h5h8",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "1M1C4",
+    "fen": "2kr4/1ppr3p/p3N1p1/1n6/6Q1/4B3/5PPP/2Rq2K1 w - - 2 31",
+    "moves": "c1d1 d7d1 g4d1 d8d1",
+    "themes": "backRankMate mate mateIn2 middlegame short"
+  },
+  {
+    "id": "1M1ti",
+    "fen": "3r1rk1/1pqn1ppp/2p1p3/p3P1Nn/PbPP2b1/2NQ2P1/1B3PBP/R3R1K1 b - - 2 16",
+    "moves": "h7h6 d3h7",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "1MD3K",
+    "fen": "4r3/p4N2/k1p3pp/3b4/1P1R4/P5P1/4rP1P/2R3K1 w - - 1 29",
+    "moves": "f7d6 e2e1 c1e1 e8e1",
+    "themes": "endgame mate mateIn2 pillsburysMate short"
+  },
+  {
+    "id": "1MLnE",
+    "fen": "3r2k1/pp3ppp/8/8/8/P2B2P1/1PR3KP/8 b - - 0 28",
+    "moves": "d8d3 c2c8 d3d8 c8d8",
+    "themes": "backRankMate endgame mate mateIn2 rookEndgame short"
+  },
+  {
+    "id": "1MO3r",
+    "fen": "8/8/5p1R/4pk1p/7P/r4P2/5PK1/8 b - - 4 43",
+    "moves": "f5f4 h6f6",
+    "themes": "endgame master mate mateIn1 oneMove rookEndgame"
+  },
+  {
+    "id": "1MPVI",
+    "fen": "r1bQ1k1r/1p2bpp1/p6p/1B2R3/5B1q/8/PP4PP/5R1K b - - 1 24",
+    "moves": "e7d8 e5e8",
+    "themes": "mate mateIn1 middlegame oneMove operaMate"
+  },
+  {
+    "id": "1MTa8",
+    "fen": "8/2r3k1/RpNnp1pp/1P1p2p1/3P4/4P3/5PPP/6K1 w - - 8 33",
+    "moves": "c6d8 c7c1",
+    "themes": "backRankMate endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "1MdEd",
+    "fen": "4r1k1/ppR2ppp/8/1P1p4/PQ1b4/6B1/5PPP/4q1K1 w - - 8 30",
+    "moves": "b4e1 e8e1",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "1Megr",
+    "fen": "1rQ4k/6p1/1P2pp1p/6q1/3p4/3BP2P/5PP1/2R3K1 b - - 1 40",
+    "moves": "b8c8 c1c8",
+    "themes": "endgame master mate mateIn1 oneMove pillsburysMate"
+  },
+  {
+    "id": "1Mh9J",
+    "fen": "4qrk1/r2b1pp1/1pp1pn1p/p3P3/Pb1P2P1/3Q1N1P/1P2RP1B/1BR3K1 b - - 0 22",
+    "moves": "f6d5 d3h7",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "1Mk3f",
+    "fen": "r4rk1/pbq1bppp/2n1p3/1pp1P3/4Q1n1/2P2N2/PPBN1PPP/R1B1R1K1 b - - 6 13",
+    "moves": "g4h6 e4h7",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "1MkJV",
+    "fen": "2r1r1k1/p4ppp/2p5/q2nB3/2pP4/PQ6/5PPP/2R1R1K1 w - - 0 23",
+    "moves": "c1c4 a5e1",
+    "themes": "hangingPiece kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "1Mm6q",
+    "fen": "7k/ppR3p1/3p2P1/8/1P3r1r/P4R2/8/6K1 b - - 0 34",
+    "moves": "f4f3 c7c8 f3f8 c8f8",
+    "themes": "endgame mate mateIn2 rookEndgame short"
+  },
+  {
+    "id": "1N0Ki",
+    "fen": "8/4k3/2p1p3/pp3q2/4N3/7p/PP2R2R/1K6 w - - 0 44",
+    "moves": "b1a1 f5f1 e2e1 f1e1",
+    "themes": "backRankMate endgame mate mateIn2 short"
+  },
+  {
+    "id": "1N0yo",
+    "fen": "3r2k1/1R3ppp/8/1p6/p1p1P3/2P2P2/P3K1PP/8 b - - 0 32",
+    "moves": "d8d3 b7b8 d3d8 b8d8",
+    "themes": "backRankMate endgame mate mateIn2 rookEndgame short"
+  },
+  {
+    "id": "1N1S6",
+    "fen": "2rR2k1/1r3ppp/2p5/4p3/Np2P1n1/8/PPP2PPP/3R2K1 b - - 3 20",
+    "moves": "c8d8 d1d8",
+    "themes": "backRankMate endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "1NTlL",
+    "fen": "2r5/R3ppkp/3b2p1/3P4/3p4/7P/1r3PP1/2R3K1 w - - 0 26",
+    "moves": "c1c8 b2b1 c8c1 b1c1",
+    "themes": "endgame mate mateIn2 pillsburysMate short"
+  },
+  {
+    "id": "1Ne5O",
+    "fen": "2r5/1k6/1p2p3/4P3/3n3B/6RP/5PP1/5K2 w - - 7 37",
+    "moves": "g3g4 c8c1",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "1Ne8U",
+    "fen": "r1bq1rk1/p2n1pp1/2p1pb1p/1p4N1/3P3P/3Q1N2/PPP2PP1/1K1R1B1R b - - 2 12",
+    "moves": "a7a5 d3h7",
+    "themes": "mate mateIn1 oneMove opening"
+  },
+  {
+    "id": "1Ni59",
+    "fen": "r1br1R1k/pp4pp/2p5/3p4/2B1P3/2P5/PP1N2PP/5RK1 b - - 1 16",
+    "moves": "d8f8 f1f8",
+    "themes": "backRankMate endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "1NwYa",
+    "fen": "rn1qkb1r/pbppp1pp/1p3p1B/8/2PPP3/2N5/PP3PPP/R2QKBNR b KQkq - 0 5",
+    "moves": "g7h6 d1h5",
+    "themes": "mate mateIn1 oneMove opening"
+  },
+  {
+    "id": "1Nxo0",
+    "fen": "2b3k1/2r2r1p/4pPQ1/2qpP3/3N2P1/pPP4R/K6R/8 b - - 0 39",
+    "moves": "h7g6 h3h8",
+    "themes": "master mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "1O4IV",
+    "fen": "8/8/p1p5/P1p3P1/1pPk1p2/1P6/5K2/8 b - - 0 40",
+    "moves": "d4c3 g5g6 c3b3 g6g7",
+    "themes": "advancedPawn crushing endgame pawnEndgame short"
+  },
+  {
+    "id": "1O5z2",
+    "fen": "rn3bkr/2p1p1pp/pp6/8/P2P4/1QN5/1P3PqP/R1B1K2R b KQ - 1 13",
+    "moves": "e7e6 b3e6",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "1OBOS",
+    "fen": "4Q2k/qb2p2p/1N1b1npB/p7/2B5/2P5/PP4PP/5RK1 b - - 2 26",
+    "moves": "f6e8 f1f8",
+    "themes": "mate mateIn1 middlegame oneMove pillsburysMate"
+  },
+  {
+    "id": "1OG5d",
+    "fen": "r2q1rk1/ppp2ppp/1nn5/4p3/3P2b1/3Q1N2/PPBN1PPP/R4RK1 b - - 1 13",
+    "moves": "e5d4 d3h7",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "1OJDu",
+    "fen": "4r1k1/pp3ppp/6q1/nQ1p4/3P4/2P1BR2/PP4PP/6K1 b - - 5 21",
+    "moves": "a5c4 b5e8",
+    "themes": "endgame hangingPiece kingsideAttack mate mateIn1 oneMove"
+  },
+  {
+    "id": "1ONXt",
+    "fen": "rn3rk1/ppq1ppbp/2p3p1/8/2PP2n1/2N1BN2/PP2BPP1/R2Q1RK1 w - - 2 12",
+    "moves": "f3g5 c7h2",
+    "themes": "mate mateIn1 oneMove opening"
+  },
+  {
+    "id": "1OPOm",
+    "fen": "3r1rk1/p5p1/1p5p/2B1P3/4Q3/2P4R/PP4PP/R2q2K1 w - - 1 22",
+    "moves": "a1d1 d8d1 e4e1 d1e1",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "1OQc2",
+    "fen": "6k1/RR5p/6pb/1p6/8/1P2nNP1/P1r2PKP/8 w - - 5 32",
+    "moves": "g2g1 c2c1 f3e1 c1e1",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "1OZat",
+    "fen": "r2qbrk1/2p2ppp/1pNn4/p2p4/2P5/2Q5/PB3PPP/R2R2K1 b - - 1 23",
+    "moves": "e8c6 c3g7",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "1ObQh",
+    "fen": "R7/P4kp1/2p2p2/2Pp3P/3P1KP1/r4P2/8/8 w - - 1 45",
+    "moves": "f4f5 a3f3",
+    "themes": "endgame master mate mateIn1 oneMove rookEndgame"
+  },
+  {
+    "id": "1OiNw",
+    "fen": "8/8/p7/8/1k5K/7P/6P1/8 w - - 1 45",
+    "moves": "h4g5 a6a5 g2g4 a5a4",
+    "themes": "crushing defensiveMove endgame master pawnEndgame quietMove short"
+  },
+  {
+    "id": "1Oqen",
+    "fen": "8/B6R/4k1p1/4P3/2PP4/2n4P/3rnPP1/5K2 w - - 3 38",
+    "moves": "f1e1 d2d1",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "1Os1o",
+    "fen": "4r1k1/5ppp/8/pp6/2nqr3/PQ2P3/5PPP/2R1R1K1 w - - 0 24",
+    "moves": "e3d4 e4e1 c1e1 e8e1",
+    "themes": "backRankMate endgame mate mateIn2 short"
+  },
+  {
+    "id": "1OsYQ",
+    "fen": "rn1bR2k/1pp2rpp/p7/8/2B5/7P/PPb2PP1/RNB3K1 b - - 0 15",
+    "moves": "f7f8 e8f8",
+    "themes": "backRankMate hangingPiece mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "1PLkI",
+    "fen": "1k1Q3r/p1p5/1p6/4q3/4B1P1/8/PPP2P2/3R2K1 b - - 5 32",
+    "moves": "h8d8 d1d8",
+    "themes": "endgame mate mateIn1 oneMove pillsburysMate"
+  },
+  {
+    "id": "1PPLW",
+    "fen": "r1b2rk1/p2n2bp/2N1pq2/1N1p2p1/Pp1P1B2/4P1P1/5P1P/R2QK2R w KQ - 0 17",
+    "moves": "f4d6 f6f2",
+    "themes": "attackingF2F7 mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "1PWwt",
+    "fen": "8/p2R2pk/7p/4P3/4b3/rr2P1P1/P4P1P/R5K1 w - - 0 29",
+    "moves": "a2b3 a3a1 d7d1 a1d1",
+    "themes": "endgame hangingPiece mate mateIn2 pillsburysMate short"
+  },
+  {
+    "id": "1PXhn",
+    "fen": "1k6/ppn2pp1/4pb1p/1P6/r7/4NB1P/3R1PP1/6K1 b - - 1 33",
+    "moves": "f6e5 d2d8",
+    "themes": "endgame master mate mateIn1 oneMove"
+  },
+  {
+    "id": "1PYhJ",
+    "fen": "5r2/p6p/6pk/3R2q1/6n1/2N3Q1/PPP2rP1/5RK1 w - - 0 24",
+    "moves": "d5g5 f2f1",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "1Plg2",
+    "fen": "2k5/ppp2ppp/5r2/2Np4/2nP4/P1P2P2/2P2KPP/4R3 b - - 1 20",
+    "moves": "b7b6 e1e8",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "1PoPJ",
+    "fen": "6k1/ppb1qppp/4rp2/2PR4/1P6/P1B2Q1P/5PP1/6K1 w - - 1 26",
+    "moves": "f3f5 e6e1 c3e1 e7e1",
+    "themes": "endgame kingsideAttack mate mateIn2 sacrifice short"
+  },
+  {
+    "id": "1Pv6m",
+    "fen": "5Bk1/1q3pp1/p6p/5b2/1P6/P6P/3Q2P1/6K1 b - - 0 42",
+    "moves": "g8f8 d2d8",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "1Q9EN",
+    "fen": "r1b2rk1/1pq2ppp/p3p1n1/3p3Q/8/2N3P1/PPP2PP1/1R2KB1R b K - 0 20",
+    "moves": "c8d7 h5h7",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "1QPsT",
+    "fen": "r1bk3r/p2pnBp1/1B1p3p/6q1/4P3/1Q6/P4PPP/R4RK1 b - - 0 18",
+    "moves": "a7b6 b3b6",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "1QYF8",
+    "fen": "6k1/p4pp1/1b5p/8/4n3/PB6/1PPr2PP/4R2K w - - 0 30",
+    "moves": "e1e4 d2d1 e4e1 d1e1",
+    "themes": "backRankMate endgame mate mateIn2 short"
+  },
+  {
+    "id": "1QaQe",
+    "fen": "5r2/pp4pk/8/2bR3p/8/2P5/P2B2PP/R4q1K w - - 1 24",
+    "moves": "a1f1 f8f1",
+    "themes": "backRankMate endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "1Qgee",
+    "fen": "2kr3r/ppp2ppp/2nb1n2/4q3/8/2N1PB1P/PPPB1PP1/R2Q1RK1 w - - 1 12",
+    "moves": "f3c6 e5h2",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "1QiXD",
+    "fen": "5r2/2RR4/1p2p1pk/p6p/P6P/1P3P2/1P3rPK/8 b - - 2 37",
+    "moves": "f2b2 d7h7",
+    "themes": "endgame master mate mateIn1 oneMove rookEndgame"
+  },
+  {
+    "id": "1QrU5",
+    "fen": "8/3R1pkp/4p1p1/8/r1r1p3/4P3/5PPP/R5K1 w - - 0 24",
+    "moves": "a1a4 c4c1 d7d1 c1d1",
+    "themes": "backRankMate endgame mate mateIn2 rookEndgame short"
+  },
+  {
+    "id": "1RIbY",
+    "fen": "2Q2rk1/6pp/4p3/1q1bNp2/p2p3P/6P1/1P6/1BR3K1 b - - 0 40",
+    "moves": "f8c8 c1c8 b5e8 c8e8",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "1RJLM",
+    "fen": "5rk1/1pq1bppp/3p1n2/1p3P2/3QP1P1/2B4P/rPP5/2KR1B1R b - - 1 21",
+    "moves": "f6d7 d4g7",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "1RMFQ",
+    "fen": "r3r1k1/p4ppp/1pn5/2p1b2q/8/2PPQN2/PP3PPP/R3R2K b - - 6 21",
+    "moves": "e5h2 e3e8 a8e8 e1e8",
+    "themes": "backRankMate mate mateIn2 middlegame short"
+  },
+  {
+    "id": "1RRrb",
+    "fen": "6k1/7p/3r1ppQ/B3b3/1p2P3/7P/5PP1/2Rq2K1 w - - 2 38",
+    "moves": "c1d1 d6d1",
+    "themes": "endgame mate mateIn1 oneMove pillsburysMate"
+  },
+  {
+    "id": "1RS6H",
+    "fen": "r1bqk2r/pp2bp1p/2np2p1/2p1p1Nn/2B1P3/3P1Q2/PPP2PPP/RNB1K2R b KQkq - 1 10",
+    "moves": "e7g5 f3f7",
+    "themes": "attackingF2F7 mate mateIn1 oneMove opening"
+  },
+  {
+    "id": "1Rf2R",
+    "fen": "r5k1/pb4p1/5q1p/1p2pp1N/2pr3P/6Q1/PPP2PP1/2K1R2R b - - 1 25",
+    "moves": "f6d6 g3g7",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "1RjYb",
+    "fen": "8/8/K5p1/P3k1p1/1P3pP1/7P/8/8 w - - 0 55",
+    "moves": "b4b5 f4f3 b5b6 f3f2 b6b7 f2f1q",
+    "themes": "advancedPawn crushing endgame long pawnEndgame promotion"
+  },
+  {
+    "id": "1Rm1s",
+    "fen": "1k2R2r/p1pQ2pp/1pP2b2/8/1q6/7P/5PP1/6K1 b - - 1 29",
+    "moves": "h8e8 d7e8 f6d8 e8d8",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "1Rq5W",
+    "fen": "4r1k1/5ppp/4qn2/8/8/1PN2Q2/P2P1PPP/R5K1 w - - 2 21",
+    "moves": "a2a4 e6e1 a1e1 e8e1",
+    "themes": "backRankMate endgame mate mateIn2 sacrifice short"
+  },
+  {
+    "id": "1RsKA",
+    "fen": "2r1kb1r/ppN2ppp/2N2n2/8/5p2/8/PPP2PPP/3RK2R b Kk - 3 14",
+    "moves": "c8c7 d1d8",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "1SEgI",
+    "fen": "1k6/2p4r/8/2P5/1p1p4/p7/PPP5/1K2R3 w - - 0 46",
+    "moves": "e1e4 h7h1 e4e1 h1e1",
+    "themes": "endgame mate mateIn2 rookEndgame short"
+  },
+  {
+    "id": "1SGCt",
+    "fen": "r1b1r3/1pp1qN1k/p3Bnpp/8/8/2PQ4/P1P2PPP/R3R1K1 w - - 0 20",
+    "moves": "e6c4 e7e1 a1e1 e8e1 d3f1 e1f1",
+    "themes": "advantage kingsideAttack long middlegame"
+  },
+  {
+    "id": "1SGdT",
+    "fen": "r1b1kb1r/1pqp1pp1/p1n1p3/6Bp/3pP1n1/2N2N1P/PPP1BPP1/R2Q1RK1 w kq - 0 10",
+    "moves": "f3d4 c7h2",
+    "themes": "mate mateIn1 oneMove opening"
+  },
+  {
+    "id": "1SMXF",
+    "fen": "5r1k/4b1p1/p2p3p/1p1Rpr2/4q3/P1PN1P2/1P4PP/3R3K w - - 0 30",
+    "moves": "f3e4 f5f1 d1f1 f8f1",
+    "themes": "backRankMate endgame mate mateIn2 short"
+  },
+  {
+    "id": "1SQn5",
+    "fen": "2q3k1/pp1bQppp/8/3p4/P5n1/1P6/5PKP/4R3 b - - 1 31",
+    "moves": "c8e8 e7e8 d7e8 e1e8",
+    "themes": "backRankMate endgame mate mateIn2 short"
+  },
+  {
+    "id": "1SRmW",
+    "fen": "2r1Q1k1/pbp2pp1/2p4q/3p2p1/8/2NB4/PPP2PPP/4R1K1 b - - 4 18",
+    "moves": "c8e8 e1e8",
+    "themes": "endgame kingsideAttack mate mateIn1 oneMove pillsburysMate"
+  },
+  {
+    "id": "1STUs",
+    "fen": "r3r1k1/2p2p1p/p3R1pB/1p2n3/8/3Q3P/PPP3P1/4R2K b - - 0 25",
+    "moves": "e5d3 e6e8 a8e8 e1e8",
+    "themes": "endgame mate mateIn2 pillsburysMate short"
+  },
+  {
+    "id": "1SZgo",
+    "fen": "1N2k3/1p2ppb1/6p1/p1R1P3/P1b2P2/1P2K3/8/8 b - - 0 30",
+    "moves": "c4b3 c5c8",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "1SaQf",
+    "fen": "r3r3/pp3pkp/6p1/1Pp2b2/3p4/R4N2/1Q3PPP/4q1K1 w - - 0 26",
+    "moves": "f3e1 e8e1",
+    "themes": "backRankMate endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "1SdED",
+    "fen": "1k6/p6r/PpR1B3/1P5p/8/3Pr1PK/8/8 b - - 6 40",
+    "moves": "h7g7 c6c8",
+    "themes": "endgame master mate mateIn1 oneMove operaMate"
+  },
+  {
+    "id": "1SjP9",
+    "fen": "r7/5pp1/7p/1N1RP3/2P5/1P2k3/6PP/6K1 w - - 3 30",
+    "moves": "d5d7 a8a1 d7d1 a1d1",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "1SklX",
+    "fen": "4r3/3R1ppp/kp6/8/8/2P5/P2p1PPP/6K1 w - - 3 29",
+    "moves": "g1f1 e8e1",
+    "themes": "endgame mate mateIn1 oneMove rookEndgame"
+  },
+  {
+    "id": "1Sx8Z",
+    "fen": "7r/1n2k1b1/Q3p2p/1N3p2/3Nq3/8/5PPP/5RK1 w - - 0 30",
+    "moves": "f1e1 e4e1",
+    "themes": "hangingPiece master mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "1SxMr",
+    "fen": "rn3rkn/pp1q2p1/3p4/2pPp1NP/2P5/3Q4/PP3PP1/2KR3R b - - 0 18",
+    "moves": "d7e7 d3h7",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "1Sznp",
+    "fen": "8/1pp1Q1pk/1p1p3p/1P2p3/1P2q3/6RP/6PK/5r2 b - - 3 30",
+    "moves": "e4f4 e7g7",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "1T7RQ",
+    "fen": "2r2rk1/p4pp1/7p/8/4Q3/P1q1P3/5PPP/R4RK1 w - - 0 20",
+    "moves": "f1c1 c3c1 a1c1 c8c1",
+    "themes": "backRankMate endgame mate mateIn2 short"
+  },
+  {
+    "id": "1TL5i",
+    "fen": "3r1k2/4p2p/4bb1P/p4p1Q/8/3r3P/P7/2R2KR1 w - - 2 29",
+    "moves": "c1c6 d3d1 h5d1 d8d1",
+    "themes": "crushing middlegame short"
+  },
+  {
+    "id": "1TTpO",
+    "fen": "r1b2rk1/p4ppp/1pp1pq2/3n4/3P4/2PQ1N1P/PPB2PP1/R4RK1 b - - 1 14",
+    "moves": "a7a5 d3h7",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "1TWIJ",
+    "fen": "4bk2/6p1/4R2p/1P6/2r5/8/1P3PPP/6K1 w - - 0 29",
+    "moves": "b5b6 c4c1 e6e1 c1e1",
+    "themes": "backRankMate endgame mate mateIn2 short"
+  },
+  {
+    "id": "1ToVp",
+    "fen": "1k2r3/p7/P1K4R/2p3P1/2Pb4/7p/7P/8 b - - 2 39",
+    "moves": "e8e5 h6h8 e5e8 h8e8",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "1Tpt3",
+    "fen": "r1bq1rk1/pp3pp1/3pp2p/2n5/1nPQ4/1B3N2/1BP2PPP/R4RK1 b - - 3 17",
+    "moves": "c5b3 d4g7",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "1Tq9C",
+    "fen": "1k3b1r/ppp2ppp/2n2n2/4Q3/5r2/2N5/PP3PPP/2KR1R2 b - - 0 14",
+    "moves": "c6e5 d1d8",
+    "themes": "backRankMate mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "1Ttli",
+    "fen": "r1b2rk1/1p1pqppp/p2b4/8/1P1Q4/P3P1P1/1B3PBP/R3K2R b KQ - 2 15",
+    "moves": "f8e8 d4g7",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "1TwlB",
+    "fen": "r5k1/ppp2p1p/6p1/1Pnp2q1/2r5/4R3/1Q3PPP/4R1K1 b - - 3 24",
+    "moves": "c4g4 e3e8 a8e8 e1e8",
+    "themes": "kingsideAttack mate mateIn2 middlegame short"
+  },
+  {
+    "id": "1TyiA",
+    "fen": "4rrk1/pp4p1/3bp2p/8/6R1/P2P3P/1P4P1/R1BQ1q1K w - - 2 23",
+    "moves": "d1f1 f8f1",
+    "themes": "mate mateIn1 middlegame oneMove pillsburysMate"
+  },
+  {
+    "id": "1U8o6",
+    "fen": "3r1k2/p1p2pp1/1np4p/4P3/2N5/2P1R3/PP3PPP/6K1 w - - 0 21",
+    "moves": "c4b6 d8d1 e3e1 d1e1",
+    "themes": "backRankMate endgame mate mateIn2 short"
+  },
+  {
+    "id": "1UDJ2",
+    "fen": "2r3k1/5p2/R5p1/5bPp/7P/pP6/P7/K1rR4 w - - 2 32",
+    "moves": "d1c1 c8c1",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "1UK9l",
+    "fen": "8/pr2Nppk/8/2r5/P3R3/6P1/5PP1/6K1 b - - 7 34",
+    "moves": "b7b2 e4h4 c5h5 h4h5",
+    "themes": "anastasiaMate endgame mate mateIn2 short"
+  },
+  {
+    "id": "1UcaE",
+    "fen": "1k4Qr/ppp5/3p1q2/2b1p3/4Pp2/P2P4/1PPB1P2/1K4R1 b - - 1 24",
+    "moves": "h8g8 g1g8 f6d8 g8d8",
+    "themes": "backRankMate endgame mate mateIn2 short"
+  },
+  {
+    "id": "1Uf1S",
+    "fen": "4kb1r/pp3ppp/8/4p3/8/PP1b4/1P3PPP/R1BqQK1R w k - 3 18",
+    "moves": "f1g1 d1e1",
+    "themes": "hangingPiece kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "1Uh4v",
+    "fen": "rb2k2r/1pq1nppp/p1n5/3p4/3P4/2N1Bb1P/PP2BPP1/2RQ1RK1 w kq - 0 15",
+    "moves": "e2f3 c7h2",
+    "themes": "mate mateIn1 oneMove opening"
+  },
+  {
+    "id": "1Uuy6",
+    "fen": "r1bqkbnr/2pp1ppp/p5n1/1p2p3/8/PB2PQ1P/1PPP1PP1/RNB1K1NR b KQkq - 3 7",
+    "moves": "c7c6 f3f7",
+    "themes": "attackingF2F7 mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "1V1rz",
+    "fen": "rk4r1/ppp2p2/8/3q4/8/2PP1Q2/P1P1RPP1/4R1K1 b - - 0 28",
+    "moves": "d5f3 e2e8 g8e8 e1e8",
+    "themes": "backRankMate endgame mate mateIn2 queenRookEndgame short"
+  }
+]

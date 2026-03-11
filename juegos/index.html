@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title></title>
+    <title>Ajedrez Gym</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>♞</text></svg>">
 
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
@@ -75,6 +75,10 @@
         .anim-pulso { animation: pulso 1.5s infinite; }
         @keyframes pulso { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
         .oculto { display: none !important; }
+
+        /* Estilos extra para los select del duelo */
+        optgroup { background: #000; color: #888; font-style: normal; font-weight: bold; }
+        option { background: #111; color: #fff; font-weight: normal; }
     </style>
 </head>
 
@@ -249,6 +253,63 @@
         </div>
     </div>
 
+    <div id="modal-config-duelo" class="overlay-modal">
+        <div class="caja-modal" style="max-width: 450px; padding: 30px;">
+            <span class="close-modal" onclick="cerrarModal('modal-config-duelo')">&times;</span>
+            <h2 style="color:var(--accent); text-transform:uppercase; margin-top:0; margin-bottom:20px;">⚔️ Configurar Duelo</h2>
+            
+            <div style="text-align: left; margin-bottom: 20px;">
+                <label style="color:#888; font-size:0.9em; font-weight:bold;">ELEGIR JUEGO:</label>
+                <select id="duelo-juego" style="width:100%; padding:12px; background:#111; color:#fff; border:1px solid #555; border-radius:6px; margin-top:5px; outline:none; font-size:1.1em;">
+                    <optgroup label="⚡ TÁCTICA">
+                        <option value="storm">Puzzle Storm (Clásico)</option>
+                        <option value="storm_fantasma">Puzzle Storm (Con tablero pero sin piezas)</option>
+                        <option value="storm_ciego">Puzzle Storm (Tablero Oculto)</option>
+                    </optgroup>
+                    <optgroup label="📸 MEMORIA">
+                        <option value="radar">Visión Radar</option>
+                        <option value="flash">Táctica Flash</option>
+                        <option value="memoria_pro">Memoria Pro</option>
+                        <option value="lector">Lector FEN</option>
+                    </optgroup>
+                    <optgroup label="🌍 TABLERO">
+                        <option value="arcade_teclado">Arcade Coordenadas (Teclado)</option>
+                         <option value="entrenamiento_ciego">Entrenamiento Ciego</option>
+                    </optgroup>
+                </select>
+            </div>
+
+            <div style="display: flex; gap: 15px; margin-bottom: 25px;">
+                <div style="flex: 1; text-align: left;">
+                    <label style="color:#888; font-size:0.9em; font-weight:bold;">TIEMPO (MINUTOS):</label>
+                    <input type="number" id="duelo-tiempo" value="3" min="1" max="120" style="width:100%; padding:12px; box-sizing:border-box; background:#111; color:#fff; border:1px solid #555; border-radius:6px; margin-top:5px; outline:none; font-size:1.1em; font-weight:bold;">
+                </div>
+                <div style="flex: 1; text-align: left;">
+                    <label style="color:#888; font-size:0.9em; font-weight:bold;">VIDAS / INTENTOS:</label>
+                    <select id="duelo-vidas" style="width:100%; padding:12px; background:#111; color:#fff; border:1px solid #555; border-radius:6px; margin-top:5px; outline:none; font-size:1.1em; font-weight:bold;">
+                        <option value="infinito">∞ Infinitas</option>
+                        <option value="1">❤️ 1 Vida</option>
+                        <option value="3">❤️❤️❤️ 3 Vidas</option>
+                        <option value="5">❤️❤️❤️❤️❤️ 5 Vidas</option>
+                    </select>
+                </div>
+            </div>
+
+            <button onclick="enviarRetoDuelo()" class="btn-modal" style="background:var(--accent); color:#000; box-shadow: 0 4px 0 #b39500; margin-bottom: 0; padding:15px; font-size:1.2em;">ENVIAR RETO 🔥</button>
+        </div>
+    </div>
+
+    <div id="modal-invitacion" class="overlay-modal" style="z-index: 10000;">
+        <div class="caja-modal" style="border-color: var(--danger);">
+            <h2 style="color:var(--danger); text-transform:uppercase; margin-top:0;">⚔️ ¡TE HAN RETADO!</h2>
+            <p id="invitacion-texto" style="font-size: 1.2em; color:#fff; margin-bottom: 25px;"></p>
+            <div style="display:flex; gap:10px;">
+                <button id="btn-aceptar-duelo" class="btn-modal" style="background:var(--success); margin:0; box-shadow: 0 4px 0 #4a751b; padding:15px;">ACEPTAR ✔️</button>
+                <button class="btn-modal" style="background:#444; margin:0; padding:15px;" onclick="rechazarDuelo()">RECHAZAR ❌</button>
+            </div>
+        </div>
+    </div>
+
     <div id="chat-modal">
         <div id="chat-header">
             <span id="chat-user-name">Chat</span>
@@ -291,7 +352,7 @@
                         firebase.database().ref('users/' + user.uid).once('value').then(snap => {
                             let p = snap.exists() ? snap.val() : obtenerPerfil();
                             p.nombreJugador = nombre;
-                            p.nombreJugadorLower = nombre.toLowerCase(); // GUARDA EL NOMBRE EN MINÚSCULAS PARA EL BUSCADOR
+                            p.nombreJugadorLower = nombre.toLowerCase(); 
                             
                             // ---- LÓGICA DE LA RACHA DIARIA ----
                             let hoy = new Date().toDateString();
@@ -305,7 +366,6 @@
                                 p.ultimaConexion = hoy;
                                 firebase.database().ref('users/' + user.uid).update({ rachaDias: racha, ultimaConexion: hoy, nombreJugadorLower: nombre.toLowerCase() });
                             } else {
-                                // Forzamos la actualización del nombre en minúsculas aunque la racha no cambie
                                 firebase.database().ref('users/' + user.uid).update({ nombreJugadorLower: nombre.toLowerCase() });
                             }
                             document.getElementById('racha-dias').innerText = racha + (racha === 1 ? " Día" : " Días");
@@ -325,7 +385,7 @@
                                 barra.style.background = info.color;
                                 setTimeout(() => { barra.style.width = info.porcentajeProgreso + '%'; }, 500);
                                 
-                                if (info.xpFaltante > 0) document.getElementById('rango-faltante').innerText = `Faltan ${info.xpFaltante} XP`;
+                                if (info.xpFaltante > 0) document.getElementById('rango-faltante').innerHTML = `A ${info.xpFaltante} XP de ser <span style="font-size: 1.3em; color: #fff; text-transform: uppercase;">${info.siguienteRango}</span>`;
                                 else document.getElementById('rango-faltante').innerText = "¡Nivel Máximo!";
                             }
 
@@ -352,6 +412,7 @@
                             cargarRanking('rankings/xp', 'ranking-xp', 'XP');
                             escucharUsuariosOnline(); 
                             escucharMisChats();   
+                            escucharInvitaciones(); // INICIAMOS EL RADAR DE DUELOS
                         });
                     } else {
                         document.getElementById('auth-modal').style.display = 'flex';
@@ -367,7 +428,6 @@
             let hoy = new Date().toDateString();
             let mision = JSON.parse(localStorage.getItem('mision_diaria'));
             
-            // Si es un nuevo día, reseteamos todo a 0
             if (!mision || mision.fecha !== hoy) {
                 mision = { fecha: hoy, tactica: 0, memoria: 0, geo: 0, reclamado: false };
                 localStorage.setItem('mision_diaria', JSON.stringify(mision));
@@ -410,15 +470,12 @@
             }
         }
 
-function reclamarMision() {
+        function reclamarMision() {
             let mision = JSON.parse(localStorage.getItem('mision_diaria'));
             mision.reclamado = true;
             localStorage.setItem('mision_diaria', JSON.stringify(mision));
-            
-            // 1. Sumamos los 100 puntos al perfil
             actualizarEstadisticaGlobal('xpTotal', 100, true);
             
-            // 2. ¡FALTABA ESTO! Le avisamos al Ranking de que ahora tienes más puntos
             let p = obtenerPerfil();
             if (typeof subirAFirebase === 'function') {
                 subirAFirebase('rankings/xp', p.xpTotal);
@@ -427,6 +484,7 @@ function reclamarMision() {
             actualizarUICajasMision();
             setTimeout(()=> window.location.reload(), 1000);
         }
+
         // ==========================================
         // RESTO DE FUNCIONES (SOCIAL, RANKING, PERFIL)
         // ==========================================
@@ -497,7 +555,8 @@ function reclamarMision() {
                         <div class="activity-item" style="border-bottom:none;"><span>⚡ Récord Arcade:</span> <strong style="color:var(--accent);">${u.arcadeGlobalMax || 0} Pts</strong></div>
                     </div>
                     <div style="display: flex; gap: 15px; margin-bottom: 5px;">
-                        <button class="btn-modal" style="background:var(--blue); color:white; width:100%; padding:15px; margin:0;" onclick="abrirChat('${uid}', '${u.nombreJugador}')">💬 Enviar Mensaje Privado</button>
+                        <button class="btn-modal" style="background:var(--accent); color:#000; width:100%; padding:15px; margin:0; box-shadow: 0 4px 0 #b39500;" onclick="abrirConfigDuelo('${uid}', '${u.nombreJugador}')">⚔️ Retar a Duelo</button>
+                        <button class="btn-modal" style="background:var(--blue); color:white; width:100%; padding:15px; margin:0;" onclick="abrirChat('${uid}', '${u.nombreJugador}')">💬 Chat</button>
                     </div>
                 `;
                 document.getElementById('perfil-ajeno-body').innerHTML = html; 
@@ -505,20 +564,17 @@ function reclamarMision() {
             });
         }
 
-        // BUSCADOR ACTUALIZADO Y CORREGIDO
         function buscarUsuarios(val) {
             const results = document.getElementById('search-results'); 
-            val = val.trim().toLowerCase(); // Convertimos todo a minúsculas
+            val = val.trim().toLowerCase(); 
             
             if (val.length < 2) { results.style.display = 'none'; return; }
             
-            // Buscamos en el campo oculto nombreJugadorLower
             firebase.database().ref('users').orderByChild('nombreJugadorLower').startAt(val).endAt(val + '\uf8ff').limitToFirst(6).once('value', snap => {
                 let html = '';
                 snap.forEach(child => { 
                     let u = child.val(); 
                     let color = u.isOnline ? 'var(--green)' : '#555'; 
-                    // Seguimos mostrando u.nombreJugador para que se vea con las mayúsculas bonitas
                     html += `<div class="search-item" onclick="verPerfilAjeno('${child.key}')"><div class="dot-online" style="background:${color};"></div><span style="font-weight:bold;">${u.nombreJugador}</span></div>`; 
                 });
                 results.innerHTML = html || '<div class="search-item" style="color:#888; font-style:italic;">Nadie encontrado.</div>'; results.style.display = 'block';
@@ -572,6 +628,110 @@ function reclamarMision() {
             });
         }
         function mandarMensaje() { let input = document.getElementById('chat-input'); if (input.value.trim() !== '') { ChatManager.enviarMensaje(chatActivoUid, input.value); input.value = ''; } }
+
+        // ==========================================
+        // SISTEMA DE RETOS Y DUELOS REAL-TIME
+        // ==========================================
+        let rivalDueloUid = null;
+        let rivalDueloNombre = null;
+
+        function abrirConfigDuelo(uidTo, nombreTo) {
+            cerrarModal('modal-perfil');
+            rivalDueloUid = uidTo;
+            rivalDueloNombre = nombreTo;
+            document.getElementById('modal-config-duelo').style.display = 'flex';
+        }
+
+        function enviarRetoDuelo() {
+            let selectJuego = document.getElementById('duelo-juego');
+            let juegoId = selectJuego.value;
+            let juegoNombre = selectJuego.options[selectJuego.selectedIndex].text;
+            
+            let minutosStr = document.getElementById('duelo-tiempo').value;
+            let tiempoMinutos = parseInt(minutosStr) || 3;
+            if (tiempoMinutos < 1) tiempoMinutos = 1;
+            let tiempoSegundos = tiempoMinutos * 60;
+            
+            let vidasStr = document.getElementById('duelo-vidas').value;
+            
+            let salaUnica = 'sala_' + Date.now().toString(36);
+            let miUid = localStorage.getItem('current_user_uid');
+            let miNombre = localStorage.getItem('current_user_name');
+            
+            // 1. CREAMOS LA ARENA DE DUELO (Para que duelo.html sepa qué cargar)
+            firebase.database().ref('duelos/' + salaUnica).set({
+                creador: miUid,
+                rival: rivalDueloUid,
+                juego: juegoId,
+                juegoNombre: juegoNombre,
+                tiempo: tiempoSegundos,
+                vidas: vidasStr,
+                estado: 'esperando',
+                puntos: { [miUid]: 0, [rivalDueloUid]: 0 }
+            });
+
+            // 2. ENVIAMOS LA INVITACIÓN AL RIVAL
+            firebase.database().ref('invitaciones/' + rivalDueloUid).set({
+                fromUid: miUid,
+                fromNombre: miNombre,
+                juego: juegoId,
+                juegoNombre: juegoNombre,
+                tiempo: tiempoSegundos,
+                vidas: vidasStr,
+                sala: salaUnica,
+                timestamp: Date.now()
+            });
+
+            cerrarModal('modal-config-duelo');
+            
+            // 3. TELETRANSPORTAMOS AL RETADOR A LA ARENA A ESPERAR
+            window.location.href = `duelo.html?sala=${salaUnica}`;
+        }
+        
+        function escucharInvitaciones() {
+            let miUid = localStorage.getItem('current_user_uid');
+            if(!miUid) return;
+            
+            firebase.database().ref('invitaciones/' + miUid).on('value', snap => {
+                let inv = snap.val();
+                if (inv) {
+                    // Si la invitación caduca (más de 60 seg), la borramos
+                    if (Date.now() - inv.timestamp > 60000) {
+                        firebase.database().ref('invitaciones/' + miUid).remove();
+                        return;
+                    }
+                    
+                    let min = Math.floor(inv.tiempo / 60);
+                    let nombreJuego = inv.juegoNombre || inv.juego;
+                    let txtVidas = inv.vidas === 'infinito' ? '∞ Vidas' : `${inv.vidas} Vida(s)`;
+                    
+                    document.getElementById('invitacion-texto').innerHTML = `
+                        <strong>${inv.fromNombre}</strong> te reta a una partida de:<br>
+                        <strong style="color:var(--accent); font-size:1.2em;">${nombreJuego}</strong><br>
+                        <span style="font-size:0.8em; color:#aaa;">(⏱️ ${min} min | ❤️ ${txtVidas})</span>
+                    `;
+                    
+                    document.getElementById('btn-aceptar-duelo').onclick = function() {
+                        firebase.database().ref('invitaciones/' + miUid).remove();
+                        // AVISAMOS A LA ARENA DE QUE HEMOS ACEPTADO
+                        firebase.database().ref('duelos/' + inv.sala).update({ estado: 'aceptado' });
+                        // NOS TELETRANSPORTAMOS A LA ARENA
+                        window.location.href = `duelo.html?sala=${inv.sala}`;
+                    };
+                    
+                    document.getElementById('modal-invitacion').style.display = 'flex';
+                    if (typeof reproducirSonido === 'function') reproducirSonido('notificacion');
+                } else {
+                    document.getElementById('modal-invitacion').style.display = 'none';
+                }
+            });
+        }
+        
+        function rechazarDuelo() {
+            let miUid = localStorage.getItem('current_user_uid');
+            firebase.database().ref('invitaciones/' + miUid).remove();
+            cerrarModal('modal-invitacion');
+        }
     </script>
 </body>
 </html>

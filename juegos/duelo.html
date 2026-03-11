@@ -189,6 +189,7 @@
         // ESTE DICCIONARIO TRADUCE LO QUE ELIGES EN EL MENÚ AL ARCHIVO HTML REAL
         const mapJuegos = {
             'storm': 'juego.html',
+            'storm_fantasma': 'juego.html?vis=vacio', // <--- Manda al juego normal a ocultar piezas
             'storm_ciego': 'juego_ciego.html',
             'radar': 'juego_radar.html',
             'flash': 'juego_flash.html',
@@ -270,7 +271,9 @@
 
             // LE AÑADIMOS "&sala=${salaId}" AL FINAL PARA QUE EL JUEGO SEPA LA CONTRASEÑA
             let archivoJuego = mapJuegos[datosSala.juego] || 'juego.html';
-            frame.src = `${archivoJuego}?duelo=true&sala=${salaId}`;
+            // TRUCO MÁGICO: Si el archivo ya tiene un '?', usamos '&' para añadir lo del duelo
+            let separador = archivoJuego.includes('?') ? '&' : '?';
+            frame.src = `${archivoJuego}${separador}duelo=true&sala=${salaId}`;
 
             // Arrancar el cronómetro global
             arrancarReloj();

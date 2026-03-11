@@ -1,0 +1,6002 @@
+[
+  {
+    "id": "001om",
+    "fen": "5r1k/pp4pp/5p2/1BbQp1r1/6K1/7P/1PP3P1/3R3R w - - 2 26",
+    "moves": "g4h4 c5f2 g2g3 f2g3",
+    "themes": "mate mateIn2 middlegame morphysMate short"
+  },
+  {
+    "id": "001w5",
+    "fen": "1rb2rk1/q5P1/4p2p/3p3p/3P1P2/2P5/2QK3P/3R2R1 b - - 0 29",
+    "moves": "f8f7 c2h7 g8h7 g7g8q",
+    "themes": "advancedPawn attraction mate mateIn2 middlegame promotion short"
+  },
+  {
+    "id": "003AX",
+    "fen": "2r2rk1/5ppp/bq2p3/p1ppP1N1/Pb1P2P1/1P2P2P/2QN4/2R1K2R b K - 1 18",
+    "moves": "c5d4 c2h7",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "003jv",
+    "fen": "1R6/1p2k2p/p2n2p1/4K3/8/6P1/P6P/8 w - - 10 37",
+    "moves": "b8h8 d6f7 e5e4 f7h8",
+    "themes": "crushing endgame fork short"
+  },
+  {
+    "id": "003o0",
+    "fen": "r1bqk2r/pp1nbppp/3p4/1B1p4/3P1B2/8/PPP2PPP/R2QK1NR w KQkq - 2 9",
+    "moves": "g1f3 d8a5 d1d2 a5b5",
+    "themes": "advantage fork master opening short"
+  },
+  {
+    "id": "005nD",
+    "fen": "3rk2r/2qn1pp1/p1Q1R3/3n3p/8/8/PP4PP/5R1K b k - 0 23",
+    "moves": "f7e6 c6e6 d5e7 e6f7",
+    "themes": "fork mate mateIn2 middlegame short"
+  },
+  {
+    "id": "006GK",
+    "fen": "2kr1br1/ppBb1ppp/8/3P2Q1/3n2n1/5N2/PP3qPP/RN2R2K b - - 0 16",
+    "moves": "d4f3 g5d8",
+    "themes": "mate mateIn1 oneMove opening queensideAttack"
+  },
+  {
+    "id": "009bR",
+    "fen": "4r2k/3q2r1/1p4pQ/p1pP4/2P4P/1N4p1/PP3RK1/8 b - - 1 37",
+    "moves": "g7h7 f2f8 e8f8 h6f8",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "00Aae",
+    "fen": "1R6/1P6/4pkp1/5p2/3P3p/3KP3/8/1r6 b - - 0 43",
+    "moves": "h4h3 b8f8 f6e7 b7b8q b1b8 f8b8",
+    "themes": "advancedPawn clearance crushing endgame long promotion rookEndgame"
+  },
+  {
+    "id": "00BJm",
+    "fen": "r2q1rk1/1Q2bppp/p1N1p3/1p6/2pP1n2/2P5/PP3PPP/R4RK1 b - - 1 18",
+    "moves": "d8d5 c6e7 g8h8 e7d5",
+    "themes": "advantage fork hangingPiece middlegame short"
+  },
+  {
+    "id": "00Bn0",
+    "fen": "r1bqkb1r/pp1pnppp/2n1p3/1N6/5B2/8/PPP1PPPP/R2QKBNR b KQkq - 4 6",
+    "moves": "e6e5 b5d6",
+    "themes": "mate mateIn1 oneMove opening smotheredMate"
+  },
+  {
+    "id": "00DPI",
+    "fen": "3r2k1/1B3p1p/6p1/3N4/3p2P1/6r1/5KP1/3R4 b - - 5 35",
+    "moves": "g3g4 d5f6 g8g7 f6g4",
+    "themes": "advantage endgame fork short"
+  },
+  {
+    "id": "00FH6",
+    "fen": "r6r/1q2bpk1/7p/p1p1pPpn/Pp2P1nP/1P1B1N2/2P3P1/2BRR1QK w - - 7 30",
+    "moves": "c1b2 h5g3",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "00HzR",
+    "fen": "8/8/p2k4/1pp5/2K4P/1P1P1RP1/7r/8 w - - 0 46",
+    "moves": "c4c3 b5b4 c3c4 h2c2",
+    "themes": "endgame mate mateIn2 rookEndgame short"
+  },
+  {
+    "id": "00Lnf",
+    "fen": "r4knb/1bpp4/p1n1pq2/1p4NQ/3PP3/2N5/PPP2PP1/2KR1B2 b - - 3 15",
+    "moves": "f6h6 h5f7",
+    "themes": "master mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "00MDG",
+    "fen": "3r2k1/4ppnp/pp2q1p1/2p5/4N3/3rP3/P2P1QPP/3R1RK1 b - - 1 28",
+    "moves": "e6e4 f2f7 g8h8 f7f8 d8f8 f1f8",
+    "themes": "backRankMate long mate mateIn3 middlegame sacrifice"
+  },
+  {
+    "id": "00P7n",
+    "fen": "r4rk1/p1p1R1pp/2p2p2/5P2/6Q1/1P5P/q5PK/8 b - - 1 30",
+    "moves": "a2b3 g4g7",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "00PGi",
+    "fen": "3r1q1k/pppb2pp/2np4/6N1/5B2/1Q4P1/PP4PP/4R2K b - - 11 24",
+    "moves": "b7b6 g5f7 f8f7 b3f7",
+    "themes": "crushing fork middlegame short"
+  },
+  {
+    "id": "00Q4m",
+    "fen": "5r2/1b3k2/1q4p1/p3Pp1p/2pn1P1P/4Q1P1/P6K/R1R2B2 w - - 2 34",
+    "moves": "f1g2 d4f3 e3f3 b7f3",
+    "themes": "advantage middlegame short"
+  },
+  {
+    "id": "00QCD",
+    "fen": "3r1rk1/1Q3ppp/1q2pb2/8/1P1N4/4P1P1/3B1PBP/R5K1 b - - 0 23",
+    "moves": "b6b7 g2b7 f6d4 e3d4",
+    "themes": "advantage middlegame short"
+  },
+  {
+    "id": "00QY3",
+    "fen": "2k3r1/pp5p/4p3/2p2p2/2P5/P4P1q/1PQ1RR1b/7K w - - 0 32",
+    "moves": "f2h2 h3f1",
+    "themes": "endgame master mate mateIn1 oneMove"
+  },
+  {
+    "id": "00RYH",
+    "fen": "1k5r/ppp1R2p/3r1p2/5Q2/3p4/2qP4/2P2PPP/2K1R3 b - - 5 26",
+    "moves": "d6a6 e7e8 h8e8 e1e8",
+    "themes": "backRankMate endgame mate mateIn2 short"
+  },
+  {
+    "id": "00Sz9",
+    "fen": "1r4k1/p4ppp/4p3/p5n1/4P3/1P1N1PPq/QB3b1P/R5K1 w - - 0 30",
+    "moves": "d3f2 g5f3 g1h1 h3h2",
+    "themes": "kingsideAttack mate mateIn2 middlegame short"
+  },
+  {
+    "id": "00T85",
+    "fen": "8/8/8/8/8/4K3/1k3Q2/1q6 b - - 5 53",
+    "moves": "b2c1 f2d2",
+    "themes": "endgame master mate mateIn1 oneMove queenEndgame"
+  },
+  {
+    "id": "00TFd",
+    "fen": "1R6/8/p1P3k1/6pp/1P6/6PK/r6P/8 w - - 1 40",
+    "moves": "c6c7 g5g4 h3h4 a2h2",
+    "themes": "deflection endgame mate mateIn2 rookEndgame short"
+  },
+  {
+    "id": "00Tdk",
+    "fen": "r6r/4kppp/2pNpnq1/p1P1n3/8/B3P3/PP2QPPP/3R1RK1 w - - 7 20",
+    "moves": "e2d2 e5f3 g1h1 f3d2",
+    "themes": "crushing middlegame pin short"
+  },
+  {
+    "id": "00UIZ",
+    "fen": "4k2r/rp1qb3/2p2nQ1/p2p2N1/3P2pP/P3P1P1/1P3P2/1K1R3R b - - 6 26",
+    "moves": "e8d8 g5f7 d8c7 f7h8",
+    "themes": "advantage fork middlegame short"
+  },
+  {
+    "id": "00VFK",
+    "fen": "8/6pk/7p/Q7/6P1/3q3K/1P5P/8 w - - 1 45",
+    "moves": "h3h4 g7g5 a5g5 h6g5",
+    "themes": "crushing endgame master queenEndgame short"
+  },
+  {
+    "id": "00VSe",
+    "fen": "6nr/1pN2ppp/p2Qbk2/2B1p3/3nq3/8/PP2BPPP/5K1R w - - 8 19",
+    "moves": "c5d4 e4b1 e2d1 b1d1",
+    "themes": "mate mateIn2 middlegame short"
+  },
+  {
+    "id": "00WG3",
+    "fen": "8/pk1r1Rp1/1p2p2p/4P1bP/3rN3/8/PP6/1K3R2 b - - 4 33",
+    "moves": "d4d1 f1d1 d7f7 e4d6 b7c7 d6f7",
+    "themes": "crushing endgame fork long pin"
+  },
+  {
+    "id": "00WiX",
+    "fen": "1Q6/5kpp/1p2p3/p1p1r3/2Pn4/6P1/P4P1P/6K1 w - - 0 32",
+    "moves": "b8e5 d4f3 g1f1 f3e5",
+    "themes": "crushing endgame fork short"
+  },
+  {
+    "id": "00XqB",
+    "fen": "2Q5/pp3p1k/3q1P1p/6p1/P2p2K1/1P1P3P/2P3P1/8 w - - 5 37",
+    "moves": "c8b7 d6f4 g4h5 f4h4",
+    "themes": "endgame mate mateIn2 queenEndgame short"
+  },
+  {
+    "id": "00Y5Q",
+    "fen": "rnbq1rk1/pp2b2p/4p2p/3p1p1Q/2pP4/P1N5/1PP1PPPP/2KR1BNR w - - 0 11",
+    "moves": "h5h6 e7g5 h6g5 d8g5",
+    "themes": "crushing fork opening short"
+  },
+  {
+    "id": "00Yfr",
+    "fen": "5k2/1R4p1/p2bpr1p/3rN3/3P4/8/P1R2pPP/5K2 b - - 1 34",
+    "moves": "d6e5 c2c8 d5d8 c8d8",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "00Yy4",
+    "fen": "r7/pp4kp/6p1/2P2q1n/1PBb1p2/P4P2/3B2PP/2Q1R1K1 w - - 1 28",
+    "moves": "g1h1 h5g3 h2g3 f5h5",
+    "themes": "clearance kingsideAttack mate mateIn2 middlegame sacrifice short"
+  },
+  {
+    "id": "00b3n",
+    "fen": "7R/1P3pk1/5rpp/8/8/4P1PK/4qPQP/8 w - - 7 41",
+    "moves": "b7b8q e2h5",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "00bWA",
+    "fen": "2r1r1k1/3qbppp/pB6/3ppP2/2p1Q3/P6P/BPP3P1/R4RK1 w - - 0 22",
+    "moves": "e4e5 e7c5 e5d4 c5d4",
+    "themes": "crushing middlegame short"
+  },
+  {
+    "id": "00blC",
+    "fen": "5r2/1Pk5/8/K7/8/1P3B2/8/8 w - - 1 47",
+    "moves": "f3d5 f8f5 b7b8b c7b8 a5b5 f5d5",
+    "themes": "crushing endgame long pin"
+  },
+  {
+    "id": "00d8a",
+    "fen": "r1b1k2r/1p3p2/p1pqp3/2b2Ppp/4P1n1/2NB3P/PPP3P1/R2QBR1K w kq - 1 15",
+    "moves": "d1f3 d6h2",
+    "themes": "master mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "00dYE",
+    "fen": "7R/pp1n1p2/1kp1p3/3p4/5P2/2N1q3/PPP4Q/2K5 w - - 6 28",
+    "moves": "c1b1 e3e1 c3d1 e1d1",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "00ems",
+    "fen": "2r1r1k1/1bpn1ppp/p4n2/1p6/1P4q1/P3PN2/1BB1QPPP/3R1RK1 w - - 6 18",
+    "moves": "f3d4 g4g2",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "00fN2",
+    "fen": "r2qkb1r/pp2nppp/4p3/1N1pP3/8/4BQ1P/PP3PP1/R4RK1 b kq - 4 14",
+    "moves": "a7a6 b5d6 d8d6 e5d6",
+    "themes": "advantage middlegame short"
+  },
+  {
+    "id": "00jNk",
+    "fen": "7r/2Q2pb1/3ppk1p/5Bp1/3P4/1N2P1P1/Pr2qPP1/R5KR w - - 6 29",
+    "moves": "c7d6 e2f2 g1h2 f2g2",
+    "themes": "fork mate mateIn2 middlegame short"
+  },
+  {
+    "id": "00k6k",
+    "fen": "r2q1rk1/p1p1bpp1/2p1bn1p/8/2Pp3B/1PNBPP2/P5PP/R2Q1RK1 w - - 0 14",
+    "moves": "e3d4 d8d4 h4f2 d4c3",
+    "themes": "advantage fork opening short"
+  },
+  {
+    "id": "00l3p",
+    "fen": "3q4/1p6/p4N2/5QPk/4Pn2/2P4r/1P3K2/8 b - - 4 40",
+    "moves": "h5h4 f5f4",
+    "themes": "endgame hangingPiece mate mateIn1 oneMove"
+  },
+  {
+    "id": "00mJY",
+    "fen": "r1k1R3/pppr1B2/5p1p/8/8/8/PPP2PPP/2K5 b - - 1 20",
+    "moves": "d7d8 f7e6 c8b8 e8d8",
+    "themes": "backRankMate deflection endgame mate mateIn2 short"
+  },
+  {
+    "id": "00mnZ",
+    "fen": "8/p5k1/1pp2pp1/4Pp1p/5P1P/2P3P1/PP4K1/8 b - - 0 35",
+    "moves": "f6e5 f4e5 g7f7 g2f3 f7e6 f3f4",
+    "themes": "advantage endgame long pawnEndgame"
+  },
+  {
+    "id": "00pSv",
+    "fen": "5k2/5p1p/6p1/1p2q3/2p1p1n1/1P2P3/P1R1QPPP/6K1 w - - 0 26",
+    "moves": "e2g4 e5a1 c2c1 a1c1 g4d1 c1d1",
+    "themes": "backRankMate endgame long mate mateIn3"
+  },
+  {
+    "id": "00rYm",
+    "fen": "2r3k1/R4pp1/1p2p2p/1q2P3/3Pp3/1p2P2P/5QP1/6K1 b - - 1 34",
+    "moves": "b3b2 f2f7 g8h8 f7g7",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "00reB",
+    "fen": "4rrk1/pb4pp/1pq2p2/4p3/1BPb4/3P3P/P3QPPN/1R2R1K1 w - - 0 24",
+    "moves": "b4f8 c6g2",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "00rzv",
+    "fen": "2k3rr/1pp1n3/p2qp1Bp/3p3Q/8/2N1P2P/PPPP2Rb/R1B2K2 w - - 0 24",
+    "moves": "g6f7 g8g2 f1g2 d6g3",
+    "themes": "advantage attraction middlegame short"
+  },
+  {
+    "id": "00swU",
+    "fen": "3rkb1r/pppqp1pp/2n5/1Q3p2/4N3/1P2P3/PBP2PPP/R3KB1R w KQk - 0 12",
+    "moves": "e4c5 d7d2",
+    "themes": "mate mateIn1 oneMove opening"
+  },
+  {
+    "id": "00tKA",
+    "fen": "3rr1k1/q3pp1p/p1p3p1/2P3N1/8/5P2/Q5PP/4n2K b - - 0 37",
+    "moves": "a7c5 a2f7 g8h8 f7h7",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "00uN7",
+    "fen": "1n6/3rk3/p2p2p1/N2Bp1P1/1p2PnQ1/1P3P2/P1P4q/1K1R4 w - - 2 33",
+    "moves": "a5c6 b8c6 d5c6 d7c7",
+    "themes": "crushing middlegame short"
+  },
+  {
+    "id": "00xgi",
+    "fen": "rnbq1rk1/pp4pp/4p3/3pNp1Q/2pPn3/2PBP1P1/PP1N1PP1/R3K2R b KQ - 1 11",
+    "moves": "d8e8 h5h7",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "00xmm",
+    "fen": "r6r/ppk3pp/2pN4/4P3/1b6/6PQ/PP3PKP/R1Bq4 b - - 2 24",
+    "moves": "b4d6 e5d6 d1d6 c1f4 d6f4 g3f4",
+    "themes": "advantage long middlegame pin"
+  },
+  {
+    "id": "00yTt",
+    "fen": "r4rk1/1ppq1pbp/p5p1/2pPp3/P1B1Pn2/2N1QN2/1PP2P2/R3RK2 w - - 4 18",
+    "moves": "c3e2 d7h3 f1g1 h3g2",
+    "themes": "mate mateIn2 middlegame short"
+  },
+  {
+    "id": "00zg2",
+    "fen": "3r1rk1/p1N2ppp/1p1P4/4n3/4P1q1/P1Q5/3R2PP/3R2K1 b - - 5 28",
+    "moves": "e5f3 c3f3",
+    "themes": "crushing middlegame oneMove"
+  },
+  {
+    "id": "014OS",
+    "fen": "8/p7/1b6/1Kp5/2P2pk1/1P6/5P1B/8 w - - 0 37",
+    "moves": "f2f3 g4f3 b3b4 c5b4",
+    "themes": "bishopEndgame crushing endgame short"
+  },
+  {
+    "id": "017c1",
+    "fen": "8/8/8/1p6/4k3/2p4P/rP2RK2/8 b - - 1 49",
+    "moves": "e4d4 b2c3 d4c3 e2a2",
+    "themes": "crushing discoveredAttack endgame rookEndgame short"
+  },
+  {
+    "id": "017qa",
+    "fen": "3rr1k1/p1n2pp1/1p1q3p/2pBR3/8/5N1P/PP2QPP1/4R1K1 b - - 0 21",
+    "moves": "c7d5 e5e8 d8e8 e2e8",
+    "themes": "crushing kingsideAttack middlegame short"
+  },
+  {
+    "id": "01A3W",
+    "fen": "4r3/pp5p/5k2/2p1r3/3p4/PP1P4/3KR2P/5R2 b - - 1 31",
+    "moves": "f6e6 e2e5 e6e5 f1e1 e5d6 e1e8",
+    "themes": "attraction crushing endgame exposedKing long rookEndgame skewer"
+  },
+  {
+    "id": "01Ag5",
+    "fen": "2k2r1r/p2n1Q1p/1pqbp3/8/3P4/2P2N2/P2B1PPP/R4RK1 w - - 1 19",
+    "moves": "f7e6 d6h2 f3h2 c6e6",
+    "themes": "crushing discoveredAttack master middlegame short"
+  },
+  {
+    "id": "01CCG",
+    "fen": "3r1rk1/p1p1R1pp/1pq5/8/2PP4/PN4Pb/1P1Q1P1P/4R1K1 w - - 1 27",
+    "moves": "d2g5 c6g2",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "01Dsa",
+    "fen": "8/7Q/2kp4/4p3/5r1P/3P2K1/6P1/6b1 w - - 5 46",
+    "moves": "h4h5 g1f2 g3h3 f4h4",
+    "themes": "endgame mate mateIn2 operaMate short"
+  },
+  {
+    "id": "01G6T",
+    "fen": "5rk1/1p1b3p/p2pN2q/2pP2p1/2P3nP/1P4P1/P5B1/4QR1K b - - 1 30",
+    "moves": "g5h4 f1f8 h6f8 e6f8",
+    "themes": "crushing kingsideAttack middlegame short"
+  },
+  {
+    "id": "01GQI",
+    "fen": "8/5p2/1kbB2p1/4Pp1p/p2P1P2/1pR3P1/1Kn4P/8 b - - 13 58",
+    "moves": "c2d4 d6c5 b6c7 c5d4",
+    "themes": "crushing endgame fork short"
+  },
+  {
+    "id": "01Gvc",
+    "fen": "1k1r3r/ppp4p/3np1p1/Pb1pQ2P/3P4/2P5/1P1K1PP1/R6R w - - 1 22",
+    "moves": "h5g6 d6c4 d2c2 c4e5",
+    "themes": "advantage fork middlegame short"
+  },
+  {
+    "id": "01Hgu",
+    "fen": "2k5/p1p5/r6q/3b4/8/3P4/PPP2P1P/R1B2RK1 w - - 0 31",
+    "moves": "c1h6 a6g6 h6g5 g6g5",
+    "themes": "endgame fork mate mateIn2 pillsburysMate short"
+  },
+  {
+    "id": "01Hzj",
+    "fen": "8/8/RP6/p1b5/r1k5/8/5PP1/5K2 b - - 0 40",
+    "moves": "c4b5 b6b7 b5a6 b7b8q a4a1 f1e2",
+    "themes": "advancedPawn advantage endgame long master promotion"
+  },
+  {
+    "id": "01IFU",
+    "fen": "r1b2rk1/pp3pp1/3b3p/3Bn3/P2N1q2/2P4P/1P3PP1/RN1Q1RK1 w - - 1 17",
+    "moves": "d4e2 e5f3 g2f3 f4h2",
+    "themes": "kingsideAttack mate mateIn2 opening sacrifice short"
+  },
+  {
+    "id": "01JIQ",
+    "fen": "3r4/1pp3bk/3p3n/p2P3Q/P3p3/4q3/1P2Nr2/R2K2R1 b - - 7 39",
+    "moves": "f2e2 h5g6 h7h8 g6g7",
+    "themes": "mate mateIn2 middlegame short"
+  },
+  {
+    "id": "01NZ8",
+    "fen": "r1b1kb1r/pp3ppp/4p3/qNpn4/8/P2Q2B1/1PP2PPP/1K1R2NR b kq - 0 13",
+    "moves": "c8d7 b5c7 a5c7 g3c7",
+    "themes": "crushing fork opening short"
+  },
+  {
+    "id": "01Nbh",
+    "fen": "2r3k1/P4pp1/4p2p/3p4/4n3/2q3P1/2P1QP1P/1R5K b - - 2 24",
+    "moves": "c8a8 b1b8 a8b8 a7b8q",
+    "themes": "advancedPawn crushing endgame promotion short"
+  },
+  {
+    "id": "01Qwv",
+    "fen": "5rk1/p3Q1pp/2p5/3q4/4p1B1/6PP/4P1K1/8 b - - 3 31",
+    "moves": "d5d1 g4e6 g8h8 e7f8",
+    "themes": "deflection endgame mate mateIn2 short"
+  },
+  {
+    "id": "01RBb",
+    "fen": "2k5/ppp1r3/4qpp1/3p4/3n1B1P/1PbQ2P1/P1P2K2/R6R w - - 0 24",
+    "moves": "d3c3 e6e2 f2g1 d4f3 c3f3 e2f3",
+    "themes": "advantage long middlegame"
+  },
+  {
+    "id": "01RPQ",
+    "fen": "1Q6/2Pk4/p3pp1p/3q2p1/1p6/1P2P1P1/5P1P/6K1 b - - 2 42",
+    "moves": "d5c6 b8d8",
+    "themes": "endgame mate mateIn1 oneMove queenEndgame"
+  },
+  {
+    "id": "01S2P",
+    "fen": "r4rk1/5qpp/p1p1p3/3pB3/6Q1/8/PPP2PPP/R3R1K1 w - - 4 18",
+    "moves": "e1e3 f7f2 g1h1 f2f1 a1f1 f8f1",
+    "themes": "backRankMate fork long mate mateIn3 middlegame sacrifice"
+  },
+  {
+    "id": "01VG0",
+    "fen": "r3k2r/pp3pp1/4p3/3pqnp1/PPP5/8/4NPPP/R2Q1RK1 w kq - 0 21",
+    "moves": "c4d5 e5h2",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "01XCL",
+    "fen": "4r2k/4P1p1/1p1p1n1p/p3pQ2/P3B3/7P/1P3PPK/2r5 b - - 1 29",
+    "moves": "f6e4 f5f8 e8f8 e7f8q",
+    "themes": "advancedPawn advantage endgame promotion short"
+  },
+  {
+    "id": "01akv",
+    "fen": "7r/p1Q2k1p/1p4p1/2pq1r2/3p4/2PP4/PP3P1P/4RRK1 b - - 4 24",
+    "moves": "f7f6 c7e7",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "01axW",
+    "fen": "r5k1/4rpp1/p2b1R2/1ppPq1N1/8/2NQ3P/PP6/5RK1 b - - 0 24",
+    "moves": "g7f6 d3h7 g8f8 h7h8",
+    "themes": "mate mateIn2 middlegame short"
+  },
+  {
+    "id": "01ayA",
+    "fen": "r3r1k1/p4ppp/2p5/3p4/3bbPP1/2N4q/PPPQ3N/4RRK1 w - - 2 22",
+    "moves": "d2d4 h3g2",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "01bPd",
+    "fen": "2r2rk1/p2q2pp/1p2p1n1/3pP1N1/1P3P2/P3Q3/2R3PP/2R3K1 b - - 0 24",
+    "moves": "g6f4 c2c8 f4e2 e3e2",
+    "themes": "crushing middlegame short"
+  },
+  {
+    "id": "01c49",
+    "fen": "4r2k/ppp5/6p1/3Bn1Np/3B1r2/3P4/PPP1K3/R7 w - - 0 29",
+    "moves": "d4e5 e8e5 d5e4 e5g5",
+    "themes": "crushing endgame fork master short"
+  },
+  {
+    "id": "01cUP",
+    "fen": "3r2nr/p1p1kpp1/Qp5p/2b3q1/8/2N5/PP3PPP/R3R1K1 b - - 1 20",
+    "moves": "e7f6 c3e4 f6g6 e4g5",
+    "themes": "advantage fork middlegame short"
+  },
+  {
+    "id": "01f6o",
+    "fen": "r3kb1r/pp1qp1p1/2npNp2/7p/4Q3/6P1/PPP1PPKP/R1B2R2 b kq - 3 13",
+    "moves": "h5h4 e4g6",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "01i1R",
+    "fen": "r7/ppp2Rpk/2n1Q2p/3p4/4P3/P2Pq2P/2P3PK/8 b - - 1 21",
+    "moves": "c6d8 e6f5 h7h8 f7f8",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "01kNd",
+    "fen": "rn2k2r/3B1p1p/1q2pp2/4N3/2P1b3/4b3/PP4PP/R2Q1K1R b kq - 0 14",
+    "moves": "b8d7 d1d7 e8f8 d7f7",
+    "themes": "mate mateIn2 middlegame short"
+  },
+  {
+    "id": "01kY6",
+    "fen": "6k1/8/6pr/5p2/1P1R1P2/8/3K4/8 b - - 0 47",
+    "moves": "h6h7 d4d8 g8f7 d8d7",
+    "themes": "crushing endgame master rookEndgame short"
+  },
+  {
+    "id": "01n9x",
+    "fen": "2b5/7p/pBnkp1p1/P4pP1/2KP1P1P/3B4/8/8 b - - 8 48",
+    "moves": "c6e7 b6c5 d6d7 c5e7",
+    "themes": "crushing endgame short"
+  },
+  {
+    "id": "01oz9",
+    "fen": "1k6/1p6/pK4p1/7p/P1P5/4R1P1/6r1/8 b - - 1 35",
+    "moves": "g2d2 e3e8 d2d8 e8d8",
+    "themes": "endgame mate mateIn2 rookEndgame short"
+  },
+  {
+    "id": "01pz8",
+    "fen": "4qr2/1p1R4/p2Q2pk/4P2p/3P1n1P/8/PP5K/8 b - - 0 35",
+    "moves": "e8e6 d6f8",
+    "themes": "endgame hangingPiece mate mateIn1 oneMove"
+  },
+  {
+    "id": "01raT",
+    "fen": "6k1/5r2/4K1p1/3R2P1/8/8/8/8 b - - 9 69",
+    "moves": "g8g7 d5d7 f7d7 e6d7 g7f7 d7d6",
+    "themes": "crushing defensiveMove endgame long master rookEndgame"
+  },
+  {
+    "id": "01u1J",
+    "fen": "r1b2rk1/5ppp/4p3/1p6/1P6/5P2/2PR2PP/2K2B1R w - - 0 18",
+    "moves": "f1b5 a8a1 c1b2 a1h1",
+    "themes": "advantage endgame master short skewer"
+  },
+  {
+    "id": "01vGt",
+    "fen": "r7/3r1kpp/p1N1qpb1/1pR5/1P2pQ2/7P/1P3PP1/R5K1 b - - 2 33",
+    "moves": "e6b3 c6e5 f7g8 e5d7",
+    "themes": "advantage middlegame pin short"
+  },
+  {
+    "id": "01voN",
+    "fen": "4q1k1/pppb1p1p/3p2pb/3P4/2PQ1P2/2B2BP1/PP5P/6K1 b - - 1 24",
+    "moves": "h6g7 d4g7",
+    "themes": "endgame kingsideAttack mate mateIn1 oneMove"
+  },
+  {
+    "id": "0203f",
+    "fen": "r5k1/p2q2b1/1p4pR/2p1r3/2PpNp2/3P1P2/PPQ2KP1/7R b - - 0 25",
+    "moves": "g7h6 e4f6 g8g7 f6d7",
+    "themes": "crushing fork middlegame short"
+  },
+  {
+    "id": "020XG",
+    "fen": "2rk1r2/ppp3RR/4P3/8/b1P1p3/P3P3/4KP2/8 b - - 2 36",
+    "moves": "f8e8 g7d7 a4d7 h7d7",
+    "themes": "endgame mate mateIn2 sacrifice short"
+  },
+  {
+    "id": "02242",
+    "fen": "r4rk1/1p3pp1/8/2p1pNP1/4PnR1/P7/1B3q1N/3R3K b - - 1 32",
+    "moves": "f2b2 f5e7 g8h7 g4h4 f4h5 h4h5",
+    "themes": "anastasiaMate long mate mateIn3 middlegame"
+  },
+  {
+    "id": "023om",
+    "fen": "7k/2p4p/pb4p1/1p3p2/1P6/2P5/4rPPP/2R2RK1 w - - 1 28",
+    "moves": "c1e1 b6f2 f1f2 e2e1",
+    "themes": "crushing deflection endgame fork short"
+  },
+  {
+    "id": "027fm",
+    "fen": "7k/6p1/p1p4p/3q4/3n4/PP1Q2P1/5P1P/4B1K1 w - - 2 35",
+    "moves": "h2h4 d4f3 d3f3 d5f3",
+    "themes": "crushing endgame fork short"
+  },
+  {
+    "id": "029IP",
+    "fen": "1r4k1/6b1/2p3R1/p2p4/P7/QP6/2P1r3/1K6 w - - 0 35",
+    "moves": "a3d6 e2e1 b1a2 e1a1",
+    "themes": "endgame mate mateIn2 operaMate short"
+  },
+  {
+    "id": "029o2",
+    "fen": "5r2/1p4bk/p1pQ3p/P5pq/1P2Pr2/2P5/1B5P/R4RKB b - - 0 31",
+    "moves": "f4f1 a1f1 f8f1 g1f1",
+    "themes": "advantage middlegame short"
+  },
+  {
+    "id": "02Ack",
+    "fen": "1rb1k2r/npN1ppb1/5npp/4p3/8/5N2/PPP2PPP/2KR1B1R b - - 1 14",
+    "moves": "e8f8 d1d8 f6e8 d8e8",
+    "themes": "mate mateIn2 opening short"
+  },
+  {
+    "id": "02BxU",
+    "fen": "2r1k2r/1p2pp1p/p2p4/4nPp1/3Q4/2q2PB1/P1P3PP/2KR1R2 w k - 0 18",
+    "moves": "g3e5 c3c2",
+    "themes": "mate mateIn1 middlegame oneMove queensideAttack"
+  },
+  {
+    "id": "02C3w",
+    "fen": "r1bqkbnr/ppp2ppp/2n1p3/8/3pP3/5N2/PPPPNPPP/R1BQKB1R w KQkq - 2 5",
+    "moves": "e2d4 c6d4 f3d4 d8d4",
+    "themes": "advantage opening short"
+  },
+  {
+    "id": "02EV3",
+    "fen": "2r3r1/p2k3p/3pbQ2/6p1/8/5B2/q1p2PPP/2R1R1K1 w - - 0 27",
+    "moves": "f6e6 a2e6 e1e6 d7e6",
+    "themes": "crushing middlegame short"
+  },
+  {
+    "id": "02EhR",
+    "fen": "3rk2r/pp3pp1/4p3/4P2p/q2nQ2P/P3B3/5PP1/R4RK1 w k - 0 20",
+    "moves": "e4b7 d4e2 g1h1 a4h4",
+    "themes": "discoveredAttack kingsideAttack master mate mateIn2 middlegame short"
+  },
+  {
+    "id": "02EvG",
+    "fen": "r1b1k1nr/pppp1Npp/4nq2/2b5/2B1P3/8/PPP2PPP/RNBQK2R w KQkq - 1 7",
+    "moves": "f7h8 f6f2",
+    "themes": "attackingF2F7 mate mateIn1 oneMove opening"
+  },
+  {
+    "id": "02Fi0",
+    "fen": "r2q1rk1/pp1bbpp1/3p1n1p/2p5/2B1P2B/2NQ4/PPP2PPP/R4RK1 w - - 2 12",
+    "moves": "c3d5 f6d5 c4d5 e7h4",
+    "themes": "advantage discoveredAttack middlegame short"
+  },
+  {
+    "id": "02I4t",
+    "fen": "1r5r/5pp1/1p1Qp1k1/p2p4/P2P2q1/1RP5/1P3PP1/4RK2 w - - 0 34",
+    "moves": "d6g3 h8h1",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "02I9K",
+    "fen": "6k1/4Q1n1/4p3/p7/1p6/1Pq5/P4P2/K1B5 w - - 3 40",
+    "moves": "c1b2 c3e1 b2c1 e1c1",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "02Int",
+    "fen": "r2qkbnr/pp1bnppp/3p4/1Np5/Q3P3/2PB4/PP3PPP/RNB1K2R b KQkq - 1 9",
+    "moves": "a7a6 b5d6",
+    "themes": "mate mateIn1 oneMove opening smotheredMate"
+  },
+  {
+    "id": "02KOG",
+    "fen": "r7/pp5p/7k/2N1B1p1/2B4n/P6P/1PP3r1/3RR1K1 w - - 2 32",
+    "moves": "g1f1 a8f8 c4f7 f8f7 e5f4 f7f4",
+    "themes": "exposedKing long mate mateIn3 middlegame"
+  },
+  {
+    "id": "02LIr",
+    "fen": "1k6/1p6/6p1/2q1P2p/4Q1n1/1P4P1/P1P4P/4R1K1 w - - 5 36",
+    "moves": "g1g2 c5f2 g2h3 f2h2",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "02Mh7",
+    "fen": "1r1q1rk1/2p5/3pNnpP/4p3/p3P3/Pb1PP3/1P4Q1/2KR3R b - - 1 25",
+    "moves": "b3e6 g2g6 g8h8 g6g7",
+    "themes": "kingsideAttack mate mateIn2 middlegame short"
+  },
+  {
+    "id": "02Ogx",
+    "fen": "8/4p3/3pp3/4k1p1/1pP1P3/3K2P1/P4P2/8 w - - 0 30",
+    "moves": "f2f4 g5f4 g3f4 e5f4 d3d4 e6e5",
+    "themes": "endgame"
+  },
+  {
+    "id": "02OoP",
+    "fen": "1q4k1/5pp1/R3p2p/p7/P3Q3/6PP/5P1K/2r5 b - - 0 33",
+    "moves": "c1c5 a6a8 b8a8 e4a8",
+    "themes": "crushing endgame pin short"
+  },
+  {
+    "id": "02PHy",
+    "fen": "5rk1/5pp1/p1r1p1bp/BpnpP3/8/P1P2P2/1P4PP/2KR1B1R w - - 0 21",
+    "moves": "a5b4 c5b3",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "02Rqq",
+    "fen": "5rk1/2R5/p2r3p/3p1bp1/3P4/1P3P2/P5PP/4R1K1 b - - 0 25",
+    "moves": "f8c8 c7c8 f5c8 e1e8 g8g7 e8c8",
+    "themes": "advantage endgame exposedKing fork long"
+  },
+  {
+    "id": "02VgX",
+    "fen": "r1bq2k1/5Rb1/pp2p2Q/2ppN3/3P4/3B4/PPP3PP/6K1 b - - 0 24",
+    "moves": "g7h6 d3h7 g8h8 e5g6",
+    "themes": "kingsideAttack mate mateIn2 middlegame short"
+  },
+  {
+    "id": "02Wbe",
+    "fen": "8/8/2k5/PR2K1p1/8/5P2/r7/8 w - - 5 57",
+    "moves": "b5d5 a2e2 e5d4 e2d2 d4e3 d2d5",
+    "themes": "crushing deflection endgame long rookEndgame skewer"
+  },
+  {
+    "id": "02YaB",
+    "fen": "6k1/1p4bp/prn3p1/5p2/4p3/P3P1NP/4B1P1/2R3K1 b - - 1 27",
+    "moves": "b6b3 e2c4 g8h8 c4b3",
+    "themes": "advantage endgame fork short"
+  },
+  {
+    "id": "02Z4F",
+    "fen": "6Q1/p7/8/1p6/1P3P2/P2kqK2/8/8 w - - 1 58",
+    "moves": "f3g4 e3g1 g4f5 g1g8",
+    "themes": "crushing endgame queenEndgame short skewer"
+  },
+  {
+    "id": "02ZnU",
+    "fen": "6r1/3kR2p/2p2p2/3p1N2/8/3P2B1/pq4PP/7K b - - 0 34",
+    "moves": "d7d8 g3c7 d8c8 f5d6",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "02dOI",
+    "fen": "r1b3R1/1pp4p/1b5k/3p4/4Bn2/p1P2R2/PPP3PP/2K5 w - - 0 28",
+    "moves": "f3f4 b6e3 c1b1 e3f4",
+    "themes": "advantage endgame fork master short"
+  },
+  {
+    "id": "02iLq",
+    "fen": "r6k/pR5p/2p2N2/4n3/3p4/7P/2q3P1/4R2K b - - 0 32",
+    "moves": "c2d2 b7h7",
+    "themes": "arabianMate endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "02jeT",
+    "fen": "8/1kp5/1p1p4/4p3/4P2q/1PNP1Qb1/1PP3P1/6K1 w - - 2 38",
+    "moves": "g1f1 h4h1 f1e2 h1e1",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "02juV",
+    "fen": "3r2k1/1R3p2/p3pP2/1b5p/4PP1p/4BK1P/P7/8 w - - 0 37",
+    "moves": "e4e5 b5c6 f3e2 c6b7",
+    "themes": "crushing endgame fork short"
+  },
+  {
+    "id": "02k1g",
+    "fen": "6k1/2R4p/6p1/5p2/4nP2/4NK2/r5PP/8 w - - 3 40",
+    "moves": "g2g4 a2f2",
+    "themes": "endgame hookMate mate mateIn1 oneMove"
+  },
+  {
+    "id": "02k1p",
+    "fen": "1Q3k2/1p2qpp1/p1p4p/4P3/PP3PP1/7P/8/6K1 b - - 3 30",
+    "moves": "e7d8 b8d8",
+    "themes": "endgame hangingPiece mate mateIn1 oneMove queenEndgame"
+  },
+  {
+    "id": "02mOV",
+    "fen": "3rr1k1/pppq2p1/2n4p/4p3/3p2Q1/P2P3P/1PPB1PP1/R4RK1 w - - 0 18",
+    "moves": "d2h6 d7g4 h3g4 g7h6",
+    "themes": "advantage middlegame short"
+  },
+  {
+    "id": "02mT9",
+    "fen": "6k1/Qpq2ppp/2p5/3n4/2rN2b1/4P1P1/P4PBP/3R2K1 b - - 2 21",
+    "moves": "g4d1 a7a8 c7b8 a8b8",
+    "themes": "backRankMate mate mateIn2 middlegame short"
+  },
+  {
+    "id": "02nyA",
+    "fen": "8/1p1R2p1/p1p3r1/P1P5/1P3k1K/7P/8/8 w - - 0 45",
+    "moves": "d7f7 g6f6 f7f6 g7f6",
+    "themes": "crushing defensiveMove endgame rookEndgame short"
+  },
+  {
+    "id": "02oX3",
+    "fen": "rn3rk1/p1q2pbp/1pp1pBp1/4P2N/8/7Q/PPP2PPP/3R1bK1 b - - 1 17",
+    "moves": "g7f6 h5f6 g8g7 h3h7",
+    "themes": "discoveredAttack kingsideAttack mate mateIn2 middlegame short"
+  },
+  {
+    "id": "02pdl",
+    "fen": "3r1rk1/5p1p/2p2R2/4q1P1/p3p3/P2BQ3/2P3P1/2KR4 w - - 1 27",
+    "moves": "d3e4 e5a1",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "02rcU",
+    "fen": "rn1q1rk1/3b1pbp/p2p2p1/1pp3B1/3Pn3/5N1P/PPBQNPP1/R3K2R w KQ - 0 15",
+    "moves": "g5d8 e4d2 f3d2 f8d8",
+    "themes": "advantage intermezzo middlegame short"
+  },
+  {
+    "id": "02vy3",
+    "fen": "8/7p/2Pk4/p1nB2K1/2P5/6PP/5P2/8 w - - 1 46",
+    "moves": "g5h6 a5a4 h6h7 a4a3",
+    "themes": "advantage endgame master quietMove short"
+  },
+  {
+    "id": "02w6Y",
+    "fen": "3rr1k1/1b3ppp/pb3q2/1p1p4/1P1Nn3/P1PQ4/B3RPPP/2B1R1K1 b - - 0 22",
+    "moves": "e4f2 e2e8 d8e8 e1e8",
+    "themes": "kingsideAttack mate mateIn2 middlegame short"
+  },
+  {
+    "id": "02y7C",
+    "fen": "r1bqr1k1/p3bppp/7B/3pQ2n/8/1PN5/PP3PPP/R3R1K1 b - - 4 18",
+    "moves": "e7f6 e5e8 d8e8 e1e8",
+    "themes": "kingsideAttack mate mateIn2 middlegame short"
+  },
+  {
+    "id": "02yOM",
+    "fen": "1r1Q3k/5Rpp/5b2/p1p1p3/7P/2P3P1/P3qP2/3R2K1 b - - 5 31",
+    "moves": "b8d8 d1d8 f6d8 f7f8",
+    "themes": "backRankMate endgame mate mateIn2 short"
+  },
+  {
+    "id": "030wp",
+    "fen": "5r1k/p4Bbp/3q2p1/8/2Q1p1P1/5n2/2PB1P1P/3QK2R w K - 2 31",
+    "moves": "e1f1 f3d2 f1g2 d2c4",
+    "themes": "advantage fork master middlegame short"
+  },
+  {
+    "id": "031G5",
+    "fen": "r1bqk1r1/ppp2p2/1bnp1n1p/4p1pQ/2B1P2N/2PPB2P/PP3PP1/RN3RK1 b q - 1 10",
+    "moves": "b6e3 h5f7",
+    "themes": "attackingF2F7 mate mateIn1 oneMove opening"
+  },
+  {
+    "id": "033FN",
+    "fen": "rn2kb1r/p4ppp/1qp2n2/1p2p2b/1PBpP3/2PP1P2/PB2N1PP/RN1Q1RK1 w kq - 1 11",
+    "moves": "c4b3 d4c3 g1h1 c3b2",
+    "themes": "advancedPawn crushing discoveredAttack discoveredCheck opening short"
+  },
+  {
+    "id": "033V2",
+    "fen": "8/p3rn1p/Pkp3pP/1pp2p2/8/1PBK1P2/2PP1P2/R7 b - - 4 31",
+    "moves": "f7h6 c3a5 b6a6 a5d8 a6b7 d8e7",
+    "themes": "crushing discoveredAttack discoveredCheck endgame long"
+  },
+  {
+    "id": "039q6",
+    "fen": "8/4kpp1/B6p/1p2PK1P/1P6/8/2n2P2/8 w - - 1 39",
+    "moves": "a6b5 c2d4 f5e4 d4b5",
+    "themes": "advantage endgame fork short"
+  },
+  {
+    "id": "039sR",
+    "fen": "6k1/p2q2pp/8/4p3/3b2P1/2pQN2P/P1P2P2/6K1 w - - 0 30",
+    "moves": "e3f5 d4f2 g1f2 d7d3 c2d3 c3c2",
+    "themes": "advancedPawn crushing discoveredAttack endgame long master sacrifice"
+  },
+  {
+    "id": "039vE",
+    "fen": "rn2k3/pp3p2/2pp4/4p1r1/2P1P1b1/2NP2Pq/PP1Q1P1N/R4R1K w q - 0 20",
+    "moves": "d2g5 g4f3 h1g1 h3g2",
+    "themes": "kingsideAttack mate mateIn2 middlegame pin short"
+  },
+  {
+    "id": "03AVu",
+    "fen": "3rr1n1/3q3k/2p4p/1p3p1Q/p7/2BP2KP/P1P5/R4R2 b - - 1 29",
+    "moves": "g8e7 h5f7",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "03BLZ",
+    "fen": "6k1/p4p1p/6p1/8/4RP2/6PQ/Prq4P/R5K1 b - - 0 26",
+    "moves": "c2e4 h3c8 g8g7 c8c3 g7h6 c3b2",
+    "themes": "crushing endgame fork long"
+  },
+  {
+    "id": "03BNm",
+    "fen": "1r5k/p1p4p/2p3r1/3pb1n1/5p2/1NP2P2/PP4PP/R1B1R1K1 w - - 2 25",
+    "moves": "e1e5 g5f3 g1h1 f3e5",
+    "themes": "advantage kingsideAttack middlegame pin short"
+  },
+  {
+    "id": "03Exk",
+    "fen": "8/bP1B2r1/3K3p/2R3k1/4p1P1/8/8/8 b - - 3 58",
+    "moves": "a7c5 d6c5 g7d7 b7b8q",
+    "themes": "advancedPawn advantage endgame master masterVsMaster promotion short"
+  },
+  {
+    "id": "03Fdm",
+    "fen": "r1bqk2r/pp3ppp/5b2/3p4/3Q4/2N1P3/PP3PPP/R3KB1R w KQkq - 0 11",
+    "moves": "d4d5 f6c3 b2c3 d8d5",
+    "themes": "crushing intermezzo middlegame short"
+  },
+  {
+    "id": "03JOC",
+    "fen": "r2r3k/p1p2ppp/3b2q1/2pQ4/2P1p3/1P2P2P/PB3PP1/R2R2K1 w - - 4 21",
+    "moves": "d5c6 d6h2 g1h2 g6c6",
+    "themes": "crushing discoveredAttack middlegame short"
+  },
+  {
+    "id": "03JVh",
+    "fen": "8/8/1K6/8/8/pPk5/P7/8 w - - 1 53",
+    "moves": "b6b5 c3b2 b5c4 b2a2 c4c3 a2b1 b3b4 a3a2",
+    "themes": "advancedPawn crushing endgame pawnEndgame veryLong"
+  },
+  {
+    "id": "03KIL",
+    "fen": "2k4r/bpp2pp1/p6p/8/Q2p4/1N6/PPq2PPP/4R1K1 b - - 3 28",
+    "moves": "d4d3 e1e8 h8e8 a4e8",
+    "themes": "endgame mate mateIn2 queensideAttack short"
+  },
+  {
+    "id": "03KVq",
+    "fen": "2r1r1k1/p4p2/1p3qpp/3b4/1P1p4/3Q1N1P/P4PP1/4RRK1 b - - 1 22",
+    "moves": "d5c4 e1e8 c8e8 d3c4",
+    "themes": "advantage middlegame short"
+  },
+  {
+    "id": "03LZy",
+    "fen": "6k1/7p/4N3/Q4p2/3Ppp1q/4P3/PPr3PP/1R4K1 w - - 1 29",
+    "moves": "a5f5 h4f2 g1h1 f2g2",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "03N1l",
+    "fen": "b1r3k1/3Rbppp/p1q1p3/1p6/8/1P2P2P/PB2QPP1/1B4K1 w - - 1 24",
+    "moves": "d7e7 c6g2",
+    "themes": "kingsideAttack master mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "03NHo",
+    "fen": "8/6p1/5p1p/4n3/6kP/1R4P1/2PK4/8 w - - 5 43",
+    "moves": "b3e3 e5c4 d2e2 c4e3 e2e3 g4g3",
+    "themes": "advantage endgame fork long"
+  },
+  {
+    "id": "03NmB",
+    "fen": "2r3rk/Qp1q3p/5n2/3pnp2/4pN2/PNP4P/1P3PP1/3R1RK1 w - - 5 24",
+    "moves": "a7d4 e5f3 g1h1 f3d4",
+    "themes": "crushing master middlegame pin short"
+  },
+  {
+    "id": "03ONM",
+    "fen": "8/6pk/7p/2p1B3/2B2P2/5K2/7P/3r4 w - - 4 35",
+    "moves": "c4b3 d1d3 f3e4 d3b3",
+    "themes": "advantage endgame fork master short"
+  },
+  {
+    "id": "03PL7",
+    "fen": "8/p1pb4/5k2/6q1/3P4/2P2BK1/P5R1/6R1 w - - 4 38",
+    "moves": "g3h2 g5h4",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "03R4G",
+    "fen": "8/5p2/8/4kP2/6P1/p1RK4/P7/6r1 w - - 5 45",
+    "moves": "c3a3 g1g3 d3e2 g3a3",
+    "themes": "crushing endgame rookEndgame short skewer"
+  },
+  {
+    "id": "03R4H",
+    "fen": "3r2k1/5ppp/1Q1B1b2/1p6/2p5/8/1Pq2PPP/4R1K1 b - - 1 22",
+    "moves": "c2d2 b6d8 f6d8 e1e8",
+    "themes": "backRankMate endgame mate mateIn2 sacrifice short"
+  },
+  {
+    "id": "03TYP",
+    "fen": "8/p3r1k1/2RP4/3KP3/r5P1/1p2PR2/6nP/8 b - - 2 42",
+    "moves": "e7b7 c6c7 b7c7 d6c7",
+    "themes": "advancedPawn crushing endgame short"
+  },
+  {
+    "id": "03VTq",
+    "fen": "Q7/2R4p/p5pk/4P3/5rq1/4B3/1P5P/6K1 w - - 10 37",
+    "moves": "a8g2 g4d1 g2f1 d1f1",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "03Vpy",
+    "fen": "1k2N3/pp6/7p/4p3/4P3/P1NP1nqP/1P4R1/5QK1 w - - 3 36",
+    "moves": "g1h1 g3h3 g2h2 h3f1",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "03Vqc",
+    "fen": "r3k1nr/pb1p1pQp/1p2p2B/2b5/2P1P3/2N5/PP3qPP/R2K1B1R b kq - 1 11",
+    "moves": "c5d4 g7f8",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "03X3v",
+    "fen": "2qr2k1/4bppp/4p3/4N1n1/Pp1P1Q2/1n4P1/1B3P1P/R4RK1 w - - 0 26",
+    "moves": "h2h4 g5h3 g1g2 h3f4",
+    "themes": "crushing fork master middlegame short"
+  },
+  {
+    "id": "03X8P",
+    "fen": "6k1/p4p2/P3p2Q/1p4P1/6q1/1KP5/1P6/8 w - - 0 46",
+    "moves": "h6f6 g4a4",
+    "themes": "endgame master mate mateIn1 oneMove queenEndgame"
+  },
+  {
+    "id": "03XGl",
+    "fen": "r2q1rk1/1bpn2b1/pp4Q1/5p2/2BPp3/P6P/1PP2PPN/R4RK1 b - - 4 18",
+    "moves": "g8h8 g6h5 g7h6 h5h6",
+    "themes": "kingsideAttack mate mateIn2 middlegame short"
+  },
+  {
+    "id": "03YfR",
+    "fen": "rn1qkbnr/pp2pppp/2p5/4N3/2BP2b1/8/PPP3PP/RNBQK2R b KQkq - 2 6",
+    "moves": "g4d1 c4f7",
+    "themes": "attackingF2F7 mate mateIn1 oneMove opening"
+  },
+  {
+    "id": "03ZMh",
+    "fen": "5R2/8/8/6p1/5pk1/r7/5PKP/8 w - - 0 46",
+    "moves": "f8h8 f4f3 g2f1 a3a1",
+    "themes": "endgame mate mateIn2 rookEndgame short"
+  },
+  {
+    "id": "03Zg7",
+    "fen": "b1r3k1/2r2p1p/p1PR2p1/Bp1p4/3b4/4PP2/PP4PP/2R3K1 w - - 0 23",
+    "moves": "a5c7 d4e3 g1f1 e3c1 d6d8 c8d8",
+    "themes": "crushing endgame fork long"
+  },
+  {
+    "id": "03ZzZ",
+    "fen": "r2qkbnr/pp2pp1p/3p2p1/2pQ4/4PP2/2P5/P1PP2PP/R1B1K2R b KQkq - 0 10",
+    "moves": "b7b6 d5c6 d8d7 c6a8",
+    "themes": "advantage deflection middlegame short"
+  },
+  {
+    "id": "03aA0",
+    "fen": "3r1rk1/2n1qpbp/4p1p1/p3P3/PpB5/1Q1N1P2/1B3P1P/R2R2K1 w - - 1 23",
+    "moves": "d1d2 e7g5 g1f1 g5d2",
+    "themes": "crushing fork middlegame short"
+  },
+  {
+    "id": "03d1g",
+    "fen": "r3k2r/3bbpp1/pqN5/3p4/1P3Nn1/2P3pP/P5P1/R1BQK2R w KQkq - 1 21",
+    "moves": "c6e7 b6f2",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "03d49",
+    "fen": "2r2r1k/5pp1/4p2p/8/P2q4/6QP/R1p2PP1/2R3K1 w - - 0 28",
+    "moves": "a2c2 c8c2 c1c2 d4d1 g1h2 d1c2",
+    "themes": "attraction crushing endgame fork long"
+  },
+  {
+    "id": "03gAb",
+    "fen": "1k4nr/ppp1pQb1/5pp1/2P1P2p/1q1r4/5B2/PP4PP/RN3RK1 b - - 3 18",
+    "moves": "g7h6 f7e8 d4d8 e8d8",
+    "themes": "mate mateIn2 middlegame queensideAttack short"
+  },
+  {
+    "id": "03i7F",
+    "fen": "1r3rk1/QP1n1ppp/R7/8/2p5/3b1P2/1P1B1pPP/2K1qB1R w - - 12 27",
+    "moves": "d2e1 f2e1q",
+    "themes": "advancedPawn mate mateIn1 middlegame oneMove promotion"
+  },
+  {
+    "id": "03ijV",
+    "fen": "r2q1rk1/pb1n1ppB/1p2pn2/3p2N1/2PP4/4P3/P1Q2PPP/R1B2RK1 b - - 0 14",
+    "moves": "f6h7 c2h7",
+    "themes": "kingsideAttack mate mateIn1 oneMove opening"
+  },
+  {
+    "id": "03jKe",
+    "fen": "8/1b3pk1/1P2p3/4P2p/1RpP1n2/2P5/5K1P/8 w - - 0 36",
+    "moves": "f2e3 f4d5 e3d2 d5b4",
+    "themes": "crushing endgame fork short"
+  },
+  {
+    "id": "03kw5",
+    "fen": "r3k1r1/pppq1p2/3p1p1p/8/1PBpP3/P2P4/2P2PK1/R2Q1R2 w q - 1 16",
+    "moves": "g2f3 d7g4",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "03lLX",
+    "fen": "r3k2r/pp3pp1/2ppq3/4p3/3bP3/P1NP1QP1/1PP3PN/2R2R1K w kq - 0 22",
+    "moves": "c3e2 h8h2 h1h2 e6h6 f3h5 h6h5",
+    "themes": "attraction kingsideAttack long mate mateIn3 middlegame sacrifice"
+  },
+  {
+    "id": "03ney",
+    "fen": "2R2rk1/5ppp/3qpn2/n7/3P4/r3PPPP/4N1B1/2Q2RK1 b - - 4 23",
+    "moves": "a3e3 c8f8 d6f8 c1e3",
+    "themes": "advantage intermezzo middlegame short"
+  },
+  {
+    "id": "03pQd",
+    "fen": "r1bqr1k1/pp3ppB/1nn1p2p/4N3/3P4/B1P5/P1Q2PPP/R4RK1 b - - 3 15",
+    "moves": "g8h8 e5f7",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "03rQC",
+    "fen": "r2q1rk1/p1pnbppp/3p4/1p2P3/4P1b1/1PP2NP1/P4PBP/R1BRQ1K1 b - - 0 15",
+    "moves": "d7e5 f3e5 d6e5 d1d8",
+    "themes": "crushing opening short"
+  },
+  {
+    "id": "03rlt",
+    "fen": "8/pp6/2p4N/4k3/PPP3p1/3B1p2/6rP/4K3 b - - 0 39",
+    "moves": "g2h2 h6g4 e5d4 g4h2",
+    "themes": "endgame equality fork short"
+  },
+  {
+    "id": "03uzJ",
+    "fen": "r6r/ppq2kpp/2p1Rb2/7Q/3P4/P7/1PP2PP1/4RK2 b - - 1 19",
+    "moves": "f7f8 e6e8 a8e8 e1e8",
+    "themes": "mate mateIn2 middlegame short"
+  },
+  {
+    "id": "03wAm",
+    "fen": "4r1k1/1Q4pp/p1p5/P2p4/3qB3/6P1/5R1P/6K1 b - - 0 40",
+    "moves": "d4e4 b7f7 g8h8 f7f8 e8f8 f2f8",
+    "themes": "backRankMate endgame long mate mateIn3 sacrifice"
+  },
+  {
+    "id": "03xmf",
+    "fen": "8/pp1k2p1/1b6/3pr3/P7/1NP1p1PP/1P4P1/3R3K w - - 0 26",
+    "moves": "a4a5 e3e2 d1e1 b6f2 e1e2 e5e2",
+    "themes": "advancedPawn clearance crushing endgame long"
+  },
+  {
+    "id": "03y4C",
+    "fen": "2r3k1/pp2rn1p/8/3p1p2/3Q1P2/1P1R1BPP/P2R2K1/4q3 w - - 5 33",
+    "moves": "f3d5 e7e2 d2e2 e1e2 d4f2 e2d3",
+    "themes": "crushing long middlegame"
+  },
+  {
+    "id": "03yBf",
+    "fen": "8/2k5/1p5R/2p1Pp1p/5P2/3PBKPr/8/4b3 w - - 3 44",
+    "moves": "f3g2 h3g3 g2f1 g3e3",
+    "themes": "advantage endgame fork short"
+  },
+  {
+    "id": "03ykE",
+    "fen": "6k1/pp3p1p/2q3p1/8/2PR4/1P1Q2PP/P4PK1/4r3 w - - 3 26",
+    "moves": "d3f3 e1g1 g2g1 c6f3",
+    "themes": "advantage deflection endgame short"
+  },
+  {
+    "id": "043nB",
+    "fen": "r2qkb1r/pp3ppp/2p2n2/2p4b/2B1P3/2N2P2/PPPP2PP/R1BQK2R w KQkq - 1 8",
+    "moves": "e1g1 d8d4 g1h1 d4c4",
+    "themes": "advantage fork opening short"
+  },
+  {
+    "id": "044L2",
+    "fen": "1q3rk1/p4p2/4pBnQ/3pn3/2pP4/2P5/P4PPP/4R1K1 b - - 1 25",
+    "moves": "e5g4 h6g7",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "044zE",
+    "fen": "Q1b2rk1/3p1p2/p1p4p/1p4p1/8/1BP3Pn/PP4PP/RN2R1qK w - - 8 21",
+    "moves": "e1g1 h3f2",
+    "themes": "mate mateIn1 middlegame oneMove smotheredMate"
+  },
+  {
+    "id": "045qD",
+    "fen": "r5k1/6pp/2p1p3/1p1pP1q1/4b3/1BP1P1P1/2P2Q1P/5RK1 b - - 2 25",
+    "moves": "g5e5 f2f7 g8h8 f7f8 a8f8 f1f8",
+    "themes": "backRankMate endgame long mate mateIn3 sacrifice"
+  },
+  {
+    "id": "0461m",
+    "fen": "4rr1k/pppbqppp/2n5/4P3/6n1/1B3N2/PPP3PP/R1BQR1K1 w - - 1 16",
+    "moves": "c1f4 e7c5 f4e3 g4e3",
+    "themes": "advantage middlegame short"
+  },
+  {
+    "id": "048Mr",
+    "fen": "8/2pb2p1/3k3p/pnp2p2/2K2P1P/1P1B2P1/5B2/8 b - - 1 39",
+    "moves": "b5a7 f2c5 d6e6 c5a7",
+    "themes": "crushing endgame fork short"
+  },
+  {
+    "id": "04990",
+    "fen": "r1r3k1/p2R1pp1/1p2p2p/4q3/8/4B3/P1P3PP/3R1Q1K b - - 1 26",
+    "moves": "e5e3 f1f7 g8h8 f7g7",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "049Js",
+    "fen": "1r5k/5pb1/nrbRp1pp/1Np1P3/p1P1NB1P/P7/1P3PP1/2K1R3 w - - 6 29",
+    "moves": "e1d1 c6e4 d6b6 b8b6",
+    "themes": "advantage hangingPiece master middlegame short"
+  },
+  {
+    "id": "04EKu",
+    "fen": "8/1p3k2/p2p1np1/3P4/1P2BP2/4K3/P7/8 w - - 4 38",
+    "moves": "e3f3 f6e4 f3e4 f7f6",
+    "themes": "crushing defensiveMove endgame short"
+  },
+  {
+    "id": "04Exi",
+    "fen": "8/8/1R6/1P3p2/5kpp/7P/6PK/1r6 w - - 0 47",
+    "moves": "b6b8 g4g3",
+    "themes": "endgame master mate mateIn1 oneMove rookEndgame"
+  },
+  {
+    "id": "04FKm",
+    "fen": "r4rk1/ppnq1ppp/2pb4/5b2/3QpP2/PP2P1P1/1BP1N1BP/R4RK1 b - - 1 14",
+    "moves": "d6e7 d4g7",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "04FxX",
+    "fen": "3b2r1/6rk/p7/1pPpNR2/6P1/2P4P/PP6/6K1 b - - 2 40",
+    "moves": "d8e7 f5h5",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "04H0e",
+    "fen": "4r1k1/pp2qppp/2p5/2bN3P/3Q2n1/1P2P3/1P1K2P1/R3R3 b - - 0 23",
+    "moves": "c5d4 d5e7 e8e7 e3d4",
+    "themes": "advantage intermezzo kingsideAttack middlegame short"
+  },
+  {
+    "id": "04HsY",
+    "fen": "2r5/p4pk1/1p2pqp1/3b4/6Q1/1Pr3N1/P4PPP/1R3RK1 b - - 6 26",
+    "moves": "c3c2 g3h5 g7f8 h5f6",
+    "themes": "crushing middlegame pin short"
+  },
+  {
+    "id": "04KVv",
+    "fen": "1r1r4/1pq1kRp1/p1pNb2p/4P2Q/8/8/PPP2PPP/3R2K1 b - - 0 23",
+    "moves": "e6f7 h5f7",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "04KbO",
+    "fen": "2N5/8/1P2p2p/3b1k2/5p2/8/5K1P/8 b - - 1 48",
+    "moves": "d5c6 c8e7 f5e5 e7c6",
+    "themes": "crushing endgame fork short"
+  },
+  {
+    "id": "04Mis",
+    "fen": "r1b3k1/5rpp/p1n1Np2/1p1n4/2pP1q2/2P2N2/PPB2PPP/R2QR1K1 w - - 1 18",
+    "moves": "c2e4 c8e6 e4h7 g8h7",
+    "themes": "advantage hangingPiece middlegame short"
+  },
+  {
+    "id": "04Rwz",
+    "fen": "8/2B2k2/6p1/2n2p1p/5K1P/P5P1/8/8 w - - 7 44",
+    "moves": "f4g5 c5e6 g5h6 e6c7",
+    "themes": "crushing endgame fork short"
+  },
+  {
+    "id": "04SGJ",
+    "fen": "8/2R5/2P4k/5Ppp/8/6PK/r6P/8 w - - 1 56",
+    "moves": "c7e7 g5g4 h3h4 a2h2",
+    "themes": "deflection endgame mate mateIn2 rookEndgame short"
+  },
+  {
+    "id": "04T1n",
+    "fen": "6k1/pp3ppp/5R2/1q6/8/6Q1/PpP3PP/3R3K b - - 0 23",
+    "moves": "b2b1q g3b8 b5e8 b8e8",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "04VRv",
+    "fen": "8/3Q1k1p/q3r3/p5R1/1p6/1P5P/7K/8 b - - 4 49",
+    "moves": "f7f6 d7g7",
+    "themes": "endgame mate mateIn1 oneMove triangleMate"
+  },
+  {
+    "id": "04X1b",
+    "fen": "5kr1/p3b3/6PK/1R6/8/1P6/8/8 b - - 4 65",
+    "moves": "e7f6 b5b8 f8e7 b8g8",
+    "themes": "crushing deflection endgame short skewer"
+  },
+  {
+    "id": "04XLL",
+    "fen": "r1b1kb1r/ppp2Npp/2np1q2/4p3/2B1P1n1/2N3P1/PPPP1P1P/R1BQK2R w KQkq - 1 8",
+    "moves": "f7h8 f6f2",
+    "themes": "attackingF2F7 mate mateIn1 oneMove opening"
+  },
+  {
+    "id": "04Y1s",
+    "fen": "r3r3/6p1/pp3pkp/2pP4/2B2PnP/1P2P3/P3K1P1/R6R w - - 3 25",
+    "moves": "e2f3 e8e3 f3g4 f6f5",
+    "themes": "endgame mate mateIn2 sacrifice short"
+  },
+  {
+    "id": "04ZrX",
+    "fen": "3r4/1b4k1/p4q1p/1p1P1pp1/8/2P2Q2/2B2PPP/3R2K1 b - - 3 33",
+    "moves": "d8d5 d1d5 b7d5 f3d5",
+    "themes": "advantage endgame short"
+  },
+  {
+    "id": "04aTi",
+    "fen": "5rk1/1p3ppp/5q2/4b3/Q4P2/6P1/PP3rBP/R1B4K w - - 0 24",
+    "moves": "f4e5 f2f1 g2f1 f6f1",
+    "themes": "mate mateIn2 middlegame sacrifice short"
+  },
+  {
+    "id": "04b73",
+    "fen": "8/p4knp/1pq1bPp1/4p3/4P3/1P2QN1P/P4P2/6K1 b - - 0 32",
+    "moves": "f7f6 e3g5 f6f7 f3e5 f7e8 e5c6",
+    "themes": "crushing deflection endgame fork long"
+  },
+  {
+    "id": "04cQA",
+    "fen": "8/1pQ4p/7k/6p1/8/6Pq/PP1r3P/2R3K1 w - - 0 42",
+    "moves": "c7b6 h6h5 b6f2 d2f2",
+    "themes": "crushing defensiveMove endgame short"
+  },
+  {
+    "id": "04e2n",
+    "fen": "5k1r/r4pp1/1qRbp3/p7/Q2P1P2/P2B2P1/3B3P/6K1 b - - 0 26",
+    "moves": "b6b2 c6c8 f8e7 c8h8",
+    "themes": "crushing middlegame short skewer"
+  },
+  {
+    "id": "04f43",
+    "fen": "8/7p/8/5k2/8/2KbpNP1/7P/8 b - - 3 56",
+    "moves": "d3e2 f3d4 f5f6 d4e2",
+    "themes": "crushing endgame fork short"
+  },
+  {
+    "id": "04jmi",
+    "fen": "2r5/4k3/7p/p2R1p1n/P4p2/N3P3/5P1P/6K1 w - - 0 32",
+    "moves": "e3f4 c8c1 g1g2 h5f4 g2g3 f4d5",
+    "themes": "crushing endgame fork intermezzo long"
+  },
+  {
+    "id": "04kDe",
+    "fen": "4r1k1/p3qppp/1p1b1n2/8/Q2P4/4BB1P/PP3PP1/3R2K1 w - - 5 22",
+    "moves": "e3g5 e7e1 d1e1 e8e1",
+    "themes": "kingsideAttack mate mateIn2 middlegame pillsburysMate sacrifice short"
+  },
+  {
+    "id": "04nex",
+    "fen": "r3r1k1/pp3pb1/2b2R2/4pPN1/2P1P3/7Q/Pq4PP/5R1K b - - 0 24",
+    "moves": "g7f6 h3h7 g8f8 h7f7",
+    "themes": "kingsideAttack mate mateIn2 middlegame short"
+  },
+  {
+    "id": "04o8W",
+    "fen": "3r4/R7/8/4R3/1P3p2/3k4/P3p1PP/2r1K3 w - - 2 43",
+    "moves": "e1f2 c1f1",
+    "themes": "endgame mate mateIn1 oneMove rookEndgame"
+  },
+  {
+    "id": "04pb0",
+    "fen": "5rk1/R7/6p1/3P3p/4N2P/2P1KP2/p5r1/8 b - - 0 39",
+    "moves": "f8b8 e4f6 g8f8 f6d7 f8e7 d7b8",
+    "themes": "crushing discoveredAttack discoveredCheck endgame exposedKing fork long"
+  },
+  {
+    "id": "04q4Q",
+    "fen": "8/8/p2P2k1/1pp5/6K1/2r4p/P7/3R4 b - - 0 47",
+    "moves": "c3c4 g4h3 c4f4 d6d7",
+    "themes": "advancedPawn crushing endgame rookEndgame short"
+  },
+  {
+    "id": "04qRp",
+    "fen": "8/1R4pp/4bk2/p3r3/5P2/6NP/6PK/8 b - - 0 40",
+    "moves": "e5c5 g3e4 f6f5 e4c5",
+    "themes": "advantage endgame fork master short"
+  },
+  {
+    "id": "04rav",
+    "fen": "1kn5/7R/r4p2/1p6/3BK3/5P2/6PP/8 w - - 0 40",
+    "moves": "h7f7 c8d6 e4d5 d6f7",
+    "themes": "advantage endgame fork short"
+  },
+  {
+    "id": "04sRu",
+    "fen": "4r3/p5k1/1p1b1qp1/3Q1pN1/7P/2P3P1/PP4K1/5N2 b - - 0 36",
+    "moves": "f6e5 d5f7 g7h8 f7h7",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "04stn",
+    "fen": "5rk1/R5pp/1p1NN1n1/8/8/2n5/7P/6K1 b - - 1 30",
+    "moves": "f8b8 a7g7 g8h8 d6f7",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "04tGQ",
+    "fen": "r1b1k2r/p2qbp1p/2p2p2/1p6/2BnN3/3P4/PP3PPP/2KQR1NR b kq - 1 14",
+    "moves": "b5c4 e4f6 e8f8 f6d7",
+    "themes": "advantage master opening pin short"
+  },
+  {
+    "id": "04u3m",
+    "fen": "2kr1b1Q/p7/1p5p/3p1pp1/P3q3/2p1PNPP/P1P3P1/2KR1B1R w - - 0 22",
+    "moves": "c1b1 e4b4 b1a1 b4b2",
+    "themes": "mate mateIn2 middlegame queensideAttack short"
+  },
+  {
+    "id": "04vgD",
+    "fen": "3N4/6pk/2p1R2p/8/5n2/4B3/r5PP/7K w - - 2 36",
+    "moves": "e3f4 a2a1 f4c1 a1c1 e6e1 c1e1",
+    "themes": "backRankMate endgame long mate mateIn3"
+  },
+  {
+    "id": "04xcy",
+    "fen": "5r1k/6pp/1p6/p7/3pR3/bP1Q4/5qPP/4R2K w - - 0 31",
+    "moves": "e4e2 f2f1 e1f1 f8f1",
+    "themes": "backRankMate endgame mate mateIn2 sacrifice short"
+  },
+  {
+    "id": "04xyZ",
+    "fen": "4rr2/1pqkp2R/p2p2p1/6Q1/4P3/5P2/PPP5/2K4R b - - 0 26",
+    "moves": "f8f3 g5g4 d7d8 g4f3",
+    "themes": "crushing endgame fork short"
+  },
+  {
+    "id": "04yij",
+    "fen": "r2r2k1/5p1p/p5pP/2q1P1b1/8/2p5/PPP1BQ2/1K3R2 b - - 1 27",
+    "moves": "c5b4 f2f7 g8h8 f7g7",
+    "themes": "mate mateIn2 middlegame short"
+  },
+  {
+    "id": "04zhG",
+    "fen": "r1b2r2/pppnNpbk/3p2p1/6BP/3pqP2/4P2R/PPP1Q3/R3K1N1 b Q - 0 16",
+    "moves": "d7f6 h5g6",
+    "themes": "discoveredCheck doubleCheck mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "04zl6",
+    "fen": "2r1rbk1/1n3pp1/2b4p/1p1np2P/1P2N2q/2PQ2N1/1BB2PP1/R3R1K1 b - - 3 24",
+    "moves": "d5f4 e4f6 g7f6 d3h7",
+    "themes": "clearance kingsideAttack mate mateIn2 middlegame sacrifice short"
+  },
+  {
+    "id": "04zy6",
+    "fen": "r1bkr3/pp3pbp/2p1pnp1/8/2B1P3/2B5/PPP2PPP/RN1R2K1 b - - 3 11",
+    "moves": "d8e7 c3b4 c6c5 b4c5",
+    "themes": "mate mateIn2 middlegame morphysMate short"
+  },
+  {
+    "id": "051VC",
+    "fen": "4r2k/ppp2p1B/5p2/7q/Q7/2P2P2/PP3P1P/6RK w - - 7 26",
+    "moves": "a4d4 h5f3 g1g2 e8e1",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "051xA",
+    "fen": "8/8/5n2/3pR1k1/1p4r1/1P1B4/1KP5/8 b - - 0 49",
+    "moves": "g5f4 e5f5 f4e3 f5f6",
+    "themes": "crushing endgame fork master short"
+  },
+  {
+    "id": "052KC",
+    "fen": "r1bq3r/1p1nbkpp/2pp1n2/p3p1N1/P3P3/2NP3P/1PP2PP1/R1BQK2R b KQ - 1 9",
+    "moves": "f7f8 g5e6 f8f7 e6d8",
+    "themes": "advantage fork opening short"
+  },
+  {
+    "id": "053bb",
+    "fen": "r3rbk1/3n1pp1/bqp5/p2p1B2/3P4/7R/PP3PPP/RNBQ2K1 w - - 3 18",
+    "moves": "d1h5 e8e1",
+    "themes": "backRankMate mate mateIn1 oneMove opening"
+  },
+  {
+    "id": "0546P",
+    "fen": "8/2Rq1p1k/p3p1pp/1p2P3/1P3P1P/3r2PK/2Q5/8 b - - 3 40",
+    "moves": "d3d2 c7d7 d2c2 d7f7",
+    "themes": "advantage endgame pin short"
+  },
+  {
+    "id": "054Pk",
+    "fen": "rn3rQk/pp4pp/2p4N/q3p3/8/1PP1n3/P5PP/2KR2NR b - - 7 20",
+    "moves": "f8g8 h6f7",
+    "themes": "mate mateIn1 middlegame oneMove smotheredMate"
+  },
+  {
+    "id": "055uf",
+    "fen": "rn3rk1/p4Rp1/1pp3P1/2n5/2Q1p1q1/2P5/P5P1/R5K1 b - - 0 25",
+    "moves": "f8f7 c4f7 g8h8 f7f8",
+    "themes": "mate mateIn2 middlegame short"
+  },
+  {
+    "id": "0572j",
+    "fen": "4r1k1/2p2ppb/p1p4p/2P1q1b1/1P3NP1/P2p1P1P/3Q1BK1/4R3 b - - 8 37",
+    "moves": "e5f4 e1e8",
+    "themes": "backRankMate hangingPiece mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0579n",
+    "fen": "5k2/p3q3/1p1p1p2/2p2Pp1/4r3/1Q5R/P1P1r1PP/5RK1 b - - 5 38",
+    "moves": "e2e1 h3h8 f8g7 b3g8",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "057Kw",
+    "fen": "r4rk1/2pq1ppp/p1n5/1pPpP3/6b1/P4N2/BP3PPP/2RQ1RK1 b - - 0 19",
+    "moves": "c6e5 f3e5 g4d1 e5d7",
+    "themes": "crushing hangingPiece middlegame short"
+  },
+  {
+    "id": "0587i",
+    "fen": "r4rk1/1ppq1ppn/p2p3p/4pN2/4PnQ1/P2P3P/RPP2PPN/5RK1 b - - 9 18",
+    "moves": "d7e6 g4g7",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "058XC",
+    "fen": "5r2/4b1k1/p1pqp3/3p4/3P1rp1/2PQ2R1/PPN3P1/5RK1 w - - 2 30",
+    "moves": "f1f4 d6f4 g3g4 f4g4",
+    "themes": "crushing middlegame short"
+  },
+  {
+    "id": "05A2g",
+    "fen": "r5k1/1p3p1p/p1bppB2/4P2Q/P2p4/1B1P2r1/1PP4P/4qRK1 w - - 0 32",
+    "moves": "h2g3 e1g3",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "05EKx",
+    "fen": "r1b3k1/pp4pp/5q2/3pN3/2pP4/7P/PP3QP1/R3K3 b Q - 0 22",
+    "moves": "f6b6 f2f7 g8h8 f7e8",
+    "themes": "backRankMate endgame mate mateIn2 short"
+  },
+  {
+    "id": "05ERf",
+    "fen": "5r1k/8/2np4/ppp1p1R1/5r2/2PP1N2/PP1K4/R7 b - - 0 34",
+    "moves": "f4f3 a1h1 f3h3 h1h3",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "05Fin",
+    "fen": "8/7k/5r2/1PPP1b2/8/5N1P/5PP1/3qQ1K1 b - - 2 35",
+    "moves": "d1d5 e1e7",
+    "themes": "crushing endgame oneMove"
+  },
+  {
+    "id": "05GGK",
+    "fen": "r2q1rk1/ppp2pp1/5n1p/2b1p3/3nP1b1/2N1BNP1/PPP2PBP/R2QR1K1 b - - 1 11",
+    "moves": "d8d7 f3e5 g4d1 e5d7",
+    "themes": "advantage middlegame short"
+  },
+  {
+    "id": "05I2j",
+    "fen": "2kr1b1r/Q1p2ppp/8/2p1N3/6b1/4B3/P3qPPP/5RK1 b - - 1 16",
+    "moves": "g4e6 a7a8",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "05I6i",
+    "fen": "r2k4/1p1bRQ2/p1pp1p2/5P2/3q2PK/8/P6P/8 b - - 0 35",
+    "moves": "d4f2 h4h5 f2h2 h5g6 d8c7 e7d7",
+    "themes": "advantage endgame long"
+  },
+  {
+    "id": "05Kp1",
+    "fen": "5rk1/2p5/p1Bq3p/3P4/5p2/7P/5KP1/1R1NR3 w - - 0 33",
+    "moves": "d1c3 d6c5 f2f1 c5c3",
+    "themes": "advantage endgame fork short"
+  },
+  {
+    "id": "05Ljb",
+    "fen": "3rk2r/p1QNnppp/2p5/4p3/4q3/8/PP3PPP/3R2K1 b k - 1 20",
+    "moves": "e4f5 d7f6 g7f6 c7d8",
+    "themes": "mate mateIn2 middlegame short"
+  },
+  {
+    "id": "05Mdg",
+    "fen": "6k1/p2R1r2/4Q2p/4B1p1/2p1p3/8/P1r2bPP/5RK1 w - - 0 23",
+    "moves": "f1f2 c2c1 d7d1 c1d1 f2f1 d1f1",
+    "themes": "endgame long mate mateIn3"
+  },
+  {
+    "id": "05PRU",
+    "fen": "6k1/p1q2ppp/1p1bpB2/8/7Q/1P2Pb2/P2N1PPP/6K1 w - - 0 24",
+    "moves": "d2f3 c7c1 f3e1 c1e1",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "05QQ0",
+    "fen": "r4q1k/p1p1Nppp/bp1p1n1n/3P4/2P4Q/8/P3RPPP/4R1K1 b - - 11 22",
+    "moves": "a8e8 e7g6 h7g6 e2e8 f8e8 e1e8",
+    "themes": "advantage discoveredAttack kingsideAttack long middlegame pin"
+  },
+  {
+    "id": "05ROq",
+    "fen": "2rr2k1/5p2/pp2q1pp/2p5/P1pP4/2PQP1P1/R4PKP/1R6 w - - 0 26",
+    "moves": "d3e2 e6e4 f2f3 e4b1",
+    "themes": "crushing endgame fork master short"
+  },
+  {
+    "id": "05StH",
+    "fen": "2r3k1/p5pp/8/2bq1p2/1r2pB2/1P1p2P1/P1Q2PBP/2RR2K1 w - - 0 31",
+    "moves": "c2c3 c5f2 g1h1 c8c3",
+    "themes": "advantage discoveredAttack middlegame short"
+  },
+  {
+    "id": "05T09",
+    "fen": "r1b2rk1/1pp1nppp/pq6/7Q/P3N3/2P5/1PB2PPP/R4RK1 b - - 2 16",
+    "moves": "b6g6 e4f6 g7f6 c2g6",
+    "themes": "advantage discoveredAttack kingsideAttack middlegame short"
+  },
+  {
+    "id": "05UYG",
+    "fen": "8/8/3R1k2/P3p1p1/2pp4/r4P2/5KP1/8 b - - 2 33",
+    "moves": "f6f5 g2g4 f5f4 d6f6",
+    "themes": "endgame mate mateIn2 rookEndgame short"
+  },
+  {
+    "id": "05UaC",
+    "fen": "3r1rk1/1Q5R/2p2qp1/2Pp4/1P3p2/5P2/P1B3PP/4R2K w - - 3 33",
+    "moves": "e1e7 f6a1 c2b1 a1b1 e7e1 b1e1",
+    "themes": "backRankMate long mate mateIn3 middlegame"
+  },
+  {
+    "id": "05VXe",
+    "fen": "r4r1k/ppq3Rp/5P1Q/8/8/2PB3P/PP6/1K5n b - - 4 32",
+    "moves": "f8f7 h6h7",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "05VuI",
+    "fen": "q4rk1/1p3ppp/2N1pn2/8/4p3/rPN1P2P/2PQB1P1/2KR3R w - - 1 19",
+    "moves": "c6b4 a3a1 c3b1 a8a3",
+    "themes": "clearance mate mateIn2 middlegame pin queensideAttack short"
+  },
+  {
+    "id": "05Xxf",
+    "fen": "rn2kb1r/pp2pppp/2p5/4q3/6n1/2N1N3/PPPP1PPP/R1BQK2R w KQkq - 3 10",
+    "moves": "e1g1 e5h2",
+    "themes": "kingsideAttack mate mateIn1 oneMove opening"
+  },
+  {
+    "id": "05YEP",
+    "fen": "r1b2rk1/1pp2pbp/p1n3p1/4p3/4B2B/2Q1PN2/qPP2PPP/2KR3R b - - 1 14",
+    "moves": "f7f5 e4d5 a2d5 d1d5",
+    "themes": "crushing fork middlegame short"
+  },
+  {
+    "id": "05YjK",
+    "fen": "2r5/pbpk1pp1/1p2p3/4N2p/3nPP2/8/P1R3PP/2R3K1 b - - 1 24",
+    "moves": "d7e7 c2c7 c8c7 c1c7",
+    "themes": "crushing endgame fork short"
+  },
+  {
+    "id": "05ZRb",
+    "fen": "8/1p2qkp1/2p4p/p2rPp2/5P2/1PQ3P1/P3R1KP/8 b - - 3 29",
+    "moves": "e7b4 e5e6 f7f8 e6e7 b4e7 e2e7",
+    "themes": "advancedPawn crushing endgame long"
+  },
+  {
+    "id": "05ZjG",
+    "fen": "3r2k1/1b4p1/2p1pp1p/1pP5/1P6/P1n2N1P/2B2PP1/R5K1 w - - 0 30",
+    "moves": "a1c1 c3e2 g1f1 e2c1",
+    "themes": "crushing endgame fork short"
+  },
+  {
+    "id": "05bZx",
+    "fen": "5r1k/pp5p/2P4r/8/P2Pp3/8/1P2RP2/4QKq1 w - - 0 36",
+    "moves": "f1g1 f8g8 g1f1 h6h1",
+    "themes": "endgame mate mateIn2 queenRookEndgame short"
+  },
+  {
+    "id": "05cho",
+    "fen": "r6r/pp1q1p1k/2pb1Q1p/3p1b2/3P1P2/3B2R1/PPP3PP/RN4K1 b - - 0 18",
+    "moves": "f5d3 g3g7",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "05djE",
+    "fen": "r5k1/1ppb3p/p2q2p1/3P1p2/2PQ4/P7/B4PPP/4R1K1 b - - 0 24",
+    "moves": "a8e8 e1e8 d7e8 c4c5",
+    "themes": "crushing endgame short"
+  },
+  {
+    "id": "05e4t",
+    "fen": "2b1k2r/r4ppp/p3pB2/1pb5/6q1/1B3Q2/PPP2PPP/3RR1K1 b k - 0 16",
+    "moves": "g4f3 d1d8",
+    "themes": "mate mateIn1 middlegame oneMove operaMate"
+  },
+  {
+    "id": "05iJw",
+    "fen": "8/6R1/1kp2R2/p7/1pp5/P1P5/KP5r/8 w - - 0 48",
+    "moves": "g7g6 b4b3 a2a1 h2h1 g6g1 h1g1 f6f1 g1f1",
+    "themes": "endgame mate mateIn4 rookEndgame veryLong"
+  },
+  {
+    "id": "05jkW",
+    "fen": "2Q5/k3r1R1/1pp5/p2p4/P2P4/2P2P2/5K1q/6R1 w - - 22 55",
+    "moves": "f2f1 h2e2",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "05mxQ",
+    "fen": "8/8/8/1p5p/2p2k1P/P1P5/1P2K3/8 w - - 0 55",
+    "moves": "e2f2 f4g4 f2e3 g4h4",
+    "themes": "crushing endgame pawnEndgame short"
+  },
+  {
+    "id": "05nKL",
+    "fen": "4rk2/ppqn1Npp/2p5/5pB1/2BP2n1/2N2Q2/PPP3P1/R5bK w - - 8 17",
+    "moves": "h1g1 c7h2 g1f1 h2h1",
+    "themes": "kingsideAttack mate mateIn2 middlegame short"
+  },
+  {
+    "id": "05ngS",
+    "fen": "rnbqk2r/ppp2ppp/4pn2/3p2B1/1b1P4/P1N3P1/1PP1PP1P/R2QKBNR b KQkq - 0 5",
+    "moves": "f6e4 g5d8 b4c3 b2c3",
+    "themes": "crushing opening short"
+  },
+  {
+    "id": "05r9M",
+    "fen": "8/6bp/1ppkb3/p4p2/P1PnpP1B/1P2N2P/3N1KP1/8 b - - 7 35",
+    "moves": "d6c5 h4e7",
+    "themes": "endgame master mate mateIn1 oneMove"
+  },
+  {
+    "id": "05rdh",
+    "fen": "3q3k/6bp/4B1p1/p1p5/1p6/P6P/1PQ3P1/4R1K1 w - - 0 29",
+    "moves": "c2c5 g7d4 c5d4 d8d4",
+    "themes": "advantage endgame fork short"
+  },
+  {
+    "id": "05v72",
+    "fen": "3r1rk1/p6p/8/8/2Pp4/1P1R3b/P1Q4P/4RqK1 w - - 2 27",
+    "moves": "e1f1 f8f1",
+    "themes": "endgame mate mateIn1 oneMove operaMate"
+  },
+  {
+    "id": "05wkC",
+    "fen": "3r3k/p2br1p1/2p2p1p/Pp1p4/1q3P2/3BP2P/1P2Q1P1/2RN2K1 b - - 2 31",
+    "moves": "b4f4 e3f4 e7e2 d3e2",
+    "themes": "advantage middlegame short"
+  },
+  {
+    "id": "05x7b",
+    "fen": "r1b1r2k/pp3Q2/3p1n1b/2p1N3/1q2P3/8/PPP2PPP/1R3K1R w - - 0 20",
+    "moves": "f7f6 h6g7 f6h4 h8g8",
+    "themes": "crushing defensiveMove master middlegame short"
+  },
+  {
+    "id": "05xaw",
+    "fen": "r2q1rkQ/pp2ppb1/6p1/5b2/3B2n1/2N2P2/PPP5/2KR1B1R b - - 4 16",
+    "moves": "g7h8 h1h8",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "060Lo",
+    "fen": "1r1q1rk1/pp3p1p/2nb1p2/1Q1p4/3P4/P4N2/1P3PPP/RN3RK1 w - - 0 14",
+    "moves": "b5d5 d6h2 f3h2 d8d5",
+    "themes": "advantage discoveredAttack kingsideAttack middlegame short"
+  },
+  {
+    "id": "060z5",
+    "fen": "8/1p5k/p3q1Rp/2p5/4Bp2/2P2P1P/PP1K4/8 b - - 0 34",
+    "moves": "e6a2 g6a6 h7h8 a6a2",
+    "themes": "crushing discoveredAttack discoveredCheck endgame short"
+  },
+  {
+    "id": "065IN",
+    "fen": "4rk2/pp3pp1/1qn3Bp/3p4/3N4/1NP2PnP/PP4P1/3QR1K1 b - - 0 25",
+    "moves": "f7g6 e1e8 f8e8 d1e1",
+    "themes": "attraction crushing middlegame short"
+  },
+  {
+    "id": "065Vb",
+    "fen": "2r1r1k1/3R3p/p1p1PpQB/1p2q3/2n2N2/2P5/PP4PP/1K6 b - - 0 28",
+    "moves": "h7g6 d7g7 g8h8 f4g6",
+    "themes": "intermezzo kingsideAttack mate mateIn2 middlegame short"
+  },
+  {
+    "id": "068LN",
+    "fen": "2kr3r/pbp2ppp/1pnqp3/3P4/4B3/2b2N2/P1P2PPP/1RBQ1RK1 w - - 1 13",
+    "moves": "d5c6 d6d1 c6b7 c8b8",
+    "themes": "crushing master masterVsMaster middlegame short"
+  },
+  {
+    "id": "06DJ3",
+    "fen": "rr6/p1p1kppp/2P1p1q1/2P5/3P3b/1Q2P2P/P4NP1/R4RK1 w - - 9 24",
+    "moves": "b3d3 h4f2 f1f2 g6d3",
+    "themes": "crushing kingsideAttack middlegame short"
+  },
+  {
+    "id": "06DdU",
+    "fen": "2r1kb1r/p1q1pppp/1p1p4/1P6/2n5/P1N1Q3/1BP2PPP/R3K1NR w KQk - 11 19",
+    "moves": "e3c1 c4b2 c1b2 c7c3 b2c3 c8c3",
+    "themes": "advantage discoveredAttack long opening"
+  },
+  {
+    "id": "06EKE",
+    "fen": "3kr3/p4p1R/1pp3p1/8/3P2Q1/2P3P1/P2K1P1P/7q w - - 5 34",
+    "moves": "h7f7 h1e1 d2c2 e8e2 g4e2 e1e2",
+    "themes": "crushing endgame long"
+  },
+  {
+    "id": "06ENk",
+    "fen": "2r5/5kpp/4Np2/3p4/3Pn3/4R2P/6PB/6K1 w - - 1 33",
+    "moves": "e6f4 c8c1 e3e1 c1e1",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "06EjQ",
+    "fen": "8/p1p5/6K1/5p2/4kP2/8/P6P/8 w - - 1 41",
+    "moves": "g6g5 c7c5 h2h4 c5c4 h4h5 c4c3 h5h6 c3c2 h6h7 c2c1q",
+    "themes": "advancedPawn crushing endgame pawnEndgame promotion quietMove veryLong"
+  },
+  {
+    "id": "06FRP",
+    "fen": "2r3k1/2B2n1p/p5p1/1pNP1pP1/8/1P6/1P4P1/4R1K1 b - - 0 31",
+    "moves": "c8c7 e1e8 g8g7 c5e6",
+    "themes": "endgame master masterVsMaster mate mateIn2 short superGM"
+  },
+  {
+    "id": "06I3W",
+    "fen": "r1bqk2r/pppp1pp1/2n4p/3QP3/2B1P2b/6B1/PPP2PPP/RN2K2R b KQkq - 1 9",
+    "moves": "h4g3 d5f7",
+    "themes": "attackingF2F7 mate mateIn1 oneMove opening"
+  },
+  {
+    "id": "06IK9",
+    "fen": "8/3k4/p1p2rp1/2Pp1P1p/PP2pKPP/4P3/8/6R1 w - - 0 38",
+    "moves": "g4g5 f6f5 f4g3 f5f3 g3g2 f3e3",
+    "themes": "crushing endgame long rookEndgame"
+  },
+  {
+    "id": "06JrE",
+    "fen": "r3r1k1/p1p1qp1p/1p4p1/4b3/2P1Q3/1P4P1/PB3P1P/2RR2K1 w - - 0 19",
+    "moves": "d1e1 e5b2 e4e7 e8e7 e1e7 b2c1",
+    "themes": "advantage hangingPiece long middlegame"
+  },
+  {
+    "id": "06KDC",
+    "fen": "8/2rk4/p5Q1/1p1q2b1/3P4/6P1/PPP4P/1K2R3 w - - 3 35",
+    "moves": "e1e5 d5h1 e5e1 h1e1",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "06M0E",
+    "fen": "2kr3r/ppp3pp/2n3q1/1QN1nb2/8/2P4P/P1P3P1/R4R1K b - - 9 20",
+    "moves": "b7b6 b5a6 c8b8 a6b7",
+    "themes": "mate mateIn2 middlegame queensideAttack short"
+  },
+  {
+    "id": "06NYU",
+    "fen": "6R1/ppkn1Q2/2pb2r1/8/P7/3P2qP/1PPB2B1/R6K w - - 1 28",
+    "moves": "d2f4 g3g2",
+    "themes": "master mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "06ORP",
+    "fen": "5q1k/6p1/1p4Pp/8/2Qp4/2P4K/3r4/5R2 b - - 1 40",
+    "moves": "f8c8 c4c8",
+    "themes": "endgame hangingPiece mate mateIn1 oneMove"
+  },
+  {
+    "id": "06PPM",
+    "fen": "1r3rk1/QPp2ppp/3p4/7q/2B1Pn2/2N2P2/PP3P1P/R5RK w - - 7 19",
+    "moves": "a7d4 h5f3 g1g2 f3g2",
+    "themes": "kingsideAttack mate mateIn2 middlegame short"
+  },
+  {
+    "id": "06Q7i",
+    "fen": "r3qR1k/1p1n3p/p1bp2pB/P1p1p3/2P1P2Q/3P3P/R1P4K/8 b - - 1 32",
+    "moves": "d7f8 h4f6 h8g8 f6g7",
+    "themes": "kingsideAttack mate mateIn2 middlegame short"
+  },
+  {
+    "id": "06RYV",
+    "fen": "3r2k1/p4p1p/4p1p1/4P1R1/3KB2P/2P3R1/r7/8 w - - 6 33",
+    "moves": "d4c4 a2a4 c4b3 a4e4",
+    "themes": "crushing endgame short skewer"
+  },
+  {
+    "id": "06Sq9",
+    "fen": "7r/p4ppk/3P4/1Q6/7p/P3q2P/5rP1/1R5K b - - 2 33",
+    "moves": "e3g3 b5h5 h7g8 b1b8",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "06Swt",
+    "fen": "2rqk2r/Q4ppp/2pb4/2P1pb2/8/1B1n1P2/PP4PP/R1B2KNR b k - 1 16",
+    "moves": "d6c5 a7f7",
+    "themes": "attackingF2F7 mate mateIn1 oneMove opening"
+  },
+  {
+    "id": "06V0l",
+    "fen": "3r1b2/7p/1p3p2/5R2/4P1k1/6N1/PPP3PP/2K5 w - - 2 28",
+    "moves": "b2b3 f8a3 c1b1 d8d1",
+    "themes": "endgame mate mateIn2 pillsburysMate short"
+  },
+  {
+    "id": "06YjZ",
+    "fen": "r2q1rk1/ppp2pbp/6p1/3pn3/8/1P2PN1P/P1P2PP1/R1BQ1RK1 w - - 0 12",
+    "moves": "c1b2 e5f3 d1f3 g7b2",
+    "themes": "advantage discoveredAttack middlegame short"
+  },
+  {
+    "id": "06YlU",
+    "fen": "4r1k1/1p6/p1p2Rp1/3p4/PP1P2pP/4r1P1/6K1/5R2 b - - 1 37",
+    "moves": "e8e6 f6f8 g8h7 f1f7 h7h6 f8h8",
+    "themes": "endgame exposedKing long mate mateIn3 rookEndgame"
+  },
+  {
+    "id": "06Z0u",
+    "fen": "rQ2k2r/3qppbp/2bp1np1/2p3N1/5B2/2P1P3/P4PPP/1R2KB1R b Kkq - 5 17",
+    "moves": "a8b8 b1b8 d7d8 b8d8 e8d8 g5f7",
+    "themes": "advantage attraction long middlegame"
+  },
+  {
+    "id": "06Z8B",
+    "fen": "3r4/1b2kp1p/2q1pp2/1pb5/8/1B3N2/1PP1QPrP/4R1RK w - - 0 20",
+    "moves": "g1g2 c6f3 e2f3 b7f3",
+    "themes": "advantage middlegame pin short"
+  },
+  {
+    "id": "06Zvm",
+    "fen": "6k1/1p1q1p2/pQp3pp/6nP/PP6/4PBP1/5PK1/8 w - - 1 40",
+    "moves": "h5g6 d7h3 g2g1 g5f3",
+    "themes": "deflection endgame mate mateIn2 short"
+  },
+  {
+    "id": "06awr",
+    "fen": "4r3/pp3q1k/2n3p1/2b5/8/1P3PR1/2P1rP1P/Q6K b - - 1 30",
+    "moves": "e2f2 g3h3 h7g8 a1h8",
+    "themes": "mate mateIn2 middlegame short"
+  },
+  {
+    "id": "06cNn",
+    "fen": "r1b3k1/ppp1q1pp/7r/2b1Np2/5P2/2NP4/PPP1Q1PP/R4RK1 w - - 1 18",
+    "moves": "g1h1 h6h2 h1h2 e7h4",
+    "themes": "attraction kingsideAttack mate mateIn2 middlegame sacrifice short"
+  },
+  {
+    "id": "06cRU",
+    "fen": "6k1/6p1/2p1Rp1p/q1Pp1Q2/3P4/2r3PP/5P2/6K1 b - - 1 33",
+    "moves": "a5a1 g1g2 c3c1 e6e8",
+    "themes": "advantage defensiveMove endgame short"
+  },
+  {
+    "id": "06dla",
+    "fen": "r4rk1/pbp2pp1/8/2pq1P1p/2p3Q1/B1P4P/P1P3P1/R4RK1 w - - 0 17",
+    "moves": "g4h5 d5g2",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "06etG",
+    "fen": "4r1k1/p5b1/1p4R1/4q2P/8/2P3Q1/P4PPK/8 w - - 5 36",
+    "moves": "h5h6 e5h5 g3h3 h5g6",
+    "themes": "advantage deflection endgame master short"
+  },
+  {
+    "id": "06iAT",
+    "fen": "5r1k/6bp/3p4/P2q4/1P6/4P1P1/6QP/2R2q1K w - - 0 35",
+    "moves": "c1f1 f8f1",
+    "themes": "endgame mate mateIn1 oneMove pin"
+  },
+  {
+    "id": "06lBi",
+    "fen": "2r2k1r/2q3pp/p3pn2/6Q1/1PPp4/3K4/P5PP/2R2R2 b - - 0 24",
+    "moves": "c8d8 f1f6 g7f6 g5f6",
+    "themes": "advantage middlegame short"
+  },
+  {
+    "id": "06lCg",
+    "fen": "5rk1/1b3B2/4pB2/1p1pP3/1PpP4/2P2p2/5K2/7R b - - 0 33",
+    "moves": "f8f7 h1h8",
+    "themes": "endgame mate mateIn1 oneMove operaMate"
+  },
+  {
+    "id": "06lRT",
+    "fen": "1r3rk1/p4pbp/1p4p1/2pq4/3P1B2/P5P1/1P2NPKP/1R1QnR2 w - - 5 20",
+    "moves": "g2g1 d5g2",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "06lwV",
+    "fen": "r2q1rk1/1p1nbp2/p2p2p1/3P2P1/3B4/3Q1P2/PPP5/R3KB1R b KQ - 0 18",
+    "moves": "e7g5 h1h8",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "06mvl",
+    "fen": "3rr1k1/1p1nb1p1/p3R2p/2pP4/8/1PN2N1P/P5P1/4R1K1 b - - 2 29",
+    "moves": "d7f6 e6e7 e8e7 e1e7",
+    "themes": "advantage middlegame short"
+  },
+  {
+    "id": "06oAz",
+    "fen": "r3r1k1/1ppn1p1p/3b2p1/p4P2/2B1P3/P4K2/1PPB1P2/R3R3 w - - 3 26",
+    "moves": "f5g6 d7e5 f3e2 e5c4",
+    "themes": "advantage fork middlegame short"
+  },
+  {
+    "id": "06psc",
+    "fen": "5r2/1k1qNp2/p3bppp/3n4/1P1PP1P1/P4Q1P/4NPK1/2R5 b - - 0 25",
+    "moves": "d7e7 e4d5 e6d5 f3d5",
+    "themes": "crushing master middlegame short"
+  },
+  {
+    "id": "06v0U",
+    "fen": "8/8/5KQ1/2B5/p7/1p6/4k3/7q w - - 7 67",
+    "moves": "g6g4 h1f3 f6e5 f3g4",
+    "themes": "crushing endgame short"
+  },
+  {
+    "id": "06v5i",
+    "fen": "1q2k2r/3bn3/4ppp1/p1Q5/1r6/4P3/PP2BPPP/RNB2RK1 w k - 2 18",
+    "moves": "b2b3 b8h2",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "06zHm",
+    "fen": "3R1bk1/5p2/4b1pq/p1Q5/8/8/1PP5/4K3 b - - 5 36",
+    "moves": "h6f4 c5f8 g8h7 f8h8",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "0704z",
+    "fen": "r1b1r1k1/pp3ppp/1q3n2/3Pn3/4P3/2N2N1P/PP4P1/RB1Q1RK1 w - - 1 18",
+    "moves": "d1d4 e5f3 f1f3 b6d4",
+    "themes": "crushing kingsideAttack opening short"
+  },
+  {
+    "id": "070HG",
+    "fen": "2k5/3r2pp/5p2/pR2n3/P2p4/5B2/1P1K1PPP/8 w - - 5 28",
+    "moves": "b5a5 e5c4 d2d3 c4a5",
+    "themes": "advantage endgame fork short"
+  },
+  {
+    "id": "070xx",
+    "fen": "r3k3/pp2P1p1/2p1K3/6p1/6P1/8/P4n1P/5R2 b - - 9 42",
+    "moves": "a8c8 f1f2 c6c5 f2f8",
+    "themes": "endgame hangingPiece mate mateIn2 short"
+  },
+  {
+    "id": "0724U",
+    "fen": "r5k1/pp1nrpp1/2bq3p/3pR3/P2P4/2P5/BP1N1PPP/R2Q2K1 w - - 0 18",
+    "moves": "e5d5 c6d5 a2d5 d6d5",
+    "themes": "crushing middlegame short"
+  },
+  {
+    "id": "0730Z",
+    "fen": "1r6/7k/3b1p1p/q3p1pP/2Bp4/3P1P2/2K3P1/Rr2B2R w - - 0 36",
+    "moves": "a1a5 b8b2",
+    "themes": "blindSwineMate mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "073e8",
+    "fen": "1r4k1/p5pp/7q/8/2P1P3/K1QP4/PP5P/6R1 w - - 5 31",
+    "moves": "g1g2 h6a6 c3a5 a6a5",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "0755M",
+    "fen": "4r1k1/2p1rpp1/p2b1n1p/1p1P4/1P6/P1NRB2P/5PP1/3R2K1 w - - 3 23",
+    "moves": "e3c5 e7e1 d1e1 e8e1",
+    "themes": "kingsideAttack master mate mateIn2 middlegame pillsburysMate short"
+  },
+  {
+    "id": "076HN",
+    "fen": "r3r1k1/1pq3p1/p1b1pQ1p/3p4/3P4/2N3R1/PPP2PPP/R5K1 w - - 1 20",
+    "moves": "f6h6 c7g3 h2g3 g7h6",
+    "themes": "crushing middlegame short"
+  },
+  {
+    "id": "078nJ",
+    "fen": "8/pb2kr2/1p2pNnb/3pPr1p/2pP1P1P/2P2RP1/PP1N4/K5R1 b - - 8 28",
+    "moves": "g6f8 f6g8 e7d7 g8h6",
+    "themes": "advantage fork middlegame short"
+  },
+  {
+    "id": "07B8q",
+    "fen": "2r2rk1/4Rpp1/8/1N6/p1BP3P/2P5/P7/6K1 w - - 3 33",
+    "moves": "e7c7 c8c7 b5c7 f8c8 c4d5 c8c7",
+    "themes": "advantage clearance endgame long"
+  },
+  {
+    "id": "07Bo1",
+    "fen": "4rbk1/2qN1pp1/p6p/1p6/3p1PQ1/Pb1P3P/1BP5/2K3RR w - - 2 29",
+    "moves": "d7f8 c7c2",
+    "themes": "mate mateIn1 middlegame oneMove queensideAttack"
+  },
+  {
+    "id": "07CoK",
+    "fen": "5k1r/1p1n1pp1/p2q1n1p/2pp4/P2P4/5N2/1PPB1PPP/R3Q1K1 b - - 0 18",
+    "moves": "c5c4 d2b4 d6b4 e1b4",
+    "themes": "crushing middlegame pin short"
+  },
+  {
+    "id": "07FmW",
+    "fen": "r1q2rk1/pp4pp/2pb4/5p2/4pP2/1PP1P3/PB2Q1PP/R4RK1 b - - 1 18",
+    "moves": "d6c5 e2c4 g8h8 c4c5",
+    "themes": "advantage fork middlegame short"
+  },
+  {
+    "id": "07HRm",
+    "fen": "2r3k1/pQ3ppp/8/8/5bb1/2PP4/PP4Rq/RKB1rB2 w - - 6 26",
+    "moves": "g2h2 e1c1",
+    "themes": "mate mateIn1 middlegame oneMove operaMate queensideAttack"
+  },
+  {
+    "id": "07LCh",
+    "fen": "6k1/1b2rpp1/p3qR1p/1p6/8/P4NP1/1PQ2PP1/1B3K2 b - - 0 31",
+    "moves": "e6f6 c2h7 g8f8 h7h8",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "07LCs",
+    "fen": "4r1k1/p6p/1p4p1/4q3/1R2pr2/P1PbQ1NP/1P3PP1/4R1K1 w - - 9 32",
+    "moves": "e3d3 e4d3 e1e5 e8e5",
+    "themes": "advantage middlegame short"
+  },
+  {
+    "id": "07MTp",
+    "fen": "5rk1/ppp2p1p/6n1/3r1RQ1/8/4p2B/Pq4PP/4R1K1 w - - 0 23",
+    "moves": "f5d5 b2f2 g1h1 f2e1",
+    "themes": "backRankMate fork mate mateIn2 middlegame short"
+  },
+  {
+    "id": "07N0w",
+    "fen": "r4rk1/pp1nqppp/2p5/7b/3P2P1/4Pp1P/PPB2P2/R2Q1RK1 w - - 0 15",
+    "moves": "g4h5 e7g5 g1h1 g5g2",
+    "themes": "kingsideAttack mate mateIn2 middlegame short"
+  },
+  {
+    "id": "07OMo",
+    "fen": "6rk/1R3p2/8/8/3PQ3/3qPP2/P4PK1/8 w - - 5 33",
+    "moves": "g2h3 d3f1 h3h4 f1h1",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "07PDL",
+    "fen": "1r5k/q5bp/3N2p1/4ppQ1/1P1nN3/P5PP/5P1K/2R1R3 w - - 0 34",
+    "moves": "e4c5 d4f3 h2g2 f3g5",
+    "themes": "advantage fork master middlegame short"
+  },
+  {
+    "id": "07Pnp",
+    "fen": "r2qkb1r/pQ3ppp/2p1pn2/4N3/1nBP4/2NbP1B1/PP3PPP/2R1K2R b Kkq - 2 12",
+    "moves": "d3c4 b7f7",
+    "themes": "attackingF2F7 mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "07Q5H",
+    "fen": "r1b1k2r/ppp2pp1/2pq4/2b1n2p/4P3/3P1N1P/PPP1BPP1/R1BQ1RK1 w kq - 7 11",
+    "moves": "c1f4 e5f3 e2f3 d6f4",
+    "themes": "advantage discoveredAttack kingsideAttack opening short"
+  },
+  {
+    "id": "07Qh3",
+    "fen": "2rr2k1/q3Rppp/p7/1p6/3P4/4Q3/PP4PP/R5K1 b - - 2 25",
+    "moves": "a7d4 e7e8 d8e8 e3d4",
+    "themes": "advantage deflection endgame short"
+  },
+  {
+    "id": "07R5e",
+    "fen": "8/5p2/4p3/4P1nk/4P1N1/6K1/3P2RP/5r2 w - - 13 62",
+    "moves": "d2d3 f1f3",
+    "themes": "endgame master mate mateIn1 oneMove"
+  },
+  {
+    "id": "07T43",
+    "fen": "8/5Qpk/p6p/1p1Pp3/1qn1P3/4BP2/P5PP/2R3K1 w - - 1 29",
+    "moves": "c1c4 b4e1",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "07UME",
+    "fen": "rnb1k2r/p1p2ppp/4pq2/8/PpBPn3/5N2/NP3PPb/R1BQR1K1 w kq - 0 11",
+    "moves": "f3h2 f6f2 g1h1 e4g3",
+    "themes": "kingsideAttack mate mateIn2 opening short"
+  },
+  {
+    "id": "07Uwh",
+    "fen": "8/7p/4K3/5P2/p7/8/k6P/8 b - - 0 44",
+    "moves": "a2b1 f5f6 a4a3 f6f7",
+    "themes": "advancedPawn crushing endgame pawnEndgame short"
+  },
+  {
+    "id": "07VLw",
+    "fen": "8/5p2/p5p1/1p1p1bP1/2k2P2/R2p4/1K6/8 b - - 3 53",
+    "moves": "f5c8 a3c3 c4d4 c3c8 d3d2 b2c2",
+    "themes": "crushing endgame long skewer"
+  },
+  {
+    "id": "07Wgq",
+    "fen": "r1bq1rk1/p1p1bppp/1p3n2/3p2B1/3QPP2/2N5/PPP1B1PP/R4RK1 w - - 0 11",
+    "moves": "e4e5 e7c5 d4c5 b6c5",
+    "themes": "advantage middlegame pin short"
+  },
+  {
+    "id": "07YFf",
+    "fen": "5rk1/2pb1ppp/2q1pn2/2b5/2p1N3/4B1PP/1PQ2PB1/R5K1 b - - 0 22",
+    "moves": "c5e3 e4f6 g7f6 g2c6",
+    "themes": "advantage discoveredAttack middlegame short"
+  },
+  {
+    "id": "07YZh",
+    "fen": "rn1q4/pp3k1p/6p1/4pp2/2B1p3/1PP1P1Q1/5PPP/2b1K2R b K - 2 24",
+    "moves": "f7f6 g3h4 f6g7 h4d8",
+    "themes": "crushing middlegame short skewer"
+  },
+  {
+    "id": "07aiv",
+    "fen": "4r1k1/1p4p1/2p2p1p/4p3/1BBP4/2P1R1P1/5PKP/1q6 b - - 1 28",
+    "moves": "g8h7 c4d3 b1d3 e3d3",
+    "themes": "advantage endgame fork short"
+  },
+  {
+    "id": "07bvQ",
+    "fen": "r1bq1rk1/p4pp1/p4b1p/2Pp4/8/2N1PN2/PP3PPP/R2QK2R w KQ - 0 12",
+    "moves": "d1d5 f6c3 b2c3 d8d5",
+    "themes": "crushing intermezzo middlegame short"
+  },
+  {
+    "id": "07cUo",
+    "fen": "r3k2r/ppp1b1pp/2n2p2/3n4/6BB/2P5/PP3PPP/RN2R1K1 b kq - 1 13",
+    "moves": "e8g8 g4e6 g8h8 e6d5",
+    "themes": "advantage fork middlegame short"
+  },
+  {
+    "id": "07cah",
+    "fen": "r4rk1/2pb1ppp/p1p5/6Bq/4Nbn1/8/PPP1BPP1/R2QRK2 w - - 6 17",
+    "moves": "g5f4 h5h1",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "07clZ",
+    "fen": "1kbr3r/6R1/pq1b4/1pp1P1P1/5p2/1Q1PB2p/PPP4P/R5KB w - - 1 26",
+    "moves": "e3f4 c5c4 d3d4 c4b3",
+    "themes": "crushing discoveredAttack discoveredCheck middlegame pin short"
+  },
+  {
+    "id": "07d67",
+    "fen": "8/8/p7/1p1k3p/1P3KpP/P5P1/8/8 b - - 2 53",
+    "moves": "d5c4 f4g5 c4b3 g5h5",
+    "themes": "crushing endgame master pawnEndgame short"
+  },
+  {
+    "id": "07duz",
+    "fen": "2r2rk1/2p3pp/2n1pq2/p2b4/3P4/P1Q2NP1/3R1PBP/2R3K1 w - - 2 22",
+    "moves": "c1e1 d5f3 c3f3 f6f3 g2f3 f8f3",
+    "themes": "crushing long middlegame"
+  },
+  {
+    "id": "07dy4",
+    "fen": "rn1qkb1r/pp2n1pp/3p2b1/2pPp3/2P1N3/3B1N2/PP3PPP/R1BQK2R b KQkq - 0 9",
+    "moves": "b8d7 e4d6",
+    "themes": "mate mateIn1 oneMove opening"
+  },
+  {
+    "id": "07eNj",
+    "fen": "2Q5/8/4pp2/1k1p1p1p/3P3P/pqP1P1P1/5P2/6K1 w - - 6 52",
+    "moves": "c8b7 b5c4 b7c8 c4d3",
+    "themes": "crushing defensiveMove endgame master masterVsMaster queenEndgame short"
+  },
+  {
+    "id": "07fEa",
+    "fen": "1k2rb2/p1pq1p1r/Qp1p1npp/R2B4/3P3N/8/PPP3PP/5K1R b - - 0 22",
+    "moves": "f6d5 a6a7 b8c8 a7a8",
+    "themes": "mate mateIn2 middlegame queensideAttack short"
+  },
+  {
+    "id": "07fhF",
+    "fen": "1k2r2r/2p2p2/1p6/pP1p1Qp1/P1nP4/2P5/5PP1/1R2RKN1 w - - 1 32",
+    "moves": "f5d5 c4d2",
+    "themes": "cornerMate mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "07gp5",
+    "fen": "r6k/1bb3pp/p2q4/4RQP1/1ppN3P/2P5/PP6/5RK1 b - - 2 27",
+    "moves": "d6e5 f5f8 a8f8 f1f8",
+    "themes": "backRankMate mate mateIn2 middlegame sacrifice short"
+  },
+  {
+    "id": "07hB8",
+    "fen": "6k1/5pp1/7p/7P/1pPR1P2/r3r3/1K1R2P1/8 w - - 4 38",
+    "moves": "d2c2 e3b3 b2c1 a3a1",
+    "themes": "crushing endgame rookEndgame short"
+  },
+  {
+    "id": "07hih",
+    "fen": "3r1rk1/ppp1qp1p/6p1/4P3/1P1n4/P4B2/1Q2RPP1/RN4K1 w - - 1 22",
+    "moves": "e2e3 d4f3 e3f3 d8d1",
+    "themes": "advantage clearance kingsideAttack middlegame short"
+  },
+  {
+    "id": "07igg",
+    "fen": "5r2/p6k/8/3N1pqn/3Q4/5P2/1r4PP/3R2RK w - - 13 42",
+    "moves": "d4b2 h5g3 h2g3 g5h5",
+    "themes": "clearance mate mateIn2 middlegame sacrifice short"
+  },
+  {
+    "id": "07lMV",
+    "fen": "2R5/5kpp/2K5/8/1P6/p1p4P/8/8 w - - 0 40",
+    "moves": "c6b5 a3a2 c8c3 a2a1q",
+    "themes": "advancedPawn advantage endgame promotion rookEndgame short"
+  },
+  {
+    "id": "07lUh",
+    "fen": "1rb3rk/5R2/p3P3/1p1n2p1/8/Pp3N2/1P3KP1/5R2 b - - 3 40",
+    "moves": "c8e6 f1h1 e6h3 h1h3",
+    "themes": "mate mateIn2 middlegame short"
+  },
+  {
+    "id": "07lZT",
+    "fen": "3N3k/6R1/6Kp/4pp2/4n3/8/3p4/8 b - - 0 57",
+    "moves": "d2d1q d8f7",
+    "themes": "endgame master mate mateIn1 oneMove"
+  },
+  {
+    "id": "07mWv",
+    "fen": "rnb3k1/pp1pqr1R/2p3p1/3B4/2P5/2Q3P1/PP1KPP2/R7 b - - 0 18",
+    "moves": "c6d5 h7h8",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "07meX",
+    "fen": "r3r1k1/1p1q1ppp/2p2n2/p7/P2PP3/2PQ2B1/6PP/R3R1K1 b - - 0 23",
+    "moves": "f6e4 e1e4 e8e4 d3e4",
+    "themes": "crushing middlegame short"
+  },
+  {
+    "id": "07rmq",
+    "fen": "8/5ppp/p1R1p3/1P2k3/1P5P/5nP1/3p1K2/8 w - - 0 39",
+    "moves": "f2e2 f3d4 e2d2 d4c6",
+    "themes": "crushing endgame fork short"
+  },
+  {
+    "id": "07s3C",
+    "fen": "1k5r/p1p2R1p/1p1p4/3P4/3n1RBb/6r1/PP5K/8 b - - 3 29",
+    "moves": "g3d3 f7f8 h4d8 f8h8",
+    "themes": "crushing middlegame pin short"
+  },
+  {
+    "id": "07sX1",
+    "fen": "6k1/5pp1/7p/4B1n1/2Q1P3/3P3P/5qPK/8 w - - 1 35",
+    "moves": "e5g3 g5f3 h2h1 f2f1",
+    "themes": "endgame mate mateIn2 pin short"
+  },
+  {
+    "id": "07tua",
+    "fen": "r4rk1/ppq2ppp/1n1b4/2p1n1N1/2P5/4B2P/PP1NBPP1/1Q2K2R b K - 1 19",
+    "moves": "h7h6 b1h7",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "07wUk",
+    "fen": "r4b1r/5kpp/1pbPppqn/8/1pB2B2/8/P4PPP/RN1QR1K1 w - - 0 19",
+    "moves": "e1e6 g6g2",
+    "themes": "kingsideAttack master mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "080LG",
+    "fen": "r1b2Bk1/p4p1p/2pp2p1/8/2P1n2q/2NB1P2/PP5P/R2QK2R w KQ - 1 16",
+    "moves": "e1e2 h4f2",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "081l8",
+    "fen": "r1b1k1nr/pppp1ppp/5q2/2b1p3/1nP5/2N1P1P1/PP1P1PBP/R1BQK1NR w KQkq - 3 6",
+    "moves": "g1e2 b4d3 e1f1 f6f2",
+    "themes": "mate mateIn2 opening short"
+  },
+  {
+    "id": "083Io",
+    "fen": "8/pp4pk/2pqn2p/4PR2/7P/2P3P1/PPB3K1/8 b - - 0 37",
+    "moves": "d6e7 f5f7 h7g8 f7e7",
+    "themes": "crushing discoveredAttack discoveredCheck endgame short"
+  },
+  {
+    "id": "083S4",
+    "fen": "r6k/pQ4bp/6p1/5bN1/5P2/8/PP1p2PP/1R2q2K w - - 1 26",
+    "moves": "b1e1 d2e1q",
+    "themes": "advancedPawn backRankMate endgame master mate mateIn1 oneMove promotion"
+  },
+  {
+    "id": "0842V",
+    "fen": "8/8/8/1p5k/1P2K3/1P2bp2/8/8 w - - 0 63",
+    "moves": "e4e3 h5g4 e3f2 g4f4",
+    "themes": "crushing defensiveMove endgame master pawnEndgame short"
+  },
+  {
+    "id": "086IV",
+    "fen": "3r4/k1qp4/B4p2/1Q6/4P3/2N3P1/PP5r/1K1R4 w - - 3 31",
+    "moves": "c3d5 c7c2 b1a1 c2d1",
+    "themes": "fork mate mateIn2 middlegame short"
+  },
+  {
+    "id": "08B72",
+    "fen": "r3r1k1/pp3pp1/2n5/2b2QN1/2P5/8/PqNP1P2/R3R1K1 b - - 1 21",
+    "moves": "b2f6 f5h7 g8f8 h7h8",
+    "themes": "kingsideAttack master masterVsMaster mate mateIn2 middlegame short"
+  },
+  {
+    "id": "08ETF",
+    "fen": "8/1pp2kpp/3n2p1/p7/P1Pr2P1/1P3K1P/8/5R2 b - - 5 29",
+    "moves": "d4d3 f3e2 f7e7 e2d3",
+    "themes": "advantage discoveredAttack discoveredCheck endgame short"
+  },
+  {
+    "id": "08GOE",
+    "fen": "8/R1p2pkp/1p4p1/3P4/2nP4/2P3P1/P6q/2KQ4 w - - 0 26",
+    "moves": "a7c7 h2b2",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "08HWr",
+    "fen": "r3k1nr/ppp4p/2n3p1/3q4/1b2p1b1/3BPNBP/PP3PP1/RN1Q1K1R b kq - 2 11",
+    "moves": "e4f3 d3g6 h7g6 d1d5",
+    "themes": "advantage discoveredAttack master middlegame short"
+  },
+  {
+    "id": "08Hl2",
+    "fen": "r1b2rk1/ppp2ppp/3b2q1/3NB3/3P4/5Q2/PPP3PP/R4RK1 b - - 4 15",
+    "moves": "d6e5 d5e7 g8h8 e7g6",
+    "themes": "advantage fork middlegame short"
+  },
+  {
+    "id": "08InM",
+    "fen": "rn3rk1/p1p1nppp/1p4q1/2b1p1B1/2B1P2P/1Q3N2/PPP2PP1/R3K2R w KQ - 1 12",
+    "moves": "f3e5 g6e4 e1f1 e4e5",
+    "themes": "advantage fork middlegame short"
+  },
+  {
+    "id": "08Jnq",
+    "fen": "r7/1pk2p2/2p4R/4bBB1/8/P7/1PP2Pb1/2K5 w - - 2 28",
+    "moves": "g5f6 e5f4 c1b1 f4h6",
+    "themes": "crushing endgame fork short"
+  },
+  {
+    "id": "08OzC",
+    "fen": "2k5/R4prp/2p5/1p1n1r2/8/P7/5P1P/4RK2 b - - 3 30",
+    "moves": "f5g5 e1e8",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "08QTz",
+    "fen": "r4rk1/pp2ppbp/4b1p1/8/6P1/4Bq2/PPPQB2P/1K1R3R b - - 1 15",
+    "moves": "f3d5 d2d5 e6d5 d1d5",
+    "themes": "advantage middlegame short"
+  },
+  {
+    "id": "08R3f",
+    "fen": "r1b1kbnr/pp3ppp/2n5/q2Bp3/8/2N1PQ2/PP3PPP/R1B1K1NR b KQkq - 4 8",
+    "moves": "g8f6 d5c6 b7c6 f3c6",
+    "themes": "advantage opening short"
+  },
+  {
+    "id": "08S0b",
+    "fen": "r4rBk/ppp3p1/2n2q2/b2p1bN1/3P4/2P5/P3QPPP/R1B2RK1 b - - 3 16",
+    "moves": "f8g8 e2h5 f6h6 g5f7",
+    "themes": "crushing kingsideAttack middlegame short"
+  },
+  {
+    "id": "08T98",
+    "fen": "r2q4/6kp/p3p1p1/1p1b2N1/3P4/PP3R1P/3Q2P1/6K1 b - - 0 27",
+    "moves": "d5f3 g5e6 g7g8 e6d8",
+    "themes": "crushing endgame fork short"
+  },
+  {
+    "id": "08Trj",
+    "fen": "8/6k1/6P1/1p2p3/1P4r1/p1P5/P7/1K2R3 b - - 1 47",
+    "moves": "g7g6 e1e5 g4g2 e5b5",
+    "themes": "advantage endgame rookEndgame short"
+  },
+  {
+    "id": "08UdG",
+    "fen": "8/6bp/6p1/1pK3P1/1Pp4P/2P3B1/8/5k2 b - - 8 49",
+    "moves": "g7c3 c5b5 c3d2 b5c4 d2b4 c4b4",
+    "themes": "bishopEndgame crushing endgame long"
+  },
+  {
+    "id": "08Usk",
+    "fen": "3Q4/pp2r3/k1p5/2qp4/1P4P1/2P1P3/P7/1K3R2 b - - 0 35",
+    "moves": "c5e3 d8a5",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "08UuA",
+    "fen": "3r4/p3kpp1/1p5p/2n1PPN1/2P4P/4K3/P7/7R w - - 0 26",
+    "moves": "g5e4 d8d3 e3e2 c5e4 e2d3 e4f2 d3e3 f2h1",
+    "themes": "crushing deflection endgame exposedKing fork sacrifice veryLong"
+  },
+  {
+    "id": "08WU6",
+    "fen": "5rk1/1ppq1pp1/3p1n2/1P3bNp/1nPPp2P/4P3/5PP1/Q1B1KB1R w K - 1 16",
+    "moves": "c1d2 b4c2 e1d1 c2a1",
+    "themes": "crushing fork middlegame short"
+  },
+  {
+    "id": "08aVf",
+    "fen": "1r4k1/2q2pb1/3p2pp/p1pP4/P1P1N3/5P1P/6P1/1R2Q1K1 b - - 2 30",
+    "moves": "b8e8 e4f6 g7f6 e1e8",
+    "themes": "crushing discoveredAttack endgame kingsideAttack short"
+  },
+  {
+    "id": "08bE8",
+    "fen": "r5r1/1p2kpQ1/p3b3/2PqN3/8/3B4/5PPP/R3R1K1 w - - 1 34",
+    "moves": "g7h6 d5g2",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "08cOZ",
+    "fen": "4rr2/pp4pk/7p/8/P7/1q1P1NP1/3QP1K1/7R b - - 1 33",
+    "moves": "b3e6 f3g5 h7h8 g5e6",
+    "themes": "crushing endgame pin short"
+  },
+  {
+    "id": "08cbn",
+    "fen": "8/k4p2/P1K5/R2p4/3P4/4Pr2/5P2/8 w - - 1 51",
+    "moves": "c6d5 f3f5 d5d6 f5a5",
+    "themes": "advantage endgame master rookEndgame short skewer"
+  },
+  {
+    "id": "08fCe",
+    "fen": "2r4k/1R3Qpp/p7/4q3/8/2r4P/5PP1/1R4K1 w - - 1 30",
+    "moves": "b7e7 c3c1 b1c1 c8c1",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "08fIX",
+    "fen": "br1qr1k1/5pp1/3p1b1p/1R1P4/1Q2P3/5P1P/1n2BBP1/5RK1 w - - 1 29",
+    "moves": "b5b8 d8b8 b4b8 e8b8",
+    "themes": "advantage middlegame short"
+  },
+  {
+    "id": "08fNW",
+    "fen": "8/7p/2pk2p1/Np2n3/3bP3/6PP/4B1K1/8 b - - 7 40",
+    "moves": "d6c5 a5b3 c5b4 b3d4",
+    "themes": "advantage deflection endgame master short"
+  },
+  {
+    "id": "08fZB",
+    "fen": "8/p5Qp/k1p5/2P5/1P5P/5P2/1r2r1PK/8 w - - 4 45",
+    "moves": "g7g4 e2g2 g4g2 b2g2 h2g2 a6b5",
+    "themes": "crushing endgame fork long queenRookEndgame"
+  },
+  {
+    "id": "08gHo",
+    "fen": "8/8/8/2r2pkP/6P1/R4PK1/8/8 w - - 0 63",
+    "moves": "a3e3 f5f4 g3f2 f4e3",
+    "themes": "crushing endgame fork rookEndgame short"
+  },
+  {
+    "id": "08idM",
+    "fen": "8/4k1bN/2b3pp/2R2p2/2Bp4/7P/5PPK/r7 b - - 13 46",
+    "moves": "c6e4 c5c7 e7d6 c7g7",
+    "themes": "advantage endgame short skewer"
+  },
+  {
+    "id": "08jAw",
+    "fen": "2rr1k2/2q1Pp2/1p3Qp1/3B2P1/p1Pp1P2/8/P6P/5RK1 b - - 0 35",
+    "moves": "c7e7 f6h8",
+    "themes": "endgame master mate mateIn1 oneMove"
+  },
+  {
+    "id": "08mp4",
+    "fen": "8/8/8/5k2/5p2/1r3N2/5PK1/8 b - - 3 57",
+    "moves": "f5e4 f3d2 e4f5 d2b3",
+    "themes": "crushing endgame fork master short"
+  },
+  {
+    "id": "08pvs",
+    "fen": "8/8/7p/R3p1pk/3nP3/6P1/3K3P/8 w - - 16 51",
+    "moves": "a5e5 d4f3 d2e3 f3e5",
+    "themes": "crushing endgame fork short"
+  },
+  {
+    "id": "08qzN",
+    "fen": "4r3/7p/1k4p1/1ppN2n1/p3p3/1PP1R3/P3K3/8 b - - 1 48",
+    "moves": "b6a5 b3b4 a5a6 d5c7 a6b7 c7e8",
+    "themes": "advantage endgame fork long"
+  },
+  {
+    "id": "08s6D",
+    "fen": "r3k2r/1pp2ppp/1bnp2q1/p3p2b/P1BPPn2/2P2NNP/1P3PP1/R1BQR1K1 w kq - 1 14",
+    "moves": "g3h5 g6g2",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "08tEj",
+    "fen": "7q/2P3k1/p4pp1/1p2p1p1/1P1pP3/P4PK1/2R3P1/8 w - - 5 51",
+    "moves": "c7c8q h8h4",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "08uvj",
+    "fen": "rn1qk1nr/pp3ppp/2p1p3/8/1b1P4/2NBBQ2/PPP3PP/R4RK1 b kq - 3 9",
+    "moves": "b4c3 f3f7",
+    "themes": "attackingF2F7 mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "08vP8",
+    "fen": "1r4k1/q6p/4p1p1/3N1n2/6n1/1P6/PBPQ2PP/5R1K w - - 1 28",
+    "moves": "h2h3 f5g3",
+    "themes": "master mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "08vdM",
+    "fen": "2k5/R3PBp1/1p4P1/5r2/8/6B1/Pr1bP2P/4K3 w - - 0 32",
+    "moves": "e1d1 f5f1 g3e1 f1e1",
+    "themes": "endgame mate mateIn2 operaMate short"
+  },
+  {
+    "id": "08xcU",
+    "fen": "8/3r2k1/P7/5p2/1R4p1/8/8/2K5 b - - 1 45",
+    "moves": "d7a7 b4b7 a7b7 a6b7 g4g3 b7b8q",
+    "themes": "advancedPawn crushing endgame long promotion rookEndgame"
+  },
+  {
+    "id": "08xmo",
+    "fen": "6k1/5p1b/5p2/2N2P1p/3PP1P1/1p2K3/rr2B1P1/4R3 w - - 1 33",
+    "moves": "g4h5 b2e2 e1e2 a2e2 e3e2 b3b2 c5d3 b2b1q",
+    "themes": "advancedPawn crushing endgame promotion sacrifice veryLong"
+  },
+  {
+    "id": "08zi1",
+    "fen": "8/7k/4R2b/3pPp2/2pPb2P/8/R4K2/2r5 b - - 6 51",
+    "moves": "h6f4 a2a7 h7h8 e6e8",
+    "themes": "endgame master mate mateIn2 short"
+  },
+  {
+    "id": "092DA",
+    "fen": "r3k1nr/pppq1ppp/2n1p3/2PpP2b/8/3B1N2/PPP2PPP/R1BQ1RK1 b kq - 0 10",
+    "moves": "c6e5 f3e5 h5d1 e5d7",
+    "themes": "advantage hangingPiece opening short"
+  },
+  {
+    "id": "09496",
+    "fen": "8/5p2/p2Rp1kp/1b1B2p1/8/5PK1/P1r3PP/8 b - - 2 38",
+    "moves": "b5f1 d5e4 g6f6 e4c2",
+    "themes": "crushing endgame fork master short"
+  },
+  {
+    "id": "094vN",
+    "fen": "1br1k2r/1pq2pp1/p3p3/3Pn2n/2P5/2N3BP/PP3PB1/R2Q1RK1 w k - 1 18",
+    "moves": "g3h2 e5f3 g2f3 c7h2",
+    "themes": "discoveredAttack kingsideAttack mate mateIn2 opening short"
+  },
+  {
+    "id": "09515",
+    "fen": "k2r4/pb3p1P/2q1p3/4P3/N1Pp2P1/1P1Rb3/P3Q1P1/6K1 w - - 1 32",
+    "moves": "e2e3 c6g2",
+    "themes": "endgame master mate mateIn1 oneMove"
+  },
+  {
+    "id": "095OH",
+    "fen": "rnb1k1nr/1ppp1ppp/2q1p3/p3P3/1B1P4/1P3N2/P1P1QPPP/R3KB1R w KQkq - 0 13",
+    "moves": "b4a3 c6c3 e2d2 c3a1",
+    "themes": "crushing fork opening short"
+  },
+  {
+    "id": "096b6",
+    "fen": "8/4P1p1/1p5k/8/1P4PK/2r5/7B/4R3 w - - 3 55",
+    "moves": "e7e8q g7g5",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "0971v",
+    "fen": "5k2/1p6/2p4p/4P3/1P4p1/3Q2Pb/4R3/r5K1 w - - 2 36",
+    "moves": "g1f2 a1f1 f2e3 f1f3 e3d4 f3d3 d4d3 h3f1 d3e3 f1e2",
+    "themes": "crushing endgame pin skewer veryLong"
+  },
+  {
+    "id": "097n1",
+    "fen": "r2q1rk1/pp2bp1p/4bp2/8/1P6/P3P3/1B1P1PQP/R3K1R1 b Q - 0 16",
+    "moves": "g8h8 g2g7",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "099Pp",
+    "fen": "6k1/1R4p1/4p2p/1p2N3/3P1n2/5P1P/rr3P1K/5R2 b - - 5 36",
+    "moves": "b2f2 f1f2 a2f2 h2g3",
+    "themes": "advantage endgame master short"
+  },
+  {
+    "id": "099hE",
+    "fen": "r1b1nr2/5k1p/2qppbpP/pN6/1pn1P3/1B2B2Q/PPP1NP2/2KR3R w - - 2 21",
+    "moves": "b3c4 c6c4 b5d6 e8d6",
+    "themes": "advantage fork middlegame short"
+  },
+  {
+    "id": "09AYA",
+    "fen": "r5k1/5pbp/p3p3/3pN3/4nPQ1/1pP1P1B1/qP4P1/2KR3R w - - 2 23",
+    "moves": "h1h7 a2a1",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "09Bft",
+    "fen": "8/7p/8/8/5p1k/5P2/6PK/8 w - - 3 51",
+    "moves": "h2h1 h4g3 h1g1 h7h5",
+    "themes": "crushing defensiveMove endgame master masterVsMaster pawnEndgame short zugzwang"
+  },
+  {
+    "id": "09DMw",
+    "fen": "8/r3p1k1/3p1np1/N5N1/n2P2pP/1p6/1P6/K3RR2 w - - 2 44",
+    "moves": "a5b3 a4c3 b3a5 a7a5",
+    "themes": "discoveredAttack discoveredCheck mate mateIn2 middlegame short"
+  },
+  {
+    "id": "09HOf",
+    "fen": "r3k2r/pp3pp1/2nbpq1p/8/3PB3/P5PP/1P3P2/R2QK1NR b KQkq - 0 13",
+    "moves": "f6d4 e4c6 b7c6 d1d4",
+    "themes": "crushing intermezzo middlegame short"
+  },
+  {
+    "id": "09IyZ",
+    "fen": "2b5/5k1p/p4P2/1p6/2n5/P6r/1P3R2/4R1K1 b - - 1 34",
+    "moves": "c8b7 e1e7 f7f8 e7b7",
+    "themes": "advantage endgame fork short"
+  },
+  {
+    "id": "09KTY",
+    "fen": "3r2k1/pQ3pp1/7p/2p5/5P2/1P5n/P5PP/5RqK w - - 7 28",
+    "moves": "f1g1 h3f2",
+    "themes": "endgame mate mateIn1 oneMove smotheredMate"
+  },
+  {
+    "id": "09LcP",
+    "fen": "6r1/p1pk2qp/2pp1p2/8/1Q2P3/5P2/P4P1P/RN3R1K w - - 3 18",
+    "moves": "b1d2 g7g2",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "09MyO",
+    "fen": "6k1/1p3qp1/p7/2P2Kp1/3PR1P1/8/P3R3/8 w - - 6 45",
+    "moves": "f5g5 f7f6 g5h5 f6h6",
+    "themes": "endgame master mate mateIn2 queenRookEndgame short"
+  },
+  {
+    "id": "09QLs",
+    "fen": "2kr3r/5p1p/p3pbp1/8/2N5/1P1p4/P4P1P/2KR2R1 b - - 0 23",
+    "moves": "d8d5 c4b6 c8c7 b6d5",
+    "themes": "advantage endgame fork short"
+  },
+  {
+    "id": "09RBp",
+    "fen": "2k5/p4p2/1p1p1p2/4pP2/Q1n1q3/2P5/P5Rr/6RK w - - 0 29",
+    "moves": "h1h2 e4h4",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "09S8l",
+    "fen": "r1bq1rk1/1p2bpp1/p2p1n1p/3Pp3/4N3/P5N1/1PP2PPP/R1BQ1RK1 b - - 1 13",
+    "moves": "c8g4 e4f6 e7f6 d1g4",
+    "themes": "advantage kingsideAttack middlegame short"
+  },
+  {
+    "id": "09To3",
+    "fen": "r2qkb1r/pbp1p2p/1p2N1p1/8/8/2Pn4/P1P1QPPP/R1B2RK1 b kq - 0 13",
+    "moves": "d8d5 e6c7 e8f7 c7d5",
+    "themes": "crushing fork opening short"
+  },
+  {
+    "id": "09UC5",
+    "fen": "r2q3r/pp2k1p1/2pbp2p/5R1Q/2BP4/2P5/P1P3PP/R5K1 b - - 2 15",
+    "moves": "e6f5 h5f7",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "09ZGh",
+    "fen": "8/2k2b2/8/P4P2/6P1/2p1K3/8/8 b - - 1 49",
+    "moves": "c3c2 e3d2 c2c1q d2c1",
+    "themes": "advantage bishopEndgame endgame short"
+  },
+  {
+    "id": "09aLM",
+    "fen": "8/8/8/1P1Bk2p/4PpP1/6b1/1R4K1/3r4 b - - 0 47",
+    "moves": "h5g4 b5b6 g3e1 b6b7",
+    "themes": "advancedPawn crushing endgame master short"
+  },
+  {
+    "id": "09bDP",
+    "fen": "8/1b6/p2k2p1/1p1P1p1p/1P3P1P/P7/B3K3/8 w - - 1 40",
+    "moves": "e2d3 b7d5 a2d5 d6d5 d3e3 d5c4",
+    "themes": "bishopEndgame crushing endgame long zugzwang"
+  },
+  {
+    "id": "09d7J",
+    "fen": "5b2/2r2pkp/3Np1p1/1R1pP3/5P2/2P3P1/2K4P/8 b - - 0 36",
+    "moves": "d5d4 d6e8 g7h6 e8c7",
+    "themes": "crushing endgame fork master short"
+  },
+  {
+    "id": "09eK7",
+    "fen": "4b3/4P1Pq/8/4KN2/8/5k2/8/8 b - - 2 53",
+    "moves": "h7g6 f5h4 f3e3 h4g6",
+    "themes": "crushing endgame fork master short"
+  },
+  {
+    "id": "09eSu",
+    "fen": "R5k1/1r4p1/1P3p1p/3p4/5p2/7P/6PK/8 b - - 1 42",
+    "moves": "g8f7 a8a7 b7a7 b6a7",
+    "themes": "advancedPawn crushing endgame pin rookEndgame short"
+  },
+  {
+    "id": "09hnN",
+    "fen": "r2qk1nr/pppb2pp/5p2/3p4/Qb1nP3/2N2N2/PP1B1PPP/R3KB1R w KQkq - 0 9",
+    "moves": "a4b4 d4c2 e1d1 c2b4",
+    "themes": "advantage fork opening short"
+  },
+  {
+    "id": "09iGl",
+    "fen": "2r2Q1k/1b4bp/1p2p1pQ/pP2P3/n3p3/8/N1q3PP/R4R1K b - - 0 29",
+    "moves": "g7f8 f1f8 c8f8 h6f8",
+    "themes": "kingsideAttack mate mateIn2 middlegame short"
+  },
+  {
+    "id": "09iON",
+    "fen": "8/8/K6p/6p1/3k4/5PPP/8/8 w - - 1 46",
+    "moves": "f3f4 g5f4 g3f4 d4e4 f4f5 e4f5",
+    "themes": "crushing endgame long pawnEndgame"
+  },
+  {
+    "id": "09kSM",
+    "fen": "r4r2/4ppk1/pp4pp/3Pq3/2B1n1n1/2N1Q3/PPP2P2/R3R1K1 w - - 0 22",
+    "moves": "e3e4 e5h2 g1f1 h2f2",
+    "themes": "kingsideAttack mate mateIn2 middlegame short"
+  },
+  {
+    "id": "09lis",
+    "fen": "r3r3/5kbR/2p2qp1/p3n3/1p2P1n1/4B1N1/PPPQBP2/5K1R w - - 5 25",
+    "moves": "e3g5 f6f2",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "09mZt",
+    "fen": "r2b2k1/pppr1p2/5p1p/3N1b2/2B5/8/PPP2PPP/2KR3R w - - 2 17",
+    "moves": "d5f6 d8f6 d1d7 f5d7",
+    "themes": "crushing hangingPiece middlegame short"
+  },
+  {
+    "id": "09nkD",
+    "fen": "1n1q1rk1/1b2bpp1/2p1pN1p/4P3/1p1P4/3Q1N2/1PB2PPP/5RK1 b - - 5 18",
+    "moves": "e7f6 d3h7",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "09ocU",
+    "fen": "3qk1nr/p1pb1ppp/4p3/1r1Pn3/1Q2P3/2N5/PP3PPP/R1B1K1NR w KQk - 0 11",
+    "moves": "c3b5 e5d3 e1f1 d3b4",
+    "themes": "crushing fork opening short"
+  },
+  {
+    "id": "09p4n",
+    "fen": "R7/p4kpp/P1p1rp2/2P2K2/3P2P1/2b4P/8/8 b - - 5 42",
+    "moves": "c3d4 a8a7 e6e7 a7e7 f7e7 a6a7",
+    "themes": "advancedPawn crushing endgame long"
+  },
+  {
+    "id": "09pJq",
+    "fen": "r3k2r/p3qppp/8/2PRP3/5Q2/6P1/Pp4P1/2K4R w kq - 0 23",
+    "moves": "c1b2 e7b7 b2c3 b7d5",
+    "themes": "crushing endgame fork short"
+  },
+  {
+    "id": "09qL5",
+    "fen": "8/2p1rpk1/1pp3p1/4n3/2PN3P/1P4R1/P5PK/8 b - - 10 41",
+    "moves": "c6c5 d4f5 g7f6 f5e7",
+    "themes": "crushing endgame master pin short"
+  },
+  {
+    "id": "09vZc",
+    "fen": "5Q2/2r2p2/7k/4q3/P7/2p3P1/5P2/5BK1 b - - 1 49",
+    "moves": "h6h7 f1d3 f7f5 d3f5 e5f5 f8f5",
+    "themes": "crushing endgame exposedKing long master"
+  },
+  {
+    "id": "09wjF",
+    "fen": "4r1k1/P5p1/7p/4p1r1/7K/1RP5/8/8 b - - 8 43",
+    "moves": "g8h7 b3b8 e8e7 a7a8q",
+    "themes": "advancedPawn advantage endgame master promotion rookEndgame short"
+  },
+  {
+    "id": "0A15l",
+    "fen": "2r5/7P/1k6/p6R/P1K5/1P6/8/8 w - - 1 56",
+    "moves": "c4d5 c8c5 d5e4 c5h5 h7h8q h5h8",
+    "themes": "crushing endgame long rookEndgame skewer"
+  },
+  {
+    "id": "0A1DD",
+    "fen": "r1bq1n1r/6k1/2p1p2n/p1PpP1p1/5pPp/3Q1N1P/PP1BBP2/2K2R1R w - - 0 22",
+    "moves": "a2a4 c8a6 d3a6 a8a6",
+    "themes": "advantage middlegame short"
+  },
+  {
+    "id": "0A1bX",
+    "fen": "r1bq1rk1/pp2bpp1/2p1pn2/6N1/2pP4/2N1P3/PPQ2P1P/2KR1B1R b - - 0 12",
+    "moves": "f6d5 c2h7",
+    "themes": "master masterVsMaster mate mateIn1 oneMove opening"
+  },
+  {
+    "id": "0A3aI",
+    "fen": "8/8/1R6/2p3pk/8/2P2K1P/p5P1/6r1 b - - 3 57",
+    "moves": "a2a1q g2g4 g1g4 h3g4 h5h4 b6h6",
+    "themes": "endgame long mate mateIn3 queenRookEndgame"
+  },
+  {
+    "id": "0A7YZ",
+    "fen": "r2qr3/1pp2kpp/1p3n2/3pn3/8/2PB4/PP3PPP/RN1QR1K1 w - - 2 16",
+    "moves": "b1d2 e5d3 e1e8 d8e8",
+    "themes": "crushing hangingPiece middlegame short"
+  },
+  {
+    "id": "0A7eV",
+    "fen": "7k/p5p1/1p2N1rp/8/5q2/7P/6P1/3RR2K b - - 1 36",
+    "moves": "f4g3 d1d8 h8h7 e6f8",
+    "themes": "crushing endgame short"
+  },
+  {
+    "id": "0A8EK",
+    "fen": "1r2r2k/1q6/4pPQ1/3pP3/2bn1B2/4R3/5P1P/R5K1 b - - 2 33",
+    "moves": "e8g8 e3h3 b7h7 h3h7",
+    "themes": "mate mateIn2 middlegame short"
+  },
+  {
+    "id": "0ADpT",
+    "fen": "q1r5/1p1k1pp1/p1n1p2p/3p4/3P1P2/PQ3b2/1PP2PPP/R3K2R w KQ - 0 16",
+    "moves": "b3f3 c6d4 f3d3 d4c2 e1e2 c2a1",
+    "themes": "advantage endgame fork long"
+  },
+  {
+    "id": "0AE8Q",
+    "fen": "8/r1R3kp/3PB1p1/8/1r3P2/8/7P/7K b - - 2 50",
+    "moves": "a7c7 d6c7 b4f4 c7c8q",
+    "themes": "advancedPawn crushing endgame master promotion short"
+  },
+  {
+    "id": "0AGRd",
+    "fen": "8/P1k4p/1R6/2Pn1B2/6p1/1p6/6r1/2K5 b - - 0 47",
+    "moves": "d5b6 c5b6 c7b6 a7a8q",
+    "themes": "advancedPawn crushing endgame master promotion short"
+  },
+  {
+    "id": "0AJj3",
+    "fen": "2r3k1/1Rp3pp/5p2/1Q6/2nP4/2P1qPB1/6PP/6K1 w - - 1 28",
+    "moves": "g3f2 e3c1 f2e1 c1e1",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "0AJmn",
+    "fen": "8/p1P5/8/8/8/6p1/P4k2/7K w - - 0 39",
+    "moves": "c7c8q g3g2 h1h2 g2g1q h2h3 g1g3",
+    "themes": "advancedPawn endgame exposedKing long mate mateIn3 promotion queenEndgame"
+  },
+  {
+    "id": "0AK1I",
+    "fen": "6k1/1pQbq1p1/3b1p1p/1r1P4/R2BP3/6P1/5P1P/1R4K1 w - - 1 29",
+    "moves": "c7c2 b5b1 c2b1 d7a4",
+    "themes": "crushing discoveredAttack middlegame short"
+  },
+  {
+    "id": "0AMX3",
+    "fen": "8/8/1p2pk1p/1Pp3pP/4K1P1/Pn1B4/6P1/8 w - - 0 43",
+    "moves": "d3c4 b3d2 e4d3 d2c4",
+    "themes": "crushing endgame fork short"
+  },
+  {
+    "id": "0AMtQ",
+    "fen": "5r1k/pb3Npp/1p2Q3/5pq1/3P4/P3P3/1P3PPP/5RK1 b - - 2 22",
+    "moves": "f8f7 e6e8 f7f8 e8f8",
+    "themes": "endgame fork mate mateIn2 short"
+  },
+  {
+    "id": "0AO8y",
+    "fen": "8/2r1qpk1/p1p1r1p1/PpRp4/1P1P2Qp/4P2P/5PP1/2R3K1 b - - 5 34",
+    "moves": "c7b7 c5c6 e6c6 c1c6",
+    "themes": "advantage endgame master short"
+  },
+  {
+    "id": "0AP1s",
+    "fen": "1r6/2b1k3/Q1pq4/1P1p1B2/P2P4/4P1rP/5PK1/2R2R2 w - - 0 39",
+    "moves": "f2g3 d6g3 g2h1 g3h2",
+    "themes": "master mate mateIn2 middlegame short"
+  },
+  {
+    "id": "0APD2",
+    "fen": "8/6kp/3qp1p1/1pp5/3nQ3/P6P/1P3P2/4R1K1 w - - 5 35",
+    "moves": "e4e5 d6e5 e1e5 d4f3 g1f1 f3e5",
+    "themes": "attraction crushing endgame fork long"
+  },
+  {
+    "id": "0AQ2p",
+    "fen": "6k1/p2r1pbp/R2P4/4P1p1/1P6/2B5/8/6K1 b - - 1 35",
+    "moves": "f7f5 e5e6 g7c3 e6d7",
+    "themes": "advancedPawn crushing endgame master short"
+  },
+  {
+    "id": "0AR2p",
+    "fen": "r1bqkbnr/1pp2ppp/p1n1p3/3P4/3PP3/8/PP1N1PPP/R1BQKBNR b KQkq - 0 5",
+    "moves": "c6d4 d1a4 b7b5 a4d4",
+    "themes": "advantage fork opening short"
+  },
+  {
+    "id": "0ARSY",
+    "fen": "rn2k2r/pp2ppbp/2pp1np1/8/2PP4/1PN1P1Pq/P4PNP/R1BQK2R w KQkq - 1 11",
+    "moves": "e1g1 f6g4 d1g4 h3g4",
+    "themes": "advantage opening short"
+  },
+  {
+    "id": "0ATGn",
+    "fen": "R4n1k/ppp3pn/1b5p/5r2/8/2N3BP/PP3PP1/4R1K1 w - - 0 27",
+    "moves": "g3e5 b6f2 g1h2 f2e1",
+    "themes": "advantage fork middlegame short"
+  },
+  {
+    "id": "0AUz1",
+    "fen": "3r2k1/5ppp/bpB5/4q3/PRp5/2PrP2P/1Q3PP1/2R3K1 w - - 6 25",
+    "moves": "b4b6 d3d1 c1d1 d8d1",
+    "themes": "kingsideAttack mate mateIn2 middlegame short"
+  },
+  {
+    "id": "0AVny",
+    "fen": "2kr3r/pb3p2/p2p2p1/P1p3b1/2P2Np1/1P5P/5Q2/R3R1K1 w - - 0 29",
+    "moves": "h3g4 h8h1",
+    "themes": "mate mateIn1 middlegame oneMove operaMate"
+  },
+  {
+    "id": "0AXkF",
+    "fen": "kbr5/pQ5p/P1b3p1/1pN5/4p3/2P1p2P/1P3PP1/6K1 b - - 1 30",
+    "moves": "c6b7 a6b7",
+    "themes": "advancedPawn endgame mate mateIn1 oneMove queensideAttack"
+  },
+  {
+    "id": "0AY9I",
+    "fen": "8/p4ppk/1b5p/3q1P2/6P1/2Q2PBP/4r3/2R4K w - - 9 38",
+    "moves": "c3c4 d5f3",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "0AYeM",
+    "fen": "3k4/3b4/p2ppp2/Q7/1p2P3/5P2/PPq1r3/K2N2R1 b - - 1 29",
+    "moves": "c2c7 g1g8 d7e8 g8e8 d8e8 a5c7",
+    "themes": "advantage deflection endgame exposedKing long"
+  },
+  {
+    "id": "0AZaM",
+    "fen": "3R4/6pk/pp2p1q1/2p3rp/2P4Q/1P6/P4PNP/6K1 w - - 6 35",
+    "moves": "h4h3 g6b1 d8d1 b1d1",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "0AbJS",
+    "fen": "8/5k2/2R2p2/7p/1Pp1Ppp1/2P2P1P/6PK/3r4 w - - 0 37",
+    "moves": "c6c4 g4g3",
+    "themes": "endgame mate mateIn1 oneMove rookEndgame"
+  },
+  {
+    "id": "0AbgT",
+    "fen": "6k1/5ppp/p7/1p1p1P2/3Pr3/2P3QP/PP1q1RK1/8 b - - 7 31",
+    "moves": "e4e2 g3b8 e2e8 b8e8",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "0AfKR",
+    "fen": "2r2k2/1b3Pp1/pq4Qp/3B4/5N1P/1Pp3P1/P6K/5R2 b - - 0 34",
+    "moves": "b6g6 f4g6",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "0AhA0",
+    "fen": "r1bk1b1r/1p1p1Qpp/p1np1p2/1N2p3/1q2P3/4BN2/PPP2PPP/2KR3R b - - 1 15",
+    "moves": "a6b5 e3b6",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0Ak8M",
+    "fen": "5bk1/5p1p/2p4q/4N1p1/3Pp1b1/4P2r/2RQ1P2/2R3K1 w - - 0 37",
+    "moves": "e5g4 h3h1 g1g2 h6h3",
+    "themes": "mate mateIn2 middlegame short triangleMate"
+  },
+  {
+    "id": "0Apbk",
+    "fen": "3r1rk1/ppR2pbp/5np1/8/4qB2/1B6/PPb2PPP/RN2Q1K1 w - - 2 16",
+    "moves": "e1e4 d8d1 e4e1 d1e1",
+    "themes": "backRankMate master mate mateIn2 middlegame short"
+  },
+  {
+    "id": "0Ar3s",
+    "fen": "1k6/3b1p1p/pB1pp1p1/1pnP4/1K2P3/5P2/P3B1PP/8 b - - 1 26",
+    "moves": "b8b7 b6c5 d6c5 b4c5",
+    "themes": "advantage endgame short"
+  },
+  {
+    "id": "0ArDI",
+    "fen": "5rqk/5p1p/3p1R2/p1p5/PpP1PQ2/1P1P3P/5R1K/3r4 w - - 0 41",
+    "moves": "f6d6 g8g1",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "0As0N",
+    "fen": "r7/pp2qk2/2pR4/2P4p/6NP/8/PP2n1P1/R2Q2K1 w - - 1 30",
+    "moves": "g1h2 e7h4",
+    "themes": "anastasiaMate master mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0Aw7n",
+    "fen": "R7/1p6/2p5/2P5/p2P1Bp1/6Pk/4r3/3b1K2 b - - 5 57",
+    "moves": "e2e7 a8h8 e7h7 h8h7",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "0Ay88",
+    "fen": "3r1rk1/p5p1/1pN3qp/3b1p2/4nP2/4P1P1/P1Q4P/1BR2RK1 b - - 2 23",
+    "moves": "e4g3 c6e7 g8f7 e7g6",
+    "themes": "crushing fork middlegame short"
+  },
+  {
+    "id": "0Ayz6",
+    "fen": "r1r3kB/5p2/4p1pP/3p4/p7/6Q1/5PP1/6K1 b - - 0 32",
+    "moves": "g8h8 g3e5 f7f6 e5f6 h8h7 f6g7",
+    "themes": "endgame exposedKing long mate mateIn3 queenRookEndgame"
+  },
+  {
+    "id": "0B2PC",
+    "fen": "6rk/pp5p/2p2N1Q/8/8/7P/2q3P1/3R3K w - - 9 40",
+    "moves": "d1d7 c2g2",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "0B3FO",
+    "fen": "5R2/8/6p1/2p4p/4Nn2/1P5k/1r6/7K w - - 0 49",
+    "moves": "f8f4 b2b1 f4f1 b1f1",
+    "themes": "endgame master mate mateIn2 short"
+  },
+  {
+    "id": "0B5Hg",
+    "fen": "6k1/p3bpp1/6rp/8/3P1P2/2B5/PP3K1P/R3r3 w - - 0 31",
+    "moves": "a1e1 e7h4 f2f3 h4e1",
+    "themes": "advantage endgame master short skewer"
+  },
+  {
+    "id": "0B5bR",
+    "fen": "8/4k3/3Np3/4P3/3PR1Pp/8/6PK/3r4 w - - 0 42",
+    "moves": "h2h3 d1h1",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "0B5kH",
+    "fen": "8/4b3/8/1Rp5/1P4kp/2P5/3r1P1B/6K1 w - - 2 45",
+    "moves": "b4c5 d2d1 g1g2 h4h3",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "0B5wm",
+    "fen": "r3kb1r/ppp2ppp/2n1q3/3n4/2B5/2Pp1Q2/PP3PPP/RNB2K1R w kq - 0 11",
+    "moves": "f3d5 e6e2 f1g1 e2d1",
+    "themes": "backRankMate mate mateIn2 opening short"
+  },
+  {
+    "id": "0B75w",
+    "fen": "8/2p3k1/p1n3pp/1p2p3/1P6/2P1NR1P/P5PK/3r4 b - - 1 27",
+    "moves": "d1d3 e3f5 g6f5 f3d3",
+    "themes": "advantage discoveredAttack endgame short"
+  },
+  {
+    "id": "0BC9X",
+    "fen": "8/6p1/4k3/1P2p3/pR6/7P/6PK/r7 b - - 1 39",
+    "moves": "a4a3 b5b6 a3a2 b6b7 a1b1 b7b8q",
+    "themes": "advancedPawn crushing endgame long promotion rookEndgame"
+  },
+  {
+    "id": "0BD4O",
+    "fen": "r5k1/1p1q2bp/p1n1p1p1/3N4/3P3r/1Q2P2B/PP3P1P/3RK2R b K - 0 21",
+    "moves": "d7d5 h3e6 d5e6 b3e6",
+    "themes": "advantage fork middlegame short xRayAttack"
+  },
+  {
+    "id": "0BDYH",
+    "fen": "r1b2rk1/1pq1bppp/p1n1p3/8/4N3/3B3Q/PPP3PP/R3R2K b - - 7 17",
+    "moves": "c6e5 e4f6 g7f6 h3h7",
+    "themes": "kingsideAttack mate mateIn2 middlegame sacrifice short"
+  },
+  {
+    "id": "0BEC8",
+    "fen": "rb2r1k1/ppq2p1p/2p2p2/4n1p1/5B2/2PP3P/PP1QBPP1/R4RK1 w - - 0 16",
+    "moves": "f4h2 e5f3 g2f3 c7h2",
+    "themes": "discoveredAttack kingsideAttack mate mateIn2 middlegame short"
+  },
+  {
+    "id": "0BGzN",
+    "fen": "r1q1r1k1/5p2/p2p1np1/1p1p3n/3Pp1N1/2P1P2P/PP2QP2/R3KNR1 b Q - 3 23",
+    "moves": "c8f5 g4h6 g8f8 h6f5",
+    "themes": "crushing fork master middlegame short"
+  },
+  {
+    "id": "0BHXo",
+    "fen": "r4rk1/2qbb1pp/p1n1pn2/3pN1N1/2p2P2/4B3/PPB1Q1PP/R4R1K w - - 2 22",
+    "moves": "g5h7 f6h7 e5d7 c7d7",
+    "themes": "advantage master masterVsMaster middlegame short"
+  },
+  {
+    "id": "0BKnk",
+    "fen": "2Qb2k1/1n6/3p4/3q4/4ppBp/7P/6P1/3N2K1 b - - 3 52",
+    "moves": "f4f3 g4e6 d5e6 c8e6",
+    "themes": "crushing endgame fork short"
+  },
+  {
+    "id": "0BLEV",
+    "fen": "8/8/8/5k2/5P1K/6P1/7R/5r2 w - - 23 68",
+    "moves": "h2g2 f1h1 g2h2 h1h2",
+    "themes": "endgame mate mateIn2 rookEndgame short"
+  },
+  {
+    "id": "0BLIf",
+    "fen": "8/p1p2p1k/1p3p2/3P1p2/2P2b1p/1Pr2P2/P3K1R1/3R4 w - - 3 37",
+    "moves": "d1h1 c3c2 e2d3 c2g2",
+    "themes": "crushing endgame short skewer"
+  },
+  {
+    "id": "0BLJP",
+    "fen": "4r1k1/ppq3pp/2r1pp1n/3p3Q/3P3P/1PP2P2/P5P1/RN2R1K1 b - - 2 25",
+    "moves": "c7g3 h5e8",
+    "themes": "hangingPiece kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0BMi5",
+    "fen": "r4rk1/1bp2p1p/pp3p2/4p3/7R/P1N1q1P1/1PQ1B2P/5R1K w - - 4 26",
+    "moves": "e2f3 b7f3 f1f3 e3f3",
+    "themes": "crushing kingsideAttack middlegame short"
+  },
+  {
+    "id": "0BONB",
+    "fen": "5rk1/p4rp1/1p1pQ2p/2p3q1/4P3/1P3R2/PBP3PP/7K b - - 1 22",
+    "moves": "g8h7 f3f7 f8f7 e6f7",
+    "themes": "crushing endgame short"
+  },
+  {
+    "id": "0BS1o",
+    "fen": "2r2rk1/1p3p2/p3p2p/4b1p1/N7/2P5/PP3PPP/3R1RK1 b - - 0 20",
+    "moves": "b7b5 a4b6 c8c6 b6d7 e5d6 d7f8",
+    "themes": "advantage endgame fork long"
+  },
+  {
+    "id": "0BSsI",
+    "fen": "rnb1kb1r/pppp2pp/1q6/4P3/5P2/2Q5/PP4PP/R1B1KBNR w KQkq - 1 14",
+    "moves": "g1f3 f8b4 c1d2 b4c3",
+    "themes": "crushing opening pin short"
+  },
+  {
+    "id": "0BT46",
+    "fen": "5r1k/6pp/1q1RQ3/p7/1p6/8/PPP4P/1K1R1r2 w - - 3 28",
+    "moves": "b2b3 f1d1 d6d1 b6e6",
+    "themes": "crushing endgame master short"
+  },
+  {
+    "id": "0BUnD",
+    "fen": "r6k/p4Qp1/b2q3p/2ppN3/5P2/8/PP4PP/6K1 b - - 0 25",
+    "moves": "a8f8 e5g6 d6g6 f7g6",
+    "themes": "advantage endgame fork short"
+  },
+  {
+    "id": "0BVpu",
+    "fen": "r5k1/pppN2pp/2n4r/5p2/8/3P3q/PPP1BP1N/R2Q1R1K w - - 5 20",
+    "moves": "e2h5 h6h5 d1h5 h3h5",
+    "themes": "crushing middlegame short"
+  },
+  {
+    "id": "0BX4A",
+    "fen": "7r/4bp1k/q1np3Q/1p2pN2/4P3/n1P2N1P/5PP1/5RK1 b - - 3 25",
+    "moves": "h7g8 h6g7",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0BXOg",
+    "fen": "3r2k1/Bpp2ppp/3b4/3N4/2P5/P4qPP/1P2rP2/1K1Q3R b - - 4 23",
+    "moves": "d6e5 d5e7 g8f8 d1d8",
+    "themes": "discoveredAttack kingsideAttack mate mateIn2 middlegame short"
+  },
+  {
+    "id": "0BYHV",
+    "fen": "8/p5rk/8/2p1b2P/8/6P1/PP3QRK/1q6 b - - 2 39",
+    "moves": "b1a2 f2f5 h7h6 f5e5",
+    "themes": "advantage endgame fork short"
+  },
+  {
+    "id": "0Ba9c",
+    "fen": "r5nr/pp4p1/2nbQ1kp/2p5/3pPP2/P1PK4/1P1P3P/R1B4q b - - 1 17",
+    "moves": "g6h7 e6f5 g7g6 f5f7",
+    "themes": "mate mateIn2 middlegame short"
+  },
+  {
+    "id": "0BaF8",
+    "fen": "8/1R4pk/7p/p1p5/8/3p3P/P5P1/7K w - - 0 44",
+    "moves": "b7b5 d3d2 b5b1 c5c4 b1d1 c4c3",
+    "themes": "advancedPawn crushing endgame long quietMove rookEndgame"
+  },
+  {
+    "id": "0BaKn",
+    "fen": "b4r1k/1q1R3p/4N1p1/1N2b3/1Q2p3/1P2P2P/5PP1/6K1 b - - 12 38",
+    "moves": "b7d7 b4f8",
+    "themes": "hangingPiece mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0Bbuq",
+    "fen": "8/5k2/2p2p2/1bQp2p1/3P2P1/7P/4r1K1/8 w - - 4 48",
+    "moves": "g2f1 e2c2 f1e1 c2c5",
+    "themes": "crushing discoveredAttack discoveredCheck endgame short"
+  },
+  {
+    "id": "0BdJ6",
+    "fen": "5r2/2R2pk1/Q2p2p1/3P4/1P1qPPK1/P5P1/6bP/8 w - - 1 35",
+    "moves": "a6d6 d4d1 g4g5 d1h5",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "0BejX",
+    "fen": "r1bk1b1r/ppN2ppp/2n1p3/3p4/3PnB2/2PB1N2/Pq3PPP/R2QK2R w KQ - 4 11",
+    "moves": "c7a8 b2f2",
+    "themes": "attackingF2F7 mate mateIn1 oneMove opening"
+  },
+  {
+    "id": "0BfZq",
+    "fen": "3r4/pR2r2p/2B2ppk/2b5/8/P4P2/1P2p1PP/4RK2 w - - 0 32",
+    "moves": "e1e2 d8d1 e2e1 d1e1",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "0Bh9h",
+    "fen": "rn2k1nr/pp3ppp/2p1p3/q7/3PP1b1/2P2N1P/P3BPP1/R1BQK2R b KQkq - 0 9",
+    "moves": "a5c3 c1d2 c3a1 d1a1",
+    "themes": "crushing defensiveMove opening short"
+  },
+  {
+    "id": "0BhwC",
+    "fen": "r5k1/p1p2p2/5Q2/3pbB2/3p4/4q1P1/PPP4P/R6K w - - 4 26",
+    "moves": "f6h4 e3f3 h1g1 f3f5",
+    "themes": "advantage endgame fork master short"
+  },
+  {
+    "id": "0Bin0",
+    "fen": "6k1/5p2/2Rp1p1p/3Pn3/4P3/4KPNP/6P1/1r6 w - - 6 43",
+    "moves": "c6d6 e5c4 e3d4 c4d6",
+    "themes": "advantage endgame fork short"
+  },
+  {
+    "id": "0Bkws",
+    "fen": "r3kb1r/1p3ppp/2P1p3/q3P3/5N2/P2QnN2/5PPP/R4RK1 b kq - 0 17",
+    "moves": "e3f1 d3d7",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0BlBd",
+    "fen": "2rq1rk1/1p3p2/p2b2RP/8/3pQ3/2P5/PP3P2/R1B1K3 b Q - 0 22",
+    "moves": "f7g6 e4g6 g8h8 g6g7",
+    "themes": "mate mateIn2 middlegame short"
+  },
+  {
+    "id": "0BmjH",
+    "fen": "8/3Q1p2/1p4p1/4PpP1/1k3q2/8/R5PK/6R1 w - - 0 42",
+    "moves": "h2h3 f4g4 h3h2 g4h4",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "0Bqsj",
+    "fen": "r5k1/p5pp/1p1b4/1Ppb4/7Q/P6P/1B2n3/1R4K1 w - - 2 35",
+    "moves": "g1f2 d6g3 h4g3 e2g3",
+    "themes": "advantage fork middlegame short"
+  },
+  {
+    "id": "0BrKt",
+    "fen": "8/4P3/3K4/1kp5/3p4/3P4/1p6/2n5 b - - 0 66",
+    "moves": "b2b1q e7e8q b5b4 e8b8 b4c3 b8b1",
+    "themes": "advancedPawn advantage endgame long promotion skewer"
+  },
+  {
+    "id": "0Brt6",
+    "fen": "rnb1kb1r/ppp2ppp/5n2/3p4/3Pq3/3BN3/PPP2PPP/RNBQK2R b KQkq - 1 7",
+    "moves": "e4d4 d3b5 c7c6 d1d4",
+    "themes": "crushing discoveredAttack opening short"
+  },
+  {
+    "id": "0BuCq",
+    "fen": "rn6/ppp4Q/5kp1/5p2/5qn1/N1P5/PP1P2PP/R1B3K1 w - - 1 17",
+    "moves": "d2d4 f4f2 g1h1 f2e1",
+    "themes": "kingsideAttack mate mateIn2 middlegame short"
+  },
+  {
+    "id": "0BuEI",
+    "fen": "1rb2knr/ppNp1ppp/2n5/2b1p2Q/2B1P3/7N/PPPP1qPP/R1BK3R b - - 2 8",
+    "moves": "f2g2 h5f7",
+    "themes": "mate mateIn1 oneMove opening"
+  },
+  {
+    "id": "0BvKf",
+    "fen": "r4rk1/ppN2ppp/3p4/3P4/2P1Pp2/3B2qb/PP3bP1/R2Q1R1K w - - 0 17",
+    "moves": "g2h3 g3h3",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0Bw0B",
+    "fen": "8/4q1pk/7p/4r3/2pp2Q1/6RP/5PP1/6K1 b - - 1 34",
+    "moves": "e7d6 g4g7",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "0Bw2R",
+    "fen": "6R1/pp1qN1kp/3p2P1/2p3pn/P1PbP3/7P/2P3P1/1R5K b - - 2 23",
+    "moves": "g7h6 e7f5 d7f5 e4f5",
+    "themes": "crushing endgame short"
+  },
+  {
+    "id": "0BxeF",
+    "fen": "6k1/1pp3pp/p1qp2b1/6Q1/8/4r2R/PPP2rPP/1K4R1 w - - 0 25",
+    "moves": "h3e3 c6c2 b1a1 c2b2",
+    "themes": "endgame mate mateIn2 queensideAttack short"
+  },
+  {
+    "id": "0Bxtl",
+    "fen": "r1b3k1/pppp1ppp/5q2/n1b5/4r3/8/PPPP1PPP/RNBQRBK1 w - - 0 10",
+    "moves": "e1e4 f6f2 g1h1 f2g1",
+    "themes": "kingsideAttack mate mateIn2 middlegame short"
+  },
+  {
+    "id": "0ByMa",
+    "fen": "6k1/p4rpp/8/3p4/P1pP2Bn/1rP4P/6P1/2B1R2K b - - 0 37",
+    "moves": "b3c3 e1e8 f7f8 g4e6 g8h8 e8f8",
+    "themes": "backRankMate deflection endgame long mate mateIn3"
+  },
+  {
+    "id": "0C0OB",
+    "fen": "8/4K3/3R4/2k5/8/8/8/6r1 w - - 24 80",
+    "moves": "e7d7 g1g7 d7e6 g7g6 e6e5 g6d6",
+    "themes": "crushing endgame long rookEndgame"
+  },
+  {
+    "id": "0C1Vk",
+    "fen": "6b1/8/2k5/1pp1B1N1/p3K3/8/8/8 w - - 3 53",
+    "moves": "g5f3 g8d5 e4e3 d5f3",
+    "themes": "crushing endgame short"
+  },
+  {
+    "id": "0C2vq",
+    "fen": "6k1/r3br1p/p5pB/1ppq2N1/6bP/8/PPP2PP1/R3R1K1 b - - 3 24",
+    "moves": "e7g5 e1e8 f7f8 e8f8",
+    "themes": "kingsideAttack mate mateIn2 middlegame operaMate short"
+  },
+  {
+    "id": "0C3CQ",
+    "fen": "5rk1/q4ppp/P7/3Q4/6P1/5BP1/1r3P2/R3R1K1 w - - 2 40",
+    "moves": "d5c6 a7f2 g1h1 f2h2",
+    "themes": "mate mateIn2 middlegame short"
+  },
+  {
+    "id": "0C3GW",
+    "fen": "8/3Kp3/8/4P1P1/1k6/8/b7/8 b - - 5 54",
+    "moves": "e7e6 g5g6 a2b1 g6g7 b1h7 d7e6",
+    "themes": "advancedPawn bishopEndgame crushing endgame long"
+  },
+  {
+    "id": "0C4Uo",
+    "fen": "3rbn2/pp3p2/3kpP2/2ppN3/5P2/2N3P1/PPP5/2K4R b - - 0 27",
+    "moves": "f8d7 c3b5",
+    "themes": "endgame master mate mateIn1 oneMove"
+  },
+  {
+    "id": "0C5wP",
+    "fen": "r4r1k/1pp1n1p1/p2p1q1p/3QpN2/1P2P3/P1P3R1/5PPP/R5K1 w - - 5 22",
+    "moves": "f5e7 f6f2 g1h1 f2f1 a1f1 f8f1",
+    "themes": "backRankMate long mate mateIn3 middlegame sacrifice"
+  },
+  {
+    "id": "0C9GU",
+    "fen": "r2qkb1r/pp4p1/2npB1p1/2p3P1/4P3/3P1QnP/PPP5/RNB1KR2 b Qkq - 4 14",
+    "moves": "g3f1 f3f7",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0CA8M",
+    "fen": "r2q3r/pp4p1/2n1Qpk1/2bp1n2/5P1p/2N2N2/PPPB2PP/4RR1K w - - 2 16",
+    "moves": "f3e5 c6e5 e6f5 g6f5",
+    "themes": "crushing master middlegame short"
+  },
+  {
+    "id": "0CAjn",
+    "fen": "r6k/6p1/p4r1p/Pp4NQ/1q6/8/6PP/R4R1K w - - 0 38",
+    "moves": "f1f5 f6f5 g5f7 f5f7",
+    "themes": "advantage hangingPiece middlegame short"
+  },
+  {
+    "id": "0CAsd",
+    "fen": "8/8/8/p7/8/3Q3P/r3r1PK/3k4 b - - 16 54",
+    "moves": "a2d2 d3b1",
+    "themes": "endgame mate mateIn1 oneMove queenRookEndgame"
+  },
+  {
+    "id": "0CBLj",
+    "fen": "8/r7/P7/2pk4/3pp1PR/1P6/2K5/8 b - - 0 49",
+    "moves": "a7a6 h4h5 d5c6 h5h6 c6c7 h6a6",
+    "themes": "crushing endgame long rookEndgame skewer"
+  },
+  {
+    "id": "0CE7u",
+    "fen": "4rrk1/pbpp2p1/1p2p2p/4P1q1/8/2PB4/PPQ2PPP/4RRK1 w - - 1 16",
+    "moves": "e1e3 g5g2",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0CH0w",
+    "fen": "6k1/1p2b1p1/p6p/3PP3/2pPp1P1/P5KP/1P6/2B5 w - - 1 34",
+    "moves": "g3f4 e7g5 f4e4 g5c1",
+    "themes": "advantage bishopEndgame endgame short skewer"
+  },
+  {
+    "id": "0CHH6",
+    "fen": "r3k1nr/pppb1ppp/2n5/8/8/5N2/PqPQPPPP/RN2KB1R w KQkq - 2 11",
+    "moves": "d2c3 b2c1",
+    "themes": "mate mateIn1 oneMove opening"
+  },
+  {
+    "id": "0CHQ1",
+    "fen": "8/8/8/6pp/3Nk3/r3PPPP/6K1/8 b - - 0 44",
+    "moves": "e4e3 d4c2 e3d3 c2a3",
+    "themes": "crushing endgame fork short"
+  },
+  {
+    "id": "0CHyU",
+    "fen": "r2b2k1/5p1p/6p1/8/p7/1B6/P5PP/3R2K1 w - - 0 25",
+    "moves": "b3a4 d8b6 g1h1 a8a4",
+    "themes": "crushing endgame intermezzo short"
+  },
+  {
+    "id": "0CIAe",
+    "fen": "3r1q1k/p1p1R3/1b3r1p/4B1p1/2Q5/8/PPPp2PP/3R3K w - - 0 32",
+    "moves": "c4e4 f8e7 e5f6 e7f6",
+    "themes": "crushing master middlegame short"
+  },
+  {
+    "id": "0CIYx",
+    "fen": "r1bq1rk1/ppp3pp/2np4/2b1p3/8/2PP2nP/PP2BPPN/RNBQ1RK1 w - - 2 10",
+    "moves": "f1e1 c5f2",
+    "themes": "kingsideAttack mate mateIn1 oneMove opening"
+  },
+  {
+    "id": "0CJ0u",
+    "fen": "5r1k/4r1N1/p5Qp/1p1B4/3b1P2/5R1P/6PK/4q3 b - - 0 41",
+    "moves": "e7g7 g6h6 g7h7 h6f8",
+    "themes": "mate mateIn2 middlegame short"
+  },
+  {
+    "id": "0CJxa",
+    "fen": "r4r2/1pp2pkp/p2p2p1/4n3/4P2q/1BN4b/PPPQ1PP1/R4RK1 w - - 0 16",
+    "moves": "g2h3 e5f3 g1g2 f3d2",
+    "themes": "middlegame"
+  },
+  {
+    "id": "0CL3z",
+    "fen": "5Rk1/5p1p/q3pBp1/1pP5/1Pp5/6Q1/r4PPP/6K1 b - - 0 26",
+    "moves": "g8f8 g3b8 a6c8 b8c8",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "0COLd",
+    "fen": "r2r2k1/3R1ppp/p3p3/1p6/2B5/qP3Q1P/5PP1/5RK1 b - - 0 25",
+    "moves": "b5c4 f3f7 g8h8 f7g7",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "0CTPK",
+    "fen": "8/8/k2p4/P2P1pp1/K7/6P1/7P/8 w - - 0 43",
+    "moves": "h2h3 f5f4 g3f4 g5f4 a4b4 f4f3 b4c3 f3f2",
+    "themes": "advancedPawn crushing endgame pawnEndgame veryLong"
+  },
+  {
+    "id": "0CTuf",
+    "fen": "8/8/8/1p5R/1P6/4k3/r7/4K3 w - - 6 54",
+    "moves": "h5b5 a2a1",
+    "themes": "endgame mate mateIn1 oneMove rookEndgame"
+  },
+  {
+    "id": "0CXl3",
+    "fen": "r5k1/N2R2pp/1p2pp2/3n4/3p4/6P1/PPrN1PKP/3R4 w - - 1 22",
+    "moves": "d2b3 d5e3 g2g1 e3d1",
+    "themes": "crushing middlegame pin short"
+  },
+  {
+    "id": "0CYVR",
+    "fen": "5rk1/pq3ppp/1p1p3b/3N1R2/4P3/3P2Q1/PP4PP/7K b - - 0 29",
+    "moves": "b7c6 d5e7 g8h8 e7c6",
+    "themes": "crushing endgame fork short"
+  },
+  {
+    "id": "0CZpN",
+    "fen": "rn1q3k/pp3pp1/2p2N1p/4P3/6Q1/3B4/PP4PP/2R3K1 b - - 0 20",
+    "moves": "d8d3 g4c8 d3d8 c8d8",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "0CZqG",
+    "fen": "3k4/1Np5/p1P3p1/4Rn2/8/5P2/Pr6/6K1 b - - 1 39",
+    "moves": "d8c8 e5e8",
+    "themes": "endgame master mate mateIn1 oneMove"
+  },
+  {
+    "id": "0CaPi",
+    "fen": "r3k2r/ppp3p1/3p2qp/3Np3/6bR/6P1/PPP2QK1/5R2 b kq - 0 19",
+    "moves": "e8c8 d5e7 c8b8 e7g6",
+    "themes": "crushing fork middlegame short"
+  },
+  {
+    "id": "0Cbzh",
+    "fen": "r2qkbnr/pp2pppp/8/2p1n3/3p4/2P2P2/PP1PNP1P/R1BQKB1R w KQkq - 0 8",
+    "moves": "c3d4 e5f3",
+    "themes": "mate mateIn1 oneMove opening smotheredMate"
+  },
+  {
+    "id": "0CdS1",
+    "fen": "r4bk1/pR1Q1p1p/3p1Pp1/2pP2r1/P1P1p3/4q2P/4B1P1/5R1K b - - 5 29",
+    "moves": "e3e2 d7f7 g8h8 f7h7",
+    "themes": "kingsideAttack mate mateIn2 middlegame short"
+  },
+  {
+    "id": "0CdZo",
+    "fen": "3r3k/pp1q2pb/2p4R/P1P1BN2/8/1B1Q1P2/1P3P1P/6K1 b - - 0 29",
+    "moves": "d7d3 e5g7",
+    "themes": "mate mateIn1 middlegame oneMove pin"
+  },
+  {
+    "id": "0Cj5u",
+    "fen": "6r1/p2KP1k1/1p6/1Pp3p1/6N1/2b5/P7/8 b - - 0 51",
+    "moves": "g7f7 g4h6 f7f6 h6g8",
+    "themes": "crushing endgame fork master short"
+  },
+  {
+    "id": "0Cjop",
+    "fen": "r1bqkb1r/pp1pn1pp/3Q1n2/4N3/2B1p3/8/PPP2PPP/RNB1K2R b KQkq - 2 8",
+    "moves": "e7g6 c4f7",
+    "themes": "balestraMate mate mateIn1 oneMove opening"
+  },
+  {
+    "id": "0CkRl",
+    "fen": "2r3k1/1R4p1/p2p3p/2rPp2Q/2P2p2/2q4P/P2N1PP1/5K2 b - - 1 31",
+    "moves": "c3d2 h5f7 g8h8 f7g7",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "0CkTR",
+    "fen": "2r2r1k/1pR5/p2pqn1p/8/1B1P1p1P/4pP2/1PQ3P1/K6R b - - 2 34",
+    "moves": "f6d5 c2h7",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0CkWo",
+    "fen": "6k1/pp1r3R/6p1/2p2b2/5B2/6P1/P4PP1/3rR1K1 w - - 1 27",
+    "moves": "e1d1 d7d1 g1h2 g8h7",
+    "themes": "advantage endgame master short"
+  },
+  {
+    "id": "0Ckr9",
+    "fen": "r7/pp6/5k2/2q1pn2/2P5/2N2P2/PPP3PP/R2QR1K1 w - - 1 27",
+    "moves": "g1h1 f5g3 h2g3 a8h8",
+    "themes": "mate mateIn2 middlegame sacrifice short"
+  },
+  {
+    "id": "0ClVs",
+    "fen": "8/3Q1kp1/5p1n/7r/5K2/8/8/8 b - - 1 71",
+    "moves": "f7g8 d7e8 g8h7 e8h5",
+    "themes": "crushing endgame fork short"
+  },
+  {
+    "id": "0CnNB",
+    "fen": "3rr3/pp2bpkp/1qp3p1/3p4/6NP/1PQ1P1P1/P4P2/3R1RK1 b - - 5 28",
+    "moves": "g7g8 g4h6 g8f8 c3h8",
+    "themes": "kingsideAttack mate mateIn2 middlegame short"
+  },
+  {
+    "id": "0CpdM",
+    "fen": "8/5p2/1k5p/1P2N1p1/K3P3/4P3/4r3/8 b - - 0 39",
+    "moves": "e2e3 e5c4 b6b7 c4e3",
+    "themes": "crushing endgame fork short"
+  },
+  {
+    "id": "0Cpis",
+    "fen": "3r1r1k/p2P1Q1p/1p4p1/2p5/2B1b3/8/Pq3PPP/3RR1K1 w - - 1 25",
+    "moves": "f7e7 b2f2 g1h1 f2g2",
+    "themes": "kingsideAttack mate mateIn2 middlegame short"
+  },
+  {
+    "id": "0CpmT",
+    "fen": "r6k/5prp/p4Q2/5p2/P1B1p1qn/6P1/2P1NP1P/R4RK1 w - - 3 28",
+    "moves": "g1h1 g4f3 h1g1 f3g2",
+    "themes": "kingsideAttack mate mateIn2 middlegame short"
+  },
+  {
+    "id": "0CqSo",
+    "fen": "r2qkbnr/p5pp/2p1pp2/1B2n3/4PQ2/2N5/PP3PPP/R1B1K2R w KQkq - 0 12",
+    "moves": "b5a4 e5d3 e1e2 d3f4",
+    "themes": "advantage fork opening short"
+  },
+  {
+    "id": "0CqxM",
+    "fen": "3k4/1p4R1/1rp5/3p3R/P3r1P1/8/P6K/8 b - - 0 43",
+    "moves": "e4a4 h5h8",
+    "themes": "endgame mate mateIn1 oneMove rookEndgame"
+  },
+  {
+    "id": "0CsSG",
+    "fen": "r7/8/5p1p/PK1k1p2/5P2/6P1/1R5P/8 w - - 3 39",
+    "moves": "a5a6 a8b8 b5a4 b8b2 a6a7 b2a2",
+    "themes": "crushing endgame long rookEndgame skewer"
+  },
+  {
+    "id": "0CsWW",
+    "fen": "rnb1k2r/pppp2pp/4p3/5p2/2PP3q/5Pn1/PP1BP2P/R2QKBNR w KQkq - 0 9",
+    "moves": "h2g3 h4g3",
+    "themes": "master mate mateIn1 oneMove opening"
+  },
+  {
+    "id": "0CwCJ",
+    "fen": "1q3rk1/1p3pp1/p3p2p/3p4/P2Pnb2/2PQ1N1P/1P3PP1/R3R2K w - - 7 20",
+    "moves": "c3c4 e4f2 h1g1 f2d3",
+    "themes": "crushing fork middlegame short"
+  },
+  {
+    "id": "0D0FF",
+    "fen": "8/7p/2p3pk/8/4qP2/Q2p2PK/8/8 b - - 3 39",
+    "moves": "d3d2 a3f8 h6h5 g3g4",
+    "themes": "endgame mate mateIn2 queenEndgame short"
+  },
+  {
+    "id": "0D1Gm",
+    "fen": "3q3k/4b2r/p5Q1/2p1R3/4P2N/6P1/P5K1/8 b - - 0 51",
+    "moves": "e7h4 e5e8 d8e8 g6e8",
+    "themes": "crushing endgame fork master short"
+  },
+  {
+    "id": "0D1RC",
+    "fen": "k5r1/1b6/pPqP1Q2/8/1PP5/6PB/5R1K/6N1 w - - 1 48",
+    "moves": "f6f4 c6h1",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0D2A8",
+    "fen": "r1b2rk1/pppp2p1/3n1qnp/3P3Q/8/2PBR3/P4PPP/R1B3K1 w - - 4 17",
+    "moves": "h5g6 f6f2 g1h1 f2f1 d3f1 f8f1",
+    "themes": "backRankMate long master mate mateIn3 middlegame sacrifice"
+  },
+  {
+    "id": "0D4NL",
+    "fen": "r1b1r1k1/pp1np2p/2pp1pp1/6bq/2P4P/P1NPQBP1/1P2PP2/2KR3R w - - 0 17",
+    "moves": "f3h5 g5e3 f2e3 g6h5",
+    "themes": "advantage intermezzo middlegame short"
+  },
+  {
+    "id": "0D6Yp",
+    "fen": "4r2k/2p2R2/1p1p3p/p1bP2pN/2P1r1P1/1P5P/6P1/5R1K b - - 0 32",
+    "moves": "e8e7 f7f8 h8h7 h5f6",
+    "themes": "advantage endgame kingsideAttack short"
+  },
+  {
+    "id": "0D6eE",
+    "fen": "3rk2r/pQ4b1/2p1p2p/2p2p2/8/5P2/PPP2P1P/1K1R4 w k - 0 28",
+    "moves": "b7g7 d8d1",
+    "themes": "backRankMate endgame hangingPiece mate mateIn1 oneMove queenRookEndgame"
+  },
+  {
+    "id": "0D8Xy",
+    "fen": "rn2kbnr/1p1q1ppp/4p3/p3P3/8/2Q5/PPP2PPP/RNB1K1NR w KQkq - 0 11",
+    "moves": "g1f3 f8b4 c1d2 b4c3",
+    "themes": "advantage opening pin short"
+  },
+  {
+    "id": "0D8zb",
+    "fen": "5r2/1pp2Pkp/1b6/4q3/p5Q1/1B6/P5P1/5K2 b - - 1 26",
+    "moves": "g7h8 g4g8 f8g8 f7g8q",
+    "themes": "advancedPawn endgame mate mateIn2 promotion short"
+  },
+  {
+    "id": "0D9dp",
+    "fen": "8/1p6/p1p1k2B/3pP1pp/P1PP1nP1/1P6/5K2/8 w - - 4 34",
+    "moves": "h6g5 f4h3 f2g3 h3g5",
+    "themes": "crushing endgame fork short"
+  },
+  {
+    "id": "0D9pA",
+    "fen": "3Q3k/1p2r1pp/pq2N3/4np2/8/P6P/1P3PP1/3R2K1 b - - 1 25",
+    "moves": "b6d8 d1d8 e7e8 d8e8",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "0DAgY",
+    "fen": "r3qrk1/p1p2p1p/1p4p1/8/2PbN3/P4P2/4QRPP/1R5K b - - 1 22",
+    "moves": "d4f2 e4f6 g8g7 f6e8",
+    "themes": "crushing fork middlegame short"
+  },
+  {
+    "id": "0DBTw",
+    "fen": "1r6/1b1k4/3P1p2/2P1p3/1Q6/1B1Pq1PP/1P6/5RK1 w - - 0 36",
+    "moves": "g1h2 e3e2 f1f2 e2f2",
+    "themes": "endgame fork mate mateIn2 short"
+  },
+  {
+    "id": "0DBlr",
+    "fen": "R7/5p1p/1kp3p1/5p2/8/1r4P1/5r1P/K6R b - - 2 29",
+    "moves": "f5f4 a8b8 b6c7 b8b3",
+    "themes": "advantage endgame rookEndgame short skewer"
+  },
+  {
+    "id": "0DC00",
+    "fen": "r4rk1/pb4pp/1ppbpq2/8/3PR3/1BP5/PP3PPP/R1BQ2K1 w - - 1 16",
+    "moves": "e4e6 f6f2 g1h1 f2f1 d1f1 f8f1",
+    "themes": "kingsideAttack long mate mateIn3 middlegame"
+  },
+  {
+    "id": "0DCC5",
+    "fen": "5R2/1p6/1P6/1kP5/5p2/5bp1/4p3/4K3 w - - 3 55",
+    "moves": "f8f4 g3g2 f4f3 g2g1q",
+    "themes": "advancedPawn crushing endgame promotion short"
+  },
+  {
+    "id": "0DCu7",
+    "fen": "2k5/4R1pp/1PK5/3p1b2/3P1B2/5P1P/1rp5/8 b - - 1 42",
+    "moves": "f5d7 e7d7 b2b6 c6b6",
+    "themes": "crushing endgame master short"
+  },
+  {
+    "id": "0DErt",
+    "fen": "r1bq2kr/bpp3p1/p1nP4/6Np/3P2n1/1Q5P/PP3PP1/RNB2RK1 b - - 0 13",
+    "moves": "g8f8 b3f7",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0DFhf",
+    "fen": "4kb1r/4q1pp/p3P1n1/1pBP4/2p5/1rN2Q2/6PP/5R1K b k - 1 30",
+    "moves": "e7c5 f3f7 e8d8 f7d7",
+    "themes": "mate mateIn2 middlegame short"
+  },
+  {
+    "id": "0DIfp",
+    "fen": "6k1/pp3p1p/3p1Qp1/3P4/6rP/1P1b4/P1q1rP1K/2R2R2 b - - 1 29",
+    "moves": "c2d2 c1c8 e2e8 c8e8",
+    "themes": "kingsideAttack mate mateIn2 middlegame short"
+  },
+  {
+    "id": "0DM4n",
+    "fen": "5bk1/5p2/6pp/1Qpb4/4q3/P2N3P/4NPP1/6K1 w - - 4 33",
+    "moves": "e2c3 e4g2",
+    "themes": "endgame master mate mateIn1 oneMove"
+  },
+  {
+    "id": "0DMIc",
+    "fen": "5r1k/pb4p1/1p2Nq1p/3p4/6Q1/6P1/PPr2PBP/3R2K1 w - - 2 26",
+    "moves": "e6f8 f6f2 g1h1 f2g2",
+    "themes": "fork mate mateIn2 middlegame short"
+  },
+  {
+    "id": "0DOjc",
+    "fen": "3k1r2/3P3p/3R2p1/4b1P1/1p1nQ3/7P/q1P2P2/3R2K1 w - - 0 32",
+    "moves": "e4e5 d4f3 g1g2 f3e5",
+    "themes": "crushing endgame fork short"
+  },
+  {
+    "id": "0DPdw",
+    "fen": "8/3k4/3p3b/3N1n2/6p1/2BR2P1/2r5/6K1 b - - 8 53",
+    "moves": "d7c6 d5b4 c6b5 b4c2",
+    "themes": "advantage endgame fork master short"
+  },
+  {
+    "id": "0DUMt",
+    "fen": "2r1nr1k/2q2p1p/1npb1Qp1/p3pN2/Pp2P2B/1B3P2/1PP2PRP/R6K b - - 1 24",
+    "moves": "e8f6 h4f6 h8g8 f5h6",
+    "themes": "kingsideAttack mate mateIn2 middlegame short"
+  },
+  {
+    "id": "0DUXt",
+    "fen": "4r1k1/p4ppp/2N5/3RB3/8/r7/5PPP/6K1 b - - 0 24",
+    "moves": "e8e5 d5d8 e5e8 d8e8",
+    "themes": "backRankMate endgame mate mateIn2 short"
+  },
+  {
+    "id": "0DUj5",
+    "fen": "2bB4/8/6p1/1p1p1kpp/p1pP4/2P2K1P/PP3PP1/8 b - - 1 38",
+    "moves": "c8e6 g2g4 h5g4 h3g4",
+    "themes": "bishopEndgame endgame mate mateIn2 short"
+  },
+  {
+    "id": "0DUyg",
+    "fen": "8/7p/4p1k1/4P3/p4PK1/2r5/P4R1P/8 w - - 13 44",
+    "moves": "h2h4 h7h5",
+    "themes": "endgame mate mateIn1 oneMove rookEndgame"
+  },
+  {
+    "id": "0DV4b",
+    "fen": "2r2rk1/p4ppp/1p1p4/4n1q1/4Q2n/2P1P3/PP2BPPP/R1B1R1K1 w - - 5 18",
+    "moves": "e4f4 g5g2",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0DXSQ",
+    "fen": "r2qr1k1/pp3ppp/2pb1pn1/3P4/8/2PQBN1P/PP3PP1/R4RK1 w - - 1 14",
+    "moves": "d5c6 d6h2 g1h2 d8d3",
+    "themes": "advantage discoveredAttack middlegame short"
+  },
+  {
+    "id": "0DXTq",
+    "fen": "r3k2r/pbq3pp/3bpp2/1p1p4/3N4/1P2P2P/P1PN4/R4BQK b kq - 0 20",
+    "moves": "c7d7 f1b5 e8c8 b5d7",
+    "themes": "advantage middlegame pin short"
+  },
+  {
+    "id": "0DXwC",
+    "fen": "2r2r2/1ppq3k/p4p1p/P2ppPn1/1P1P1nQ1/1BP1RP2/5P1K/4R3 b - - 0 32",
+    "moves": "e5d4 e3e7 f8f7 e7d7",
+    "themes": "crushing fork middlegame short"
+  },
+  {
+    "id": "0DawP",
+    "fen": "1k2r2r/1p1n1pp1/2pbn1p1/1p1p4/3P2PP/3BPP1R/PPR2N2/1KB5 b - - 8 25",
+    "moves": "e6g5 h4g5 h8h3 f2h3",
+    "themes": "advantage hangingPiece master middlegame short"
+  },
+  {
+    "id": "0Dax7",
+    "fen": "2k4r/1p3p1p/p3pp2/8/8/5P1r/P1P1QP2/1R3Kq1 w - - 0 22",
+    "moves": "f1g1 h8g8 g1f1 h3h1",
+    "themes": "endgame mate mateIn2 queenRookEndgame short"
+  },
+  {
+    "id": "0DeDl",
+    "fen": "r1bqk1nr/ppppb3/2n3Qp/8/2BpP3/8/PPP2PPP/RNB2RK1 b - - 0 9",
+    "moves": "e8f8 g6f7",
+    "themes": "mate mateIn1 oneMove opening"
+  },
+  {
+    "id": "0DgF6",
+    "fen": "5rk1/2Q3pp/3p3n/3Pp3/4P3/N1P5/P3b1PP/R4q1K w - - 4 29",
+    "moves": "a1f1 f8f1",
+    "themes": "backRankMate endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "0Dieq",
+    "fen": "rn3rk1/4pp1p/1pPq2p1/pP2Q3/P1P2n2/5N1b/3PBP1P/RN4KR w - - 6 17",
+    "moves": "e5d6 f4e2",
+    "themes": "hangingPiece kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0DkHq",
+    "fen": "rn1qkbnr/pp3ppp/3p4/2pQ4/2B1P3/2N2P1P/PPP2P2/R1B1K2R b KQkq - 1 9",
+    "moves": "b8c6 d5f7",
+    "themes": "attackingF2F7 mate mateIn1 oneMove opening"
+  },
+  {
+    "id": "0DkcS",
+    "fen": "r1r5/3kbp1p/3Rnn2/4pN2/qp2P1P1/4BPN1/PKPQ3P/R7 b - - 0 27",
+    "moves": "e7d6 d2d6 d7e8 d6e7",
+    "themes": "mate mateIn2 middlegame short"
+  },
+  {
+    "id": "0DljH",
+    "fen": "r4r1k/2p5/ppn1b2P/3qp3/3p4/P2B1N2/1PP3Q1/1K1R4 b - - 0 31",
+    "moves": "d5f3 g2g7",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0DmW2",
+    "fen": "7r/R4bk1/8/4p1Np/7P/4K3/8/8 b - - 10 43",
+    "moves": "h8f8 g5e6 g7g8 e6f8",
+    "themes": "advantage endgame pin short"
+  },
+  {
+    "id": "0Dobg",
+    "fen": "8/p3Q2p/5rpk/8/2Pq4/8/P4PPP/4RBK1 w - - 2 28",
+    "moves": "c4c5 d4f2 g1h1 f2f1 e1f1 f6f1",
+    "themes": "backRankMate deflection endgame long mate mateIn3"
+  },
+  {
+    "id": "0Dri5",
+    "fen": "3r1r1k/ppq2p2/2p2PpP/2P3N1/3p4/1Q6/PP6/2K3RR w - - 0 34",
+    "moves": "g1e1 c7f4 c1b1 f4g5",
+    "themes": "advantage fork middlegame short"
+  },
+  {
+    "id": "0Dse3",
+    "fen": "8/4n3/7K/3Pk1p1/8/2N4P/8/8 b - - 0 41",
+    "moves": "e7d5 c3d5 e5d5 h6g5",
+    "themes": "crushing endgame knightEndgame short"
+  },
+  {
+    "id": "0DtuR",
+    "fen": "r5k1/1p4Bp/p1p3p1/4pq2/4N2Q/1P1P2P1/1PP3PK/r7 b - - 0 23",
+    "moves": "f5h5 e4f6 g8g7 f6h5",
+    "themes": "advantage endgame fork master short"
+  },
+  {
+    "id": "0DxL5",
+    "fen": "r4r1k/ppQ3p1/q6p/6b1/6P1/1N6/PPP2P1P/2KR3R w - - 1 21",
+    "moves": "f2f4 g5f4 c7f4 f8f4",
+    "themes": "crushing fork middlegame short"
+  },
+  {
+    "id": "0DyGM",
+    "fen": "8/rq3kpp/2p1p3/5pP1/2Nr4/8/1PQ1KPPP/4R3 b - - 0 27",
+    "moves": "b7d7 c4e5 f7g8 e5d7",
+    "themes": "crushing endgame fork short"
+  },
+  {
+    "id": "0E3WV",
+    "fen": "4r2k/1pb5/p4R2/P2p1p2/3P4/2P2K2/1P1B3r/6R1 b - - 5 50",
+    "moves": "h2d2 f6h6",
+    "themes": "endgame master mate mateIn1 oneMove"
+  },
+  {
+    "id": "0E6bs",
+    "fen": "5R2/8/4p3/6pp/3Pk3/6PK/3r3P/8 w - - 2 54",
+    "moves": "f8g8 g5g4 h3h4 d2h2",
+    "themes": "crushing deflection endgame master rookEndgame short"
+  },
+  {
+    "id": "0E71c",
+    "fen": "2r3k1/pp4pp/4p3/3pP3/6rP/2PR4/q1PK1Q2/5R2 b - - 1 24",
+    "moves": "a2c4 f2f7 g8h8 f7f8 c8f8 f1f8",
+    "themes": "backRankMate endgame long mate mateIn3 sacrifice"
+  },
+  {
+    "id": "0E9dW",
+    "fen": "8/k7/8/6Q1/4q1p1/8/5PKP/8 w - - 0 49",
+    "moves": "g2g3 e4f3 g3h4 f3h3",
+    "themes": "endgame mate mateIn2 queenEndgame short"
+  },
+  {
+    "id": "0EAGu",
+    "fen": "r4rk1/1ppnq1p1/p7/3pp2P/P4PP1/2P3Q1/1P1N1P2/R3K2R w KQ - 0 22",
+    "moves": "h5h6 e5f4 e1d1 f4g3",
+    "themes": "crushing discoveredAttack discoveredCheck middlegame short"
+  },
+  {
+    "id": "0ECXn",
+    "fen": "rnbqkb1r/pp3ppp/3pp3/2pP4/4P2n/3B1N2/PPP2PPP/RNBQ1RK1 w kq - 0 7",
+    "moves": "c1g5 h4f3 d1f3 d8g5",
+    "themes": "crushing kingsideAttack opening short"
+  },
+  {
+    "id": "0EDHI",
+    "fen": "1r1q1rk1/p4ppp/3b4/1B1p4/1P2p3/2P5/5PPP/R1BQ1RK1 w - - 1 20",
+    "moves": "d1d5 d6h2 g1h2 d8d5",
+    "themes": "advantage discoveredAttack kingsideAttack middlegame short"
+  },
+  {
+    "id": "0EEpf",
+    "fen": "r3r3/1p4pp/2pk1p2/p1Rp4/Pn1P4/4P1P1/1P1NKP1P/2R5 w - - 0 31",
+    "moves": "c5c3 b4a2 c1a1 a2c3",
+    "themes": "advantage endgame fork master short"
+  },
+  {
+    "id": "0EFKg",
+    "fen": "2rq1r2/pp1bpp1k/3p4/6Qp/4P2P/2N5/PPP5/R3K1R1 b Q - 3 18",
+    "moves": "f8g8 g5h5",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0EHVh",
+    "fen": "r1b2k2/p4qpQ/2p1p2p/1pnp1P2/8/2P4R/P4PPP/4R1K1 b - - 0 26",
+    "moves": "e6f5 h7h8 f7g8 e1e8 f8e8 h8g8",
+    "themes": "attraction crushing deflection long middlegame"
+  },
+  {
+    "id": "0EHvK",
+    "fen": "4r3/p1kn4/1ppR4/5PN1/8/3R1P1B/PbP1rK2/8 w - - 1 26",
+    "moves": "f2g3 b2e5 f3f4 e5d6",
+    "themes": "advantage fork middlegame short"
+  },
+  {
+    "id": "0EJri",
+    "fen": "r2qr1k1/2p3pp/ppP2n2/3pP3/P5b1/6Q1/1P1N3P/R1B1R1K1 b - - 3 23",
+    "moves": "d8c8 e5f6 e8e1 g3e1",
+    "themes": "advantage middlegame short"
+  },
+  {
+    "id": "0EKjo",
+    "fen": "r2q2kr/pb1np1b1/1p3nB1/2pp2Np/3P1B1P/2P1P3/PP3PP1/R2QK2R b KQ - 4 13",
+    "moves": "d7f8 g6f7",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0EMw5",
+    "fen": "2r2rk1/pp3ppp/3p4/1q1P4/4R2b/2B2P2/PP4PP/R2Q2K1 b - - 8 19",
+    "moves": "b5c5 c3d4 h4f6 d4c5",
+    "themes": "crushing defensiveMove middlegame short"
+  },
+  {
+    "id": "0EPC8",
+    "fen": "r1br2k1/1pp2ppp/1qn1p3/p3P3/8/3B1P2/PP1QN1PP/1KR4R b - - 0 15",
+    "moves": "c6e5 d3h7 g8h7 d2d8",
+    "themes": "advantage discoveredAttack kingsideAttack middlegame short"
+  },
+  {
+    "id": "0EQJF",
+    "fen": "8/2p3p1/2k1r3/6R1/4p1P1/2P1BPK1/1n6/8 b - - 2 37",
+    "moves": "b2c4 g5c5 c6d6 c5c4",
+    "themes": "crushing endgame fork master short"
+  },
+  {
+    "id": "0EQMI",
+    "fen": "1k3r2/p1p5/1pP1R1p1/1Pb1N3/P2p1PP1/3Pn2p/7P/6K1 b - - 4 37",
+    "moves": "a7a6 e5d7 b8a7 d7f8",
+    "themes": "crushing endgame fork master short"
+  },
+  {
+    "id": "0EQNG",
+    "fen": "r2q1r1k/1pp3p1/p2p1bQB/1n1Pp3/8/2PP3P/PP3P1P/R5RK b - - 0 18",
+    "moves": "g7h6 g6h6",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0ES5e",
+    "fen": "r1bqr1k1/1p1n1p1Q/4pbB1/3p4/p2P4/P1P2N1P/1P3PP1/R3K2R b KQ - 6 22",
+    "moves": "g8f8 h7f7",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0ESj6",
+    "fen": "1r3rk1/ppp1qpp1/5p1p/nQ1P1b2/3N1b2/2P2N2/PP3PPP/2K1RB1R w - - 5 17",
+    "moves": "f3d2 e7e1",
+    "themes": "hangingPiece mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0ETNg",
+    "fen": "8/8/4p3/1p5R/3k4/6P1/K6P/1r6 b - - 4 47",
+    "moves": "b1b4 h5h4 d4c3 h4b4",
+    "themes": "crushing endgame master rookEndgame short"
+  },
+  {
+    "id": "0EUWs",
+    "fen": "1r1r4/5pkp/ppqNp1p1/1bP5/1P1nPp2/3P2P1/3Q2BP/1R1R2K1 w - - 0 26",
+    "moves": "d2f4 d4e2 g1h1 e2f4",
+    "themes": "crushing fork middlegame short"
+  },
+  {
+    "id": "0EUdJ",
+    "fen": "r3kb1r/pp1q1pp1/8/2pNp3/Q1PnP3/P2P1BPp/5P1P/R4RK1 w kq - 2 17",
+    "moves": "d5c7 e8d8 a4d7 d8d7 c7d5 d4f3",
+    "themes": "advantage long middlegame"
+  },
+  {
+    "id": "0EVaw",
+    "fen": "8/6pp/p7/8/1Pk3P1/P4P1P/2P4r/2R2K2 w - - 1 34",
+    "moves": "c2c3 h2h1 f1f2 h1c1",
+    "themes": "crushing endgame rookEndgame short skewer"
+  },
+  {
+    "id": "0EVvX",
+    "fen": "8/7r/2Q5/k2Pp3/4P3/4q3/P5PP/6RK w - - 13 43",
+    "moves": "h2h3 h7h3 g2h3 e3h3",
+    "themes": "endgame mate mateIn2 sacrifice short"
+  },
+  {
+    "id": "0EW9j",
+    "fen": "rn1q1r1k/1p6/p2p1bQ1/3P4/1P4b1/P1N1R3/5P1P/R5K1 b - - 0 23",
+    "moves": "f8g8 g6h6",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0EWSM",
+    "fen": "r1bqr1k1/3n1ppp/p1p1pn2/1p4N1/P1pP4/B1P3P1/2Q1PPBP/RR4K1 b - - 1 13",
+    "moves": "f6d5 c2h7",
+    "themes": "kingsideAttack master mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0EXVb",
+    "fen": "4r3/2P4p/6p1/5p1k/1p1Q1P2/1P3RKr/5RP1/6q1 w - - 0 42",
+    "moves": "g3h3 g1h1 h3g3 h1h4",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "0EdJt",
+    "fen": "r1bqk2r/p1pp1ppp/2p5/8/1b6/2P1B3/P1P1QPPP/R3KB1R b KQkq - 0 9",
+    "moves": "b4c3 e3d2 e8f8 d2c3",
+    "themes": "advantage discoveredAttack discoveredCheck middlegame short"
+  },
+  {
+    "id": "0EfAQ",
+    "fen": "8/8/3k4/1P6/K1q2N2/2P2P2/3n2PP/Q7 w - - 2 46",
+    "moves": "a4a3 c4b3",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "0EfOl",
+    "fen": "8/3k4/4p2p/2PpP1p1/2p3P1/K1P4P/8/8 w - - 5 54",
+    "moves": "a3b4 d7c6 b4a4 c6c5",
+    "themes": "crushing endgame pawnEndgame short zugzwang"
+  },
+  {
+    "id": "0Ek3X",
+    "fen": "6k1/p2r1p1p/1p4p1/3q4/8/2P3Q1/PP4P1/5R1K b - - 0 29",
+    "moves": "d5a2 g3b8 g8g7 b8e5",
+    "themes": "advantage endgame short"
+  },
+  {
+    "id": "0EkpK",
+    "fen": "2r1q3/1kp2R2/ppnp3B/3N1Q2/3P4/1P2PPP1/P1K5/8 w - - 1 40",
+    "moves": "e3e4 c6d4 c2b1 d4f5",
+    "themes": "advantage fork middlegame short"
+  },
+  {
+    "id": "0En8R",
+    "fen": "8/3R2p1/5p1k/8/5PP1/2r3K1/8/8 w - - 1 45",
+    "moves": "g3h4 g7g5 f4g5 f6g5",
+    "themes": "endgame mate mateIn2 rookEndgame short"
+  },
+  {
+    "id": "0EoeY",
+    "fen": "4R3/5ppk/1p1P3p/p5q1/8/5PBP/P5P1/6K1 b - - 0 35",
+    "moves": "g5g3 d6d7 g3f4 d7d8q",
+    "themes": "advancedPawn crushing endgame promotion queenRookEndgame short"
+  },
+  {
+    "id": "0Ep4E",
+    "fen": "8/3R2p1/7k/P7/4Nr2/3K4/1P5p/8 w - - 0 39",
+    "moves": "e4g3 f4f3 d3c4 f3g3",
+    "themes": "crushing endgame fork short"
+  },
+  {
+    "id": "0EphM",
+    "fen": "r5k1/4pp2/6p1/q3PbNp/2Q5/p7/P2R1PPP/6K1 b - - 0 34",
+    "moves": "a5d2 c4f7 g8h8 f7h7",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "0EqJU",
+    "fen": "2k3r1/pp5p/5p2/3N4/3p4/P4R1P/2P3PK/2r5 b - - 3 38",
+    "moves": "c1c2 d5e7 c8d7 e7g8",
+    "themes": "advantage endgame fork short"
+  },
+  {
+    "id": "0EscM",
+    "fen": "8/5pk1/Q5p1/3P3p/3nP3/5P2/1q4PP/5RK1 w - - 1 35",
+    "moves": "a6d3 d4e2 d3e2 b2e2",
+    "themes": "advantage endgame master short"
+  },
+  {
+    "id": "0Etdg",
+    "fen": "8/8/3p4/P2k3p/6p1/1P6/5KP1/8 w - - 0 51",
+    "moves": "a5a6 d5c6 a6a7 c6b7 a7a8q b7a8",
+    "themes": "crushing endgame long pawnEndgame"
+  },
+  {
+    "id": "0EvzB",
+    "fen": "r4rk1/1bq1bppp/p7/1ppPp3/8/2PQ4/PPB2PPP/R1B1R1K1 b - - 0 16",
+    "moves": "c5c4 d3h7",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0Ew8N",
+    "fen": "5r1k/pp2Q1bp/3p2p1/q2N2p1/4P3/P5N1/5PPP/2R3K1 w - - 1 21",
+    "moves": "c1c7 a5e1 g3f1 e1f2 g1h1 f2f1",
+    "themes": "deflection kingsideAttack long mate mateIn3 middlegame"
+  },
+  {
+    "id": "0Ex55",
+    "fen": "5rk1/R7/1p2p2p/4P1p1/3P2B1/4n2P/PP2Q2P/5qK1 w - - 5 40",
+    "moves": "e2f1 f8f1",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "0EzRX",
+    "fen": "r1bqkb1r/pp2pp1p/2n2p2/2P5/3p4/2N2N2/PPP1PPPP/R2QKB1R w KQkq - 0 7",
+    "moves": "c3b5 d8a5 c2c3 a5b5",
+    "themes": "advantage fork master opening short"
+  },
+  {
+    "id": "0EzYp",
+    "fen": "2r3k1/2q3pp/4p3/1pNb4/1P1Pp1Q1/4P3/5r1P/R5RK w - - 4 25",
+    "moves": "c5e6 c7h2",
+    "themes": "master mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0F14M",
+    "fen": "5rk1/1b1Rq1pp/8/1pp5/1P2prBn/P1P3Q1/4R1P1/6K1 b - - 1 34",
+    "moves": "e7g5 g4e6 g8h8 g3g5",
+    "themes": "crushing discoveredAttack kingsideAttack middlegame short"
+  },
+  {
+    "id": "0F1HN",
+    "fen": "2r2r2/pb3pkp/5np1/1N1q4/8/3Bp3/PPPQ2PP/3R1RK1 w - - 0 20",
+    "moves": "d2e3 d5g2",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0F2wJ",
+    "fen": "1r1r2k1/p3q2p/b3p1p1/5p2/8/1Pb5/P1PB1PPP/1R1QRNK1 w - - 4 20",
+    "moves": "d1f3 c3d2 f1d2 d8d2",
+    "themes": "advantage middlegame short"
+  },
+  {
+    "id": "0F38g",
+    "fen": "8/8/2B5/pp2k3/2b2p2/P1P2K2/2P5/8 w - - 4 51",
+    "moves": "c6b7 c4d5 b7d5 e5d5",
+    "themes": "bishopEndgame crushing endgame master masterVsMaster short"
+  },
+  {
+    "id": "0F48y",
+    "fen": "6k1/5pp1/7p/3r4/1P3b2/R6P/1P2B3/3K4 w - - 8 37",
+    "moves": "d1c2 d5d2 c2c3 d2e2 a3a8 g8h7",
+    "themes": "advantage defensiveMove endgame fork long"
+  },
+  {
+    "id": "0F6Z4",
+    "fen": "3r2k1/R4pp1/6qp/3pP1n1/2pQ4/8/2P2PPP/3R2K1 w - - 4 25",
+    "moves": "c2c3 g5f3 g1h1 f3d4",
+    "themes": "crushing endgame pin short"
+  },
+  {
+    "id": "0F71x",
+    "fen": "8/5k1p/N3bpp1/8/5P2/1P3NbP/P1r3P1/R5K1 w - - 0 31",
+    "moves": "f3d4 g3f2 g1h1 f2d4",
+    "themes": "advantage endgame fork short"
+  },
+  {
+    "id": "0F7hK",
+    "fen": "r1bq1rBk/1pp2pp1/p1n2b2/4p1N1/3P1n2/2P2N2/PPQ4P/R1B2RK1 b - - 4 17",
+    "moves": "f6g5 c2h7",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0F9iD",
+    "fen": "5r2/R4pkp/3p2p1/6B1/8/1Bb2KPP/P3rP2/8 b - - 4 27",
+    "moves": "e2f2 f3f2 c3d4 g5e3 d4a7 e3a7",
+    "themes": "advantage endgame hangingPiece long"
+  },
+  {
+    "id": "0FBdY",
+    "fen": "2r5/pp3pk1/6p1/1qnp4/8/rNP1PPP1/PQ4P1/R5K1 b - - 1 31",
+    "moves": "a3a4 c3c4 g7g8 c4b5",
+    "themes": "crushing discoveredAttack discoveredCheck master masterVsMaster middlegame short"
+  },
+  {
+    "id": "0FCix",
+    "fen": "6k1/5pp1/Q3b2p/8/3B4/4P2P/3n1KP1/1r6 w - - 5 34",
+    "moves": "f2e2 e6c4 a6c4 d2c4",
+    "themes": "advantage endgame fork short"
+  },
+  {
+    "id": "0FFEe",
+    "fen": "4k3/Q1p2pb1/1pq1p3/4P3/4P1p1/5nP1/P1P2P1P/2KR4 b - - 0 33",
+    "moves": "g7e5 a7b8 e8e7 b8d8",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "0FFGc",
+    "fen": "4R1k1/1p4pp/p1b3r1/3pQ3/4nP2/1P5P/P4qBK/8 b - - 9 30",
+    "moves": "g8f7 e5e7",
+    "themes": "master mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0FGiH",
+    "fen": "b2r1rk1/p4pb1/P3p2p/1B4p1/3Pq1n1/1Q2N3/4NPPP/R2R2K1 w - - 7 25",
+    "moves": "f2f3 e4e3 b3e3 g4e3",
+    "themes": "advantage kingsideAttack middlegame short"
+  },
+  {
+    "id": "0FIxP",
+    "fen": "r3rk2/5p2/2p2q2/pp1pN1b1/3P2P1/P1PB4/1PQ2P2/R5K1 b - - 4 24",
+    "moves": "a8c8 e5d7 f8g7 d7f6",
+    "themes": "advantage fork middlegame short"
+  },
+  {
+    "id": "0FJ1U",
+    "fen": "rq2r1k1/pp3pp1/7p/8/P1BPp1b1/8/1P1N2Pb/R1Q2R1K b - - 1 21",
+    "moves": "e4e3 c4f7 g8h8 f7e8",
+    "themes": "advantage fork middlegame short"
+  },
+  {
+    "id": "0FJ5J",
+    "fen": "8/3b4/7p/pp1p2kP/3rpR2/2rBR1K1/2P5/8 b - - 1 42",
+    "moves": "e4d3 e3e5 d7f5 f4f5",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "0FJqM",
+    "fen": "4Q3/3r1pkp/2q5/5pN1/8/4P2P/4BP2/5RK1 w - - 4 34",
+    "moves": "f1d1 d7d1 e2d1 c6e8",
+    "themes": "advantage discoveredAttack endgame short"
+  },
+  {
+    "id": "0FLp0",
+    "fen": "3r2k1/1R3pp1/p6p/q7/8/1Q1p2P1/5P1P/6K1 b - - 1 33",
+    "moves": "d3d2 b3f7 g8h8 f7g7",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "0FM9c",
+    "fen": "3r2k1/PR5p/2p5/2P3p1/8/5p2/1K6/8 b - - 1 41",
+    "moves": "d8a8 b7b8 g8f7 b8a8 f3f2 a8f8 f7f8 a7a8q",
+    "themes": "advancedPawn attraction crushing endgame promotion rookEndgame veryLong"
+  },
+  {
+    "id": "0FQpQ",
+    "fen": "5r1k/4R2p/p4n2/1p6/6qP/2PBQ3/PP6/1K6 w - - 5 46",
+    "moves": "e3e5 g4d1",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "0FRez",
+    "fen": "2r2rk1/3npp1p/pq1p2pQ/1p3N2/2p5/P1P2R1P/1P3PP1/R5K1 b - - 2 22",
+    "moves": "g6f5 f3g3 g8h8 h6g7",
+    "themes": "mate mateIn2 middlegame short"
+  },
+  {
+    "id": "0FRld",
+    "fen": "8/1k1q4/6Q1/p6p/3Np2P/3bP3/5PP1/6K1 w - - 0 51",
+    "moves": "g6f5 d7f5 d4f5 a5a4 f5d4 a4a3",
+    "themes": "crushing endgame long master quietMove"
+  },
+  {
+    "id": "0FSA4",
+    "fen": "1Q6/2pqk3/2p1p3/2P2P2/PP1P3r/8/7p/3R1RK1 w - - 0 32",
+    "moves": "g1h1 d7d5 f1f3 d5f3",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "0FSCV",
+    "fen": "3r2k1/5pp1/3q3p/p7/1p1p2N1/1P1Q4/P4PPP/3R2K1 w - - 0 30",
+    "moves": "d3d4 d6d4 d1d4 d8d4",
+    "themes": "crushing endgame short"
+  },
+  {
+    "id": "0FUG1",
+    "fen": "2r4r/1k1q4/1pR1b3/3p1p2/Q2P3p/4P3/PP1B1KPP/2R5 w - - 3 25",
+    "moves": "a4b5 c8c6 c1c6 d7c6 b5c6 b7c6",
+    "themes": "crushing long middlegame"
+  },
+  {
+    "id": "0FUOA",
+    "fen": "rq6/5pk1/3P1np1/p1P5/Pp1Q2n1/1B4P1/1P4P1/R4RKr w - - 5 29",
+    "moves": "g1h1 b8h8 h1g1 h8h2",
+    "themes": "master mate mateIn2 middlegame short"
+  },
+  {
+    "id": "0FVHD",
+    "fen": "8/8/p1p5/1p1pP1pp/1P1P4/2Pk1r1P/R4P2/6K1 b - - 0 49",
+    "moves": "d3c3 a2a3 c3d4 a3f3",
+    "themes": "advantage endgame rookEndgame short skewer"
+  },
+  {
+    "id": "0FYax",
+    "fen": "5r1k/p5p1/1q1n1r1p/3R4/7P/1BP3P1/P1R2PQ1/6K1 w - - 3 35",
+    "moves": "g1h2 f6f2 c2f2 f8f2 h2h3 f2g2",
+    "themes": "crushing long middlegame pin"
+  },
+  {
+    "id": "0Fasr",
+    "fen": "8/1r4pp/1P2kp2/1R6/3r3P/4N1P1/5PK1/8 b - - 0 37",
+    "moves": "e6d6 e3f5 d6e6 f5d4",
+    "themes": "advantage endgame fork master short"
+  },
+  {
+    "id": "0Fcoh",
+    "fen": "r4rk1/p1pb1pp1/3p4/2pP4/2P1PNpq/5Q2/PP2B1P1/R4RK1 w - - 0 19",
+    "moves": "f3f2 g4g3 f2g3 h4g3",
+    "themes": "crushing master middlegame short"
+  },
+  {
+    "id": "0Fd4O",
+    "fen": "6k1/4Bpbp/3p2p1/8/3P4/1P3q1P/5P2/2Q3K1 b - - 0 29",
+    "moves": "g7d4 c1c8 g8g7 c8f8",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "0FfKf",
+    "fen": "5r1k/pppr2p1/4Bq1p/8/3PQ3/8/P4PPP/4R1K1 w - - 1 23",
+    "moves": "e6d7 f6f2 g1h1 f2f1 e1f1 f8f1",
+    "themes": "backRankMate endgame long mate mateIn3 sacrifice"
+  },
+  {
+    "id": "0FhI8",
+    "fen": "r2q1rkR/pp4b1/2n3B1/3pp1Q1/3P4/8/PPP2PP1/R3K3 b Q - 5 22",
+    "moves": "g8h8 g5h5 g7h6 h5h6 h8g8 h6h7",
+    "themes": "exposedKing kingsideAttack long mate mateIn3 middlegame"
+  },
+  {
+    "id": "0Fhtj",
+    "fen": "5rk1/4B1b1/p7/3Pp1q1/P3P3/1QNBp1Pb/4N3/6K1 b - - 0 32",
+    "moves": "g5e7 d5d6 h3e6 d6e7",
+    "themes": "advancedPawn advantage discoveredAttack discoveredCheck master middlegame short"
+  },
+  {
+    "id": "0FimY",
+    "fen": "6k1/pp1n4/4R3/8/1B1P4/8/P1r1p3/4Rr1K w - - 3 35",
+    "moves": "e1f1 e2f1q",
+    "themes": "advancedPawn endgame mate mateIn1 oneMove promotion"
+  },
+  {
+    "id": "0FivG",
+    "fen": "5B2/8/1Np1k2p/p7/1PP2K2/8/r7/8 w - - 0 58",
+    "moves": "b4a5 a2f2 f4e3 f2f8",
+    "themes": "crushing endgame short skewer"
+  },
+  {
+    "id": "0FkRa",
+    "fen": "8/2Q4p/p2rp1pk/2p1q3/2P5/7P/P4PP1/2R3K1 w - - 6 33",
+    "moves": "g1f1 d6d1 c1d1 e5c7",
+    "themes": "crushing discoveredAttack endgame short"
+  },
+  {
+    "id": "0Fp8T",
+    "fen": "1q6/8/8/k7/8/5Q2/r4PPP/1R4K1 w - - 0 46",
+    "moves": "b1b8 a2a1 b8b1 a1b1 f3d1 b1d1",
+    "themes": "backRankMate endgame long mate mateIn3 queenRookEndgame"
+  },
+  {
+    "id": "0FpMy",
+    "fen": "8/6p1/6kp/1B6/P4R1P/r5K1/6P1/8 w - - 5 53",
+    "moves": "g3g4 h6h5",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "0FqM3",
+    "fen": "4r1k1/pQp1rpp1/7p/8/4P3/P2B3q/1PP2P2/3RR1K1 w - - 0 22",
+    "moves": "e1e3 h3g4 e3g3 g4d1",
+    "themes": "advantage fork middlegame short"
+  },
+  {
+    "id": "0FsSY",
+    "fen": "r4rk1/p1p2p1p/1p4pn/2p1P1QP/2Bn4/2NP4/PPP2q2/2KR2R1 w - - 0 21",
+    "moves": "h5g6 f2c2",
+    "themes": "mate mateIn1 middlegame oneMove queensideAttack"
+  },
+  {
+    "id": "0Fsuv",
+    "fen": "r6q/pp3pk1/1bn1b3/1N1p1p2/1P1P1P2/P2BP1Q1/6PP/R5K1 b - - 2 22",
+    "moves": "g7f6 g3g5",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0FuXe",
+    "fen": "8/5k2/1pp2p2/p1p1pR2/P3P2R/1PqP2P1/2P3K1/8 w - - 3 39",
+    "moves": "h4h6 c3d2 f5f2 d2h6",
+    "themes": "crushing endgame fork queenRookEndgame short"
+  },
+  {
+    "id": "0FvI9",
+    "fen": "4rrk1/pp4pp/2p5/4qp2/2QpnN2/1P2PR2/P5PP/5RK1 b - - 1 23",
+    "moves": "g8h8 f4g6 h7g6 f3h3",
+    "themes": "mate mateIn2 middlegame sacrifice short"
+  },
+  {
+    "id": "0Fxdo",
+    "fen": "r5k1/p1ppQ1pp/1p2p3/4P3/3P1p2/5q2/PPP3Rr/6RK w - - 0 24",
+    "moves": "h1h2 f3h5 e7h4 h5h4",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "0FyRc",
+    "fen": "r3kb1r/ppq2ppp/2p2n2/8/4B1b1/5N2/PPP2PPP/R1BQR1K1 b kq - 0 12",
+    "moves": "a8d8 e4c6",
+    "themes": "discoveredCheck doubleCheck mate mateIn1 oneMove opening"
+  },
+  {
+    "id": "0G09b",
+    "fen": "r2q3r/1pp1bbpk/p2p1p1B/4pN2/3PP2Q/1PP4P/1P3PP1/R3R1K1 b - - 0 20",
+    "moves": "g7h6 h4h6 h7g8 h6g7",
+    "themes": "mate mateIn2 middlegame short"
+  },
+  {
+    "id": "0G0yr",
+    "fen": "2r2Bk1/3bpp1p/3p2p1/q7/1p2P3/1Pn2P2/PQ2B1PP/2RR2K1 b - - 0 20",
+    "moves": "c3d1 b2g7",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0G1S1",
+    "fen": "R2R4/6pk/3p3p/4pP1q/1p2n3/5N2/1PP3PP/7K b - - 1 31",
+    "moves": "h5f5 d8h8 h7g6 f3h4 g6g5 h4f5",
+    "themes": "crushing endgame fork long"
+  },
+  {
+    "id": "0G2yv",
+    "fen": "3r1r2/4b3/p1p2P1k/2p1p2p/P1P1N3/1P2R1Pb/5R1P/7K w - - 1 34",
+    "moves": "f6e7 d8d1 e3e1 d1e1 f2f1 e1f1",
+    "themes": "endgame fork long mate mateIn3 pillsburysMate"
+  },
+  {
+    "id": "0G40l",
+    "fen": "r5k1/1bq2r1p/p3RPpQ/1p6/8/2PpR3/P1P2PPP/6K1 b - - 2 23",
+    "moves": "d3c2 e6e8 a8e8 e3e8 f7f8 h6f8",
+    "themes": "kingsideAttack long mate mateIn3 middlegame"
+  },
+  {
+    "id": "0G54n",
+    "fen": "rn1qkbnr/p4ppp/1p2p3/3p4/3P1B2/2NQ1N2/PPP2PPP/R3K2R b KQkq - 0 8",
+    "moves": "f8b4 d3b5 d8d7 b5b4",
+    "themes": "crushing fork middlegame short"
+  },
+  {
+    "id": "0G8Hy",
+    "fen": "8/4k3/ppp1p1p1/P2pP1P1/1P1K1P2/3P4/8/8 b - - 0 44",
+    "moves": "b6a5 b4a5 e7d8 d4c5",
+    "themes": "crushing endgame pawnEndgame short"
+  },
+  {
+    "id": "0G8Re",
+    "fen": "5r1k/p5p1/7p/2qBr3/Q1P3b1/3p4/PP3PPP/R3R1K1 w - - 0 25",
+    "moves": "e1e5 c5f2 g1h1 f2f1 a1f1 f8f1",
+    "themes": "backRankMate long mate mateIn3 middlegame sacrifice"
+  },
+  {
+    "id": "0G8jd",
+    "fen": "r3k2r/ppp3pp/2p1p3/8/1b1q4/2nP3P/PP2QPP1/RNB1K2R w KQkq - 0 11",
+    "moves": "b2c3 b4c3 b1c3 d4c3",
+    "themes": "advantage fork middlegame short"
+  },
+  {
+    "id": "0G9zC",
+    "fen": "r2q1r1k/pp2b1pp/2p1Q3/4P3/5p2/3R2B1/PP3PPP/3R2K1 b - - 0 22",
+    "moves": "f4g3 d3d8 g3f2 g1f1",
+    "themes": "advantage middlegame short"
+  },
+  {
+    "id": "0GBBE",
+    "fen": "r4b2/p4P1k/bp2RN1p/2p5/3r2R1/8/PP4PP/6K1 b - - 1 29",
+    "moves": "h7h8 g4g8",
+    "themes": "arabianMate mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0GBuo",
+    "fen": "r1b1k3/pp1p2p1/3Pp1qr/4npBp/8/7P/PPBQ1PP1/R4RK1 w q - 2 18",
+    "moves": "g5h6 e5f3 g1h1 f3d2",
+    "themes": "advantage middlegame pin short"
+  },
+  {
+    "id": "0GCqK",
+    "fen": "r4rk1/1bp3p1/p1n4p/1pN1ppq1/5n2/2PPQ2P/PPB2PPN/3R1RK1 w - - 2 21",
+    "moves": "c5b7 g5g2",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0GDVp",
+    "fen": "1R6/1p3b2/2pk2p1/2n4p/2PK4/7P/4B1P1/8 w - - 1 49",
+    "moves": "b8f8 c5e6 d4e3 e6f8",
+    "themes": "crushing endgame fork master short"
+  },
+  {
+    "id": "0GEPS",
+    "fen": "8/5k2/8/1p6/3P1P2/2PN4/1n2p1K1/8 w - - 1 46",
+    "moves": "g2f2 b2d3 f2e2 d3f4",
+    "themes": "crushing endgame hangingPiece knightEndgame short"
+  },
+  {
+    "id": "0GGGw",
+    "fen": "3r4/5k2/p7/6pP/2p1R1P1/3p4/P1K2P2/8 w - - 0 51",
+    "moves": "c2d2 c4c3 d2c3 d3d2",
+    "themes": "advancedPawn crushing endgame rookEndgame short"
+  },
+  {
+    "id": "0GHCb",
+    "fen": "8/4Qppk/3p2qp/8/P4K2/8/5PP1/8 b - - 4 30",
+    "moves": "g6g2 e7e4 g2e4 f4e4",
+    "themes": "crushing endgame queenEndgame short"
+  },
+  {
+    "id": "0GK4v",
+    "fen": "6rk/1pp2ppb/1p1p4/5P2/4P3/4q3/PPB2Q2/3KR2R b - - 0 42",
+    "moves": "e3f2 h1h7 h8h7 e1h1 f2h2 h1h2",
+    "themes": "attraction endgame long mate mateIn3 sacrifice"
+  },
+  {
+    "id": "0GOZ6",
+    "fen": "3rr1k1/p3pp1p/1q4p1/3P4/4R3/1PRQ1P1P/P5P1/7K w - - 1 25",
+    "moves": "c3c6 b6c6 d5c6 d8d3",
+    "themes": "crushing endgame short"
+  },
+  {
+    "id": "0GP95",
+    "fen": "r5k1/ppp3bp/2np2p1/8/2PPpnq1/2N3N1/PP5P/R2Q1BKR w - - 0 17",
+    "moves": "d1g4 g7d4",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0GRw7",
+    "fen": "k4r2/p4Npp/1qR1Qn2/3r2N1/3P4/8/PP3PPP/6K1 b - - 0 24",
+    "moves": "b6d4 c6c8 f8c8 e6c8",
+    "themes": "mate mateIn2 middlegame queensideAttack short"
+  },
+  {
+    "id": "0GSXS",
+    "fen": "8/1pP2kpp/2p1b3/p1P5/5r2/P7/4pP1P/2R2RK1 w - - 0 33",
+    "moves": "f1e1 f4g4 g1h1 e6d5 f2f3 d5f3",
+    "themes": "endgame long mate mateIn3 morphysMate"
+  },
+  {
+    "id": "0GVDI",
+    "fen": "1r1q1k1r/p1p2ppp/2Bp4/1PpP3b/2Pb4/5N1P/P3QPP1/4R1K1 b - - 3 21",
+    "moves": "d8f6 e2e8 b8e8 e1e8",
+    "themes": "mate mateIn2 middlegame operaMate sacrifice short"
+  },
+  {
+    "id": "0GVJY",
+    "fen": "5rk1/5pp1/7p/1P1RR3/8/3Q2PP/3N1P1K/r1q5 w - - 1 35",
+    "moves": "d3f3 c1g1",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0GWo9",
+    "fen": "1r1n3k/4b1p1/2pp3R/5P2/4qP2/P7/QPP4P/1K4R1 b - - 0 29",
+    "moves": "g7h6 a2g8",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "0GWsq",
+    "fen": "3r2k1/p4ppp/1p2p3/2br4/1P6/P3P3/2qBQPPP/1R1R2K1 w - - 1 21",
+    "moves": "b4c5 d5d2 e2d2 d8d2",
+    "themes": "crushing master middlegame short"
+  },
+  {
+    "id": "0GXIx",
+    "fen": "2k5/pp6/2nQ2p1/2Nppqp1/3P4/2P1nP1r/PP3R1p/4R2K w - - 0 33",
+    "moves": "e1e3 f5b1 e3e1 b1e1 f2f1 e1f1",
+    "themes": "exposedKing fork killBoxMate long mate mateIn3 middlegame"
+  },
+  {
+    "id": "0GXJp",
+    "fen": "8/3P4/5pk1/8/8/1p1KP1p1/1P1N4/3r4 b - - 2 58",
+    "moves": "d1d2 d3d2 g3g2 d7d8q g2g1q d8g8",
+    "themes": "advancedPawn crushing endgame hangingPiece long master promotion"
+  },
+  {
+    "id": "0GXPk",
+    "fen": "r4rk1/p4pp1/7p/6q1/1PP1p1b1/PN1p4/3Q1PP1/R4RK1 b - - 1 20",
+    "moves": "g4f3 d2g5 h6g5 g2f3",
+    "themes": "advantage middlegame short"
+  },
+  {
+    "id": "0GXsh",
+    "fen": "2krr3/ppp1qppp/2p1b3/8/4P1n1/P1NPP3/1PPQB1PP/R3K2R w KQ - 1 12",
+    "moves": "h2h3 e7h4 e1d1 g4f2 d1c1 f2h1",
+    "themes": "crushing exposedKing fork long middlegame"
+  },
+  {
+    "id": "0GXvD",
+    "fen": "3r2k1/pp3p1p/8/3p2PQ/3P1b2/1P4qB/P1P4K/R7 w - - 0 27",
+    "moves": "h2h1 g3h2",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "0GXzV",
+    "fen": "r6k/6bp/6p1/Pr3p2/3p4/3P2NP/5PP1/R3R1K1 b - - 0 29",
+    "moves": "b5a5 a1a5 a8a5 e1e8 g7f8 e8f8",
+    "themes": "advantage endgame long"
+  },
+  {
+    "id": "0GYEm",
+    "fen": "r2q1rk1/p4pp1/1p6/n1ppP1B1/3P4/2nb2Q1/P2N1PPP/R4RK1 w - - 0 20",
+    "moves": "g5d8 c3e2 g1h1 e2g3",
+    "themes": "crushing fork master middlegame short"
+  },
+  {
+    "id": "0GbRm",
+    "fen": "2r3k1/p4p2/3p2p1/1p1P3p/2Pq1P2/3n2rP/P1QR3K/2R2B2 w - - 0 33",
+    "moves": "d2d3 d4g1",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0GbWF",
+    "fen": "4r3/8/p4pk1/1p4p1/1Q6/P1B1qP2/1P4P1/5R1K w - - 4 58",
+    "moves": "c3d2 e8h8 b4h4 h8h4",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "0GbpV",
+    "fen": "8/8/2q5/6pp/p6k/P2Q1P2/6KP/8 b - - 0 44",
+    "moves": "g5g4 d3d8 c6f6 d8f6",
+    "themes": "endgame mate mateIn2 queenEndgame short"
+  },
+  {
+    "id": "0GbtC",
+    "fen": "8/5ppk/6p1/3Q4/6P1/2P1b2P/PP1N3q/5K2 w - - 0 34",
+    "moves": "d2f3 h2f2",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "0Gcd2",
+    "fen": "8/8/1r6/6R1/1p3p2/5K1k/8/8 b - - 3 64",
+    "moves": "b4b3 g5h5",
+    "themes": "endgame master mate mateIn1 oneMove rookEndgame"
+  },
+  {
+    "id": "0GcoL",
+    "fen": "2r1r1k1/1p3ppp/p7/3p1pq1/3n4/P1P2QPP/1P2NP2/R3K2R w KQ - 0 21",
+    "moves": "c3d4 c8c1 a1c1 g5c1",
+    "themes": "mate mateIn2 middlegame pin short"
+  },
+  {
+    "id": "0Gi24",
+    "fen": "3r2k1/1b3ppp/pq2p3/1p2R2Q/8/8/Pr3bPP/5R1K b - - 1 24",
+    "moves": "f2d4 h5f7 g8h8 f7f8 d8f8 f1f8",
+    "themes": "backRankMate long mate mateIn3 middlegame sacrifice"
+  },
+  {
+    "id": "0GiUE",
+    "fen": "5r1k/7p/6pQ/3Bp3/7R/4P3/5qPK/5r2 b - - 4 51",
+    "moves": "f8f6 h6h7",
+    "themes": "endgame master mate mateIn1 oneMove"
+  },
+  {
+    "id": "0Gk1Q",
+    "fen": "8/5kB1/5p1P/5n2/1K6/8/8/8 b - - 0 50",
+    "moves": "f5g7 h6h7 g7e6 h7h8q",
+    "themes": "advancedPawn crushing endgame knightEndgame promotion short"
+  },
+  {
+    "id": "0GkkT",
+    "fen": "8/8/1p1k2p1/p4p1p/P1PK1P1P/5P2/8/8 w - - 0 45",
+    "moves": "d4c3 d6c5 c3d3 c5b4",
+    "themes": "crushing endgame pawnEndgame short zugzwang"
+  },
+  {
+    "id": "0Gopa",
+    "fen": "1r3n2/2RbN1kp/pp1P4/4pp1B/3q4/6P1/5P1P/3Q2K1 w - - 4 28",
+    "moves": "c7d7 d4d1 h5d1 f8d7",
+    "themes": "advantage intermezzo middlegame short"
+  },
+  {
+    "id": "0GqHf",
+    "fen": "2r5/p2kpp1Q/2rp2p1/3q4/1n1PN3/P4P2/1P4PP/K2RR3 w - - 1 25",
+    "moves": "a3b4 c6a6 a1b1 d5a2",
+    "themes": "master mate mateIn2 middlegame short"
+  },
+  {
+    "id": "0Gqy9",
+    "fen": "3r2k1/p3bp1p/B5p1/n1p5/P7/6P1/5PKP/2B1R3 b - - 1 25",
+    "moves": "g8f8 c1h6 f8g8 e1e7",
+    "themes": "crushing deflection endgame short"
+  },
+  {
+    "id": "0Gson",
+    "fen": "3rr1k1/1b4p1/6qp/2p1pn2/1pP4Q/pP1P2NP/P5PK/1B1RR3 w - - 0 29",
+    "moves": "g3f5 g6g2",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0GtjA",
+    "fen": "3r4/1pk5/p3p1bp/6p1/4N3/4nPN1/PPP3PP/4R1K1 b - - 1 24",
+    "moves": "e3c2 e1c1 c7b8 c1c2",
+    "themes": "crushing endgame pin short"
+  },
+  {
+    "id": "0Gwcp",
+    "fen": "8/6pk/3Qnpq1/2p4p/2b1P3/2B2PPB/7P/7K b - - 1 39",
+    "moves": "e6g5 h3f5 g6f5 e4f5",
+    "themes": "crushing endgame pin short"
+  },
+  {
+    "id": "0Gydd",
+    "fen": "5rk1/p1q3p1/6R1/1p3rB1/2pP2Q1/2P4P/PP4Pb/R5K1 w - - 1 25",
+    "moves": "g1h1 f5f1 a1f1 f8f1",
+    "themes": "kingsideAttack mate mateIn2 middlegame short"
+  },
+  {
+    "id": "0H2uZ",
+    "fen": "1r4k1/2r2pbp/p3p1p1/4P1N1/8/3Q2P1/P5NP/1K2R3 w - - 4 26",
+    "moves": "b1a1 g7e5 e1e5 c7c1 d3b1 c1b1",
+    "themes": "long mate mateIn3 middlegame sacrifice"
+  },
+  {
+    "id": "0H3dD",
+    "fen": "r1b2rk1/3p1p1p/p3p1PQ/1p4q1/4P3/2N2n2/PPP1B3/K2R3R b - - 0 23",
+    "moves": "f7g6 h6h7",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0H4Ur",
+    "fen": "3r2k1/2p3pp/4P3/p4p1q/P4Pb1/1P2Q1P1/1BPr3P/R4RK1 w - - 1 25",
+    "moves": "e6e7 h5h2",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0H4cd",
+    "fen": "6k1/6p1/4p1p1/p1p2p2/1bP3P1/1P2K2P/1r3N2/2R2B2 w - - 0 40",
+    "moves": "f1d3 b4d2 e3e2 d2c1",
+    "themes": "crushing discoveredAttack discoveredCheck endgame fork short"
+  },
+  {
+    "id": "0H5xp",
+    "fen": "1R6/8/3k2p1/4pp2/6P1/3PKP1p/2r4P/8 w - - 3 33",
+    "moves": "b8g8 f5f4 e3e4 c2e2",
+    "themes": "endgame mate mateIn2 rookEndgame short"
+  },
+  {
+    "id": "0H6Dd",
+    "fen": "8/8/4k1p1/7p/1rRKP2P/6P1/8/8 b - - 9 64",
+    "moves": "b4c4 d4c4 e6e5 c4d3",
+    "themes": "crushing defensiveMove endgame short"
+  },
+  {
+    "id": "0H7K7",
+    "fen": "8/P7/1B1R3p/6pk/4b3/6KP/r7/3q4 w - - 0 59",
+    "moves": "d6d1 a2g2",
+    "themes": "endgame mate mateIn1 oneMove operaMate"
+  },
+  {
+    "id": "0H8uK",
+    "fen": "k1r5/p5bp/3Qpnp1/B2p4/3P4/4P3/5PPP/6K1 w - - 0 27",
+    "moves": "d6e6 c8c1 a5e1 c1e1",
+    "themes": "backRankMate endgame mate mateIn2 short"
+  },
+  {
+    "id": "0H96n",
+    "fen": "8/4R3/7p/4Nkp1/1P3P2/n5PK/1r6/8 w - - 2 52",
+    "moves": "e5d3 g5g4 h3h4 b2h2",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "0H9AG",
+    "fen": "r6r/pp1n2k1/2p1pp2/3n4/6pB/8/PPB2PP1/1RQ2K2 w - - 2 26",
+    "moves": "h4g3 h8h1 f1e2 h1c1",
+    "themes": "advantage middlegame short skewer"
+  },
+  {
+    "id": "0HCMq",
+    "fen": "5rkR/4np2/1p2p3/1q1pP1N1/pr1P1P2/1N2Q3/PP6/1K6 b - - 0 27",
+    "moves": "g8h8 e3h3 h8g7 h3h7",
+    "themes": "mate mateIn2 middlegame short"
+  },
+  {
+    "id": "0HCcw",
+    "fen": "7r/Q7/8/8/3np3/3k4/5PPK/8 w - - 1 53",
+    "moves": "h2g1 d4e2 g1f1 h8h1",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "0HDS1",
+    "fen": "3R1k2/4rp2/1p5N/p1r1P2p/7P/2P5/PP6/1K6 b - - 6 38",
+    "moves": "f8g7 h6f5 g7h7 f5e7",
+    "themes": "crushing endgame fork short"
+  },
+  {
+    "id": "0HI3X",
+    "fen": "r2q2k1/p2b1rp1/6Qp/1ppR1n2/5P2/8/PB4PP/5RK1 b - - 11 29",
+    "moves": "f7f6 b2f6 d8f6 g6f6",
+    "themes": "advantage middlegame pin short"
+  },
+  {
+    "id": "0HI9R",
+    "fen": "8/pQ2bk1p/4p3/2p5/8/2NPnPqP/PPP3P1/R5K1 w - - 2 26",
+    "moves": "c3e4 g3g2",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "0HMN8",
+    "fen": "6k1/5qp1/pp2b2p/3p4/3Pp3/2P2rPP/PP2QNK1/5R2 b - - 10 35",
+    "moves": "e4e3 e2f3 f7f3 g2f3",
+    "themes": "crushing endgame master short"
+  },
+  {
+    "id": "0HO5i",
+    "fen": "8/p4p1b/1p1k1p2/3p1P1p/PK1P2P1/4r2P/2P1B3/4R3 b - - 3 30",
+    "moves": "d6c6 e2b5 c6c7 e1e3",
+    "themes": "crushing discoveredAttack endgame short"
+  },
+  {
+    "id": "0HOQj",
+    "fen": "1k2r3/pp5R/5p2/3p1pq1/3P4/4P3/PPQ5/7K b - - 3 36",
+    "moves": "g5e3 c2c7 b8a8 c7b7",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "0HP3a",
+    "fen": "4r1k1/1p3R2/1p5p/6p1/6b1/6P1/PP5P/R6K w - - 2 29",
+    "moves": "f7b7 g4f3 h1g1 f3b7",
+    "themes": "advantage endgame fork short"
+  },
+  {
+    "id": "0HPpV",
+    "fen": "r1k4r/ppp3bp/3p2p1/3P2q1/Q4Pb1/2N2nP1/PPP2K2/R3R3 b - - 2 21",
+    "moves": "g5h5 e1e8 h8e8 a4e8",
+    "themes": "mate mateIn2 middlegame queensideAttack short"
+  },
+  {
+    "id": "0HQ8V",
+    "fen": "6k1/3R3p/2N3p1/5p2/1P2pP2/4P1KP/r5P1/4n3 w - - 5 41",
+    "moves": "c6e5 a2g2 g3h4 e1f3 e5f3 e4f3",
+    "themes": "crushing endgame long"
+  },
+  {
+    "id": "0HT1d",
+    "fen": "1r3rk1/5ppp/p1q1p3/3b4/P2Bp1Q1/2P1P3/5PPP/1R3RK1 b - - 5 21",
+    "moves": "b8b1 g4g7",
+    "themes": "kingsideAttack master mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0HTWd",
+    "fen": "4rrk1/2q5/p1bp1ppP/1p1Pb1p1/6B1/P2Q4/1PP2P2/1K4RR b - - 0 22",
+    "moves": "c6d7 d3g6 g8h8 g6g7",
+    "themes": "kingsideAttack mate mateIn2 middlegame short"
+  },
+  {
+    "id": "0HWsD",
+    "fen": "8/p3Qpqk/1p4p1/2r5/7P/P7/1PP5/1K3R2 b - - 7 39",
+    "moves": "c5d5 f1f7 d5d1 b1a2 g7f7 e7f7",
+    "themes": "crushing endgame long pin"
+  },
+  {
+    "id": "0HX2O",
+    "fen": "3r1r1k/1pp1n1pn/p2p1p1p/4pR2/2B1P2N/P2PP2P/1PP3P1/5RK1 b - - 3 19",
+    "moves": "e7f5 h4g6",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0HYTG",
+    "fen": "r3k2r/pp3ppp/3bpn2/3P3q/8/1BN2P2/PP2QPK1/R1BR4 w kq - 1 17",
+    "moves": "d5e6 h5h2 g2f1 h2h1",
+    "themes": "mate mateIn2 middlegame short"
+  },
+  {
+    "id": "0HYZ6",
+    "fen": "8/1R6/k1P5/Pp1p4/7P/5K2/2r5/8 b - - 0 44",
+    "moves": "c2c6 b7b6 c6b6 a5b6",
+    "themes": "crushing endgame master rookEndgame short"
+  },
+  {
+    "id": "0HYZG",
+    "fen": "rn1qkb1r/ppp2ppp/5n2/4Nb2/8/1QPp4/PP3PPP/R1B1KBNR b KQkq - 2 7",
+    "moves": "b7b6 b3f7",
+    "themes": "attackingF2F7 mate mateIn1 oneMove opening"
+  },
+  {
+    "id": "0HYrn",
+    "fen": "1k5q/pp3p2/4Pp2/8/1P1pB3/P2P2b1/6P1/3Q1RK1 w - - 2 28",
+    "moves": "f1f3 h8h2 g1f1 h2h1 f1e2 h1g2 f3f2 g2f2",
+    "themes": "deflection endgame mate mateIn4 veryLong"
+  },
+  {
+    "id": "0HYsq",
+    "fen": "5rk1/6pp/2R3p1/P7/2N5/2r1P3/1p4PP/R5K1 w - - 0 30",
+    "moves": "a1b1 c3c1 b1c1 b2c1q",
+    "themes": "advancedPawn endgame mate mateIn2 promotion short"
+  },
+  {
+    "id": "0HbRJ",
+    "fen": "8/8/R7/P1P1kr2/1r6/4p1P1/4KPR1/8 w - - 0 63",
+    "moves": "f2e3 b4b2 e2d3 b2g2",
+    "themes": "advantage endgame rookEndgame short skewer"
+  },
+  {
+    "id": "0HeJV",
+    "fen": "4r1k1/ppp2pp1/7p/8/5NbP/2PBq1r1/PPQ4K/R3R3 b - - 1 22",
+    "moves": "e3f4 e1e8",
+    "themes": "hangingPiece kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0HeXk",
+    "fen": "2r2rk1/p1qnpp1p/1p1pb1p1/3N4/1RP1P3/2P2P2/P2BQ1PP/5RK1 b - - 4 17",
+    "moves": "c7c5 d2e3 e6d5 e3c5",
+    "themes": "advantage defensiveMove master middlegame short"
+  },
+  {
+    "id": "0HfcA",
+    "fen": "r4rk1/ppq2p1p/4pP2/3pP1p1/4n1Q1/2P5/PP1N2PP/R4R1K b - - 1 18",
+    "moves": "e4d2 g4g5 g8h8 g5g7",
+    "themes": "fork mate mateIn2 middlegame short"
+  },
+  {
+    "id": "0HhH2",
+    "fen": "r6r/1pp2p2/pb3k2/3Ppb2/5P2/2P3Q1/PP4PP/5R1K b - - 0 27",
+    "moves": "e5e4 g3g5",
+    "themes": "endgame master mate mateIn1 oneMove"
+  },
+  {
+    "id": "0Hp4m",
+    "fen": "r4rk1/ppp2pp1/3p3p/3P1N2/2P1R3/5nqP/P1BQ2P1/4R1K1 w - - 1 25",
+    "moves": "g1h1 g3h2",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0HpKA",
+    "fen": "8/1p2bp2/p1k4R/2P5/1P6/1P3p2/5rrP/2R4K b - - 3 38",
+    "moves": "c6b5 h6b6",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "0HqYd",
+    "fen": "r1b1kbnr/1ppp1ppp/p7/4q3/1nBNP3/2N2Q2/P1PB1PPP/1R2K2R b Kkq - 1 11",
+    "moves": "e5d4 f3f7 e8d8 f7f8",
+    "themes": "attackingF2F7 deflection mate mateIn2 middlegame short"
+  },
+  {
+    "id": "0Hrtp",
+    "fen": "r5k1/p2p2pp/1p2q1r1/1Q6/3ppB2/P6P/2P2PP1/2R3K1 b - - 5 23",
+    "moves": "e6h3 b5d5 h3e6 d5a8",
+    "themes": "advantage endgame fork short"
+  },
+  {
+    "id": "0HsBF",
+    "fen": "8/6p1/p1q4p/4k3/4P3/3Q3P/6P1/7K w - - 11 38",
+    "moves": "d3f3 c6c1 h1h2 c1f4",
+    "themes": "crushing endgame queenEndgame short"
+  },
+  {
+    "id": "0Htvc",
+    "fen": "r3r1k1/ppp2p1p/2n5/5p2/2PP2n1/P1Q2N2/4qPPP/R1BR2K1 w - - 5 20",
+    "moves": "d1d2 e2e1 f3e1 e8e1",
+    "themes": "kingsideAttack mate mateIn2 middlegame sacrifice short"
+  },
+  {
+    "id": "0Hv2T",
+    "fen": "rn3bkr/pp2n2p/1q2NRb1/3Q4/2B5/8/PPP3PP/R1B4K b - - 0 17",
+    "moves": "e7d5 f6f8",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0Hvl5",
+    "fen": "8/3n3p/5pp1/2kN4/5PPP/5K2/8/8 w - - 5 42",
+    "moves": "f3e4 f6f5 g4f5 g6f5 e4f5 c5d5",
+    "themes": "advantage endgame knightEndgame long"
+  },
+  {
+    "id": "0Hz2m",
+    "fen": "r4rk1/ppp2pp1/3p4/3Np3/K1BbP3/3P4/Pq6/R7 b - - 1 22",
+    "moves": "d4c5 d5e7 g8h7 a1h1 b2h2 h1h2",
+    "themes": "anastasiaMate long mate mateIn3 middlegame"
+  },
+  {
+    "id": "0I08u",
+    "fen": "2r3k1/pp3ppp/4p3/2rp4/qn6/P3PN2/1P2QPPP/RK3B1R w - - 2 20",
+    "moves": "a3b4 c5c1",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0I1X0",
+    "fen": "4r3/pp1R2k1/6p1/7p/5Q2/P7/1q1p1PPP/6K1 b - - 0 33",
+    "moves": "g7g8 f4f7 g8h8 f7e8",
+    "themes": "endgame fork mate mateIn2 short"
+  },
+  {
+    "id": "0I2fa",
+    "fen": "2kr3r/1ppbqp2/1b1p1n1p/nP2p1p1/2B1P3/1NPP1NB1/5PPP/R2Q1RK1 b - - 2 15",
+    "moves": "a5c4 a1a8",
+    "themes": "backRankMate mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0I4ff",
+    "fen": "5r1k/pp6/3R4/2pPp3/2Pb4/P4b2/1P1Q4/1K2B2q b - - 3 31",
+    "moves": "e5e4 d6h6 h1h6 d2h6",
+    "themes": "advantage fork middlegame short"
+  },
+  {
+    "id": "0I4nf",
+    "fen": "6k1/p5pp/bpp5/3pP3/3Pp3/4PrPq/PP1QN2P/2R3K1 w - - 4 21",
+    "moves": "e2f4 f3f1 c1f1 h3f1",
+    "themes": "endgame kingsideAttack master mate mateIn2 short"
+  },
+  {
+    "id": "0I5yk",
+    "fen": "8/8/8/4N1Rp/3P4/5P2/5kPK/5nr1 w - - 7 48",
+    "moves": "h2h3 g1h1",
+    "themes": "endgame master mate mateIn1 oneMove"
+  },
+  {
+    "id": "0I66O",
+    "fen": "rn1qr1k1/pp3pp1/2p1bb1p/3p1N2/3P4/2NB4/PP2QPPP/R3R1K1 b - - 1 15",
+    "moves": "e6f5 e2e8 d8e8 e1e8",
+    "themes": "crushing kingsideAttack middlegame short"
+  },
+  {
+    "id": "0I6Es",
+    "fen": "1r3rk1/5pp1/p1Q4p/1p1R4/2nBqP2/6PK/PP3R1P/8 b - - 8 29",
+    "moves": "f8c8 d5d8 c8d8 c6e4",
+    "themes": "advantage discoveredAttack middlegame short"
+  },
+  {
+    "id": "0I77g",
+    "fen": "2r1k3/2q2pp1/p3p3/1p2P1Br/1Q6/P7/1P6/K1R5 b - - 5 30",
+    "moves": "c7d7 c1c8 d7c8 b4e7",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "0I7Ls",
+    "fen": "r7/p2p2bQ/5kp1/qp1bn3/4P3/1B6/PP3PPP/R4RK1 w - - 0 22",
+    "moves": "b3d5 a8h8 h7h8 g7h8",
+    "themes": "advantage middlegame short trappedPiece"
+  },
+  {
+    "id": "0IDoK",
+    "fen": "4R3/1p3ppk/p6p/P2p4/8/1PP1B3/2qN1PPP/6K1 w - - 5 32",
+    "moves": "g1f1 c2d1",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "0IGRc",
+    "fen": "1r2r1k1/p1p2p2/2Np2qp/6p1/4P3/2P2Pb1/PP2R1P1/1R1Q3K w - - 1 24",
+    "moves": "c6b8 g6h5 h1g1 h5h2 g1f1 h2h1",
+    "themes": "kingsideAttack long mate mateIn3 middlegame"
+  },
+  {
+    "id": "0IHqR",
+    "fen": "2r3k1/pp2Bppp/2p2b2/3p1q2/8/2P3QP/PP3PP1/4R1K1 b - - 9 23",
+    "moves": "c8e8 e7f6 e8e1 g1h2 f5f4 g3f4",
+    "themes": "crushing endgame long pin sacrifice"
+  },
+  {
+    "id": "0IJEq",
+    "fen": "r6r/p4ppp/3R4/4pkB1/6n1/2N1bKP1/PP2P2P/3R4 b - - 6 20",
+    "moves": "e3g5 e2e4",
+    "themes": "master mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0IKQW",
+    "fen": "8/7k/2p1q2p/8/5P2/1PQP2Pb/P1P4P/4r1K1 w - - 11 42",
+    "moves": "c3e1 e6e1",
+    "themes": "endgame hangingPiece mate mateIn1 oneMove"
+  },
+  {
+    "id": "0ILK5",
+    "fen": "r3r3/1p1q2kp/2p2pp1/p7/1R6/3P1PP1/Q3P1BP/4R1K1 w - - 0 26",
+    "moves": "b4b6 d7d4 g1f1 d4b6",
+    "themes": "advantage fork middlegame short"
+  },
+  {
+    "id": "0ILLu",
+    "fen": "4r3/p5Rp/1p3p2/4k3/6P1/8/PPr4P/3R2K1 b - - 2 30",
+    "moves": "c2b2 d1e1 e5d5 e1e8",
+    "themes": "crushing endgame rookEndgame short skewer"
+  },
+  {
+    "id": "0ILnN",
+    "fen": "r5k1/r2n1ppp/1pp1p3/3p4/PB1P4/2PqP3/1QB2PPP/R5K1 b - - 2 24",
+    "moves": "d3e2 c2h7 g8h7 b2e2",
+    "themes": "crushing discoveredAttack middlegame short"
+  },
+  {
+    "id": "0IM3n",
+    "fen": "6R1/8/8/1p6/kN6/pqP3PK/8/8 b - - 3 54",
+    "moves": "a3a2 g8a8",
+    "themes": "endgame master mate mateIn1 oneMove"
+  },
+  {
+    "id": "0IMAV",
+    "fen": "1r1q2k1/b1r2ppp/p2N4/1b1QP3/2N2P2/6P1/1P5P/1R1R3K w - - 3 28",
+    "moves": "c4d2 b5c6 d5c6 c7c6",
+    "themes": "crushing middlegame pin short"
+  },
+  {
+    "id": "0IMbP",
+    "fen": "2r2rk1/3qbp1p/p3p1p1/4P3/1BppNP2/P6P/1P4P1/R2Q1K2 b - - 3 23",
+    "moves": "e7b4 e4f6 g8g7 f6d7",
+    "themes": "advantage fork middlegame short"
+  },
+  {
+    "id": "0IQo0",
+    "fen": "r5k1/2p2p1p/p1p2p1B/8/3P3q/7P/PP6/6RK b - - 3 24",
+    "moves": "g8h8 h6g7 h8g8 g7f6 g8f8 f6h4",
+    "themes": "crushing discoveredAttack discoveredCheck endgame long"
+  },
+  {
+    "id": "0IVG1",
+    "fen": "r1b2k1Q/ppp1qrp1/2n3n1/6P1/2BP1p2/2P1B3/P4PP1/R3K2R b KQ - 3 18",
+    "moves": "g6h8 h1h8",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0IW42",
+    "fen": "2r1r2k/p3bp2/5q2/1pp5/3p2QP/P2P4/BPP1NP2/2K3R1 b - - 2 25",
+    "moves": "e8g8 g4h5 f6h6 h5h6",
+    "themes": "kingsideAttack mate mateIn2 middlegame short"
+  },
+  {
+    "id": "0IWxV",
+    "fen": "r2q1rk1/1b2np1p/p3p1p1/1p3P2/3QN3/7R/PPP1B1PP/R5K1 b - - 0 17",
+    "moves": "e7f5 e4f6 d8f6 d4f6",
+    "themes": "advantage kingsideAttack middlegame short"
+  },
+  {
+    "id": "0IX36",
+    "fen": "3R4/5k2/r3p2p/PR2Kpp1/3P4/4nP2/6PP/8 w - - 4 47",
+    "moves": "d8d6 e3c4",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "0Ia2B",
+    "fen": "6k1/ppN3pp/3p4/3Ppbb1/8/Q5B1/PPP2q1P/2KR1B2 w - - 2 22",
+    "moves": "c1b1 f2c2 b1a1 c2d1",
+    "themes": "backRankMate fork mate mateIn2 middlegame short"
+  },
+  {
+    "id": "0Ib6T",
+    "fen": "6k1/1p3pp1/p3q3/2n4r/5b2/1P2PNP1/P1Q2PK1/3R4 w - - 0 26",
+    "moves": "e3f4 e6h3 g2g1 h3h1",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "0IbSY",
+    "fen": "8/4R3/8/4n1K1/4kp2/8/8/8 w - - 0 58",
+    "moves": "e7e5 e4e5 g5g4 e5e4",
+    "themes": "crushing defensiveMove endgame hangingPiece short"
+  },
+  {
+    "id": "0IcWT",
+    "fen": "r1b1r1k1/1p1n1ppp/1q3n2/p3b1B1/4p3/2N1P3/PPPQ1PPP/2KR1BNR w - - 0 12",
+    "moves": "f1b5 e5c3 d2c3 b6b5",
+    "themes": "capturingDefender crushing opening short"
+  },
+  {
+    "id": "0IeTF",
+    "fen": "r4rk1/p3bppp/1qPp1n2/1p2p1B1/4P3/1PN2Q1P/1PP2PP1/R4RK1 w - - 1 14",
+    "moves": "c3d5 f6d5 e4d5 e7g5",
+    "themes": "advantage discoveredAttack middlegame short"
+  },
+  {
+    "id": "0IfLD",
+    "fen": "5r1k/1b6/p3Bq1p/8/1Q2P3/3P4/PP4PP/R5K1 w - - 1 31",
+    "moves": "b4b7 f6f2 g1h1 f2f1 a1f1 f8f1",
+    "themes": "backRankMate endgame long mate mateIn3 sacrifice"
+  },
+  {
+    "id": "0Ifaz",
+    "fen": "1r1q1rk1/2p1ppbp/6b1/p5N1/3PN3/P1P2Q2/2B2PP1/2KR4 b - - 2 20",
+    "moves": "d8d5 e4f6 e7f6 f3d5",
+    "themes": "advantage discoveredAttack master middlegame short"
+  },
+  {
+    "id": "0Ifbt",
+    "fen": "r2q1rk1/pp1n1ppp/2p5/3Pp1P1/2PP2n1/P1NQ4/1P3PP1/R1B1K2R b KQ - 0 13",
+    "moves": "e5d4 d3h7",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0IfsA",
+    "fen": "8/7p/6pk/8/2b1p2B/4P1PP/5P2/6K1 w - - 0 39",
+    "moves": "g1g2 g6g5 g3g4 g5h4",
+    "themes": "bishopEndgame crushing endgame short trappedPiece"
+  },
+  {
+    "id": "0IgBg",
+    "fen": "6k1/2R3pp/1q2B1r1/4bp2/8/5P2/P1KQ4/8 b - - 0 40",
+    "moves": "g6e6 d2d8 e6e8 d8e8",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "0Igsu",
+    "fen": "1r2r3/p1pb1pqk/3p3p/3P4/5B2/3P2Pp/PPPQ4/2KR3R w - - 1 22",
+    "moves": "b2b3 g7a1",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0Io4o",
+    "fen": "rnb1k1nr/ppp3pp/8/3p1p2/3P1P1q/2P1pP2/PP1NP1BP/R2Q1KNR w kq - 0 10",
+    "moves": "d2b3 h4f2",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0Io5a",
+    "fen": "2r3rk/1pqn1QB1/p4p2/3Pb3/4R3/8/PPP2PP1/R4K2 b - - 3 23",
+    "moves": "g8g7 e4h4 g7h7 f7h7",
+    "themes": "mate mateIn2 middlegame short"
+  },
+  {
+    "id": "0IpoC",
+    "fen": "r1b1k2r/ppp2pp1/2p2q1p/2b5/4P3/3P4/PPP2PPP/RN1QKB1R w KQkq - 0 8",
+    "moves": "c2c3 f6f2",
+    "themes": "attackingF2F7 mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0Ircp",
+    "fen": "8/1p1k1p2/p1P3p1/2P2qPp/3Q3P/KP6/P7/8 b - - 0 50",
+    "moves": "d7c6 d4d6 c6b5 d6b6",
+    "themes": "endgame mate mateIn2 queenEndgame short"
+  },
+  {
+    "id": "0ItGL",
+    "fen": "r4rk1/1p3ppp/4b3/3p4/p2PpP1q/P3P2B/1P1N1K2/R1BQ3R w - - 1 23",
+    "moves": "f2f1 e6h3 h1h3 h4h3",
+    "themes": "crushing middlegame short"
+  },
+  {
+    "id": "0Ithn",
+    "fen": "4r2k/pp4bp/6p1/2Q1n1B1/6q1/2P5/PP4PP/R4BK1 w - - 1 24",
+    "moves": "g5d2 e5f3 g1h1 f3d2",
+    "themes": "advantage middlegame pin short"
+  },
+  {
+    "id": "0IuE8",
+    "fen": "r1b2rk1/ppq1bnpp/4p3/3n4/4N3/1P1Q1N1P/P1B2PP1/3RR1K1 b - - 1 22",
+    "moves": "d5b4 e4f6 g7f6 d3h7",
+    "themes": "discoveredAttack kingsideAttack mate mateIn2 middlegame sacrifice short"
+  },
+  {
+    "id": "0IvTf",
+    "fen": "8/p7/1p1rBk2/3P3p/PPP3pP/8/4K1P1/8 b - - 2 36",
+    "moves": "a7a6 c4c5 b6c5 b4c5 d6e6 d5e6",
+    "themes": "crushing endgame long"
+  },
+  {
+    "id": "0Ivid",
+    "fen": "7k/p6P/1p3p2/2b1pNp1/P5P1/7R/2r3r1/3R3K b - - 2 40",
+    "moves": "c5f8 d1d8 g2h2 h3h2 c2c1 h1g2",
+    "themes": "crushing endgame long master pin"
+  },
+  {
+    "id": "0IwNC",
+    "fen": "r5k1/1p3ppp/1q6/p2Q4/P7/1P2b1P1/6KP/5R2 b - - 0 26",
+    "moves": "a8d8 d5f7 g8h8 f7f8 d8f8 f1f8",
+    "themes": "backRankMate endgame long mate mateIn3 sacrifice"
+  },
+  {
+    "id": "0IxHm",
+    "fen": "r4rk1/4b1p1/p1pp3p/4p3/1P2P3/P4P1q/2P1NB2/R2Q1RK1 w - - 0 25",
+    "moves": "d1d3 f8f3 d3f3 h3f3",
+    "themes": "crushing middlegame short"
+  },
+  {
+    "id": "0Ixzg",
+    "fen": "1r3rk1/b4p2/4pQ1B/p2pP3/8/1P6/2q2PPP/4R1K1 b - - 0 30",
+    "moves": "c2f5 f6g7",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0IyPu",
+    "fen": "1r4k1/1p4pp/5n2/5R2/8/1r6/5KPP/5B1R b - - 2 28",
+    "moves": "b3b1 f1c4 g8h8 h1b1",
+    "themes": "advantage discoveredAttack endgame short"
+  },
+  {
+    "id": "0Izbm",
+    "fen": "4r1k1/ppp4p/3pPpBP/2qn4/5P2/4R1Q1/PP4P1/5K2 b - - 0 30",
+    "moves": "c5c1 e3e1 c1f4 g3f4",
+    "themes": "crushing defensiveMove endgame short"
+  },
+  {
+    "id": "0J1Au",
+    "fen": "4Q3/7k/2p2q1p/1pPp3P/1P1n1P2/5B2/8/7K w - - 6 66",
+    "moves": "f3g4 f6h4 h1g2 h4g4",
+    "themes": "crushing endgame fork short"
+  },
+  {
+    "id": "0J1vl",
+    "fen": "r2q1rk1/p1p1b2R/3p1np1/1p6/4PB2/2NP4/PP4Q1/2K3R1 b - - 0 17",
+    "moves": "f6h7 g2g6 g8h8 g6g7",
+    "themes": "kingsideAttack mate mateIn2 middlegame short"
+  },
+  {
+    "id": "0J4gk",
+    "fen": "8/1k3N2/p6p/6p1/4b3/8/PPP5/2K5 b - - 2 32",
+    "moves": "g5g4 f7d6 b7c6 d6e4",
+    "themes": "advantage endgame fork short"
+  },
+  {
+    "id": "0J4nT",
+    "fen": "2r5/8/6p1/R1p1pk2/2K5/5PP1/8/8 w - - 2 36",
+    "moves": "a5c5 c8c5 c4c5 e5e4",
+    "themes": "crushing endgame rookEndgame short"
+  },
+  {
+    "id": "0J5Hx",
+    "fen": "4r1k1/p4ppp/8/1p6/2pb1B2/2N2QPb/PP3n1P/5R1K w - - 4 23",
+    "moves": "f1f2 e8e1 f2f1 e1f1 f3f1 h3f1",
+    "themes": "advantage fork long middlegame"
+  },
+  {
+    "id": "0J716",
+    "fen": "r5k1/pbp2ppp/1p2rq2/4p3/7b/2NP1Q2/PPP2PPP/R1B1R1K1 w - - 0 18",
+    "moves": "f3b7 f6f2 g1h1 f2e1",
+    "themes": "backRankMate fork mate mateIn2 middlegame short"
+  },
+  {
+    "id": "0J7jU",
+    "fen": "r5k1/1b4p1/p5Q1/np6/3P4/2P5/PPB1p1PP/R4r1K w - - 0 27",
+    "moves": "a1f1 e2f1q",
+    "themes": "advancedPawn endgame mate mateIn1 oneMove promotion"
+  },
+  {
+    "id": "0J9HS",
+    "fen": "r4rk1/ppqbbppp/2n1p3/3p2B1/3PP1n1/1PPB1P2/3NN1PP/R2Q1RK1 w - - 1 13",
+    "moves": "g5e7 c7h2",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0JHPE",
+    "fen": "3R3r/4P3/8/8/5K2/2k5/3p4/8 w - - 0 56",
+    "moves": "e7e8q h8e8 d8e8 d2d1q",
+    "themes": "advancedPawn advantage endgame promotion short"
+  },
+  {
+    "id": "0JHQx",
+    "fen": "r5k1/1bq3pp/pp2pb2/2p2B1Q/2Pp4/P7/1P3PPP/R3R1K1 b - - 0 21",
+    "moves": "e6f5 e1e8 a8e8 h5e8",
+    "themes": "kingsideAttack mate mateIn2 middlegame short"
+  },
+  {
+    "id": "0JKXu",
+    "fen": "1r1qk1nr/2p1B3/pp1pP3/3n3p/3P4/1N3QP1/PPP2P1P/R3K3 b Qk - 0 18",
+    "moves": "d5e7 f3f7",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0JM7C",
+    "fen": "5k2/6b1/8/2pN1P2/7P/p1P1n3/1r6/K2R1R2 w - - 1 36",
+    "moves": "f5f6 e3c2",
+    "themes": "endgame master mate mateIn1 oneMove"
+  },
+  {
+    "id": "0JMqN",
+    "fen": "r5r1/ppp2p1k/5Pp1/3P2QR/2P2P2/8/q5PP/4R2K b - - 0 28",
+    "moves": "g6h5 g5h5",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "0JMqs",
+    "fen": "2r1k2r/2qp1ppp/4p3/p7/Nn2P3/1PB2N2/PK4P1/3R1Q2 w k - 1 23",
+    "moves": "c3g7 c7c2 b2a1 c2a2",
+    "themes": "mate mateIn2 middlegame short"
+  },
+  {
+    "id": "0JNCT",
+    "fen": "4kr2/8/3Q4/p2pP3/1p1K3P/1P2P3/P1r3P1/8 w - - 11 50",
+    "moves": "d6d5 c2d2 d4e4 d2d5",
+    "themes": "crushing endgame queenRookEndgame short skewer"
+  },
+  {
+    "id": "0JND5",
+    "fen": "8/p1p5/1p1p3b/5k2/3PN1p1/2PK2P1/PP6/8 w - - 0 37",
+    "moves": "e4d2 h6d2 d3d2 f5e4",
+    "themes": "advantage endgame short"
+  },
+  {
+    "id": "0JNiw",
+    "fen": "2k5/pppn4/2q3rp/2b2Q2/3p1B2/2NP4/PPP2PPP/R5K1 w - - 2 21",
+    "moves": "a1e1 c6g2",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0JP1U",
+    "fen": "r1b1k1nr/pppp1ppp/2n2q2/2b5/3NP3/2N5/PPP2PPP/R1BQKB1R w KQkq - 3 6",
+    "moves": "d4c6 f6f2",
+    "themes": "attackingF2F7 mate mateIn1 oneMove opening"
+  },
+  {
+    "id": "0JPKM",
+    "fen": "7r/1pp1bpk1/6p1/4q3/8/PQ2B3/1P3PP1/3R1K2 w - - 0 32",
+    "moves": "e3d4 h8h1",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "0JPam",
+    "fen": "2k1r3/1b2q3/1p2r2p/1Ppp4/2P3p1/1P1P2B1/3Q1PBP/R3R1K1 w - - 1 31",
+    "moves": "c4d5 e6e1 a1e1 e7e1 d2e1 e8e1",
+    "themes": "advantage kingsideAttack long middlegame"
+  },
+  {
+    "id": "0JQnl",
+    "fen": "3r4/p3k1pp/2p1pp2/N1P1p3/1P1n4/5b2/P2r2PP/R1R2BK1 w - - 0 26",
+    "moves": "g2f3 d4f3 g1h1 d2h2",
+    "themes": "arabianMate kingsideAttack mate mateIn2 middlegame short"
+  },
+  {
+    "id": "0JSUB",
+    "fen": "3r4/4Npkp/3p2p1/4P3/1Pb5/R6n/1Q2B1PP/1R4qK w - - 7 33",
+    "moves": "b1g1 h3f2",
+    "themes": "mate mateIn1 middlegame oneMove smotheredMate"
+  },
+  {
+    "id": "0JSqL",
+    "fen": "rq6/1bpn3k/1p1b1p1P/6p1/p7/2NP4/PPPQ1PP1/2KR3R w - - 1 22",
+    "moves": "d3d4 d6f4 d2f4 g5f4",
+    "themes": "crushing middlegame pin short"
+  },
+  {
+    "id": "0JTil",
+    "fen": "1Bk1q3/p2n2p1/1pp2b2/3p1P2/3P4/3B2Q1/PP4K1/8 b - - 1 33",
+    "moves": "c8b7 g3c7 b7a8 c7a7",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "0JV7w",
+    "fen": "8/8/8/8/8/2Q1K3/1p6/3k4 b - - 17 59",
+    "moves": "b2b1q c3d2",
+    "themes": "endgame master mate mateIn1 oneMove queenEndgame"
+  },
+  {
+    "id": "0JVUI",
+    "fen": "6k1/3q1pp1/1Rp4p/8/3Bp1P1/4P2P/5K2/8 b - - 2 36",
+    "moves": "g7g5 b6b8 g8h7 b8h8 h7g6 h8g8",
+    "themes": "crushing endgame long"
+  },
+  {
+    "id": "0JWYY",
+    "fen": "r1bqkb1r/pp1pp1pp/5nB1/2p4Q/8/8/PPPP2PP/RNB1K1NR b KQkq - 0 8",
+    "moves": "h7g6 h5g6",
+    "themes": "mate mateIn1 oneMove opening"
+  },
+  {
+    "id": "0JWqp",
+    "fen": "r3r1k1/ppp2ppp/8/3P4/P1N3b1/1nP2N2/R1Qb1PPP/4q1KR w - - 2 21",
+    "moves": "f3e1 e8e1",
+    "themes": "backRankMate mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0JX4r",
+    "fen": "r2q1r2/pbn3pk/1p1p3p/3P1p2/1P2pNnP/2Q3P1/PB2PPB1/2RR2K1 b - - 2 19",
+    "moves": "a8c8 c3g7",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0JXiu",
+    "fen": "1r3rk1/1ppQ1Bp1/7R/p3p3/4P3/P2P4/4q1PP/5R1K b - - 0 21",
+    "moves": "f8f7 d7f7",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "0JZ6U",
+    "fen": "4k1r1/4qpP1/2p5/1p2Q3/3P2R1/8/5P1K/8 b - - 2 39",
+    "moves": "e8d8 e5b8 d8d7 b8g8",
+    "themes": "crushing endgame short skewer"
+  },
+  {
+    "id": "0JePP",
+    "fen": "3r2k1/4R2p/2q2ppQ/8/1pp5/7P/PP3PP1/2Rr2K1 w - - 2 31",
+    "moves": "c1d1 d8d1 g1h2 c6d6 g2g3 d6e7",
+    "themes": "crushing endgame fork long"
+  },
+  {
+    "id": "0JebK",
+    "fen": "5rk1/pp5p/5pRP/3qr2Q/3p4/8/1P3PP1/4R1K1 b - - 0 32",
+    "moves": "h7g6 h5g6 g8h8 g6g7",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "0Jh8u",
+    "fen": "r4rk1/5qpp/p7/1p2b3/2p1Q3/2P5/PP3PPP/R1B1R1K1 w - - 1 19",
+    "moves": "e4e5 f7f2 g1h1 f2f1 e1f1 f8f1",
+    "themes": "backRankMate long mate mateIn3 middlegame sacrifice"
+  },
+  {
+    "id": "0Jhe4",
+    "fen": "6rk/pp3p2/4rPp1/7R/6nQ/P4B1P/1P2PP1q/3R1K2 b - - 0 30",
+    "moves": "g6h5 h4h5 g4h6 h5h6",
+    "themes": "mate mateIn2 middlegame short"
+  },
+  {
+    "id": "0JiUt",
+    "fen": "8/7p/KP6/4k3/8/6p1/8/8 b - - 1 60",
+    "moves": "e5d6 b6b7 d6c7 a6a7 g3g2 b7b8q",
+    "themes": "advancedPawn crushing endgame long pawnEndgame promotion"
+  },
+  {
+    "id": "0JjCK",
+    "fen": "r4r1k/1ppq2pp/p3Rb2/n7/3P4/BQP2N1P/P4PP1/R5K1 w - - 5 20",
+    "moves": "b3c2 d7e6 a3f8 a8f8",
+    "themes": "crushing middlegame short"
+  },
+  {
+    "id": "0Jk9Y",
+    "fen": "1r2k1br/4q3/p5p1/4p1Np/P1npP2P/5R2/1PQ3P1/1KNR4 w k - 0 29",
+    "moves": "b2b3 c4a3 b1b2 a3c2",
+    "themes": "crushing fork master middlegame short"
+  },
+  {
+    "id": "0JklQ",
+    "fen": "2k4r/Bp3ppp/3Rp3/n7/5P1K/1P6/P1P5/8 b - - 0 23",
+    "moves": "h8d8 d6d8 c8d8 a7b6 d8c8 b6a5",
+    "themes": "advantage attraction endgame fork long"
+  },
+  {
+    "id": "0Jmh9",
+    "fen": "N1b2k1r/1p1pppbp/p5p1/3P4/1P3q2/8/P3B1PP/2RQ1K1R w - - 2 19",
+    "moves": "f1g1 g7d4 d1d4 f4d4",
+    "themes": "crushing kingsideAttack middlegame short"
+  },
+  {
+    "id": "0Jnh1",
+    "fen": "8/8/4b2p/pp2k3/2p2p2/P1K2P2/1P2N1PP/8 w - - 4 38",
+    "moves": "e2d4 b5b4 a3b4 a5b4 c3b4 e5d4",
+    "themes": "crushing endgame exposedKing long master"
+  },
+  {
+    "id": "0Jo7A",
+    "fen": "3r4/1pp5/p4pkp/5Np1/P3p3/1PP1R2P/6P1/3r1R1K w - - 2 30",
+    "moves": "f1d1 d8d1 h1h2 g6f5",
+    "themes": "crushing endgame short"
+  },
+  {
+    "id": "0JoDw",
+    "fen": "6k1/pb3p1p/1p1r1N2/4pPP1/PRp1P3/2P5/2r5/5RK1 b - - 1 26",
+    "moves": "g8g7 f6e8 g7g8 e8d6",
+    "themes": "crushing endgame fork short"
+  },
+  {
+    "id": "0JoHk",
+    "fen": "8/R7/4kp2/7p/4K2P/4P1P1/p7/r7 w - - 8 58",
+    "moves": "a7a5 f6f5 e4f4 a1f1",
+    "themes": "crushing endgame rookEndgame short"
+  },
+  {
+    "id": "0JogA",
+    "fen": "r7/pppb4/3p2k1/4p3/3PPp2/2P4r/P1PKB3/6RR b - - 1 26",
+    "moves": "g6h6 h1h3 d7h3 g1h1",
+    "themes": "advantage clearance endgame pin short"
+  },
+  {
+    "id": "0JouJ",
+    "fen": "r4rk1/p4ppp/2pp1nb1/6B1/2P1P1P1/2N2Pq1/PP6/R2Q1R1K w - - 3 17",
+    "moves": "f1g1 g3h3",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0Jozb",
+    "fen": "3k1b1r/3nq1pp/p7/1p1N4/3P1B2/1Q1bP2B/PP3PPP/2r2RK1 w - - 0 22",
+    "moves": "d5e7 c1f1",
+    "themes": "kingsideAttack mate mateIn1 middlegame oneMove operaMate"
+  },
+  {
+    "id": "0JqWW",
+    "fen": "1n1qk1nr/1p1b2pp/2p2p2/rP1pp3/1Q6/B3PN2/2PP1PPP/R3KB1R b KQk - 3 11",
+    "moves": "c6b5 b4f8",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0Jsno",
+    "fen": "1r3rk1/pp3pp1/3p1q1p/3Bp3/2P1Pn2/6Q1/PP3PPP/R2R2K1 w - - 1 22",
+    "moves": "d1f1 f4e2 g1h1 e2g3",
+    "themes": "crushing fork middlegame short"
+  },
+  {
+    "id": "0JuIF",
+    "fen": "1r5r/2kq4/3p1b1p/1bpPpPpP/2N1P3/PRP5/2RBQP2/K7 b - - 0 38",
+    "moves": "b5c4 e2c4 b8b3 c4b3",
+    "themes": "advantage master middlegame short"
+  },
+  {
+    "id": "0Jvjc",
+    "fen": "r2r2k1/p1R3pp/1p3p2/2b1p3/5Bn1/5N2/PPB3PP/R4K2 w - - 0 22",
+    "moves": "f4g3 g4e3 f1e2 e3c2",
+    "themes": "advantage fork middlegame short"
+  },
+  {
+    "id": "0JwHl",
+    "fen": "2k4r/ppp2p1p/5p2/8/7B/1Rb2P2/n1P1PP1P/1K1r1B1R w - - 2 17",
+    "moves": "b1a2 d1a1",
+    "themes": "mate mateIn1 middlegame oneMove operaMate"
+  },
+  {
+    "id": "0JwRb",
+    "fen": "r1bq1rk1/1p2nppp/p1p1p2B/b3P3/3PN3/2P5/P1Q1BPPP/R4RK1 b - - 1 15",
+    "moves": "g7h6 e4f6 g8g7 c2h7",
+    "themes": "discoveredAttack kingsideAttack mate mateIn2 middlegame short"
+  },
+  {
+    "id": "0JwmP",
+    "fen": "6k1/1R5p/5P2/6PP/p4K2/1b6/r7/8 b - - 0 50",
+    "moves": "b3f7 b7b8 f7e8 b8e8",
+    "themes": "crushing endgame short"
+  },
+  {
+    "id": "0JxkB",
+    "fen": "4r1k1/1p1b1ppp/p2q4/P1pPn3/4N3/3B2P1/1P1Q1P1P/3R2K1 b - - 2 22",
+    "moves": "d6d5 e4f6 g7f6 d3h7 g8h7 d2d5",
+    "themes": "advantage discoveredAttack kingsideAttack long middlegame sacrifice"
+  },
+  {
+    "id": "0Jxki",
+    "fen": "3r2k1/1q5p/p1b3p1/1pP3Q1/1Ppb2P1/P1N1rP2/6P1/2R2R1K b - - 0 30",
+    "moves": "e3c3 g5d8 g8f7 d8d4",
+    "themes": "advantage fork hangingPiece middlegame short"
+  },
+  {
+    "id": "0K02W",
+    "fen": "5k2/5b2/3R1p2/7p/7P/p4PQ1/q5P1/7K w - - 0 40",
+    "moves": "d6f6 a2a1 h1h2 a1f6",
+    "themes": "crushing endgame fork short"
+  },
+  {
+    "id": "0K0QR",
+    "fen": "8/8/8/p2K2pk/P7/7P/8/8 w - - 3 48",
+    "moves": "d5c5 h5h4 c5b5 h4h3 b5a5 g5g4 a5b6 g4g3 a4a5 g3g2 a5a6 g2g1q",
+    "themes": "advancedPawn crushing endgame pawnEndgame promotion quietMove veryLong"
+  },
+  {
+    "id": "0K2wp",
+    "fen": "r1b1q2r/pp2nkQ1/1bn1N3/3pPp2/3P3P/2P5/P4PP1/RNB1K2R b KQ - 0 15",
+    "moves": "f7e6 g7f6 e6d7 f6d6",
+    "themes": "master mate mateIn2 middlegame short"
+  },
+  {
+    "id": "0K7uj",
+    "fen": "8/p7/3p1Qp1/4p3/7k/4qPN1/P5P1/2r2R1K b - - 1 32",
+    "moves": "h4g3 f6g6 e3g5 g6g5",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "0K8Q9",
+    "fen": "rn2k1r1/1Q1bn3/3Bp3/3pP3/5pq1/P5Pp/1P3P1P/2R1NRK1 b q - 2 24",
+    "moves": "d7c6 b7e7",
+    "themes": "mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0K9EX",
+    "fen": "2r5/pp2k3/4p1p1/2qpP2P/4pP1K/1P6/P2Q4/7R w - - 0 32",
+    "moves": "h5g6 c8h8 h4g3 h8h1",
+    "themes": "crushing endgame short skewer"
+  },
+  {
+    "id": "0K9XP",
+    "fen": "8/3bkp2/3P2p1/1p2p1Pr/2p1BR2/2P4p/1P4PP/6K1 b - - 0 33",
+    "moves": "e7e6 f4f6",
+    "themes": "endgame mate mateIn1 oneMove pillsburysMate"
+  },
+  {
+    "id": "0K9Z0",
+    "fen": "8/bp5k/p3N3/5RPP/PP2p3/4P3/2rr1PK1/8 b - - 0 48",
+    "moves": "d2f2 f5f2 c2f2 g2f2",
+    "themes": "crushing endgame master short"
+  },
+  {
+    "id": "0KAJX",
+    "fen": "r2qkb1r/1ppbn3/p1npp3/4PppB/3P3B/8/PPP2PPP/RN1Q1RK1 b kq - 1 11",
+    "moves": "e7g6 h5g6 e8e7 h4g5",
+    "themes": "hangingPiece interference mate mateIn2 middlegame short"
+  },
+  {
+    "id": "0KC5U",
+    "fen": "2kr4/1pp2P2/2p5/p5R1/2n3P1/6K1/7N/8 b - - 0 35",
+    "moves": "d8f8 g5g8 c8d8 g8f8",
+    "themes": "crushing endgame pin short"
+  },
+  {
+    "id": "0KCNf",
+    "fen": "6k1/2R3p1/4P1pp/P2K4/2p3rP/n7/8/8 b - - 1 43",
+    "moves": "a3b5 c7c8 g8h7 e6e7",
+    "themes": "advancedPawn crushing endgame short"
+  },
+  {
+    "id": "0KCad",
+    "fen": "8/1p6/1K5p/3k1P1P/8/8/8/8 w - - 0 47",
+    "moves": "f5f6 d5e6 f6f7 e6f7 b6b7 f7f6 b7b6 f6g5 b6b5 g5h5",
+    "themes": "crushing endgame pawnEndgame veryLong"
+  },
+  {
+    "id": "0KCr6",
+    "fen": "5rk1/5ppp/1Pq2b2/4p3/5n2/1Q6/1P3PPP/2R1rRK1 w - - 3 25",
+    "moves": "c1c6 f4e2 g1h1 e1f1",
+    "themes": "backRankMate deflection mate mateIn2 middlegame short"
+  },
+  {
+    "id": "0KCrx",
+    "fen": "5rk1/4Qpbp/4p1p1/3bP3/3P1PPn/4B1rN/7P/1R1N1R1K w - - 3 28",
+    "moves": "f1f3 d5f3",
+    "themes": "hangingPiece kingsideAttack mate mateIn1 middlegame morphysMate oneMove"
+  },
+  {
+    "id": "0KDB2",
+    "fen": "2r5/4Q1k1/2P3p1/3qp2p/p2p4/7P/P4r2/K2R2R1 b - - 1 35",
+    "moves": "g7h6 e7g5 h6g7 g5g6",
+    "themes": "crushing endgame master short"
+  },
+  {
+    "id": "0KDSX",
+    "fen": "1k6/1pp2p2/p2p1Qn1/7q/8/PbPB1NP1/1P4P1/1K6 w - - 2 27",
+    "moves": "f3d2 h5d1",
+    "themes": "endgame mate mateIn1 oneMove"
+  },
+  {
+    "id": "0KGT2",
+    "fen": "6rk/R2R2p1/5P1p/8/p5P1/r5KP/8/8 w - - 1 42",
+    "moves": "g3h4 g7g5 h4h5 a3h3",
+    "themes": "deflection endgame mate mateIn2 rookEndgame short"
+  },
+  {
+    "id": "0KHmb",
+    "fen": "4r3/2k3p1/2pp4/8/1P6/4nQP1/P1PN2K1/5R2 w - - 0 35",
+    "moves": "g2h3 e8h8 f3h5 h8h5",
+    "themes": "anastasiaMate endgame mate mateIn2 short"
+  },
+  {
+    "id": "0KJ1q",
+    "fen": "4Q1k1/2p3p1/2pp3p/5r2/6R1/7P/PPP2q2/7K b - - 1 28",
+    "moves": "g8h7 e8g6 h7h8 g6g7",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "0KKyO",
+    "fen": "8/1p1q1kpp/p4p2/4n3/8/4Q3/PP4PP/2R3K1 w - - 8 33",
+    "moves": "c1c3 d7d1 g1f2 e5g4 f2g3 g4e3",
+    "themes": "crushing endgame fork long"
+  },
+  {
+    "id": "0KM0D",
+    "fen": "1n2r1k1/rb5R/p7/5p2/1P3N1P/2P5/P1K1N1P1/4R3 w - - 3 36",
+    "moves": "h7c7 b7e4 c2b2 a7c7",
+    "themes": "advantage discoveredAttack middlegame short"
+  },
+  {
+    "id": "0KMIj",
+    "fen": "4r2k/p5pp/3Qb3/5p2/1r6/2q5/P1P1RPPP/4R1K1 w - - 0 23",
+    "moves": "e2e6 c3e1 e6e1 e8e1",
+    "themes": "backRankMate endgame mate mateIn2 short xRayAttack"
+  },
+  {
+    "id": "0KMUC",
+    "fen": "r1b5/4qprk/p3pbpp/1p6/3PQ1N1/8/PPB2PPP/1R2R1K1 b - - 0 26",
+    "moves": "c8b7 g4f6 e7f6 e4b7",
+    "themes": "advantage middlegame short"
+  },
+  {
+    "id": "0KMxC",
+    "fen": "5rk1/pRp3p1/7p/3b4/6Q1/6P1/P5qP/6RK w - - 0 30",
+    "moves": "g1g2 f8f1",
+    "themes": "endgame mate mateIn1 oneMove pin"
+  },
+  {
+    "id": "0KN4Z",
+    "fen": "r1b2k1r/pp4pp/nq6/3QR1B1/8/P1N5/1PP2PPP/R2K4 w - - 3 18",
+    "moves": "d5d8 b6d8 g5d8 c8g4 f2f3 a8d8",
+    "themes": "advantage discoveredAttack long middlegame"
+  },
+  {
+    "id": "0KNQ6",
+    "fen": "3k3r/2r3p1/p2b1p1p/1p3B2/5p1B/1P1p3P/P1P2Q1P/6K1 w - - 6 34",
+    "moves": "f5d3 d6c5 f2c5 c7c5",
+    "themes": "crushing endgame pin short"
+  },
+  {
+    "id": "0KNa2",
+    "fen": "4q1k1/2Q1P1pb/2p2p1p/p7/Pn6/3r1N2/1P3PPP/4R1K1 b - - 2 28",
+    "moves": "d3d7 c7d7 e8d7 e7e8q d7e8 e1e8",
+    "themes": "advancedPawn advantage kingsideAttack long middlegame promotion"
+  },
+  {
+    "id": "0KO5O",
+    "fen": "6k1/1p3ppp/p1n5/3r1q2/PPBb4/3P4/2P4B/1R1Q3K w - - 0 22",
+    "moves": "c4d5 f5d5 d1f3 d5f3",
+    "themes": "mate mateIn2 middlegame short"
+  },
+  {
+    "id": "0KQOE",
+    "fen": "5k2/p3ppq1/3p2p1/Q2Pn3/8/7R/6PP/1r3BK1 b - - 5 34",
+    "moves": "g7f6 a5d8 f8g7 d8h8",
+    "themes": "endgame mate mateIn2 short"
+  },
+  {
+    "id": "0KQPF",
+    "fen": "r4rk1/ppp2ppp/2np2q1/8/3PNb2/PB1Q1P2/1P3P1P/R5RK b - - 7 18",
+    "moves": "g6h5 e4f6 g8h8 f6h5",
+    "themes": "crushing kingsideAttack middlegame pin short"
+  },
+  {
+    "id": "0KS1N",
+    "fen": "5r1k/pp2b2P/1qbp3Q/4n1B1/4p3/2N5/PPP5/1K5R b - - 1 29",
+    "moves": "e7g5 h6f8",
+    "themes": "hangingPiece master mate mateIn1 middlegame oneMove"
+  },
+  {
+    "id": "0KU23",
+    "fen": "r1b1r1k1/ppp2ppp/2p5/4n3/1q2PP2/2N3Q1/PPP3PP/3RR1K1 b - - 0 15",
+    "moves": "e8e6 d1d8 b4f8 d8f8",
+    "themes": "crushing kingsideAttack middlegame short"
+  },
+  {
+    "id": "0KU8O",
+    "fen": "r1bqk2r/ppp2pp1/2p5/2b1P3/2B3n1/2NP1Q1p/PPP2PPP/R1B2RK1 b kq - 1 10",
+    "moves": "h3g2 f3f7",
+    "themes": "attackingF2F7 mate mateIn1 oneMove opening"
+  },
+  {
+    "id": "0KV8g",
+    "fen": "8/8/1PK5/8/2p5/2k5/8/8 b - - 0 56",
+    "moves": "c3b4 b6b7 c4c3 b7b8q",
+    "themes": "advancedPawn crushing endgame pawnEndgame promotion short"
+  },
+  {
+    "id": "0KVUl",
+    "fen": "r1b2rk1/ppp2p1p/1b1p4/P3pp2/1nB1P3/2PP4/5PPP/RN2K1NR w KQ - 0 12",
+    "moves": "a5b6 b4c2 e1e2 c2a1",
+    "themes": "advantage fork middlegame short"
+  },
+  {
+    "id": "0KWFC",
+    "fen": "r7/pp3R2/4p1p1/2n3k1/6P1/6KP/PPP5/8 b - - 7 25",
+    "moves": "a8d8 h3h4 g5h6 g4g5 h6h5 f7h7",
+    "themes": "endgame long mate mateIn3"
+  }
+]
