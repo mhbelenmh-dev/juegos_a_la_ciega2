@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Duelo contra la Máquina - Ajedrez Gym</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>♞</text></svg>">
+    
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    
+    <link rel="stylesheet" href="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.css">
+    <link rel="stylesheet" href="styles.css">
+
+    <style>
+        /* 🔥 AQUÍ ESTABA EL ERROR: Faltaban tus colores oficiales de Ajedrez Gym */
+        :root { --bg: #1a1917; --panel: #262421; --accent: #e5bf00; --blue: #3692e7; --green: #629924; --red: #cc3333; --danger: #cc3333; --success: #629924; --text: #bababa; --bot-color: #00ced1; }
+        
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--bg); color: var(--text); margin: 0; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
+        
+        /* HEADER UNIFICADO (Exacto a Análisis) */
+        #top-bar { position: fixed; top: 0; left: 0; width: 100%; height: 70px; background: #000; border-bottom: 1px solid #333; display: flex; align-items: center; justify-content: space-between; padding: 0 30px; box-sizing: border-box; z-index: 100; }
+        #brand-logo { margin: 0; font-size: 1.8em; color: var(--accent); letter-spacing: 1px; text-shadow: 2px 2px 0px rgba(0,0,0,0.5); text-decoration: none; }
+        #nav-menu { display: flex; gap: 25px; align-items: center; }
+        .nav-link { color: var(--green); text-decoration: none; font-weight: bold; font-size: 1.1em; text-transform: uppercase; letter-spacing: 1px; transition: 0.2s; padding: 5px 10px; border-radius: 5px; white-space: nowrap;}
+        .nav-link:hover { color: #fff; background: rgba(98, 153, 36, 0.2); transform: scale(1.05); }
+
+        h1 { color: var(--bot-color); margin-top: 100px; margin-bottom: 20px; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); text-align: center; text-transform: uppercase;}
+        
+        #setup-menu { background: var(--panel); padding: 40px; border-radius: 12px; border: 2px solid var(--bot-color); max-width: 500px; width: 90%; text-align: center; box-shadow: 0 15px 40px rgba(0,0,0,0.8); margin-top: 10px;}
+        .setup-group { margin-bottom: 20px; text-align: left; }
+        .setup-group label { display: block; color: var(--accent); font-weight: bold; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px;}
+        .setup-group select, .setup-group input { width: 100%; padding: 12px; background: #111; color: #fff; border: 1px solid #555; border-radius: 6px; font-size: 1.1em; outline: none; }
+        
+        .btn-gran-fuego { background: var(--bot-color); color: #000; font-size: 1.5em; font-weight: bold; padding: 15px; width: 100%; border: none; border-radius: 8px; cursor: pointer; box-shadow: 0 6px 0 #008b8b; margin-top: 20px; text-transform: uppercase; transition: 0.2s;}
+        .btn-gran-fuego:hover { transform: translateY(-2px); filter: brightness(1.2); }
+        .btn-gran-fuego:active { transform: translateY(2px); box-shadow: none; }
+
+        .btn-azul { background: var(--blue); box-shadow: 0 4px 0 #20629c; color: white; margin-top: 10px; font-size: 1.2em; font-weight: bold; padding: 15px; border-radius: 8px; cursor: pointer; width: 100%; border: none; transition: 0.2s;}
+        .btn-azul:hover { filter: brightness(1.2); transform: translateY(-2px); }
+
+        #interfaz-juego { padding: 20px; width: 100%; display: flex; justify-content: center; box-sizing: border-box; }
+        #main-layout { display: flex; flex-direction: row; gap: 30px; width: 100%; max-width: 1200px; justify-content: center; align-items: flex-start; }
+        @media (max-width: 950px) { #main-layout { flex-direction: column; align-items: center; } .sidebar-panel { width: 100%; max-width: 450px; } #tablero-wrapper { width: 100%; max-width: 450px; } }
+
+        #tablero-wrapper { flex: 0 0 450px; display: flex; flex-direction: column; gap: 15px; width: 100%; }
+        #tablero-container { width: 100%; max-width: 450px; border: 6px solid #3d3a37; border-radius: 4px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        #tablero { width: 100%; touch-action: none !important; }
+        
+        /* MAGIA FANTASMA */
+        .tablero-vacio img[src*="chesspieces"] { opacity: 0 !important; cursor: pointer !important; }
+
+        #descripcion-posicion { background: #1a1917; padding: 25px; border-radius: 8px; width: 100%; box-sizing: border-box; text-align: left; font-family: 'Consolas', monospace; font-size: 1.1em; line-height: 1.6; border: 1px solid #444; border-left: 5px solid var(--bot-color); box-shadow: inset 0 0 15px rgba(0,0,0,0.8); }
+        .bando-titulo { font-weight: bold; color: var(--blue); margin-bottom: 5px; display: block; text-transform: uppercase;}
+        .bando-titulo.negras { color: var(--danger); margin-top: 15px; }
+        .lista-piezas { color: #eee; word-wrap: break-word; }
+
+        #input-container { display: flex; gap: 10px; width: 100%; }
+        #jugadaInput { flex-grow: 1; padding: 15px; font-size: 1.2em; border-radius: 6px; border: 2px solid #555; background: #1e1e1e; color: white; text-align: center; outline: none; transition: 0.3s; }
+        #jugadaInput:focus { border-color: var(--bot-color); box-shadow: 0 0 10px rgba(0, 206, 209, 0.3); }
+        #btn-enviar { background: var(--bot-color); color: #000; padding: 0 25px; box-shadow: 0 4px 0 #008b8b; margin: 0; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 1.2em;}
+        
+        #status-box { width: 100%; background: var(--panel); padding: 15px; border-radius: 8px; text-align: center; box-sizing: border-box; border: 1px solid #444; min-height: 60px; display: flex; align-items: center; justify-content: center; }
+        #status { font-weight: bold; font-size: 1.2em; }
+
+        .sidebar-panel { flex: 0 0 400px; display: flex; flex-direction: column; gap: 20px; width: 400px; }
+        .panel-box { background: var(--panel); padding: 20px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); border: 1px solid #444; text-align: center;}
+        
+        /* HISTORIAL FLEXIBLE */
+        #historial-jugadas { height: 260px; overflow-y: auto; background: #111; padding: 15px 20px; border-radius: 6px; border: 1px solid #333; text-align: left; font-family: monospace; font-size: 1.5em; font-weight: bold;}
+        .historial-linea { display: flex; width: 100%; border-bottom: 1px solid #222; padding: 5px 0;}
+        .historial-linea:last-child { border-bottom: none; }
+        .historial-num { width: 50px; color: #666; }
+        .mov-blancas { color: #fff; flex: 1; }
+        .mov-negras { color: var(--bot-color); flex: 1; }
+        
+        .oculto { display: none !important; }
+        .btn-skip { background: #444; box-shadow: 0 4px 0 #222; margin-top: 10px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; transition: 0.2s; width: 100%; color: white; padding: 15px 20px; font-size: 1.1em; text-decoration: none; display: block; box-sizing: border-box;}
+        .btn-skip:hover { filter: brightness(1.2); transform: translateY(-2px); }
+    </style>
+</head>
+<body>
+    <div id="top-bar">
+        <a href="index.html" id="brand-logo">♞ </a>
+        <div id="nav-menu">
+            <a href="hub_basico.html" class="nav-link">TABLERO</a>
+            <a href="hub_memoria.html" class="nav-link">MEMORIA</a>
+            <a href="hub_tactica.html" class="nav-link">TÁCTICA</a>
+            <a href="analisis.html" class="nav-link">ANÁLISIS</a>
+            <a href="bot_ciego.html" class="nav-link" style="color: #fff; border-bottom: 2px solid var(--accent);">JUGAR</a>
+            <a href="baul.html" class="nav-link">📦 BAÚL</a>
+        </div>
+        <div style="display: flex; align-items: center; gap: 15px;">
+            <button onclick="window.location.href='index.html'" style="background: #444; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; transition: 0.2s;" onmouseover="this.style.background='#555'" onmouseout="this.style.background='#444'">⬅ Volver al Inicio</button>
+        </div>
+    </div>
+
+    <h1 id="title-main">🤖 Máquina de Entrenamiento</h1>
+
+    <div id="setup-menu">
+        <div class="setup-group">
+            <label>Jugar con:</label>
+            <select id="color-select">
+                <option value="w">Blancas</option>
+                <option value="b">Negras</option>
+            </select>
+        </div>
+        <div class="setup-group">
+            <label>Nivel de la Máquina (1-20):</label>
+            <input type="number" id="bot-level" value="5" min="1" max="20">
+        </div>
+        <div class="setup-group">
+            <label>Modo Visual:</label>
+            <select id="modo-select">
+                <option value="completo">Tablero Normal (Asalto)</option>
+                <option value="fantasma">Tablero Fantasma (Sin piezas)</option>
+                <option value="ciego">Cálculo Puro (Sin tablero)</option>
+            </select>
+        </div>
+        <button class="btn-gran-fuego" onclick="iniciarPartida()">⚔️ Comenzar la partida</button>
+        <a href="index.html" class="btn-skip" style="margin-top: 20px;">⬅ Volver a la Plaza</a>
+    </div>
+
+    <div id="interfaz-juego" class="oculto">
+        <div id="main-layout">
+            <div id="tablero-wrapper">
+                
+                <div id="descripcion-posicion" class="oculto">
+                    <span class="bando-titulo">Blancas:</span> <span id="txt-blancas" class="lista-piezas">...</span>
+                    <span class="bando-titulo negras">Negras:</span> <span id="txt-negras" class="lista-piezas">...</span>
+                </div>
+                
+                <div id="tablero-container"><div id="tablero"></div></div>
+                
+                <div id="input-container" class="oculto">
+                    <input type="text" id="jugadaInput" placeholder="Ej: Ce5, O-O..." autocomplete="off">
+                    <button id="btn-enviar" onclick="enviarJugadaTexto()">Mover</button>
+                </div>
+                
+                <div id="status-box"><div id="status">Prepárate...</div></div>
+            </div>
+
+            <div class="sidebar-panel">
+                <div class="panel-box">
+                    <h3 style="margin-top:0; color:var(--accent); text-transform:uppercase;">Historial</h3>
+                    <div id="historial-jugadas"></div>
+                </div>
+                <div class="panel-box" style="padding: 15px;">
+                    <button id="btn-toggle-tablero" class="btn-azul" onclick="alternarTablero()">👁️ Mostrar Tablero</button>
+                    <button id="btn-undo" class="btn-azul" style="background: #e67e22; box-shadow: 0 4px 0 #d35400; margin-top: 10px;" onclick="deshacerJugada()">↩️ Deshacer Jugada</button>
+                    
+                    <button class="btn-gran-fuego" style="margin-top: 15px; background: var(--danger); box-shadow: 0 4px 0 #8a1f1f; color: white;" onclick="location.reload()">🏳️ Rendirse / Reiniciar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.2/chess.js"></script>
+    <script src="utils.js?v=3"></script>
+
+    <script>
+        let game = new Chess();
+        let board = null;
+        let botColor = 'b';
+        let userColor = 'w';
+        let modoVisual = 'completo';
+        let nivelBotActual = 10;
+        let stockfish = null;
+        let juegoTerminado = false;
+
+        document.getElementById("jugadaInput").addEventListener("keyup", function(event) { 
+            if (event.key === "Enter") enviarJugadaTexto(); 
+        });
+
+        // ==========================================
+        // INICIO DE LA MÁQUINA
+        // ==========================================
+        function iniciarPartida() {
+            userColor = document.getElementById('color-select').value;
+            botColor = userColor === 'w' ? 'b' : 'w';
+            modoVisual = document.getElementById('modo-select').value;
+            nivelBotActual = parseInt(document.getElementById('bot-level').value) || 10;
+
+            document.getElementById('setup-menu').classList.add('oculto');
+            document.getElementById('interfaz-juego').classList.remove('oculto');
+
+            let configTablero = {
+                draggable: true,
+                position: 'start',
+                orientation: userColor === 'w' ? 'white' : 'black',
+                pieceTheme: 'https://chessboardjs.com/img/chesspieces/wikipedia/{piece}.png',
+                onDragStart: onDragStart,
+                onDrop: onDrop,
+                onSnapEnd: onSnapEnd
+            };
+            board = Chessboard('tablero', configTablero);
+
+            let btnToggle = document.getElementById('btn-toggle-tablero');
+            if (modoVisual === 'fantasma') {
+                document.getElementById('tablero').classList.add('tablero-vacio');
+                document.getElementById('descripcion-posicion').classList.remove('oculto');
+                btnToggle.innerHTML = "👁️ Revelar Piezas"; 
+            } else if (modoVisual === 'ciego') {
+                document.getElementById('tablero-container').classList.add('oculto');
+                document.getElementById('descripcion-posicion').classList.remove('oculto');
+                document.getElementById('input-container').classList.remove('oculto');
+                document.getElementById('jugadaInput').focus();
+                btnToggle.innerHTML = "👁️ Mostrar Tablero";
+            } else {
+                btnToggle.innerHTML = "🙈 Ocultar Tablero";
+            }
+
+            generarTextoPosicion(game.fen());
+            actualizarStatus();
+            actualizarHistorial();
+
+            try {
+                stockfish = new Worker('stockfish.js');
+                stockfish.onmessage = manejarRespuestaBot;
+                stockfish.postMessage('uci');
+                stockfish.postMessage('setoption name Skill Level value ' + nivelBotActual);
+                stockfish.postMessage('ucinewgame');
+                
+                if (botColor === 'w') { pedirJugadaAlBot(); }
+            } catch (e) {
+                alert("⚠️ Error al cargar stockfish.js. Asegúrate de que el archivo está en la misma carpeta.");
+            }
+        }
+
+        function alternarTablero() {
+            let container = document.getElementById('tablero-container');
+            let tablero = document.getElementById('tablero');
+            let btn = document.getElementById('btn-toggle-tablero');
+            
+            if (modoVisual === 'fantasma') {
+                if (tablero.classList.contains('tablero-vacio')) {
+                    tablero.classList.remove('tablero-vacio');
+                    btn.innerHTML = "👻 Ocultar Piezas";
+                } else {
+                    tablero.classList.add('tablero-vacio');
+                    btn.innerHTML = "👁️ Revelar Piezas";
+                }
+            } else {
+                if (container.classList.contains('oculto')) {
+                    container.classList.remove('oculto');
+                    board.resize(); 
+                    btn.innerHTML = "🙈 Ocultar Tablero";
+                } else {
+                    container.classList.add('oculto');
+                    btn.innerHTML = "👁️ Mostrar Tablero";
+                }
+            }
+        }
+
+        // ==========================================
+        // COMUNICACIÓN CON STOCKFISH
+        // ==========================================
+        function pedirJugadaAlBot() {
+            if (juegoTerminado) return;
+            document.getElementById('status').innerHTML = `🤖 La máquina está pensando...`;
+            
+            let profundidad = Math.max(1, Math.ceil(nivelBotActual / 2));
+            stockfish.postMessage('position fen ' + game.fen());
+            stockfish.postMessage('go depth ' + profundidad); 
+        }
+
+        function manejarRespuestaBot(event) {
+            let linea = event.data;
+            if (linea.startsWith('bestmove')) {
+                let movimientoUCI = linea.split(' ')[1]; 
+                if (movimientoUCI === '(none)') { verificarFinDeJuego(); return; }
+
+                let from = movimientoUCI.substring(0, 2);
+                let to = movimientoUCI.substring(2, 4);
+                let promo = movimientoUCI.length > 4 ? movimientoUCI.substring(4, 5) : 'q';
+
+                let mov = game.move({ from: from, to: to, promotion: promo });
+                
+                if (mov) {
+                    reproducirSonido('mover');
+                    board.position(game.fen());
+                    generarTextoPosicion(game.fen());
+                    actualizarHistorial();
+                    
+                    if (modoVisual === 'ciego') {
+                        document.getElementById('status').innerHTML = `🤖 El bot jugó: <strong style="color:var(--bot-color); font-size:1.5em;">${mov.san}</strong>. Tu turno.`;
+                    } else {
+                        actualizarStatus();
+                    }
+                    verificarFinDeJuego();
+                }
+            }
+        }
+
+        // ==========================================
+        // MOVIMIENTOS DEL USUARIO
+        // ==========================================
+        function onDragStart(source, piece) {
+            if (juegoTerminado || game.turn() !== userColor) return false; 
+            if (piece.search(new RegExp(`^${userColor}`)) === -1) return false; 
+        }
+
+        function onDrop(source, target) {
+            let move = game.move({ from: source, to: target, promotion: 'q' });
+            if (move === null) return 'snapback'; 
+
+            reproducirSonido('mover');
+            generarTextoPosicion(game.fen());
+            actualizarHistorial();
+            
+            if (!verificarFinDeJuego()) { pedirJugadaAlBot(); }
+        }
+
+        function onSnapEnd() { board.position(game.fen()); }
+
+        function enviarJugadaTexto() {
+            if (juegoTerminado || game.turn() !== userColor) return;
+            
+            let inputElement = document.getElementById('jugadaInput');
+            let textoUsuario = inputElement.value.trim();
+            if (!textoUsuario) return;
+
+            let jugadaSAN = textoUsuario.replace(/^R/, 'K').replace(/^D/, 'Q').replace(/^T/, 'R').replace(/^A/, 'B').replace(/^C/, 'N');
+            
+            let move = game.move(jugadaSAN, {sloppy: true});
+            if (move === null) {
+                let intento2 = jugadaSAN.charAt(0).toUpperCase() + jugadaSAN.slice(1);
+                move = game.move(intento2, {sloppy: true});
+            }
+
+            if (move === null) {
+                reproducirSonido('incorrecto');
+                document.getElementById('status').innerHTML = `<span style="color:var(--danger);">❌ Jugada ilegal o mal escrita.</span>`;
+            } else {
+                reproducirSonido('mover');
+                inputElement.value = "";
+                board.position(game.fen());
+                generarTextoPosicion(game.fen());
+                actualizarHistorial();
+                
+                if (!verificarFinDeJuego()) { pedirJugadaAlBot(); }
+            }
+        }
+
+        // ==========================================
+        // 🔥 DESHACER JUGADA
+        // ==========================================
+        function deshacerJugada() {
+            if (game.history().length === 0) return; 
+
+            // Deshacemos la última jugada (sea de quien sea)
+            game.undo(); 
+            
+            // Si después de deshacer resulta que le toca al bot, deshacemos otra más
+            // para que nos devuelva el turno a nosotros y podamos pensar de nuevo.
+            if (game.turn() !== userColor && game.history().length > 0) {
+                game.undo();
+            }
+
+            juegoTerminado = false;
+            board.position(game.fen());
+            generarTextoPosicion(game.fen());
+            actualizarStatus();
+            actualizarHistorial();
+
+            // Caso especial: Si deshacemos todo hasta la jugada 1 y la máquina tiene blancas
+            if (game.history().length === 0 && botColor === 'w') {
+                pedirJugadaAlBot();
+            }
+        }
+
+        // ==========================================
+        // UTILIDADES Y TEXTOS
+        // ==========================================
+        function verificarFinDeJuego() {
+            if (game.game_over()) {
+                juegoTerminado = true;
+                reproducirSonido('fin');
+                if (game.in_checkmate()) {
+                    let ganador = game.turn() === 'w' ? 'Negras' : 'Blancas';
+                    document.getElementById('status').innerHTML = `🏆 ¡Jaque Mate! Ganan las <strong>${ganador}</strong>.`;
+                } else if (game.in_draw()) {
+                    document.getElementById('status').innerHTML = `🤝 Empate.`;
+                }
+                
+                if(modoVisual === 'ciego') {
+                    document.getElementById('tablero-container').classList.remove('oculto');
+                    document.getElementById('btn-toggle-tablero').innerHTML = "🙈 Ocultar Tablero";
+                    board.resize();
+                }
+                return true;
+            }
+            return false;
+        }
+
+        function actualizarStatus() {
+            if (juegoTerminado) return;
+            let turnoTxt = game.turn() === 'w' ? 'Blancas' : 'Negras';
+            let colorSt = game.turn() === 'w' ? '#fff' : 'var(--bot-color)';
+            document.getElementById('status').innerHTML = `Turno de: <strong style="color:${colorSt}; text-transform:uppercase;">${turnoTxt}</strong>`;
+        }
+
+        // Genera el historial leyendo las jugadas reales desde cero (para soportar "Deshacer")
+        function actualizarHistorial() {
+            let html = "";
+            let historico = game.history();
+            let simulador = new Chess();
+            
+            for(let i = 0; i < historico.length; i++) {
+                let turnoActual = simulador.turn();
+                simulador.move(historico[i]);
+                
+                let numJugada = Math.ceil((i + 1) / 2);
+                let clase = turnoActual === 'w' ? 'mov-blancas' : 'mov-negras';
+                
+                if (turnoActual === 'w') {
+                    html += `<div class="historial-linea"><span class="historial-num">${numJugada}.</span><span class="${clase}">${historico[i]}</span>`;
+                } else {
+                    if (i === 0) html += `<div class="historial-linea"><span class="historial-num">1.</span><span class="mov-blancas">...</span>`; 
+                    html += `<span class="${clase}">${historico[i]}</span></div>`;
+                }
+            }
+            
+            // Si la partida se queda en el turno de las negras pero sin mover aún, cerramos el div
+            if (historico.length > 0 && simulador.turn() === 'b') {
+                html += `</div>`;
+            }
+            
+            let divHist = document.getElementById('historial-jugadas');
+            divHist.innerHTML = html;
+            divHist.scrollTop = divHist.scrollHeight;
+        }
+
+        function generarTextoPosicion(fen) {
+            let partes = fen.split(' ')[0]; let filas = partes.split('/'); let blancas = []; let negras = []; const columnas = ['a','b','c','d','e','f','g','h'];
+            for (let i = 0; i < 8; i++) {
+                let filaNum = 8 - i; let colIndex = 0; let contenidoFila = filas[i];
+                for (let j = 0; j < contenidoFila.length; j++) {
+                    let char = contenidoFila[j];
+                    if (!isNaN(char)) { colIndex += parseInt(char); } else {
+                        let casilla = columnas[colIndex] + filaNum; let esBlanca = (char === char.toUpperCase());
+                        let tipo = char.toLowerCase(); let nombrePieza = "";
+                        switch(tipo) { case 'p': nombrePieza = "P"; break; case 'r': nombrePieza = "T"; break; case 'n': nombrePieza = "C"; break; case 'b': nombrePieza = "A"; break; case 'q': nombrePieza = "D"; break; case 'k': nombrePieza = "R"; break; }
+                        let textoPieza = nombrePieza + casilla; 
+                        if (esBlanca) blancas.push(textoPieza); else negras.push(textoPieza); colIndex++;
+                    }
+                }
+            }
+            blancas.sort(); negras.sort(); 
+            document.getElementById('txt-blancas').innerText = blancas.join(', '); 
+            document.getElementById('txt-negras').innerText = negras.join(', ');
+        }
+    </script>
+</body>
+</html>
