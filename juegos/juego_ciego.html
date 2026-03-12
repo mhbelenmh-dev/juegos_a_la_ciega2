@@ -142,7 +142,11 @@
                 </div>
                 <div id="tablero-container" class="oculto"><div id="tablero"></div></div>
                 <div id="input-container">
-                    <input type="text" id="jugadaInput" placeholder="Ej: Ce5, h4..." autocomplete="off">
+                    <div style="display: none; height: 0; width: 0; overflow: hidden;">
+                        <input type="text" name="fake_user_game" autocomplete="username">
+                        <input type="password" name="fake_password_game" autocomplete="current-password">
+                    </div>
+                    <input type="text" id="jugadaInput" placeholder="Ej: Ce5, h4..." autocomplete="off" spellcheck="false" data-lpignore="true" data-1p-ignore="true">
                     <button id="btn-enviar" onclick="verificarJugada()">Enviar</button>
                 </div>
                 <div id="status"></div>

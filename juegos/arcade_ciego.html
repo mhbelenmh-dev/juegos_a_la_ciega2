@@ -346,11 +346,27 @@
                 
                 let contentHTML = '', inputHTML = '', extraHTML = '';
 
-                if (ex.type === 'color') { contentHTML = ex.target.toUpperCase(); inputHTML = `<div class="color-btns"><button class="btn-chess btn-b" onclick="Game.check('negra')">NEGRA</button><button class="btn-chess btn-w" onclick="Game.check('blanca')">BLANCA</button></div>`; } 
-                else if (ex.type === 'diag') { contentHTML = ex.target.toUpperCase(); extraHTML = "(Escribe los extremos: ej c3 -> a1 h8 a5 e1)"; inputHTML = `<input type="text" id="ans-input" placeholder="a1 h8 a5 e1" onkeydown="if(event.key==='Enter') Game.check(this.value)">`; }
-                else if (ex.type === 'knight') { contentHTML = `${ex.start.toUpperCase()} ➡ ${ex.end.toUpperCase()}`; extraHTML = "(Ruta de saltos intermedios)"; inputHTML = `<input type="text" id="ans-input" placeholder="c3 d5" onkeydown="if(event.key==='Enter') Game.check(this.value)">`; }
-                else if (ex.type === 'artillery') { contentHTML = `${ex.start.toUpperCase()} ➡ ${ex.end.toUpperCase()}`; let enemyStr = ex.enemies.map(e => `${e.n} en ${e.c.toUpperCase()}`).join(', '); extraHTML = `⚠️ ${enemyStr}<br> (Evita las piezas enemigas)`; inputHTML = `<input type="text" id="ans-input" placeholder="c3 d5" onkeydown="if(event.key==='Enter') Game.check(this.value)">`; }
+                // TRAMPA PARA CHROME: La insertamos antes del input real
+                let trampaChrome = `<div style="display: none; height: 0; width: 0; overflow: hidden;"><input type="text" name="fake_user_arcade" autocomplete="username"><input type="password" name="fake_password_arcade" autocomplete="current-password"></div>`;
+                // ATRIBUTOS ANTI-AUTOFILL para el input real
+                let atributosSeguros = `autocomplete="off" spellcheck="false" data-lpignore="true" data-1p-ignore="true"`;
 
+                if (ex.type === 'color') { 
+                    contentHTML = ex.target.toUpperCase(); 
+                    inputHTML = `<div class="color-btns"><button class="btn-chess btn-b" onclick="Game.check('negra')">NEGRA</button><button class="btn-chess btn-w" onclick="Game.check('blanca')">BLANCA</button></div>`; 
+                } 
+                else if (ex.type === 'diag') { 
+                    contentHTML = ex.target.toUpperCase(); extraHTML = "(Escribe los extremos: ej c3 -> a1 h8 a5 e1)"; 
+                    inputHTML = trampaChrome + `<input type="text" id="ans-input" placeholder="a1 h8 a5 e1" ${atributosSeguros} onkeydown="if(event.key==='Enter') Game.check(this.value)">`; 
+                }
+                else if (ex.type === 'knight') { 
+                    contentHTML = `${ex.start.toUpperCase()} ➡ ${ex.end.toUpperCase()}`; extraHTML = "(Ruta de saltos intermedios)"; 
+                    inputHTML = trampaChrome + `<input type="text" id="ans-input" placeholder="c3 d5" ${atributosSeguros} onkeydown="if(event.key==='Enter') Game.check(this.value)">`; 
+                }
+                else if (ex.type === 'artillery') { 
+                    contentHTML = `${ex.start.toUpperCase()} ➡ ${ex.end.toUpperCase()}`; let enemyStr = ex.enemies.map(e => `${e.n} en ${e.c.toUpperCase()}`).join(', '); extraHTML = `⚠️ ${enemyStr}<br> (Evita las piezas enemigas)`; 
+                    inputHTML = trampaChrome + `<input type="text" id="ans-input" placeholder="c3 d5" ${atributosSeguros} onkeydown="if(event.key==='Enter') Game.check(this.value)">`; 
+                }
                 document.getElementById('q-content').innerHTML = contentHTML; document.getElementById('q-extra').innerHTML = extraHTML; document.getElementById('input-container').innerHTML = inputHTML;
                 if(document.getElementById('ans-input')) document.getElementById('ans-input').focus();
             },
