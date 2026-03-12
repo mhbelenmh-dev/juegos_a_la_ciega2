@@ -97,10 +97,13 @@
 
         <div style="display: flex; gap: 20px; align-items: center;">
             <div class="search-container">
-                <input type="text" id="search-input" placeholder="🔍 Buscar jugador..." aria-label="Buscar jugador" oninput="buscarUsuarios(this.value)">
+                <div style="display: none; height: 0; width: 0; overflow: hidden;">
+                    <input type="text" name="fake_user" autocomplete="username">
+                    <input type="password" name="fake_password" autocomplete="current-password">
+                </div>
+                <input type="search" id="search-input" placeholder="🔍 Buscar jugador..." aria-label="Buscar jugador" spellcheck="false" data-lpignore="true" data-1p-ignore="true" oninput="buscarUsuarios(this.value)" autocomplete="off">                
                 <div id="search-results"></div>
             </div>
-
             <div style="display: flex; align-items: center; gap: 15px; border-left: 1px solid #444; padding-left: 20px;">
                 <button onclick="document.getElementById('modal-proyecto').style.display='flex'" style="background: transparent; color: #fff; border: 1px solid #fff; padding: 10px 15px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 1em; transition: 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.1)'" onmouseout="this.style.background='transparent'">📖 Info</button>
                 <button onclick="window.location.href='baul.html'" style="background: #111; color: var(--accent); border: 1px dashed var(--accent); padding: 10px 15px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 1em; transition: 0.2s;" onmouseover="this.style.background='rgba(229, 191, 0, 0.1)'" onmouseout="this.style.background='#111'">📦 Baúl</button>
@@ -233,14 +236,14 @@
         </div>
     </div>
 
-    <div id="auth-modal" class="overlay-modal" style="display: flex;">
+    <div id="auth-modal" class="overlay-modal" style="display: none;">
         <div class="caja-modal">
             <div style="font-size: 4em; margin-bottom: 10px;">♞</div>
             <h2 style="color:var(--accent); margin-top:0; text-transform: uppercase; letter-spacing: 2px;">Identificación</h2>
             <form onsubmit="event.preventDefault(); iniciarSesion();">
                 <input type="text" id="auth-user" class="input-modal" placeholder="Usuario" aria-label="Usuario" autocomplete="username" required>
-                <input type="password" id="auth-pass" class="input-modal" placeholder="Contraseña" aria-label="Contraseña" autocomplete="current-password" required>
-                <div id="auth-error" style="color:var(--danger); margin-bottom:15px; font-weight:bold;"></div>
+            <input type="password" id="auth-pass" class="input-modal" placeholder="Contraseña" aria-label="Contraseña" autocomplete="current-password" required>
+            <div id="auth-error" style="color:var(--danger); margin-bottom:15px; font-weight:bold;"></div>
                 <button type="submit" class="btn-modal" style="background:var(--blue);">INICIAR SESIÓN</button>
                 <button type="button" class="btn-modal" style="background:#444;" onclick="registrarUsuario()">NUEVO USUARIO</button>
             </form>
@@ -493,7 +496,11 @@
             if (typeof firebase === 'undefined') return;
             firebase.database().ref(rutaDb).orderByChild('puntos').limitToLast(5).on('value', (snapshot) => {
                 let html = ''; let jugadores = [];
-                snapshot.forEach((child) => { jugadores.push(child.val()); });
+                snapshot.forEach((child) => { 
+                    let j = child.val();
+                    j.uid = child.key; // <-- Capturamos el UID real para poder abrir el perfil
+                    jugadores.push(j); 
+                });
                 jugadores.reverse();
                 if (jugadores.length === 0) {
                     html = '<div style="color:#888; text-align:center; padding: 10px;">Nadie ha jugado todavía.</div>';
@@ -502,13 +509,14 @@
                         let medalla = index === 0 ? '👑' : index === 1 ? '🥈' : index === 2 ? '🥉' : '🔹';
                         let style = index === 0 ? 'color:#ffd700; font-weight:bold; background:rgba(255,215,0,0.05); padding:10px; border-radius:5px;' : 'padding:10px 5px;';
                         let iconoRango = (typeof window.obtenerInfoRango === 'function' && j.puntos !== undefined) ? window.obtenerInfoRango(j.puntos).icono + " " : "";
-                        html += `<div style="display:flex; justify-content:space-between; border-bottom:1px solid #2a2a2a; ${style}"><span>${medalla} ${iconoRango}${j.nombre}</span><span>${j.puntos} ${sufijo}</span></div>`;
+                        
+                        // Ahora sí abre tu ventana flotante (verPerfilAjeno)
+                        html += `<div style="display:flex; justify-content:space-between; border-bottom:1px solid #2a2a2a; ${style}"><span>${medalla} ${iconoRango}<span style="cursor:pointer; text-decoration:none; transition:0.2s;" onclick="verPerfilAjeno('${j.uid}')" onmouseover="this.style.color='var(--blue)'" onmouseout="this.style.color='inherit'">${j.nombre}</span></span><span>${j.puntos} ${sufijo}</span></div>`;
                     });
                 }
                 document.getElementById(idContenedor).innerHTML = html;
             });
         }
-
         function abrirMiPerfil() {
             let p = obtenerPerfil(); 
             let xpInfo = (typeof window.obtenerInfoRango === 'function') ? window.obtenerInfoRango(p.xpTotal || 0) : { nombre: 'Jugador', icono: '♟️', color: '#fff' };
@@ -618,16 +626,34 @@
             });
         }
 
-        function abrirChat(uid, nombre) {
-            chatActivoUid = uid; document.getElementById('modal-perfil').style.display = 'none';
-            document.getElementById('chat-user-name').innerText = "Chat con " + nombre; document.getElementById('chat-modal').style.display = 'flex';
+function abrirChat(uid, nombre) {
+            chatActivoUid = uid; 
+            document.getElementById('modal-perfil').style.display = 'none';
+            
+            // Tu cabecera azul con el nombre en blanco clicable
+            document.getElementById('chat-user-name').innerHTML = `Chat con <span style="color:#fff; cursor:pointer; text-decoration:underline; font-weight:bold;" onclick="verPerfilAjeno('${uid}')">${nombre}</span>`; 
+            
+            document.getElementById('chat-modal').style.display = 'flex';
             document.getElementById('chat-messages').innerHTML = '<div style="color:#888;text-align:center;">Cargando mensajes...</div>';
+            
             ChatManager.escucharConversacion(uid, snap => {
-                let html = ''; let miUid = localStorage.getItem('current_user_uid');
-                snap.forEach(child => { let m = child.val(); let clase = m.from === miUid ? 'msg-me' : 'msg-to'; html += `<div class="msg-bubble ${clase}">${m.text}</div>`; });
-                const div = document.getElementById('chat-messages'); div.innerHTML = html || '<div style="color:#555;text-align:center;margin-top:20px;">¡Di hola!</div>'; setTimeout(() => div.scrollTop = div.scrollHeight, 100);
+                let html = ''; 
+                let miUid = localStorage.getItem('current_user_uid');
+                
+                snap.forEach(child => { 
+                    let m = child.val(); 
+                    let clase = m.from === miUid ? 'msg-me' : 'msg-to'; 
+                    
+                    // 🔥 DISEÑO LIMPIO (Como en tu foto): Solo la burbuja, sin contenedores extra ni nombres
+                    html += `<div class="msg-bubble ${clase}">${m.text}</div>`; 
+                });                
+                
+                const div = document.getElementById('chat-messages'); 
+                div.innerHTML = html || '<div style="color:#555;text-align:center;margin-top:20px;">¡Di hola!</div>'; 
+                setTimeout(() => div.scrollTop = div.scrollHeight, 100);
             });
-        }
+        }        
+        
         function mandarMensaje() { let input = document.getElementById('chat-input'); if (input.value.trim() !== '') { ChatManager.enviarMensaje(chatActivoUid, input.value); input.value = ''; } }
 
         // ==========================================
