@@ -342,52 +342,35 @@
 
             if (input.length < 3) return; 
 
-            // 1. Si el usuario pone un correo real (contiene @), entra directo
+            // 1. Si usa correo real (tiene @), entra directo sin preguntar
             if (input.includes('@')) {
                 firebase.auth().signInWithEmailAndPassword(input, p)
                     .then(() => window.location.reload())
                     .catch(e => errorDiv.innerText = "Correo o contraseña incorrectos");
                 return;
             }
-
-            // 2. Si pone un NOMBRE, probamos primero con el email falso (para cuentas viejas)
-            let emailFalso = generarEmailFalso(input);
-    
-            firebase.auth().signInWithEmailAndPassword(emailFalso, p)
-                .then(() => {
-                    localStorage.setItem('nombre_temporal', input);
-                    window.location.reload();
-                })
-                .catch(error => {
-                    // 3. SI EL FALSO FALLA: Buscamos en la base de datos si este nombre tiene un email real vinculado
-                    firebase.database().ref('users').orderByChild('nombreJugadorLower').equalTo(input.toLowerCase()).once('value', snap => {
-                        if (snap.exists()) {
-                            let uid = Object.keys(snap.val())[0];
-                            let datos = snap.val()[uid];
-                            let emailReal = datos.emailReal;
-
-                            if (emailReal) {
-                                // Intentamos entrar con el email real que hemos encontrado
-                                firebase.auth().signInWithEmailAndPassword(emailReal, p)
-                                    .then(() => {
-                                        localStorage.setItem('nombre_temporal', input);
-                                        window.location.reload();
-                                    })
-                                    .catch(e => errorDiv.innerText = "Contraseña incorrecta para " + input);
-                            } else {
-                                errorDiv.innerText = "Usuario o contraseña incorrectos";
-                            }
-                        } else {
-                            errorDiv.innerText = "El usuario '" + input + "' no existe";
-                        }
-                    });
-                });
+                            
+            // 2. (SEGURIDAD ESTRICTA)
+            // Ya NO intentamos entrar a ciegas. Buscamos EXACTAMENTE el nombre en la base de datos.
+            firebase.database().ref('users').orderByChild('nombreJugadorLower').equalTo(input.toLowerCase()).once('value', snap => {
+                if (snap.exists()) {
+                    let uid = Object.keys(snap.val())[0];
+                    let datos = snap.val()[uid];
+                    
+                    // Sacamos su correo verdadero de conexión (el invisible o el real)
+                    let emailAUsar = datos.emailReal || datos.emailActivo || generarEmailFalso(input);
+                    
+                    // Entramos con su llave correcta
+                    firebase.auth().signInWithEmailAndPassword(emailAUsar, p)
+                        .then(() => window.location.reload())
+                        .catch(e => errorDiv.innerText = "Contraseña incorrecta para " + input);
+                } else {
+                    // Si el nombre no está en la base de datos, lo bloqueamos.
+                    // ¡Esto impide que usen sus nombres antiguos!
+                    errorDiv.innerText = "El usuario '" + input + "' no existe o ha cambiado de nombre.";
+                }
+            });
         }
-
-
-
-
-
 
         function registrarUsuario() { 
             let u = document.getElementById('auth-user').value.trim(); 
@@ -431,7 +414,7 @@
                 escucharAnuncios();
                 firebase.auth().onAuthStateChanged((user) => {
                     if (user) {
-                        let nombre = localStorage.getItem('nombre_temporal') || user.displayName || 'Jugador';
+                        let nombre = user.displayName || localStorage.getItem('nombre_temporal') || 'Jugador';
                         localStorage.setItem('current_user_uid', user.uid);
                         localStorage.setItem('current_user_name', nombre);
 
@@ -449,16 +432,25 @@
                             let hoy = new Date().toDateString();
                             let racha = p.rachaDias || 0;
                             
+                            // Preparamos los datos a guardar (¡Incluyendo el email activo para no perder la cuenta!)
+                            let updates = { 
+                                nombreJugadorLower: nombre.toLowerCase(),
+                                emailActivo: user.email // <--- ESTO SALVA LAS CUENTAS
+                            };
+
                             if (p.ultimaConexion !== hoy) {
                                 let ayer = new Date();
                                 ayer.setDate(ayer.getDate() - 1);
                                 if (p.ultimaConexion === ayer.toDateString()) { racha++; } else { racha = 1; }
                                 p.rachaDias = racha;
                                 p.ultimaConexion = hoy;
-                                firebase.database().ref('users/' + user.uid).update({ rachaDias: racha, ultimaConexion: hoy, nombreJugadorLower: nombre.toLowerCase() });
-                            } else {
-                                firebase.database().ref('users/' + user.uid).update({ nombreJugadorLower: nombre.toLowerCase() });
-                            }
+                                updates.rachaDias = racha;
+                                updates.ultimaConexion = hoy;
+                            } 
+                            
+                            // Guardamos todo de golpe
+                            firebase.database().ref('users/' + user.uid).update(updates);                            
+                            
                             document.getElementById('racha-dias').innerText = racha + (racha === 1 ? " Día" : " Días");
                             guardarPerfil(p);
                             
@@ -605,15 +597,10 @@
             });
         }
 
-        function abrirMiPerfil() {
+function abrirMiPerfil() {
             let p = obtenerPerfil(); 
-            let user = firebase.auth().currentUser;
-            // Comprobamos si el usuario aún tiene el correo falso de @ajedrezgym.local
-            let esEmailFalso = user && user.email && user.email.includes('@ajedrezgym.local');
-
             let xpInfo = (typeof window.obtenerInfoRango === 'function') ? window.obtenerInfoRango(p.xpTotal || 0) : { nombre: 'Jugador', icono: '♟️', color: '#fff' };
             
-            // --- AQUÍ ESTABA EL ERROR: He añadido el cierre ` al final de este bloque ---
             let html = `
                 <div class="profile-header" style="justify-content: space-between;">
                     <h1 style="margin:0; color:var(--accent); font-size:2.5em;">👤 ${p.nombreJugador}</h1>
@@ -628,22 +615,8 @@
                     <div class="activity-item" style="border-bottom:none;"><span>⚡ Récord Arcade:</span> <strong style="color:var(--accent);">${p.arcadeGlobalMax || 0} Pts</strong></div>
                 </div>`; 
 
-            // SI EL EMAIL ES FALSO, MOSTRAMOS EL BLOQUE DE SEGURIDAD
-            if (esEmailFalso) {
-                html += `
-                    <div class="secure-account-box" style="max-width: 500px; margin: 20px auto 0;">
-                        <h4 style="margin:0 0 10px 0; color:var(--accent); text-align:center;">🛡️ Asegura tu cuenta profesional</h4>
-                        <p style="font-size:0.9em; margin-bottom:10px; color:#ddd;">Añade un email real para poder recuperar tu contraseña y no perder nunca tu XP.</p>
-                        <input type="email" id="input-email-real" class="input-modal" style="margin-bottom:10px;" placeholder="Tu email real...">
-                        <button onclick="vincularEmailReal()" class="btn-modal" style="background:var(--accent); color:#000; margin:0; box-shadow: 0 4px 0 #b39500;">VINCULAR CORREO</button>
-                    </div>
-                `;
-            } else {
-                html += `<div style="text-align:center; margin-top:20px; color:var(--green); font-weight:bold;">✅ Cuenta protegida con email: ${user.email}</div>`;
-            }
-
             html += `
-                <div style="display: flex; gap: 15px; margin-top: 15px;">
+                <div style="display: flex; gap: 15px; margin-top: 25px;">
                     <button class="btn-modal" style="background:#444; color:white; width:100%; padding:15px; margin:0; transition:0.2s;" onmouseover="this.style.background='#555'" onmouseout="this.style.background='#444'" onclick="document.getElementById('btn-ajustes-flotante').click(); cerrarModal('modal-perfil');">⚙️ Ajustes</button>
                     <button class="btn-modal" style="background:#444; color:white; width:100%; padding:15px; margin:0; transition:0.2s;" onmouseover="this.style.background='#555'" onmouseout="this.style.background='#444'" onclick="cerrarModal('modal-perfil')">Cerrar</button>
                 </div>
@@ -871,32 +844,51 @@
             cerrarModal('modal-invitacion');
         }
 
-        // Escuchador del Anuncio Global (VERSIÓN HISTORIAL)
+        // Escuchador del Anuncio Global (VERSIÓN SEGMENTADA)
         function escucharAnuncios() {
-            // Leemos la lista de anuncios (los últimos 10)
             firebase.database().ref('anuncio_global').limitToLast(10).on('value', snap => {
                 if (!snap.exists()) return;
                 
+                // Obtenemos el nombre del usuario actual en minúsculas
+                let miNombre = (localStorage.getItem('current_user_name') || "").toLowerCase();
                 let anuncios = [];
-                // Recorremos todos los mensajes de la lista
+                
                 snap.forEach(child => {
                     let a = child.val();
-                    // Guardamos solo los que tienen la etiqueta de "activo" (verde en tu panel)
+                    
                     if (a && a.activo) {
-                        anuncios.push(a);
+                        let esParaMi = false;
+                        
+                        // 1. Mensajes globales (para todos)
+                        if (!a.tipoDestino || a.tipoDestino === 'todos') {
+                            esParaMi = true;
+                        } 
+                        // 2. Mensajes privados (solo si mi nombre está en la lista)
+                        else if (a.tipoDestino === 'especificos' && a.listaDestinos) {
+                            // Convertimos la lista por seguridad por si Firebase la altera
+                            let destinos = Array.isArray(a.listaDestinos) ? a.listaDestinos : Object.values(a.listaDestinos);
+                            if (destinos.includes(miNombre)) {
+                                esParaMi = true;
+                            }
+                        }
+
+                        // Si paso el filtro, me guardo el anuncio
+                        if (esParaMi) {
+                            anuncios.push(a);
+                        }
                     }
                 });
 
-                // Si hemos encontrado algún anuncio activo...
+                // Por precaución, borramos siempre el cartel viejo antes de decidir si pintamos uno nuevo
+                const viejo = document.getElementById('admin-banner');
+                if(viejo) viejo.remove();
+
+                // Si hay algún anuncio autorizado para este usuario, lo mostramos
                 if (anuncios.length > 0) {
-                    // Cogemos el más reciente (el último de la lista)
                     const data = anuncios[anuncios.length - 1];
                     const ultimoLeido = localStorage.getItem('ultimo_anuncio_id');
                     
-                    // Comprobamos si el usuario ya lo cerró dándole a la X
                     if (ultimoLeido !== data.id) {
-                        // Lo mostramos en pantalla
-                        // Limpiamos comillas por seguridad
                         let textoLimpio = (data.texto || "").replace(/`/g, "'");
                         mostrarBannerAdmin(textoLimpio, data.id);
                     }

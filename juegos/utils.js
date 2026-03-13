@@ -69,7 +69,7 @@ try { if (typeof firebase !== 'undefined' && !firebase.apps.length) firebase.ini
 
 const PERFIL_DEFAULT = { 
     uid: "", nombreJugador: "Jugador", isPublic: true,
-    eloNormal: 1700, eloCiego: 1700, // Se mantienen solo como dificultad oculta del juego
+    eloNormal: 1700, eloCiego: 1700, 
     ultimaActividad: [],
     xpTotal: 0, xpAciertos: 0, xpFallos: 0,
     arcadeGlobalMax: 0, stormTiempoMax: 0,
@@ -98,17 +98,13 @@ function guardarPerfil(perfil) {
         let uid = localStorage.getItem('current_user_uid');
         if (!uid) return;
 
-        // Copia exacta para no modificar el objeto original en memoria
         let pToSave = JSON.parse(JSON.stringify(perfil));
 
-        // 🔥 PARCHE DE SEGURIDAD: Evitamos borrar los contactos y la conexión online
         delete pToSave.isOnline;
         delete pToSave.contactos;
 
-        // Guardamos en local
         localStorage.setItem('chess_gym_profile_' + uid, JSON.stringify(pToSave));
         
-        // Actualizamos Firebase de manera segura (con UPDATE, no con SET)
         if (typeof firebase !== 'undefined' && firebase.database) {
             firebase.database().ref('users/' + uid).update(pToSave);
         }
@@ -160,7 +156,7 @@ function subirAFirebase(rutaRef, puntuacion) {
 }
 
 // ========================================================
-// SISTEMA DE MENSAJERÍA PRIVADA (CHAT EN NODO AISLADO)
+// SISTEMA DE MENSAJERÍA PRIVADA
 // ========================================================
 window.ChatManager = {
     enviarMensaje: function(toUid, texto) {
@@ -175,7 +171,6 @@ window.ChatManager = {
             time: Date.now()
         });
         
-        // Guardamos las agendas en un sitio seguro donde el juego no las pueda pisar
         firebase.database().ref(`mis_contactos/${miUid}/${toUid}`).set(Date.now());
         firebase.database().ref(`mis_contactos/${toUid}/${miUid}`).set(Date.now());
     },
@@ -272,36 +267,78 @@ window.seleccionarColorVisual = function(color) {
     if(selectedCard) { selectedCard.style.borderColor = '#fff'; selectedCard.style.transform = 'scale(1.1)'; }
 };
 
-// 2. Modificación de Seguridad (Nombre y Pass)
+// 2. Modificación de Seguridad (Nombre, Correo, Pass)
+// 2. Modificación de Seguridad (Nombre, Correo, Pass)
 window.cambiarNombreUsuario = function() {
     let nuevo = document.getElementById('ajuste-nuevo-nombre').value.trim();
     if(nuevo.length < 3) return alert("El nombre debe tener al menos 3 letras.");
+    
     let user = firebase.auth().currentUser;
     if(user) {
         user.updateProfile({ displayName: nuevo }).then(() => {
             let uid = user.uid;
-            firebase.database().ref('users/' + uid).update({ nombreJugador: nuevo, nombreJugadorLower: nuevo.toLowerCase() }).then(() => {
+            
+            firebase.database().ref('users/' + uid).update({ 
+                nombreJugador: nuevo, 
+                nombreJugadorLower: nuevo.toLowerCase() 
+            }).then(() => {
+                // 🔥 EL TRUCO: Actualizamos todas las "memorias" del navegador para que no lo machaque
                 localStorage.setItem('current_user_name', nuevo);
-                alert("Nombre cambiado con éxito. Se actualizará al recargar.");
+                localStorage.setItem('nombre_temporal', nuevo); 
+                
+                // Actualizamos también su perfil guardado en caché
+                let perfilLocal = localStorage.getItem('chess_gym_profile_' + uid);
+                if (perfilLocal) {
+                    let p = JSON.parse(perfilLocal);
+                    p.nombreJugador = nuevo;
+                    localStorage.setItem('chess_gym_profile_' + uid, JSON.stringify(p));
+                }
+                
+                alert("¡Nombre cambiado con éxito!");
                 location.reload();
             });
-        }).catch(e => alert("Error: " + e.message));
-    } else { alert("Debes iniciar sesión para cambiar tu nombre."); }
+        }).catch(e => alert("Error al cambiar el nombre: " + e.message));
+    } else { 
+        alert("Debes iniciar sesión para cambiar tu nombre."); 
+    }
 };
-
-window.cambiarPasswordUsuario = function() {
-    let pass = document.getElementById('ajuste-nueva-pass').value;
-    if(pass.length < 6) return alert("Mínimo 6 caracteres.");
+window.vincularCorreoDesdeAjustes = function() {
+    let nuevoEmail = document.getElementById('ajuste-nuevo-correo').value.trim();
+    if (!nuevoEmail.includes('@')) return alert("Introduce un email válido.");
+    
     let user = firebase.auth().currentUser;
-    if(user) {
-        user.updatePassword(pass).then(() => {
-            alert("Contraseña cambiada con éxito.");
-            document.getElementById('ajuste-nueva-pass').value = '';
+    if (user) {
+        user.updateEmail(nuevoEmail).then(() => {
+            firebase.database().ref('users/' + user.uid).update({
+                emailReal: nuevoEmail,
+                cuentaProtegida: true
+            });
+            alert("✅ ¡Correo vinculado con éxito! Ya puedes usarlo para iniciar sesión o recuperar contraseñas.");
+            document.getElementById('ajuste-nuevo-correo').value = ""; 
         }).catch(e => {
-            if(e.code === 'auth/requires-recent-login') { alert("Por seguridad, debes cerrar sesión y volver a entrar antes de cambiar la contraseña."); } 
-            else { alert("Error: " + e.message); }
+            if(e.code === 'auth/requires-recent-login') {
+                alert("🔒 Por seguridad, Firebase pide que cierres sesión y vuelvas a entrar para cambiar tu correo.");
+            } else {
+                alert("Error: " + e.message);
+            }
         });
     }
+};
+
+window.enviarCorreoRecuperacion = function() {
+    let user = firebase.auth().currentUser;
+    if (!user) return;
+    
+    if (user.email && user.email.includes('@ajedrezgym.local')) {
+        alert("⚠️ No podemos enviarte el correo porque aún estás usando una cuenta antigua sin vincular. ¡Por favor, guarda tu correo real en la casilla de arriba primero!");
+        return;
+    }
+
+    firebase.auth().sendPasswordResetEmail(user.email).then(() => {
+        alert("📧 ¡Correo de recuperación enviado a " + user.email + "! Revisa tu bandeja de entrada (y la de SPAM) para cambiar tu contraseña de forma segura.");
+    }).catch(e => {
+        alert("Error al enviar el correo: " + e.message);
+    });
 };
 
 // 3. Interceptar el Sonido
@@ -431,15 +468,22 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                 </div>
 
-                <div class="seccion-ajuste">
-                    <label class="label-ajuste" style="color: #cc3333;">🔒 Cuenta y Seguridad</label>
-                    <div style="display:flex; gap:10px; margin-bottom:15px;">
-                        <input type="text" id="ajuste-nuevo-nombre" placeholder="Nuevo Nombre" style="flex:1; padding:10px; background:#111; color:#fff; border:1px solid #555; border-radius:4px;">
-                        <button onclick="cambiarNombreUsuario()" style="background:#cc3333; color:white; border:none; padding:10px 15px; border-radius:4px; cursor:pointer; font-weight:bold;">Cambiar</button>
+                <div class="seccion-ajuste" style="border: 1px solid #444; padding: 15px; border-radius: 8px; margin-bottom: 20px; text-align: left;">
+                    <h3 style="color: #cc3333; margin-top: 0; text-transform: uppercase;">🔒 Cuenta y Seguridad</h3>
+                    
+                    <div style="display: flex; gap: 10px; margin-bottom: 10px;">
+                        <input type="text" id="ajuste-nuevo-nombre" placeholder="Nuevo Nombre" style="flex:1; padding:10px; background:#111; color:#fff; border:1px solid #555; border-radius:4px; outline:none;">
+                        <button onclick="cambiarNombreUsuario()" style="background: #cc3333; color: white; border: none; padding: 10px 15px; border-radius: 4px; font-weight: bold; cursor: pointer; transition: 0.2s;">Cambiar</button>
                     </div>
-                    <div style="display:flex; gap:10px;">
-                        <input type="password" id="ajuste-nueva-pass" placeholder="Nueva Contraseña" style="flex:1; padding:10px; background:#111; color:#fff; border:1px solid #555; border-radius:4px;">
-                        <button onclick="cambiarPasswordUsuario()" style="background:#cc3333; color:white; border:none; padding:10px 15px; border-radius:4px; cursor:pointer; font-weight:bold;">Cambiar</button>
+
+                    <div style="display: flex; gap: 10px; margin-bottom: 15px;">
+                        <input type="email" id="ajuste-nuevo-correo" placeholder="Tu Correo Real (ej: tu@gmail.com)" style="flex:1; padding:10px; background:#111; color:#fff; border:1px solid #555; border-radius:4px; outline:none;">
+                        <button onclick="vincularCorreoDesdeAjustes()" style="background: #cc3333; color: white; border: none; padding: 10px 15px; border-radius: 4px; font-weight: bold; cursor: pointer; transition: 0.2s;">Guardar Correo</button>
+                    </div>
+
+                    <div style="border-top: 1px dashed #444; padding-top: 15px;">
+                        <button onclick="enviarCorreoRecuperacion()" style="width: 100%; background: #333; color: #fff; border: 1px solid #555; padding: 12px; border-radius: 4px; font-weight: bold; cursor: pointer; transition: 0.2s;" onmouseover="this.style.background='#444'" onmouseout="this.style.background='#333'">📧 Enviarme enlace para cambiar contraseña</button>
+                        <div style="font-size: 0.85em; color: #888; margin-top: 8px; text-align: center;">Te enviaremos un email seguro para que elijas una contraseña nueva.</div>
                     </div>
                 </div>
 

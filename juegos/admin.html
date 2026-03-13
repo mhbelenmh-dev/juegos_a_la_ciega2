@@ -16,29 +16,25 @@
         
         .container { max-width: 900px; margin: 0 auto; padding-bottom: 50px; }
         
-        /* CABECERA */
         .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #333; padding-bottom: 20px; margin-bottom: 30px; }
         .header h1 { color: var(--accent); margin: 0; text-transform: uppercase; letter-spacing: 2px; }
         .btn-volver { background: #111; color: var(--text); padding: 10px 15px; border-radius: 6px; text-decoration: none; border: 1px solid #444; transition: 0.2s; }
         .btn-volver:hover { border-color: var(--accent); color: #fff; }
 
-        /* TARJETAS */
         .card { background: var(--panel); padding: 25px; border-radius: 12px; border: 1px solid #444; margin-bottom: 25px; box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
         .card h2 { color: #fff; margin-top: 0; border-bottom: 1px dashed #444; padding-bottom: 10px; }
 
-        /* ESTADÍSTICAS */
         .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
         .stat-box { background: #111; padding: 20px; border-radius: 8px; text-align: center; border: 1px solid #333; }
         .stat-num { display: block; font-size: 3em; font-weight: bold; margin-bottom: 5px; }
 
-        /* FORMULARIO ANUNCIOS */
-        textarea { width: 100%; height: 120px; background: #111; color: #fff; border: 1px solid #555; border-radius: 8px; padding: 15px; box-sizing: border-box; font-size: 1.1em; resize: vertical; outline: none; transition: 0.3s; }
-        textarea:focus { border-color: var(--accent); }
+        textarea, select, input[type="text"] { width: 100%; background: #111; color: #fff; border: 1px solid #555; border-radius: 8px; padding: 15px; box-sizing: border-box; font-size: 1.1em; outline: none; transition: 0.3s; margin-top: 5px; }
+        textarea:focus, select:focus, input[type="text"]:focus { border-color: var(--accent); }
+        
         .btn-primary { background: var(--accent); color: #000; border: none; padding: 12px 25px; border-radius: 6px; font-weight: bold; font-size: 1.1em; cursor: pointer; margin-top: 15px; box-shadow: 0 4px 0 #b39500; transition: 0.2s; }
         .btn-primary:active { transform: translateY(4px); box-shadow: none; }
         .btn-primary:disabled { opacity: 0.7; cursor: not-allowed; transform: none; box-shadow: none; }
 
-        /* HISTORIAL DE MENSAJES */
         .msg-item { background: #111; border: 1px solid #333; border-radius: 8px; padding: 15px; margin-bottom: 15px; display: flex; flex-direction: column; gap: 10px; transition: 0.2s; }
         .msg-item:hover { border-color: #555; }
         .msg-header { display: flex; justify-content: space-between; align-items: center; font-size: 0.9em; color: #888; border-bottom: 1px solid #222; padding-bottom: 8px; }
@@ -49,10 +45,13 @@
         .msg-actions { display: flex; gap: 10px; border-top: 1px solid #222; padding-top: 10px; }
         .btn-action { padding: 8px 15px; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 0.9em; color: #fff; transition: 0.2s; }
         .btn-action:hover { filter: brightness(1.2); }
-        .btn-toggle { background: var(--blue); }
-        .btn-edit { background: #d48b00; }
-        .btn-delete { background: var(--red); }
         
+        /* ESTILOS DEL AUTOCOMPLETADO */
+        #sugerencias-usuarios { display: none; position: absolute; width: 100%; background: #222; border: 1px solid #555; border-radius: 4px; max-height: 200px; overflow-y: auto; z-index: 100; box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
+        .sugerencia-item { padding: 12px 15px; cursor: pointer; border-bottom: 1px solid #333; color: #fff; display: flex; align-items: center; gap: 10px; }
+        .sugerencia-item:hover { background: #333; color: var(--accent); }
+        .sugerencia-item:last-child { border-bottom: none; }
+
         #pantalla-bloqueo { position: fixed; top:0; left:0; width:100%; height:100%; background:var(--bg); z-index:9999; display:flex; justify-content:center; align-items:center; flex-direction:column; }
         .anim-pulso { animation: pulso 1.5s infinite; }
         @keyframes pulso { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
@@ -62,7 +61,7 @@
 
     <div id="pantalla-bloqueo">
         <div style="font-size: 4em; margin-bottom: 20px;" class="anim-pulso">🛡️</div>
-        <h2 style="color: var(--accent);">Verificando credenciales de administrador...</h2>
+        <h2 style="color: var(--accent);">Verificando credenciales...</h2>
     </div>
 
     <div class="container" id="admin-content" style="display: none;">
@@ -81,21 +80,37 @@
                 </div>
                 <div class="stat-box">
                     <span class="stat-num" id="online-users" style="color: var(--green);">0</span>
-                    Jugadores Online Ahora
+                    Jugadores Online
                 </div>
             </div>
         </div>
 
         <div class="card">
             <h2>📢 Nuevo Comunicado Global</h2>
-            <p style="margin-top:0; color:#aaa;">Escribe un mensaje. Al publicarlo, se activará automáticamente y aparecerá como un banner en la parte superior de la pantalla de todos los usuarios.</p>
-            <textarea id="nuevo-anuncio-texto" placeholder="Ejemplo: ¡Hola! Hemos añadido una nueva función en tu perfil..."></textarea>
+            
+            <div style="margin-bottom: 15px;">
+                <label style="color:#aaa; font-weight:bold;">¿A quién se lo enviamos?</label>
+                <select id="tipo-destino" onchange="document.getElementById('caja-destinos').style.display = this.value === 'especificos' ? 'block' : 'none'">
+                    <option value="todos">🌍 A todos los usuarios (Global)</option>
+                    <option value="especificos">🎯 A usuarios específicos...</option>
+                </select>
+            </div>
+
+            <div id="caja-destinos" style="display:none; margin-bottom: 15px; position: relative;">
+                <label style="color:#aaa; font-weight:bold;">Nombres de los jugadores:</label>
+                <input type="text" id="input-destinos" placeholder="Ejemplo: belen, carlos123, pedro" oninput="mostrarSugerencias(this.value)" autocomplete="off">
+                <div id="sugerencias-usuarios"></div>
+                <div style="font-size: 0.8em; color: #888; margin-top: 5px;">* Separa los nombres con comas. Empieza a escribir y haz clic en el nombre.</div>
+            </div>
+
+            <label style="color:#aaa; font-weight:bold;">Mensaje:</label>
+            <textarea id="nuevo-anuncio-texto" placeholder="Escribe aquí tu comunicado..." style="height: 120px;"></textarea>
+            
             <button class="btn-primary" id="btn-publicar" onclick="publicarAnuncio()">PUBLICAR MENSAJE</button>
         </div>
 
         <div class="card">
             <h2>🗄️ Historial de Comunicados</h2>
-            <p style="margin-top:0; color:#aaa;">Aquí puedes ver, modificar o borrar mensajes anteriores.</p>
             <div id="lista-historial">
                 <div style="text-align: center; color: #666; padding: 20px;">Cargando historial...</div>
             </div>
@@ -106,10 +121,9 @@
     <script src="utils.js"></script>
     
     <script>
-        // TU UID PERSONAL (Seguridad estricta)
         const ADMIN_UID = "Fdu0bzTttdMnwe40pBiP5UsqLQg1"; 
+        let listaUsuariosDb = []; // Guardaremos aquí todos los nombres de la base de datos
 
-        // 1. VERIFICACIÓN DE SEGURIDAD
         window.onload = () => {
             firebase.auth().onAuthStateChanged((user) => {
                 if (user && user.uid === ADMIN_UID) {
@@ -118,53 +132,124 @@
                     cargarEstadisticas();
                     cargarHistorial();
                 } else {
-                    alert("Acceso Denegado. Esta área es solo para el administrador.");
+                    alert("Acceso Denegado. Solo para el administrador.");
                     window.location.href = "index.html";
                 }
             });
         };
 
-        // 2. CARGAR ESTADÍSTICAS
+        // 1. CARGAMOS ESTADÍSTICAS Y GUARDAMOS LOS NOMBRES
         function cargarEstadisticas() {
             firebase.database().ref('users').on('value', snap => {
-                let total = 0;
-                let online = 0;
+                let total = 0, online = 0;
+                listaUsuariosDb = []; // Limpiamos la lista para actualizarla
+                
                 snap.forEach(child => {
                     total++;
-                    if(child.val().isOnline) online++;
+                    let u = child.val();
+                    if(u.isOnline) online++;
+                    if(u.nombreJugador) {
+                        listaUsuariosDb.push(u.nombreJugador);
+                    }
                 });
                 document.getElementById('total-users').innerText = total;
                 document.getElementById('online-users').innerText = online;
             });
         }
 
-        // 3. PUBLICAR ANUNCIO (Versión Moderna y Segura)
+        // 2. LÓGICA DE AUTOCOMPLETADO
+        function mostrarSugerencias(valor) {
+            let caja = document.getElementById('sugerencias-usuarios');
+            
+            // Si hay comas, nos quedamos solo con la última palabra que se está escribiendo
+            let partes = valor.split(',');
+            let palabraActual = partes[partes.length - 1].trim().toLowerCase();
+            
+            if (palabraActual.length < 1) {
+                caja.style.display = 'none';
+                return;
+            }
+
+            // Buscamos coincidencias en la lista global
+            let coincidencias = listaUsuariosDb.filter(nombre => nombre.toLowerCase().includes(palabraActual));
+            
+            if (coincidencias.length === 0) {
+                caja.style.display = 'none';
+                return;
+            }
+
+            let html = '';
+            // Mostramos un máximo de 8 resultados para no llenar la pantalla
+            coincidencias.slice(0, 8).forEach(nombre => {
+                html += `<div class="sugerencia-item" onclick="seleccionarUsuario('${nombre}')">👤 ${nombre}</div>`;
+            });
+            
+            caja.innerHTML = html;
+            caja.style.display = 'block';
+        }
+
+        function seleccionarUsuario(nombre) {
+            let input = document.getElementById('input-destinos');
+            let partes = input.value.split(',');
+            
+            // Borramos lo que estaba escribiendo a medias y ponemos el nombre completo
+            partes.pop(); 
+            // Si ya había otros nombres antes, dejamos un espacio bonito
+            let prefijo = partes.length > 0 ? " " : "";
+            partes.push(prefijo + nombre); 
+            
+            // Lo volvemos a juntar todo y añadimos una coma al final por si quiere poner otro
+            input.value = partes.join(',') + ", "; 
+            
+            // Escondemos las sugerencias y devolvemos el cursor a la caja
+            document.getElementById('sugerencias-usuarios').style.display = 'none';
+            input.focus();
+        }
+
+        // Cerramos la lista de sugerencias si hace clic fuera
+        document.addEventListener('click', function(e) {
+            if(e.target.id !== 'input-destinos') {
+                document.getElementById('sugerencias-usuarios').style.display = 'none';
+            }
+        });
+
+        // 3. PUBLICAR ANUNCIO
         function publicarAnuncio() {
             const txt = document.getElementById('nuevo-anuncio-texto').value.trim();
-            if (!txt) return; // Si no hay texto, no hace nada
+            if (!txt) return; 
+
+            const tipoDestino = document.getElementById('tipo-destino').value;
+            let listaNombres = [];
+            
+            if (tipoDestino === 'especificos') {
+                const rawDestinos = document.getElementById('input-destinos').value;
+                if(!rawDestinos.trim()) return alert("Por favor, escribe al menos un nombre de usuario.");
+                
+                // Limpiamos los nombres: separamos por coma, quitamos espacios y a minúsculas
+                listaNombres = rawDestinos.split(',').map(n => n.trim().toLowerCase()).filter(n => n.length > 0);
+            }
 
             const btn = document.getElementById('btn-publicar');
             const textoOriginal = "PUBLICAR MENSAJE";
             
-            // Efecto visual de carga
             btn.innerText = "⏳ PUBLICANDO...";
             btn.disabled = true;
             btn.style.background = "#555";
             btn.style.color = "#fff";
 
-            // Guardamos en Firebase
             firebase.database().ref('anuncio_global').push({
                 id: "msg_" + Date.now(),
                 texto: txt,
                 activo: true, 
-                timestamp: Date.now()
+                timestamp: Date.now(),
+                tipoDestino: tipoDestino,
+                listaDestinos: listaNombres
             }).then(() => {
-                // Éxito: Limpiamos y mostramos botón verde
                 document.getElementById('nuevo-anuncio-texto').value = ""; 
+                document.getElementById('input-destinos').value = "";
                 btn.innerText = "✅ ¡PUBLICADO!";
                 btn.style.background = "var(--green)";
                 
-                // Restauramos el botón después de 2 segundos
                 setTimeout(() => {
                     btn.innerText = textoOriginal;
                     btn.style.background = "var(--accent)";
@@ -173,8 +258,7 @@
                 }, 2000);
 
             }).catch(e => {
-                // Error
-                btn.innerText = "❌ ERROR AL PUBLICAR";
+                btn.innerText = "❌ ERROR";
                 btn.style.background = "var(--red)";
                 setTimeout(() => { 
                     btn.innerText = textoOriginal; 
@@ -185,7 +269,7 @@
             });
         }
 
-        // 4. CARGAR HISTORIAL (Con barreras anti-crashes)
+        // 4. HISTORIAL
         function cargarHistorial() {
             firebase.database().ref('anuncio_global').orderByChild('timestamp').on('value', snap => {
                 let html = '';
@@ -193,15 +277,12 @@
                 
                 snap.forEach(child => {
                     let msg = child.val();
-                    
-                    // BARRERA DE SEGURIDAD: Si el mensaje está corrupto, se salta
                     if (!msg || !msg.texto) return;
-                    
                     msg.key = child.key; 
                     anuncios.push(msg);
                 });
 
-                anuncios.reverse(); // El más nuevo arriba
+                anuncios.reverse(); 
 
                 if (anuncios.length === 0) {
                     html = '<div style="text-align: center; color: #666; padding: 20px;">No hay ningún mensaje válido en el historial.</div>';
@@ -209,24 +290,27 @@
                     anuncios.forEach(m => {
                         let fecha = new Date(m.timestamp).toLocaleString();
                         let badgeClass = m.activo ? 'status-active' : 'status-inactive';
-                        let badgeText = m.activo ? 'ACTIVO (Visible)' : 'ARCHIVADO (Oculto)';
-                        let toggleText = m.activo ? 'Desactivar 👁️‍🗨️' : 'Activar 👁️';
+                        let badgeText = m.activo ? 'ACTIVO' : 'OCULTO';
+                        let toggleText = m.activo ? 'Desactivar' : 'Activar';
                         let toggleColor = m.activo ? '#555' : 'var(--blue)';
                         
-                        // Limpiamos comillas raras para que no rompan el botón de Editar
                         let textoSeguro = (m.texto || "").replace(/`/g, "'").replace(/"/g, "&quot;").replace(/'/g, "\\'");
+                        
+                        let targetBadge = (!m.tipoDestino || m.tipoDestino === 'todos') 
+                            ? `<span style="background:var(--blue); color:#fff; padding:3px 8px; border-radius:4px; font-size:0.8em; font-weight:bold;">🌍 Todos</span>`
+                            : `<span style="background:#d48b00; color:#000; padding:3px 8px; border-radius:4px; font-size:0.8em; font-weight:bold;">🎯 Privado (${m.listaDestinos ? m.listaDestinos.length : 0} usuarios)</span>`;
 
                         html += `
                             <div class="msg-item" style="${m.activo ? 'border-left: 4px solid var(--green);' : 'opacity: 0.7;'}">
                                 <div class="msg-header">
-                                    <span>📅 ${fecha}</span>
+                                    <span>📅 ${fecha} &nbsp;&nbsp; ${targetBadge}</span>
                                     <span class="status-badge ${badgeClass}">${badgeText}</span>
                                 </div>
                                 <div class="msg-text">${m.texto}</div>
                                 <div class="msg-actions">
                                     <button class="btn-action" style="background:${toggleColor};" onclick="cambiarEstado('${m.key}', ${!m.activo})">${toggleText}</button>
-                                    <button class="btn-action btn-edit" onclick="editarTexto('${m.key}', '${textoSeguro}')">✏️ Editar</button>
-                                    <button class="btn-action btn-delete" onclick="borrarMensaje('${m.key}')">🗑️ Borrar</button>
+                                    <button class="btn-action" style="background:#d48b00;" onclick="editarTexto('${m.key}', '${textoSeguro}')">✏️ Editar</button>
+                                    <button class="btn-action" style="background:var(--red);" onclick="borrarMensaje('${m.key}')">🗑️ Borrar</button>
                                 </div>
                             </div>
                         `;
@@ -236,20 +320,17 @@
             });
         }
 
-        // 5. FUNCIONES DE CONTROL
-        function cambiarEstado(key, nuevoEstado) {
-            firebase.database().ref('anuncio_global/' + key).update({ activo: nuevoEstado });
-        }
-
+        function cambiarEstado(key, nuevoEstado) { firebase.database().ref('anuncio_global/' + key).update({ activo: nuevoEstado }); }
+        
         function editarTexto(key, textoAntiguo) {
             let nuevoTexto = prompt("Modifica el mensaje:", textoAntiguo);
             if (nuevoTexto !== null && nuevoTexto.trim() !== "") {
                 firebase.database().ref('anuncio_global/' + key).update({ texto: nuevoTexto.trim() });
             }
         }
-
+        
         function borrarMensaje(key) {
-            if (confirm("⚠️ ¿Estás totalmente segura de que quieres borrar este mensaje de la base de datos? Esto no se puede deshacer.")) {
+            if (confirm("⚠️ ¿Estás segura de borrar este mensaje?")) {
                 firebase.database().ref('anuncio_global/' + key).remove();
             }
         }
