@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administración | Mind's Eye</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛡️</text></svg>">
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+
+    <style>
+        :root { --bg: #1a1917; --panel: #262421; --accent: #e5bf00; --green: #629924; --red: #cc3333; --blue: #3692e7; --text: #bababa; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--bg); color: var(--text); padding: 20px; margin: 0; }
+        
+        .container { max-width: 900px; margin: 0 auto; padding-bottom: 50px; }
+        
+        /* CABECERA */
+        .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #333; padding-bottom: 20px; margin-bottom: 30px; }
+        .header h1 { color: var(--accent); margin: 0; text-transform: uppercase; letter-spacing: 2px; }
+        .btn-volver { background: #111; color: var(--text); padding: 10px 15px; border-radius: 6px; text-decoration: none; border: 1px solid #444; transition: 0.2s; }
+        .btn-volver:hover { border-color: var(--accent); color: #fff; }
+
+        /* TARJETAS */
+        .card { background: var(--panel); padding: 25px; border-radius: 12px; border: 1px solid #444; margin-bottom: 25px; box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
+        .card h2 { color: #fff; margin-top: 0; border-bottom: 1px dashed #444; padding-bottom: 10px; }
+
+        /* ESTADÍSTICAS */
+        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .stat-box { background: #111; padding: 20px; border-radius: 8px; text-align: center; border: 1px solid #333; }
+        .stat-num { display: block; font-size: 3em; font-weight: bold; margin-bottom: 5px; }
+
+        /* FORMULARIO ANUNCIOS */
+        textarea { width: 100%; height: 120px; background: #111; color: #fff; border: 1px solid #555; border-radius: 8px; padding: 15px; box-sizing: border-box; font-size: 1.1em; resize: vertical; outline: none; transition: 0.3s; }
+        textarea:focus { border-color: var(--accent); }
+        .btn-primary { background: var(--accent); color: #000; border: none; padding: 12px 25px; border-radius: 6px; font-weight: bold; font-size: 1.1em; cursor: pointer; margin-top: 15px; box-shadow: 0 4px 0 #b39500; transition: 0.2s; }
+        .btn-primary:active { transform: translateY(4px); box-shadow: none; }
+        .btn-primary:disabled { opacity: 0.7; cursor: not-allowed; transform: none; box-shadow: none; }
+
+        /* HISTORIAL DE MENSAJES */
+        .msg-item { background: #111; border: 1px solid #333; border-radius: 8px; padding: 15px; margin-bottom: 15px; display: flex; flex-direction: column; gap: 10px; transition: 0.2s; }
+        .msg-item:hover { border-color: #555; }
+        .msg-header { display: flex; justify-content: space-between; align-items: center; font-size: 0.9em; color: #888; border-bottom: 1px solid #222; padding-bottom: 8px; }
+        .status-badge { padding: 4px 8px; border-radius: 20px; font-weight: bold; font-size: 0.85em; color: #fff; }
+        .status-active { background: var(--green); }
+        .status-inactive { background: #555; }
+        .msg-text { color: #fff; font-size: 1.1em; line-height: 1.5; padding: 10px 0; word-wrap: break-word; }
+        .msg-actions { display: flex; gap: 10px; border-top: 1px solid #222; padding-top: 10px; }
+        .btn-action { padding: 8px 15px; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 0.9em; color: #fff; transition: 0.2s; }
+        .btn-action:hover { filter: brightness(1.2); }
+        .btn-toggle { background: var(--blue); }
+        .btn-edit { background: #d48b00; }
+        .btn-delete { background: var(--red); }
+        
+        #pantalla-bloqueo { position: fixed; top:0; left:0; width:100%; height:100%; background:var(--bg); z-index:9999; display:flex; justify-content:center; align-items:center; flex-direction:column; }
+        .anim-pulso { animation: pulso 1.5s infinite; }
+        @keyframes pulso { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+    </style>
+</head>
+<body>
+
+    <div id="pantalla-bloqueo">
+        <div style="font-size: 4em; margin-bottom: 20px;" class="anim-pulso">🛡️</div>
+        <h2 style="color: var(--accent);">Verificando credenciales de administrador...</h2>
+    </div>
+
+    <div class="container" id="admin-content" style="display: none;">
+        
+        <div class="header">
+            <h1>🛡️ Centro de Mando</h1>
+            <a href="index.html" class="btn-volver">← Volver a Mind's Eye</a>
+        </div>
+
+        <div class="card">
+            <h2>📊 Resumen de la Comunidad</h2>
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <span class="stat-num" id="total-users" style="color: var(--blue);">0</span>
+                    Usuarios Registrados
+                </div>
+                <div class="stat-box">
+                    <span class="stat-num" id="online-users" style="color: var(--green);">0</span>
+                    Jugadores Online Ahora
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>📢 Nuevo Comunicado Global</h2>
+            <p style="margin-top:0; color:#aaa;">Escribe un mensaje. Al publicarlo, se activará automáticamente y aparecerá como un banner en la parte superior de la pantalla de todos los usuarios.</p>
+            <textarea id="nuevo-anuncio-texto" placeholder="Ejemplo: ¡Hola! Hemos añadido una nueva función en tu perfil..."></textarea>
+            <button class="btn-primary" id="btn-publicar" onclick="publicarAnuncio()">PUBLICAR MENSAJE</button>
+        </div>
+
+        <div class="card">
+            <h2>🗄️ Historial de Comunicados</h2>
+            <p style="margin-top:0; color:#aaa;">Aquí puedes ver, modificar o borrar mensajes anteriores.</p>
+            <div id="lista-historial">
+                <div style="text-align: center; color: #666; padding: 20px;">Cargando historial...</div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="utils.js"></script>
+    
+    <script>
+        // TU UID PERSONAL (Seguridad estricta)
+        const ADMIN_UID = "Fdu0bzTttdMnwe40pBiP5UsqLQg1"; 
+
+        // 1. VERIFICACIÓN DE SEGURIDAD
+        window.onload = () => {
+            firebase.auth().onAuthStateChanged((user) => {
+                if (user && user.uid === ADMIN_UID) {
+                    document.getElementById('pantalla-bloqueo').style.display = 'none';
+                    document.getElementById('admin-content').style.display = 'block';
+                    cargarEstadisticas();
+                    cargarHistorial();
+                } else {
+                    alert("Acceso Denegado. Esta área es solo para el administrador.");
+                    window.location.href = "index.html";
+                }
+            });
+        };
+
+        // 2. CARGAR ESTADÍSTICAS
+        function cargarEstadisticas() {
+            firebase.database().ref('users').on('value', snap => {
+                let total = 0;
+                let online = 0;
+                snap.forEach(child => {
+                    total++;
+                    if(child.val().isOnline) online++;
+                });
+                document.getElementById('total-users').innerText = total;
+                document.getElementById('online-users').innerText = online;
+            });
+        }
+
+        // 3. PUBLICAR ANUNCIO (Versión Moderna y Segura)
+        function publicarAnuncio() {
+            const txt = document.getElementById('nuevo-anuncio-texto').value.trim();
+            if (!txt) return; // Si no hay texto, no hace nada
+
+            const btn = document.getElementById('btn-publicar');
+            const textoOriginal = "PUBLICAR MENSAJE";
+            
+            // Efecto visual de carga
+            btn.innerText = "⏳ PUBLICANDO...";
+            btn.disabled = true;
+            btn.style.background = "#555";
+            btn.style.color = "#fff";
+
+            // Guardamos en Firebase
+            firebase.database().ref('anuncio_global').push({
+                id: "msg_" + Date.now(),
+                texto: txt,
+                activo: true, 
+                timestamp: Date.now()
+            }).then(() => {
+                // Éxito: Limpiamos y mostramos botón verde
+                document.getElementById('nuevo-anuncio-texto').value = ""; 
+                btn.innerText = "✅ ¡PUBLICADO!";
+                btn.style.background = "var(--green)";
+                
+                // Restauramos el botón después de 2 segundos
+                setTimeout(() => {
+                    btn.innerText = textoOriginal;
+                    btn.style.background = "var(--accent)";
+                    btn.style.color = "#000";
+                    btn.disabled = false;
+                }, 2000);
+
+            }).catch(e => {
+                // Error
+                btn.innerText = "❌ ERROR AL PUBLICAR";
+                btn.style.background = "var(--red)";
+                setTimeout(() => { 
+                    btn.innerText = textoOriginal; 
+                    btn.style.background = "var(--accent)";
+                    btn.style.color = "#000";
+                    btn.disabled = false; 
+                }, 3000);
+            });
+        }
+
+        // 4. CARGAR HISTORIAL (Con barreras anti-crashes)
+        function cargarHistorial() {
+            firebase.database().ref('anuncio_global').orderByChild('timestamp').on('value', snap => {
+                let html = '';
+                let anuncios = [];
+                
+                snap.forEach(child => {
+                    let msg = child.val();
+                    
+                    // BARRERA DE SEGURIDAD: Si el mensaje está corrupto, se salta
+                    if (!msg || !msg.texto) return;
+                    
+                    msg.key = child.key; 
+                    anuncios.push(msg);
+                });
+
+                anuncios.reverse(); // El más nuevo arriba
+
+                if (anuncios.length === 0) {
+                    html = '<div style="text-align: center; color: #666; padding: 20px;">No hay ningún mensaje válido en el historial.</div>';
+                } else {
+                    anuncios.forEach(m => {
+                        let fecha = new Date(m.timestamp).toLocaleString();
+                        let badgeClass = m.activo ? 'status-active' : 'status-inactive';
+                        let badgeText = m.activo ? 'ACTIVO (Visible)' : 'ARCHIVADO (Oculto)';
+                        let toggleText = m.activo ? 'Desactivar 👁️‍🗨️' : 'Activar 👁️';
+                        let toggleColor = m.activo ? '#555' : 'var(--blue)';
+                        
+                        // Limpiamos comillas raras para que no rompan el botón de Editar
+                        let textoSeguro = (m.texto || "").replace(/`/g, "'").replace(/"/g, "&quot;").replace(/'/g, "\\'");
+
+                        html += `
+                            <div class="msg-item" style="${m.activo ? 'border-left: 4px solid var(--green);' : 'opacity: 0.7;'}">
+                                <div class="msg-header">
+                                    <span>📅 ${fecha}</span>
+                                    <span class="status-badge ${badgeClass}">${badgeText}</span>
+                                </div>
+                                <div class="msg-text">${m.texto}</div>
+                                <div class="msg-actions">
+                                    <button class="btn-action" style="background:${toggleColor};" onclick="cambiarEstado('${m.key}', ${!m.activo})">${toggleText}</button>
+                                    <button class="btn-action btn-edit" onclick="editarTexto('${m.key}', '${textoSeguro}')">✏️ Editar</button>
+                                    <button class="btn-action btn-delete" onclick="borrarMensaje('${m.key}')">🗑️ Borrar</button>
+                                </div>
+                            </div>
+                        `;
+                    });
+                }
+                document.getElementById('lista-historial').innerHTML = html;
+            });
+        }
+
+        // 5. FUNCIONES DE CONTROL
+        function cambiarEstado(key, nuevoEstado) {
+            firebase.database().ref('anuncio_global/' + key).update({ activo: nuevoEstado });
+        }
+
+        function editarTexto(key, textoAntiguo) {
+            let nuevoTexto = prompt("Modifica el mensaje:", textoAntiguo);
+            if (nuevoTexto !== null && nuevoTexto.trim() !== "") {
+                firebase.database().ref('anuncio_global/' + key).update({ texto: nuevoTexto.trim() });
+            }
+        }
+
+        function borrarMensaje(key) {
+            if (confirm("⚠️ ¿Estás totalmente segura de que quieres borrar este mensaje de la base de datos? Esto no se puede deshacer.")) {
+                firebase.database().ref('anuncio_global/' + key).remove();
+            }
+        }
+    </script>
+</body>
+</html>

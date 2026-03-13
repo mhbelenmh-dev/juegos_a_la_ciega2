@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ajedrez Gym</title>
+    <title>Mind's Eye | Entrenamiento de Visualización de Ajedrez</title>
+    <meta name="description" content="Domina el tablero con ejercicios de cálculo ciego, memoria fotográfica y táctica visual">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>♞</text></svg>">
 
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
@@ -54,7 +55,7 @@
         .btn-modal { width: 100%; color: #fff; padding: 15px; border: none; border-radius: 6px; font-weight: bold; font-size: 1.1em; cursor: pointer; margin-bottom: 10px; transition: 0.2s; }
         .btn-modal:hover { filter: brightness(1.2); }
         .close-modal { position: absolute; top: 15px; right: 20px; font-size: 2em; cursor: pointer; color: #888; line-height: 1; }
-        .close-modal:hover { color: var(--danger); }
+        .close-modal:hover { color: var(--red); }
 
         /* PERFIL LIMPIO */
         .modal-perfil-contenido { max-width: 600px; width: 90%; max-height: 90vh; overflow-y: auto; text-align: left; }
@@ -75,6 +76,7 @@
         .anim-pulso { animation: pulso 1.5s infinite; }
         @keyframes pulso { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
         .oculto { display: none !important; }
+        .secure-account-box { margin-top: 20px; padding: 15px; border: 1px dashed var(--accent); border-radius: 8px; background: rgba(229, 191, 0, 0.05); text-align: left; }
 
         /* Estilos extra para los select del duelo */
         optgroup { background: #000; color: #888; font-style: normal; font-weight: bold; }
@@ -85,7 +87,7 @@
 <body>
 
     <div id="top-bar">
-        <a href="index.html" id="brand-logo">♞ </a>
+        <a href="index.html" id="brand-logo">♞</a>
 
         <div id="nav-menu">
             <a href="hub_basico.html" class="nav-link">TABLERO</a>
@@ -241,7 +243,7 @@
             <div style="font-size: 4em; margin-bottom: 10px;">♞</div>
             <h2 style="color:var(--accent); margin-top:0; text-transform: uppercase; letter-spacing: 2px;">Identificación</h2>
             <form onsubmit="event.preventDefault(); iniciarSesion();">
-                <input type="text" id="auth-user" class="input-modal" placeholder="Usuario" aria-label="Usuario" autocomplete="username" required>
+                <input type="text" id="auth-user" class="input-modal" placeholder="Usuario o Email" aria-label="Usuario" autocomplete="username" required>
             <input type="password" id="auth-pass" class="input-modal" placeholder="Contraseña" aria-label="Contraseña" autocomplete="current-password" required>
             <div id="auth-error" style="color:var(--danger); margin-bottom:15px; font-weight:bold;"></div>
                 <button type="submit" class="btn-modal" style="background:var(--blue);">INICIAR SESIÓN</button>
@@ -332,16 +334,101 @@
         let chatActivoUid = null;
 
         function generarEmailFalso(username) { return username.trim().toLowerCase().replace(/[^a-z0-9]/g, '') + "@ajedrezgym.local"; }
-        function iniciarSesion() { let u = document.getElementById('auth-user').value.trim(); let p = document.getElementById('auth-pass').value; if (u.length < 3) return; localStorage.setItem('nombre_temporal', u); firebase.auth().signInWithEmailAndPassword(generarEmailFalso(u), p).then(() => window.location.reload()).catch(e => document.getElementById('auth-error').innerText = "Usuario o contraseña incorrectos"); }
-        function registrarUsuario() { let u = document.getElementById('auth-user').value.trim(); let p = document.getElementById('auth-pass').value; if (u.length < 3 || p.length < 6) return document.getElementById('auth-error').innerText = "Mínimo 3 letras y 6 de pass"; localStorage.setItem('nombre_temporal', u); firebase.auth().createUserWithEmailAndPassword(generarEmailFalso(u), p).then(cred => cred.user.updateProfile({ displayName: u })).then(() => window.location.reload()).catch(e => document.getElementById('auth-error').innerText = "El usuario ya existe o error de red."); }
-        function cerrarSesion() { let user = firebase.auth().currentUser; if (user) firebase.database().ref('users/' + user.uid + '/isOnline').set(false); firebase.auth().signOut().then(() => { localStorage.clear(); window.location.reload(); }); }
-        function cerrarModal(id) { document.getElementById(id).style.display = 'none'; }
+       
+        function iniciarSesion() { 
+            let input = document.getElementById('auth-user').value.trim(); 
+            let p = document.getElementById('auth-pass').value; 
+            let errorDiv = document.getElementById('auth-error');
+
+            if (input.length < 3) return; 
+
+            // 1. Si el usuario pone un correo real (contiene @), entra directo
+            if (input.includes('@')) {
+                firebase.auth().signInWithEmailAndPassword(input, p)
+                    .then(() => window.location.reload())
+                    .catch(e => errorDiv.innerText = "Correo o contraseña incorrectos");
+                return;
+            }
+
+            // 2. Si pone un NOMBRE, probamos primero con el email falso (para cuentas viejas)
+            let emailFalso = generarEmailFalso(input);
+    
+            firebase.auth().signInWithEmailAndPassword(emailFalso, p)
+                .then(() => {
+                    localStorage.setItem('nombre_temporal', input);
+                    window.location.reload();
+                })
+                .catch(error => {
+                    // 3. SI EL FALSO FALLA: Buscamos en la base de datos si este nombre tiene un email real vinculado
+                    firebase.database().ref('users').orderByChild('nombreJugadorLower').equalTo(input.toLowerCase()).once('value', snap => {
+                        if (snap.exists()) {
+                            let uid = Object.keys(snap.val())[0];
+                            let datos = snap.val()[uid];
+                            let emailReal = datos.emailReal;
+
+                            if (emailReal) {
+                                // Intentamos entrar con el email real que hemos encontrado
+                                firebase.auth().signInWithEmailAndPassword(emailReal, p)
+                                    .then(() => {
+                                        localStorage.setItem('nombre_temporal', input);
+                                        window.location.reload();
+                                    })
+                                    .catch(e => errorDiv.innerText = "Contraseña incorrecta para " + input);
+                            } else {
+                                errorDiv.innerText = "Usuario o contraseña incorrectos";
+                            }
+                        } else {
+                            errorDiv.innerText = "El usuario '" + input + "' no existe";
+                        }
+                    });
+                });
+        }
+
+
+
+
+
+
+        function registrarUsuario() { 
+            let u = document.getElementById('auth-user').value.trim(); 
+            let p = document.getElementById('auth-pass').value; 
+            if (u.length < 3 || p.length < 6) 
+            return document.getElementById('auth-error').innerText = "Mínimo 3 letras y 6 de pass"; 
+            localStorage.setItem('nombre_temporal', u); 
+            firebase.auth().createUserWithEmailAndPassword(generarEmailFalso(u), p).then(cred => cred.user.updateProfile({ displayName: u })).then(() => window.location.reload()).catch(e => document.getElementById('auth-error').innerText = "El usuario ya existe o error de red."); 
+        }
+
+        function cerrarSesion() { 
+            let user = firebase.auth().currentUser; 
+            if (user) firebase.database().ref('users/' + user.uid + '/isOnline').set(false); 
+            firebase.auth().signOut().then(() => { localStorage.clear(); window.location.reload();}); 
+        }
+
+        function cerrarModal(id) { 
+            document.getElementById(id).style.display = 'none'; 
+        }
+
+        function vincularEmailReal() {
+            const nuevoEmail = document.getElementById('input-email-real').value;
+            if(!nuevoEmail.includes('@')) return alert("Introduce un email válido");
+            
+            var user = firebase.auth().currentUser;
+            user.updateEmail(nuevoEmail).then(() => {
+                firebase.database().ref('users/' + user.uid).update({ 
+                    emailReal: nuevoEmail,
+                    cuentaProtegida: true 
+                });
+                alert("¡Cuenta asegurada! Ahora puedes entrar con tu email.");
+                abrirMiPerfil(); // Recargamos el modal
+            }).catch(e => alert("Error: " + e.message + " (Prueba a cerrar sesión y volver a entrar antes de vincular)"));
+        }
 
         // ==========================================
         // INICIALIZACIÓN, RACHA Y BAÚL
         // ==========================================
         window.onload = () => {
             if (typeof firebase !== 'undefined' && firebase.auth) {
+                escucharAnuncios();
                 firebase.auth().onAuthStateChanged((user) => {
                     if (user) {
                         let nombre = localStorage.getItem('nombre_temporal') || user.displayName || 'Jugador';
@@ -517,9 +604,16 @@
                 document.getElementById(idContenedor).innerHTML = html;
             });
         }
+
         function abrirMiPerfil() {
             let p = obtenerPerfil(); 
+            let user = firebase.auth().currentUser;
+            // Comprobamos si el usuario aún tiene el correo falso de @ajedrezgym.local
+            let esEmailFalso = user && user.email && user.email.includes('@ajedrezgym.local');
+
             let xpInfo = (typeof window.obtenerInfoRango === 'function') ? window.obtenerInfoRango(p.xpTotal || 0) : { nombre: 'Jugador', icono: '♟️', color: '#fff' };
+            
+            // --- AQUÍ ESTABA EL ERROR: He añadido el cierre ` al final de este bloque ---
             let html = `
                 <div class="profile-header" style="justify-content: space-between;">
                     <h1 style="margin:0; color:var(--accent); font-size:2.5em;">👤 ${p.nombreJugador}</h1>
@@ -532,9 +626,26 @@
                     <h3 style="margin-top:0; color:var(--blue); border-bottom:1px solid #444; padding-bottom:10px; text-align:center;">📊 Estadísticas Principales</h3>
                     <div class="activity-item"><span>🔥 Constancia:</span> <strong style="color:#ff6600;">Racha de ${p.rachaDias || 0} Días</strong></div>
                     <div class="activity-item" style="border-bottom:none;"><span>⚡ Récord Arcade:</span> <strong style="color:var(--accent);">${p.arcadeGlobalMax || 0} Pts</strong></div>
-                </div>
+                </div>`; 
+
+            // SI EL EMAIL ES FALSO, MOSTRAMOS EL BLOQUE DE SEGURIDAD
+            if (esEmailFalso) {
+                html += `
+                    <div class="secure-account-box" style="max-width: 500px; margin: 20px auto 0;">
+                        <h4 style="margin:0 0 10px 0; color:var(--accent); text-align:center;">🛡️ Asegura tu cuenta profesional</h4>
+                        <p style="font-size:0.9em; margin-bottom:10px; color:#ddd;">Añade un email real para poder recuperar tu contraseña y no perder nunca tu XP.</p>
+                        <input type="email" id="input-email-real" class="input-modal" style="margin-bottom:10px;" placeholder="Tu email real...">
+                        <button onclick="vincularEmailReal()" class="btn-modal" style="background:var(--accent); color:#000; margin:0; box-shadow: 0 4px 0 #b39500;">VINCULAR CORREO</button>
+                    </div>
+                `;
+            } else {
+                html += `<div style="text-align:center; margin-top:20px; color:var(--green); font-weight:bold;">✅ Cuenta protegida con email: ${user.email}</div>`;
+            }
+
+            html += `
                 <div style="display: flex; gap: 15px; margin-top: 15px;">
                     <button class="btn-modal" style="background:#444; color:white; width:100%; padding:15px; margin:0; transition:0.2s;" onmouseover="this.style.background='#555'" onmouseout="this.style.background='#444'" onclick="document.getElementById('btn-ajustes-flotante').click(); cerrarModal('modal-perfil');">⚙️ Ajustes</button>
+                    <button class="btn-modal" style="background:#444; color:white; width:100%; padding:15px; margin:0; transition:0.2s;" onmouseover="this.style.background='#555'" onmouseout="this.style.background='#444'" onclick="cerrarModal('modal-perfil')">Cerrar</button>
                 </div>
             `;
             document.getElementById('perfil-ajeno-body').innerHTML = html; 
@@ -626,7 +737,7 @@
             });
         }
 
-function abrirChat(uid, nombre) {
+        function abrirChat(uid, nombre) {
             chatActivoUid = uid; 
             document.getElementById('modal-perfil').style.display = 'none';
             
@@ -758,6 +869,66 @@ function abrirChat(uid, nombre) {
             let miUid = localStorage.getItem('current_user_uid');
             firebase.database().ref('invitaciones/' + miUid).remove();
             cerrarModal('modal-invitacion');
+        }
+
+        // Escuchador del Anuncio Global (VERSIÓN HISTORIAL)
+        function escucharAnuncios() {
+            // Leemos la lista de anuncios (los últimos 10)
+            firebase.database().ref('anuncio_global').limitToLast(10).on('value', snap => {
+                if (!snap.exists()) return;
+                
+                let anuncios = [];
+                // Recorremos todos los mensajes de la lista
+                snap.forEach(child => {
+                    let a = child.val();
+                    // Guardamos solo los que tienen la etiqueta de "activo" (verde en tu panel)
+                    if (a && a.activo) {
+                        anuncios.push(a);
+                    }
+                });
+
+                // Si hemos encontrado algún anuncio activo...
+                if (anuncios.length > 0) {
+                    // Cogemos el más reciente (el último de la lista)
+                    const data = anuncios[anuncios.length - 1];
+                    const ultimoLeido = localStorage.getItem('ultimo_anuncio_id');
+                    
+                    // Comprobamos si el usuario ya lo cerró dándole a la X
+                    if (ultimoLeido !== data.id) {
+                        // Lo mostramos en pantalla
+                        // Limpiamos comillas por seguridad
+                        let textoLimpio = (data.texto || "").replace(/`/g, "'");
+                        mostrarBannerAdmin(textoLimpio, data.id);
+                    }
+                }
+            });
+        }
+
+        function mostrarBannerAdmin(texto, id) {
+            // Eliminamos banner anterior si existe
+            const viejo = document.getElementById('admin-banner');
+            if(viejo) viejo.remove();
+
+            let banner = document.createElement('div');
+            banner.id = 'admin-banner';
+            banner.style = `
+                position: fixed; top: 80px; left: 50%; transform: translateX(-50%);
+                background: var(--panel); border: 2px solid var(--accent); color: #fff;
+                padding: 15px 25px; border-radius: 12px; z-index: 2000;
+                box-shadow: 0 10px 40px rgba(0,0,0,0.8); width: 90%; max-width: 600px;
+                display: flex; align-items: center; gap: 15px; border-left: 10px solid var(--accent);
+            `;
+    
+            banner.innerHTML = `
+                <div style="font-size: 2em;">📢</div>
+                <div style="flex-grow: 1; font-size: 0.95em; line-height: 1.4;">
+                    <strong style="color: var(--accent); display: block; margin-bottom: 3px;">MENSAJE DE BELÉN:</strong>
+                    ${texto}
+                </div>
+                <button onclick="this.parentElement.remove(); localStorage.setItem('ultimo_anuncio_id', '${id}')" 
+                style="background: transparent; border: none; color: #888; cursor: pointer; font-size: 1.5em;">&times;</button>
+            `;
+            document.body.appendChild(banner);
         }
     </script>
 </body>
