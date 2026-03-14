@@ -114,21 +114,21 @@
         <div id="ej2" class="ejercicio">
             <div class="instruccion">Escribe dónde acaban las diagonales:<br><span style="font-size: 0.7em; color: #888;">(Ej: e5 Solucion: a1 h8 b8 h2)</span></div>
             <div id="ej2-casilla" class="casilla-objetivo">D4</div>
-            <input type="text" id="ej2-input" placeholder="Respuesta..." autocomplete="off">
+            <input type="text" id="ej2-input" placeholder="a1 h8 b8 h2" autocomplete="off">
             <button class="btn-accion" onclick="verificarEj2()">Comprobar</button>
         </div>
 
         <div id="ej3" class="ejercicio">
-            <div class="instruccion">Ruta de Caballo sin obstáculos:<br><span style="font-size: 0.7em; color: #888;">(De A a B en saltos L: c3 d5)</span></div>
+            <div class="instruccion">Ruta de Caballo sin obstáculos:<br><span style="font-size: 0.7em; color: #888;">(Ej: a2 c5 Solucion: c3 a4)</span></div>
             <div class="info-panel">
                 <span id="ej3-inicio">A1</span> <span class="flecha">➡</span> <span id="ej3-fin">D4</span>
             </div>
-            <input type="text" id="ej3-input" placeholder="Respuesta..." autocomplete="off">
+            <input type="text" id="ej3-input" placeholder="c3 a4" autocomplete="off">
             <button class="btn-accion" onclick="verificarEj3()">Verificar Ruta</button>
         </div>
 
         <div id="ej4" class="ejercicio">
-            <div class="instruccion">Ruta de Caballo con obstáculos:</div>
+            <div class="instruccion">Ruta de Caballo con obstáculos:<br><span style="font-size: 0.7em; color: #888;">(Ej: a2 c5 con De6 Solucion: c3 a4)</span></div>
             <div class="info-panel">
                 <span id="ej4-inicio">--</span> <span class="flecha">➡</span> <span id="ej4-fin">--</span>
             </div>
@@ -138,7 +138,7 @@
                     <span id="ej4-enemigos" class="lista-piezas">--</span>
                 </div>
             </div>
-            <input type="text" id="ej4-input" placeholder="Respuesta..." autocomplete="off">
+            <input type="text" id="ej4-input" placeholder="c3 a4" autocomplete="off">
             <button class="btn-accion" onclick="verificarEj4()">Verificar Ruta</button>
         </div>
 
@@ -277,17 +277,30 @@
                 if(cf !== f || cr !== r) ej2_soluciones.push(String.fromCharCode(96+cf)+cr);
             });
         }
-        function verificarEj2() {
-            if(!juegoActivo) return;
-            let input = document.getElementById('ej2-input').value.toLowerCase();
-            let user = input.match(/[a-h][1-8]/g) || [];
-            if (ej2_soluciones.slice().sort().join(',') === user.slice().sort().join(',') && user.length > 0) {
-                reproducirSonido('correcto'); mostrarStatus("✅ Perfecto", "correcto");
-                avanzarMisionDiaria('geo');
-                sumarPuntosDuelo(100, 'medio', true); setTimeout(iniciarEj2, 800);
-            } else { reproducirSonido('incorrecto'); mostrarStatus("❌ Revisa", "incorrecto"); sumarPuntosDuelo(-20, 'medio', false); }
-        }
+function verificarEj2() {
+    if(!juegoActivo) return;
+    
+    let input = document.getElementById('ej2-input').value.toLowerCase();
+    
+    // Extraemos todas las casillas que escribió el usuario
+    let userBruto = input.match(/[a-h][1-8]/g) || [];
+    
+    // NUEVO: Filtramos la casilla de inicio. Si el usuario la puso, la quitamos para comparar.
+    let user = userBruto.filter(casilla => casilla !== ej2_cas);
 
+    // Comparamos usando el array filtrado, pero validamos que haya escrito al menos algo (userBruto.length > 0)
+    if (ej2_soluciones.slice().sort().join(',') === user.slice().sort().join(',') && userBruto.length > 0) {
+        reproducirSonido('correcto'); 
+        mostrarStatus("✅ Perfecto", "correcto");
+        avanzarMisionDiaria('geo');
+        sumarPuntosDuelo(100, 'medio', true); 
+        setTimeout(iniciarEj2, 800);
+    } else { 
+        reproducirSonido('incorrecto'); 
+        mostrarStatus("❌ Revisa", "incorrecto"); 
+        sumarPuntosDuelo(-20, 'medio', false); 
+    }
+}
         let ej3_ini = "", ej3_fin = "";
         function iniciarEj3() {
             if(!juegoActivo) return;
@@ -337,18 +350,45 @@
         function validarCamino(id, ini, fin, block, cb, pts, dif) {
             if(!juegoActivo) return;
             let ruta = document.getElementById(id).value.toLowerCase().match(/[a-h][1-8]/g) || [];
+
+            // 1. Si la PRIMERA casilla es la de INICIO, la quitamos
+            if (ruta.length > 0 && ruta[0] === ini) {
+                ruta.shift();
+            }
+            
+            // 2. Si la ÚLTIMA casilla es la de FIN, la quitamos
+            if (ruta.length > 0 && ruta[ruta.length - 1] === fin) {
+                ruta.pop();
+            }
+
             let full = [ini, ...ruta, fin];
+            
             for(let i=0; i<full.length-1; i++) {
                 let d = full[i], a = full[i+1];
                 let c1=d.charCodeAt(0), r1=parseInt(d.charAt(1)), c2=a.charCodeAt(0), r2=parseInt(a.charAt(1));
+                
+                // Verificamos si es un salto de caballo en "L"
                 if(!((Math.abs(c1-c2)===1 && Math.abs(r1-r2)===2) || (Math.abs(c1-c2)===2 && Math.abs(r1-r2)===1))) {
-                    reproducirSonido('incorrecto'); mostrarStatus("❌ Salto ilegal", "incorrecto"); sumarPuntosDuelo(-20, dif, false); return;
+                    reproducirSonido('incorrecto'); 
+                    mostrarStatus("❌ Salto ilegal", "incorrecto"); 
+                    sumarPuntosDuelo(-20, dif, false); 
+                    return;
                 }
-                if(block.has(a)) { reproducirSonido('incorrecto'); mostrarStatus("❌ Casilla vigilada", "incorrecto"); sumarPuntosDuelo(-20, dif, false); return; }
+                
+                // Verificamos si la casilla está bloqueada/vigilada
+                if(block.has(a)) { 
+                    reproducirSonido('incorrecto'); 
+                    mostrarStatus("❌ Casilla vigilada", "incorrecto"); 
+                    sumarPuntosDuelo(-20, dif, false); 
+                    return; 
+                }
             }
-            reproducirSonido('correcto'); mostrarStatus("✅ Ruta válida", "correcto");
+            
+            reproducirSonido('correcto'); 
+            mostrarStatus("✅ Ruta válida", "correcto");
             avanzarMisionDiaria('geo');
-            sumarPuntosDuelo(pts, dif, true); setTimeout(cb, 1000);
+            sumarPuntosDuelo(pts, dif, true); 
+            setTimeout(cb, 1000);
         }
 
         function rutaBFS(s, e, b) {

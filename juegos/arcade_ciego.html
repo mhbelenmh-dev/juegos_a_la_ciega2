@@ -360,11 +360,11 @@
                     inputHTML = trampaChrome + `<input type="text" id="ans-input" placeholder="a1 h8 a5 e1" ${atributosSeguros} onkeydown="if(event.key==='Enter') Game.check(this.value)">`; 
                 }
                 else if (ex.type === 'knight') { 
-                    contentHTML = `${ex.start.toUpperCase()} ➡ ${ex.end.toUpperCase()}`; extraHTML = "(Ruta de saltos intermedios)"; 
+                    contentHTML = `${ex.start.toUpperCase()} ➡ ${ex.end.toUpperCase()}`; extraHTML = "(Ej a2 f6 Solucion: c3 d5)"; 
                     inputHTML = trampaChrome + `<input type="text" id="ans-input" placeholder="c3 d5" ${atributosSeguros} onkeydown="if(event.key==='Enter') Game.check(this.value)">`; 
                 }
                 else if (ex.type === 'artillery') { 
-                    contentHTML = `${ex.start.toUpperCase()} ➡ ${ex.end.toUpperCase()}`; let enemyStr = ex.enemies.map(e => `${e.n} en ${e.c.toUpperCase()}`).join(', '); extraHTML = `⚠️ ${enemyStr}<br> (Evita las piezas enemigas)`; 
+                    contentHTML = `${ex.start.toUpperCase()} ➡ ${ex.end.toUpperCase()}`; let enemyStr = ex.enemies.map(e => `${e.n} en ${e.c.toUpperCase()}`).join(', '); extraHTML = `⚠️ ${enemyStr}<br> (Ej a2 f6 con Df4 Solucion: c3 d5)`; 
                     inputHTML = trampaChrome + `<input type="text" id="ans-input" placeholder="c3 d5" ${atributosSeguros} onkeydown="if(event.key==='Enter') Game.check(this.value)">`; 
                 }
                 document.getElementById('q-content').innerHTML = contentHTML; document.getElementById('q-extra').innerHTML = extraHTML; document.getElementById('input-container').innerHTML = inputHTML;
@@ -376,13 +376,37 @@
                 let isCorrect = false; const ex = this.currentExercise;
 
                 if (ex.type === 'color') { isCorrect = (userVal === ex.answer); }
-                else if (ex.type === 'diag') { let userArr = userVal.toLowerCase().match(/[a-h][1-8]/g) || []; let ansArr = ex.answer; isCorrect = (userArr.sort().join(',') === ansArr.sort().join(',') && userArr.length > 0); }
+                else if (ex.type === 'diag') { 
+                    let userBruto = userVal.toLowerCase().match(/[a-h][1-8]/g) || []; 
+                    // Filtramos la casilla de inicio (target) si el usuario la incluyó
+                    let userArr = userBruto.filter(casilla => casilla !== ex.target); 
+                    let ansArr = ex.answer; 
+                    // Validamos que haya escrito algo (userBruto > 0) y que coincidan las casillas filtradas
+                    isCorrect = (userArr.sort().join(',') === ansArr.sort().join(',') && userBruto.length > 0); 
+                }                
                 else if (ex.type === 'knight' || ex.type === 'artillery') {
-                    let userRoute = userVal.toLowerCase().match(/[a-h][1-8]/g) || []; let full = [ex.start, ...userRoute, ex.end]; isCorrect = true;
-                    if (userRoute.length === 0) { isCorrect = false; }
+                    let userRoute = userVal.toLowerCase().match(/[a-h][1-8]/g) || []; 
+                    
+                    // 1. Si la PRIMERA casilla que escribió el jugador es la de INICIO, la quitamos
+                    if (userRoute.length > 0 && userRoute[0] === ex.start) {
+                        userRoute.shift(); 
+                    }
+                    
+                    // 2. Si la ÚLTIMA casilla que escribió el jugador es la de FIN, la quitamos
+                    if (userRoute.length > 0 && userRoute[userRoute.length - 1] === ex.end) {
+                        userRoute.pop(); 
+                    }
+
+                    // Ahora sí armamos la ruta completa
+                    let full = [ex.start, ...userRoute, ex.end]; 
+                    isCorrect = true;                    
+                    // Validamos los saltos
                     for(let i=0; i<full.length-1; i++) {
-                        let c1=full[i].charCodeAt(0), r1=parseInt(full[i].charAt(1)); let c2=full[i+1].charCodeAt(0), r2=parseInt(full[i+1].charAt(1));
-                        let dC=Math.abs(c1-c2), dR=Math.abs(r1-r2); let esSaltoL = ((dC===1 && dR===2) || (dC===2 && dR===1));
+                        let c1=full[i].charCodeAt(0), r1=parseInt(full[i].charAt(1)); 
+                        let c2=full[i+1].charCodeAt(0), r2=parseInt(full[i+1].charAt(1));
+                        let dC=Math.abs(c1-c2), dR=Math.abs(r1-r2); 
+                        let esSaltoL = ((dC===1 && dR===2) || (dC===2 && dR===1));
+                        
                         if(!esSaltoL) { isCorrect = false; }
                         if(ex.type === 'artillery' && ex.banned.has(full[i+1])) { isCorrect = false; }
                     }
