@@ -65,7 +65,8 @@
         /* --- ESTILOS MODO TORNEO / ARCADE --- */
         #pantalla-carga { background: var(--panel-bg); padding: 40px; border-radius: 10px; margin-top: 20px; max-width: 500px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.5); width: 100%;}
         #lobby-torneo { background: var(--panel-bg); padding: 40px; border-radius: 12px; border: 2px solid var(--accent); max-width: 600px; width: 100%; text-align: center; margin-top: 20px; box-shadow: 0 15px 40px rgba(0,0,0,0.8); }
-        #codigo-input { background: #111; color: var(--accent); border: 2px dashed #555; font-size: 3em; font-family: 'Courier New', Courier, monospace; text-align: center; width: 200px; padding: 10px; border-radius: 8px; outline: none; margin: 10px 0 20px 0; font-weight: bold;}
+        /* Input transparente para que no sea editable */
+        #codigo-input { background: transparent; color: var(--accent); border: none; font-size: 4em; font-family: 'Courier New', monospace; text-align: center; width: 200px; padding: 0; outline: none; margin: 10px 0 20px 0; font-weight: bold; pointer-events: none;}
         .jugador-lobby { display: inline-block; background: #262421; border: 1px solid #444; padding: 8px 15px; margin: 5px; border-radius: 20px; font-weight: bold; color: #fff; }
         .btn-gran-fuego { background: var(--success); color: white; font-size: 1.8em; font-weight: bold; padding: 20px; width: 100%; border: none; border-radius: 8px; cursor: pointer; box-shadow: 0 6px 0 #4a751b; margin-top: 30px; text-transform: uppercase;}
         
@@ -88,24 +89,17 @@
 
     <h1 id="flash-title">📸 Flash Memory Pro</h1>
     
-    <div id="pantalla-carga">
-        <h2 style="color: var(--text); margin-top: 0;">Iniciando Configuración...</h2>
-        <button class="btn-inicio" style="background: var(--blue); color: white; padding: 15px;" onclick="iniciarPantallaJuego(false)">🎮 JUGAR EN SOLITARIO</button>
-        <hr style="border: 1px solid #444; margin: 25px 0;">
-        <button id="btn-torneo" class="btn-inicio" style="padding: 15px;" onclick="ejecutarLobby()">🏆 CREAR / UNIRSE A TORNEO</button>
-        <a href="hub_memoria.html" style="text-decoration:none;"><button style="background:#444; color:white; width:100%; padding:15px; margin-top: 20px; box-shadow: 0 4px 0 #222;">⬅ Volver al Menú</button></a>
-    </div>
 
     <div id="lobby-torneo" class="oculto">
         <h2 style="color: var(--accent); font-size: 2.5em; margin-top: 0;">SALA DE TORNEO</h2>
-        <p style="color: #aaa; font-size: 1.1em;">Comparte este código o escribe uno para unirte:</p>
-        <input type="text" id="codigo-input" maxlength="4" oninput="cambiarSalaTorneo(this.value)">
+        <p style="color: #aaa; font-size: 1.1em;">Código de la sala:</p>
+        <input type="text" id="codigo-input" maxlength="4" readonly>
         <div style="background: #111; border: 1px solid #333; border-radius: 8px; padding: 20px; min-height: 150px; text-align: left;">
             <div style="color: #888; font-weight: bold; margin-bottom: 10px; border-bottom: 1px solid #333; padding-bottom: 5px;">JUGADORES EN SALA:</div>
             <div id="lista-lobby">Cargando...</div>
         </div>
         <button class="btn-gran-fuego" onclick="empezarTorneoParaTodos()">🔥 ¡EMPEZAR AHORA! 🔥</button>
-        <button style="background:#444; color:white; padding:15px; width:100%; margin-top: 20px;" onclick="location.reload()">⬅ Salir del Lobby</button>
+        <button style="background:#444; color:white; padding:15px; width:100%; margin-top: 20px;" onclick="salirDelTorneo()">⬅ Salir del Lobby</button>
     </div>
 
     <div id="contenedor-juego" class="oculto">
@@ -169,7 +163,6 @@
                             <span class="stat-label" id="label-pts">Puntos</span>
                         </div>
                     </div>
-                    <a id="btn-back" href="hub_memoria.html" style="text-decoration:none;"><button style="background:#444; color:white; border:none; border-radius:6px; font-weight:bold; cursor:pointer; width:100%; margin-top:20px; padding:15px; box-shadow: 0 4px 0 #222;">⬅ Salir al Hub</button></a>
                 </div>
             </div>
         </div>
@@ -195,7 +188,7 @@
         <div id="lista-podio" style="width: 100%; display: flex; flex-direction: column; align-items: center;"></div>
         <div style="display: flex; gap: 20px; margin-top: 40px; flex-wrap: wrap; justify-content: center; width: 100%;">
             <button class="btn-gran-fuego" style="width: auto; min-width: 250px;" onclick="jugarRevancha()">🔄 Jugar Revancha</button>
-            <button class="btn-gran-fuego" style="background: #444; box-shadow: 0 6px 0 #222; width: auto; min-width: 250px;" onclick="location.reload()">⬅ Salir</button>
+            <button class="btn-gran-fuego" style="background: #444; box-shadow: 0 6px 0 #222; width: auto; min-width: 250px;" onclick="salirDelTorneo()">⬅ Salir</button>
         </div>
     </div>
 
@@ -205,7 +198,7 @@
     <script src="utils.js?v=2"></script>
 
     <script>
-        // ---------------- CEREBRO ARCADE VS ZEN ----------------
+        // ---------------- CEREBRO ARCADE VS ZEN Y TORNEOS ----------------
         const urlParams = new URLSearchParams(window.location.search);
         const modoJuego = urlParams.get('modo') || 'zen'; 
         const arcTime = parseInt(urlParams.get('time')) || 120;
@@ -220,24 +213,29 @@
 
         let refSalaTorneo = null; let intervaloTorneo = null;
 
-        // Auto-iniciar si venimos del Hub directamente en solitario
+        // Auto-iniciar directo desde el Hub
         window.onload = () => {
-            if (modoJuego !== 'zen') {
-                iniciarPantallaJuego(false);
+            const torneoId = urlParams.get('torneo');
+            if (torneoId) {
+                // Venimos directos del Hub de Torneos
+                ejecutarLobby(torneoId);
             } else {
-                // Dejamos que el usuario decida si Torneo o Solitario en Zen
-                document.getElementById('pantalla-carga').classList.remove('oculto');
+                // Venimos del Hub normal en solitario
+                iniciarPantallaJuego(false);
             }
         };
-
         // ---------------- TORNEO LOBBY ----------------
-        function ejecutarLobby() {
-            document.getElementById('pantalla-carga').classList.add('oculto');
+        function ejecutarLobby(codigoSalaPredefinido = null) {
             document.getElementById('lobby-torneo').classList.remove('oculto');
             document.getElementById('flash-title').style.display = 'none';
-            let codigoRandom = Math.floor(1000 + Math.random() * 9000).toString();
-            document.getElementById('codigo-input').value = codigoRandom;
-            cambiarSalaTorneo(codigoRandom);
+            
+            let codigo = codigoSalaPredefinido;
+            if (!codigo) {
+                codigo = Math.floor(1000 + Math.random() * 9000).toString();
+            }
+            
+            document.getElementById('codigo-input').value = codigo;
+            cambiarSalaTorneo(codigo);
         }
 
         function cambiarSalaTorneo(codigo) {
@@ -284,10 +282,28 @@
             });
         }
 
+        // 👇 PROTECCIÓN DE DOBLE CLIC Y USO DE TIEMPO REAL 👇
         function empezarTorneoParaTodos() {
-            if (!TorneoManager.codigoSala) return;
-            let tiempoFinal = Date.now() + 180000; 
-            firebase.database().ref(refSalaTorneo).update({ estado: 'jugando', tiempoFin: tiempoFinal });
+            if (!refSalaTorneo) return;
+            firebase.database().ref(refSalaTorneo + '/estado').once('value').then(snap => {
+                if (snap.val() !== 'jugando') {
+                    let msTotales = arcTime * 1000; 
+                    let tiempoFinal = Date.now() + msTotales;
+                    firebase.database().ref(refSalaTorneo).update({ estado: 'jugando', tiempoFin: tiempoFinal });
+                }
+            });
+        }
+
+        // 👇 SALIDA LIMPIA 👇
+        function salirDelTorneo() {
+            if (refSalaTorneo) {
+                let uid = localStorage.getItem('current_user_uid');
+                firebase.database().ref(`${refSalaTorneo}/jugadores/${uid}`).remove().then(() => {
+                    window.location.href = 'hub_torneos.html';
+                }).catch(() => window.location.href = 'hub_torneos.html');
+            } else {
+                window.location.href = 'hub_torneos.html';
+            }
         }
 
         // ---------------- RELOJ ARCADE ----------------
@@ -322,7 +338,6 @@
         // ---------------- JUEGO FLASH ----------------
         function iniciarPantallaJuego(esTorneo, tiempoFinMs = null) {
             juegoActivo = true;
-            document.getElementById('pantalla-carga').classList.add('oculto');
             document.getElementById('lobby-torneo').classList.add('oculto');
             document.getElementById('contenedor-juego').classList.remove('oculto');
             userBoard = Chessboard('myBoard', { position: 'empty', draggable: false, pieceTheme: pieceThemeUrl });
@@ -508,18 +523,25 @@
             document.getElementById('contenedor-juego').classList.add('oculto');
             document.getElementById('pantalla-podio').classList.remove('oculto');
             firebase.database().ref(refSalaTorneo).update({ estado: 'finalizado' });
-            firebase.database().ref(refSalaTorneo + '/jugadores').once('value').then(snap => {
-                let data = snap.val(); if(!data) return;
-                let lista = []; for(let key in data) { lista.push({ nombre: data[key].nombre, puntos: data[key].puntos || 0 }); }
-                lista.sort((a, b) => b.puntos - a.puntos);
-                let htmlPodio = "";
-                lista.forEach((j, i) => {
-                    let clase = i === 0 ? "podio-oro" : i === 1 ? "podio-plata" : i === 2 ? "podio-bronce" : "";
-                    let icono = i === 0 ? "👑" : i === 1 ? "🥈" : i === 2 ? "🥉" : "🏅";
-                    htmlPodio += `<div class="podio-fila ${clase}"><span>${icono} ${j.nombre}</span> <strong>${j.puntos} pts</strong></div>`;
+            
+            // 👇 MEJORA: Texto de carga
+            document.getElementById('lista-podio').innerHTML = "<div style='color:#888; font-size:1.2em; text-align:center;'>Calculando resultados fotográficos...</div>";
+
+            // 👇 MEJORA: Retraso anti-lag
+            setTimeout(() => {
+                firebase.database().ref(refSalaTorneo + '/jugadores').once('value').then(snap => {
+                    let data = snap.val(); if(!data) return;
+                    let lista = []; for(let key in data) { lista.push({ nombre: data[key].nombre, puntos: data[key].puntos || 0 }); }
+                    lista.sort((a, b) => b.puntos - a.puntos);
+                    let htmlPodio = "";
+                    lista.forEach((j, i) => {
+                        let clase = i === 0 ? "podio-oro" : i === 1 ? "podio-plata" : i === 2 ? "podio-bronce" : "";
+                        let icono = i === 0 ? "👑" : i === 1 ? "🥈" : i === 2 ? "🥉" : "🏅";
+                        htmlPodio += `<div class="podio-fila ${clase}"><span>${icono} ${j.nombre}</span> <strong>${j.puntos} pts</strong></div>`;
+                    });
+                    document.getElementById('lista-podio').innerHTML = htmlPodio;
                 });
-                document.getElementById('lista-podio').innerHTML = htmlPodio;
-            });
+            }, 1500);
         }
 
         function jugarRevancha() {

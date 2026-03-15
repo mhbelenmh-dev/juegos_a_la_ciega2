@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Central de Torneos</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>♞</text></svg>">
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+
+    <style>
+        :root {
+            --bg: #1a1917;
+            --panel: #262421;
+            --accent: #e5bf00;
+            --blue: #3692e7;
+            --green: #629924;
+            --red: #cc3333;
+            --purple: #8a2be2;
+            --text: #bababa;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* HEADER UNIFICADO */
+        #top-bar {
+            position: fixed; top: 0; left: 0; width: 100%; height: 70px;
+            background: #000; border-bottom: 1px solid #333;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 30px; box-sizing: border-box; z-index: 100;
+        }
+
+        #brand-logo { margin: 0; font-size: 1.8em; color: var(--accent); letter-spacing: 1px; text-shadow: 2px 2px 0px rgba(0,0,0,0.5); text-decoration: none;}
+
+        #nav-menu { display: flex; gap: 20px; align-items: center; }
+        .nav-link { color: var(--green); text-decoration: none; font-weight: bold; font-size: 1.1em; text-transform: uppercase; letter-spacing: 1px; transition: 0.2s; padding: 5px 10px; border-radius: 5px; white-space: nowrap; }
+        .nav-link:hover { color: #fff; background: rgba(98, 153, 36, 0.2); transform: scale(1.05); }
+
+        /* CONTENIDO PRINCIPAL */
+        #hub-container {
+            margin-top: 90px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            width: 100%;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+            box-sizing: border-box;
+            gap: 20px;
+        }
+
+        .hub-title { color: #fff; font-size: 3em; margin: 0; text-transform: uppercase; letter-spacing: 2px; text-shadow: 0 4px 10px rgba(0,0,0,0.8); text-align: center;}
+        .hub-subtitle { color: #c0c0c0; font-size: 1.2em; margin-top: 5px; font-weight: bold; text-align: center; margin-bottom: 30px;}
+
+        /* DISEÑO DE LAS DOS MITADES (UNIRSE VS CREAR) */
+        .modos-layout {
+            display: flex;
+            gap: 30px;
+            width: 100%;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: stretch;
+        }
+
+        .modo-card {
+            background: var(--panel); border: 1px solid #444; border-radius: 12px; padding: 30px;
+            width: 100%; max-width: 550px; box-shadow: 0 15px 30px rgba(0,0,0,0.6);
+            display: flex; flex-direction: column; box-sizing: border-box; text-align: center;
+        }
+
+        .modo-card.unirse { border-top: 4px solid var(--blue); }
+        .modo-card.crear { border-top: 4px solid var(--accent); }
+
+        .modo-title { font-size: 2em; font-weight: bold; margin-top: 0; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 10px;}
+        .unirse-title { color: var(--blue); }
+        .crear-title { color: var(--accent); }
+        .modo-desc { color: #aaa; font-size: 1.1em; line-height: 1.5; margin-bottom: 25px; flex-grow: 1;}
+
+        /* INPUT CÓDIGO */
+        #codigo-input {
+            background: #111; color: var(--blue); border: 2px dashed #555;
+            font-size: 3em; font-family: 'Courier New', monospace; text-align: center;
+            width: 80%; padding: 15px; border-radius: 8px; outline: none;
+            margin: 20px auto; font-weight: bold; text-transform: uppercase; transition: 0.3s;
+        }
+        #codigo-input:focus { border-color: var(--blue); box-shadow: 0 0 15px rgba(54, 146, 231, 0.3); }
+
+        /* GRID DE JUEGOS PARA CREAR */
+        .options-grid {
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); 
+            gap: 10px; width: 100%; margin-bottom: 20px;
+        }
+        
+        .option-card {
+            background: #1a1917; border: 2px solid #444; border-radius: 8px; padding: 12px 5px;
+            text-align: center; cursor: pointer; transition: 0.2s; user-select: none;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+        }
+        .option-card:hover { border-color: #888; transform: translateY(-2px); }
+        .option-card.selected { border-color: var(--accent); background: rgba(229, 191, 0, 0.1); box-shadow: 0 0 10px rgba(229, 191, 0, 0.3); }
+        
+        .option-icon { font-size: 2.2em; margin-bottom: 8px; display: block; text-shadow: 2px 2px 0 #000; }
+        .option-name { font-weight: bold; color: #fff; font-size: 0.8em; text-transform: uppercase;}
+
+        /* AJUSTES DE SALA */
+        .ajustes-sala {
+            background: #1a1917; padding: 20px; border-radius: 8px; border: 1px dashed #555;
+            margin-bottom: 25px; text-align: left;
+        }
+        .ajuste-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        .ajuste-item label { color: #ccc; font-weight: bold; font-size: 1.1em; }
+        .ajuste-item input, .ajuste-item select {
+            background: #111; color: var(--accent); border: 1px solid #444; padding: 10px;
+            border-radius: 6px; font-size: 1.1em; outline: none; font-weight: bold; text-align: center; font-family: 'Courier New', Courier, monospace;
+        }
+        .ajuste-item input:focus, .ajuste-item select:focus { border-color: var(--accent); }
+        .ajuste-item input { width: 80px; }
+        .ajuste-item select { width: 180px; font-family: 'Segoe UI', sans-serif; font-size: 1em; }
+
+        /* BOTONES */
+        .btn-accion {
+            width: 100%; color: white; border: none; padding: 20px; font-size: 1.3em; font-weight: bold;
+            border-radius: 8px; cursor: pointer; transition: 0.2s; text-transform: uppercase; letter-spacing: 1px; margin-top: auto;
+        }
+        .btn-unirse { background: var(--blue); box-shadow: 0 6px 0 #20629c; }
+        .btn-unirse:hover { filter: brightness(1.2); transform: translateY(-2px); box-shadow: 0 8px 0 #20629c; }
+        .btn-unirse:active { transform: translateY(4px); box-shadow: 0 2px 0 #20629c; }
+
+        .btn-crear { background: var(--accent); color: #000; box-shadow: 0 6px 0 #b39500; }
+        .btn-crear:hover { filter: brightness(1.1); transform: translateY(-2px); box-shadow: 0 8px 0 #b39500; }
+        .btn-crear:active { transform: translateY(4px); box-shadow: 0 2px 0 #b39500; }
+
+        .error-msg { color: var(--red); font-weight: bold; margin-top: 10px; height: 20px; }
+
+    </style>
+</head>
+
+<body>
+
+    <div id="top-bar">
+        <a href="index.html" id="brand-logo">♞</a>
+        <div id="nav-menu">
+            <a href="hub_basico.html" class="nav-link">TABLERO</a>
+            <a href="hub_memoria.html" class="nav-link">MEMORIA</a>
+            <a href="hub_tactica.html" class="nav-link">TÁCTICA</a>
+            <a href="hub_torneos.html" class="nav-link" style="color: #fff; border-bottom: 2px solid var(--accent);">TORNEOS</a>
+            <a href="analisis.html" class="nav-link">ANÁLISIS</a>
+            <a href="bot_ciego.html" class="nav-link">JUGAR</a>
+            <a href="baul.html" class="nav-link">📦 BAÚL</a>
+        </div>
+        <div style="display: flex; align-items: center; gap: 15px;">
+            <button onclick="window.location.href='index.html'" style="background: #444; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; transition: 0.2s;" onmouseover="this.style.background='#555'" onmouseout="this.style.background='#444'">⬅ Volver al Inicio</button>
+        </div>
+    </div>
+
+    <div id="hub-container">
+        
+        <div>
+            <h1 class="hub-title">🏆 Arena Multijugador</h1>
+            <p class="hub-subtitle">Únete a una sala existente o crea tu propio torneo privado.</p>
+        </div>
+
+        <div class="modos-layout">
+            
+            <div class="modo-card unirse">
+                <h2 class="modo-title unirse-title">📡 Unirse a Sala</h2>
+                <div class="modo-desc">
+                    ¿Te han invitado? Introduce el código de 4 dígitos para entrar directamente al lobby del torneo.
+                </div>
+                
+                <input type="text" id="codigo-input" maxlength="4" placeholder="0000" autocomplete="off">
+                <div id="error-unirse" class="error-msg"></div>
+
+                <button class="btn-accion btn-unirse" onclick="unirseTorneo()">ENTRAR A LA SALA ➡</button>
+            </div>
+
+            <div class="modo-card crear">
+                <h2 class="modo-title crear-title">🔥 Crear Torneo</h2>
+                <div class="modo-desc" style="margin-bottom: 10px;">
+                    Elige la modalidad y ajusta las reglas para tus amigos.
+                </div>
+
+                <div class="options-grid">
+                    <div class="option-card selected" onclick="seleccionarJuego('juego.html?vis=completo', this)">
+                        <span class="option-icon">👁️</span>
+                        <div class="option-name">Tác. Normal</div>
+                    </div>
+                    <div class="option-card" onclick="seleccionarJuego('juego.html?vis=vacio', this)">
+                        <span class="option-icon">👻</span>
+                        <div class="option-name">Tác. Fantasma</div>
+                    </div>
+                    <div class="option-card" onclick="seleccionarJuego('juego_ciego.html?nada=nada', this)">
+                        <span class="option-icon">🦇</span>
+                        <div class="option-name">Cálc. Ciego</div>
+                    </div>
+                    
+                    <div class="option-card" onclick="seleccionarJuego('arcade_ciego.html?b1=2&p1=5&b2=5&p2=10&b3=10&p3=15&b4=15&p4=20', this)">
+                        <span class="option-icon">🌍</span>
+                        <div class="option-name">Arcade Tablero</div>
+                    </div>
+
+                    <div class="option-card" onclick="seleccionarJuego('juego_radar.html?modo=arcade', this)">
+                        <span class="option-icon">📡</span>
+                        <div class="option-name">Radar Visual</div>
+                    </div>
+                    <div class="option-card" onclick="seleccionarJuego('juego_flash.html?modo=arcade', this)">
+                        <span class="option-icon">📸</span>
+                        <div class="option-name">Flash Memory</div>
+                    </div>
+                    <div class="option-card" onclick="seleccionarJuego('juego_memoria2.html?modo=arcade', this)">
+                        <span class="option-icon">🧠</span>
+                        <div class="option-name">Memoria Pro</div>
+                    </div>
+                    <div class="option-card" onclick="seleccionarJuego('juego_lectura.html?modo=arcade', this)">
+                        <span class="option-icon">📖</span>
+                        <div class="option-name">Lector PGN</div>
+                    </div>
+                </div>
+
+                <div class="ajustes-sala">
+                    <div class="ajuste-item">
+                        <label>⏱️ Minutos por Ronda:</label>
+                        <input type="number" id="ajuste-minutos" value="3" min="1" max="60">
+                    </div>
+                    <div class="ajuste-item" id="contenedor-vidas" style="margin-bottom: 0;">
+                        <label>❤️ Modo de Vidas:</label>
+                        <select id="ajuste-vidas">
+                            <option value="infinito">♾️ Racha Infinita</option>
+                            <option value="tres">❤️ 3 Vidas (Survival)</option>
+                            <option value="muerte">💀 Muerte Súbita (1 Fallo)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button id="btn-crear" class="btn-accion btn-crear" onclick="crearTorneo()">GENERAR SALA 🏆</button>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="utils.js?v=3"></script>
+    <script>
+        let juegoSeleccionado = 'juego.html?vis=completo'; // Modo por defecto
+
+        // Efecto visual de selección en el grid de crear y ocultar vidas
+        function seleccionarJuego(urlParametros, elemento) {
+            juegoSeleccionado = urlParametros;
+            let tarjetas = document.getElementsByClassName('option-card');
+            for(let i = 0; i < tarjetas.length; i++) {
+                tarjetas[i].classList.remove('selected');
+            }
+            elemento.classList.add('selected');
+
+            // 👇 NUEVA LÓGICA: Ocultar o mostrar el selector de vidas 👇
+            let contenedorVidas = document.getElementById('contenedor-vidas');
+            if (urlParametros.includes('juego.html') || urlParametros.includes('juego_ciego.html')) {
+                // Es un juego de Táctica: Mostramos las vidas
+                contenedorVidas.style.display = 'flex';
+            } else {
+                // Es Arcade o Memoria: Ocultamos las vidas porque no las usan
+                contenedorVidas.style.display = 'none';
+            }
+        }
+
+        // --- LÓGICA DE FIREBASE ---
+
+        function crearTorneo() {
+            if (typeof firebase === 'undefined') return alert("Error conectando al servidor.");
+            
+            let btn = document.getElementById('btn-crear');
+            btn.innerText = "CREANDO...";
+            btn.disabled = true;
+
+            // 1. Recogemos los valores elegidos libremente por el Host
+            let mins = document.getElementById('ajuste-minutos').value || 3;
+            let vidasSeleccionadas = document.getElementById('ajuste-vidas').value;
+
+            // 2. Generamos código de 4 dígitos
+            let codigo = Math.floor(1000 + Math.random() * 9000).toString();
+            
+            // 3. Montamos la URL adaptándola al tipo de juego
+            let urlFinal = juegoSeleccionado;
+            
+            if (urlFinal.includes('juego.html') || urlFinal.includes('juego_ciego.html')) {
+                // Modos de Táctica: usan 'minutos' y 'vidas'
+                urlFinal += `&tiempo=global&vidas=${vidasSeleccionadas}&minutos=${mins}`;
+            } else {
+                // Modos de Memoria / Arcade: usan 'time' en segundos (minutos * 60)
+                let segundosTotales = mins * 60;
+                urlFinal += `&time=${segundosTotales}`;
+            }
+
+            // 4. Escribimos la configuración en Firebase
+            firebase.database().ref(`torneos/${codigo}/config`).set({
+                url: urlFinal,
+                estado: 'esperando',
+                creadoEn: Date.now()
+            }).then(() => {
+                // 5. Teletransporte mágico al Host agregando su código
+                window.location.href = urlFinal + `&torneo=${codigo}`;
+            }).catch(err => {
+                alert("Error creando la sala: " + err.message);
+                btn.innerText = "GENERAR SALA 🏆";
+                btn.disabled = false;
+            });
+        }
+
+        function unirseTorneo() {
+            if (typeof firebase === 'undefined') return alert("Error conectando al servidor.");
+            
+            let codigo = document.getElementById('codigo-input').value.trim();
+            let errorMsg = document.getElementById('error-unirse');
+            
+            if (codigo.length < 4) {
+                errorMsg.innerText = "El código debe tener 4 dígitos.";
+                return;
+            }
+
+            errorMsg.innerText = "Buscando sala...";
+            
+            // 1. Leemos la configuración de esa sala en Firebase
+            firebase.database().ref(`torneos/${codigo}/config`).once('value').then(snap => {
+                let config = snap.val();
+                
+                if (config && config.url) {
+                    // 2. ¡Sala encontrada! Teletransporte al invitado
+                    window.location.href = config.url + `&torneo=${codigo}`;
+                } else {
+                    errorMsg.innerText = "❌ Sala no encontrada o expirada.";
+                }
+            }).catch(err => {
+                errorMsg.innerText = "Error de conexión.";
+            });
+        }
+
+        // Permitir usar "Enter" en el input
+        document.getElementById("codigo-input").addEventListener("keyup", function(event) {
+            if (event.key === "Enter") unirseTorneo();
+        });
+    </script>
+</body>
+</html>

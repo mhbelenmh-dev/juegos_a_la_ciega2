@@ -71,7 +71,8 @@
 
         /* --- ESTILOS MODO TORNEO --- */
         #lobby-torneo { background: var(--panel-bg); padding: 40px; border-radius: 12px; border: 2px solid var(--accent); max-width: 600px; width: 100%; margin: 0 auto; box-shadow: 0 15px 40px rgba(0,0,0,0.8); }
-        #codigo-input { background: #111; color: var(--accent); border: 2px dashed #555; font-size: 3em; font-family: 'Courier New', monospace; text-align: center; width: 200px; padding: 10px; border-radius: 8px; outline: none; margin: 10px 0 20px 0; font-weight: bold;}
+        /* Actualizado para que no parezca un input editable */
+        #codigo-input { background: transparent; color: var(--accent); border: none; font-size: 4em; font-family: 'Courier New', monospace; text-align: center; width: 200px; padding: 0; outline: none; margin: 10px 0 20px 0; font-weight: bold; pointer-events: none;}
         .jugador-lobby { display: inline-block; background: #262421; border: 1px solid #444; padding: 8px 15px; margin: 5px; border-radius: 20px; font-weight: bold; color: #fff; }
         .btn-gran-fuego { background: var(--success); color: white; font-size: 1.8em; padding: 20px; width: 100%; border: none; border-radius: 8px; cursor: pointer; box-shadow: 0 6px 0 #4a751b; margin-top: 20px; text-transform: uppercase;}
 
@@ -106,14 +107,14 @@
 
     <div id="lobby-torneo" class="oculto">
         <h2 style="color: var(--accent); font-size: 2.5em; margin-top: 0;">SALA DE TORNEO</h2>
-        <p style="color: #aaa; font-size: 1.1em;">Comparte este código o escribe uno para unirte:</p>
-        <input type="text" id="codigo-input" maxlength="4" oninput="cambiarSalaTorneo(this.value)">
+        <p style="color: #aaa; font-size: 1.1em;">Código de la sala:</p>
+        <input type="text" id="codigo-input" maxlength="4" readonly>
         <div style="background: #111; border: 1px solid #333; border-radius: 8px; padding: 20px; min-height: 150px; text-align: left;">
             <div style="color: #888; font-weight: bold; margin-bottom: 10px; border-bottom: 1px solid #333; padding-bottom: 5px;">JUGADORES EN SALA:</div>
             <div id="lista-lobby">Cargando...</div>
         </div>
         <button class="btn-gran-fuego" onclick="empezarTorneoParaTodos()">🔥 ¡EMPEZAR AHORA! 🔥</button>
-        <button class="btn-skip" style="background:#444; box-shadow: 0 4px 0 #222; margin-top:20px;" onclick="location.reload()">⬅ Salir del Lobby</button>
+        <button class="btn-skip" style="background:#444; box-shadow: 0 4px 0 #222; margin-top:20px;" onclick="salirDelTorneo()">⬅ Salir del Lobby</button>
     </div>
 
     <div id="interfaz-juego" class="oculto">
@@ -170,9 +171,6 @@
                     <div id="ultimo-movimiento" class="oculto"></div>
                     <button id="btn-rendirse" class="btn-skip" onclick="rendirse()">🏳️ Me rindo (-5 pts)</button>
                     <button id="btn-siguiente" class="btn-verde oculto" onclick="cargarNuevoPuzzle()">Siguiente Puzzle ➡</button>
-                    
-                    <button class="btn-torneo" id="btn-torneo-sidebar" onclick="abrirLobbyTorneo()">🏆 Modo Torneo</button>
-                    <a id="btn-volver" href="hub_tactica.html" style="text-decoration:none;"><button class="btn-skip" style="background:#444; box-shadow: 0 4px 0 #222; margin-top:15px;">⬅ Cancelar Sesión</button></a>
                 </div>
             </div>
         </div>
@@ -199,7 +197,7 @@
         <div id="lista-podio" style="width: 100%; display: flex; flex-direction: column; align-items: center;"></div>
         <div style="display: flex; gap: 20px; margin-top: 40px; flex-wrap: wrap; justify-content: center; width: 100%;">
             <button id="btn-revancha-podio" class="btn-gran-fuego" style="width: auto; min-width: 250px; margin-top:0;" onclick="jugarRevancha()">🔄 Jugar Revancha</button>
-            <button class="btn-gran-fuego" style="background: #444; box-shadow: 0 6px 0 #222; width: auto; min-width: 250px; margin-top:0;" onclick="location.reload()">⬅ Salir</button>
+            <button class="btn-gran-fuego" style="background: #444; box-shadow: 0 6px 0 #222; width: auto; min-width: 250px; margin-top:0;" onclick="salirDelTorneo()">⬅ Salir</button>
         </div>
     </div>
 
@@ -245,16 +243,22 @@
             
             setTimeout(() => { if (typeof DueloManager !== 'undefined' && DueloManager.enDuelo) { refSalaChat = `duelos/${DueloManager.sala}/chat`; document.getElementById('btn-abrir-chat').style.display = 'block'; escucharChatSala(); } }, 1000); 
             
-            // --- INICIO CON SMART LOAD ---
             todosLosPuzzles = {};
-            empezarPartida(false);
+
+            // 👇 NUEVO CÓDIGO DE DETECCIÓN DE TORNEO 👇
+            const torneoId = urlParams.get('torneo');
+            if (torneoId) {
+                abrirLobbyTorneo(torneoId);
+            } else {
+                empezarPartida(false);
+            }
         };
 
         // ==========================================
         // GESTIÓN HUD Y GAME OVER (SURVIVAL Y TIEMPO)
         // ==========================================
         function actualizarHUDEntrenamiento() {
-            if (TorneoManager.enTorneo || (typeof DueloManager !== 'undefined' && DueloManager.enDuelo)) return;
+        //    if (TorneoManager.enTorneo || (typeof DueloManager !== 'undefined' && DueloManager.enDuelo)) return;
 
             if (modoVidas !== 'infinito') {
                 let corazones = "";
@@ -320,8 +324,8 @@
                 document.getElementById('btn-volver').style.display = 'none';
                 document.getElementById('btn-torneo-sidebar').style.display = 'none';
                 document.getElementById('timer-torneo').classList.remove('oculto');
-                document.getElementById('hud-entrenamiento').style.display = 'none';
-                
+                actualizarHUDEntrenamiento();
+
                 intervaloTorneo = setInterval(() => {
                     let tiempoRestante = Math.floor((tiempoFinMs - Date.now()) / 1000);
                     if (tiempoRestante <= 0) { clearInterval(intervaloTorneo); finalizarTorneoGlobal(); return; }
@@ -443,7 +447,7 @@
                     generarTextoPosicion(game.fen());
                 } else { 
                     aciertosTotal++;
-                    avanzarMisionDiaria('tactica'); // <--- AQUÍ VA LA LÍNEA MÁGICA
+                    avanzarMisionDiaria('tactica'); 
                     if (TorneoManager.enTorneo || (typeof DueloManager !== 'undefined' && DueloManager.enDuelo)) { 
                         puntosCiegosLocales += 15; if(TorneoManager.enTorneo) TorneoManager.enviarPuntos(puntosCiegosLocales); 
                     } else if (modoVidas === 'infinito') { 
@@ -458,21 +462,28 @@
                 
                 let solucionTexto = generarSolucionCompleta();
 
-                // --- NUEVO: GUARDAR FALLO EN EL BAÚL ---
                 if (typeof window.guardarFallo === 'function' && puzzleActual) {
                     let solucionCompleta = puzzleActual.moves.slice(indiceMovimiento).join(' ');
                     window.guardarFallo("Cálculo Puro", game.fen(), solucionCompleta, textoUsuario, puzzleActual.id);
                 }
-                // ---------------------------------------                // ---------------------------------------
+
+                // 👇 AQUI ESTÁ LA CORRECCIÓN DE LAS VIDAS 👇
+                if (modoVidas !== 'infinito') {
+                    vidasRestantes--; 
+                    actualizarHUDEntrenamiento();
+                    if (vidasRestantes <= 0) return gameOverEntrenamiento("Fallaste tu última vida.");
+                }
 
                 if (TorneoManager.enTorneo || (typeof DueloManager !== 'undefined' && DueloManager.enDuelo)) { 
-                    puntosCiegosLocales = Math.max(0, puntosCiegosLocales - 10); if(TorneoManager.enTorneo) TorneoManager.enviarPuntos(puntosCiegosLocales); 
-                } else if (modoVidas !== 'infinito') {
-                    vidasRestantes--; actualizarHUDEntrenamiento();
-                    if (vidasRestantes <= 0) return gameOverEntrenamiento("Fallaste tu última vida.");
-                } else { 
-                    puntosCiegosLocales = Math.max(0, puntosCiegosLocales - 10); actualizarEstadisticaGlobal('eloCiego', puntosCiegosLocales, false); registrarXP('maestro', false); try { actualizarEloJuego('ciego', puntosCiegosLocales, -10); } catch(e) {}
+                    puntosCiegosLocales = Math.max(0, puntosCiegosLocales - 10); 
+                    if(TorneoManager.enTorneo) TorneoManager.enviarPuntos(puntosCiegosLocales); 
+                } else if (modoVidas === 'infinito') { 
+                    puntosCiegosLocales = Math.max(0, puntosCiegosLocales - 10); 
+                    actualizarEstadisticaGlobal('eloCiego', puntosCiegosLocales, false); 
+                    registrarXP('maestro', false); 
+                    try { actualizarEloJuego('ciego', puntosCiegosLocales, -10); } catch(e) {}
                 }
+                // 👆 =================================== 👆
                 
                 mostrarResultado(false, `❌ Fallaste. Tú dijiste ${textoUsuario}.\n\nSolución correcta:\n${solucionTexto}`);
             }
@@ -491,26 +502,34 @@
 
         function hacerMovimiento(moveString) { let from = moveString.substring(0,2); let to = moveString.substring(2,4); let promotion = moveString.length > 4 ? moveString.substring(4,5) : 'q'; let move = game.move({ from: from, to: to, promotion: promotion }); return move ? move.san : moveString; }
 
-        function rendirse() { 
+            function rendirse() { 
             if(!juegoActivo) return;
             reproducirSonido('incorrecto');
             
             let solucionTexto = generarSolucionCompleta(); 
 
-            // --- NUEVO: GUARDAR FALLO EN EL BAÚL ---
             if (typeof window.guardarFallo === 'function' && puzzleActual) {
                 let solucionCompleta = puzzleActual.moves.slice(indiceMovimiento).join(' ');
                 window.guardarFallo("Cálculo Puro", game.fen(), solucionCompleta, "Me rendí", puzzleActual.id);
-            }            // ---------------------------------------
+            }
+
+            // 👇 AQUI ESTÁ LA CORRECCIÓN DE LAS VIDAS 👇
+            if (modoVidas !== 'infinito') {
+                vidasRestantes--; 
+                actualizarHUDEntrenamiento();
+                if (vidasRestantes <= 0) return gameOverEntrenamiento("Te has rendido sin vidas restantes.");
+            }
 
             if (TorneoManager.enTorneo || (typeof DueloManager !== 'undefined' && DueloManager.enDuelo)) { 
-                puntosCiegosLocales = Math.max(0, puntosCiegosLocales - 5); if(TorneoManager.enTorneo) TorneoManager.enviarPuntos(puntosCiegosLocales); 
-            } else if (modoVidas !== 'infinito') {
-                vidasRestantes--; actualizarHUDEntrenamiento();
-                if (vidasRestantes <= 0) return gameOverEntrenamiento("Te has rendido sin vidas restantes.");
-            } else { 
-                puntosCiegosLocales = Math.max(0, puntosCiegosLocales - 5); actualizarEstadisticaGlobal('eloCiego', puntosCiegosLocales, false); registrarXP('maestro', false); try { actualizarEloJuego('ciego', puntosCiegosLocales, -5); } catch(e) {}
+                puntosCiegosLocales = Math.max(0, puntosCiegosLocales - 5); 
+                if(TorneoManager.enTorneo) TorneoManager.enviarPuntos(puntosCiegosLocales); 
+            } else if (modoVidas === 'infinito') { 
+                puntosCiegosLocales = Math.max(0, puntosCiegosLocales - 5); 
+                actualizarEstadisticaGlobal('eloCiego', puntosCiegosLocales, false); 
+                registrarXP('maestro', false); 
+                try { actualizarEloJuego('ciego', puntosCiegosLocales, -5); } catch(e) {}
             }
+            // 👆 =================================== 👆
             
             mostrarResultado(false, `Te has rendido.\nSolución completa:\n${solucionTexto}`); 
         }
@@ -524,7 +543,6 @@
             document.getElementById('btn-rendirse').classList.add('oculto'); document.getElementById('btn-siguiente').classList.remove('oculto');
             document.getElementById('input-container').classList.add('oculto'); document.getElementById('ultimo-movimiento').classList.add('oculto');
             
-            // Si es torneo y acierta, que cargue automático para que no pierda tiempo dando clics
             if (TorneoManager.enTorneo && esCorrecto) { setTimeout(cargarNuevoPuzzle, 1000); }
         }
 
@@ -560,13 +578,24 @@
             }
         }
 
-        function abrirLobbyTorneo() {
+        // 👇 ADAPTADA PARA LEER EL CÓDIGO DE LA URL Y NO DEJAR EDITARLO 👇
+        function abrirLobbyTorneo(codigoSalaPredefinido = null) {
+            juegoActivo = false;
+            if (timerEntrenamiento) clearInterval(timerEntrenamiento);
+
             document.getElementById('interfaz-juego').classList.add('oculto'); 
             document.getElementById('lobby-torneo').classList.remove('oculto');
             document.getElementById('title-main').style.display = 'none';
-            let codigoRandom = Math.floor(1000 + Math.random() * 9000).toString();
-            document.getElementById('codigo-input').value = codigoRandom; 
-            cambiarSalaTorneo(codigoRandom);
+            
+            let codigo = codigoSalaPredefinido;
+            if (!codigo) {
+                codigo = Math.floor(1000 + Math.random() * 9000).toString();
+            }
+            
+            let inputLobby = document.getElementById('codigo-input');
+            inputLobby.value = codigo;
+            
+            cambiarSalaTorneo(codigo);        
         }
 
         function cambiarSalaTorneo(codigo) {
@@ -621,8 +650,15 @@
         }
 
         function empezarTorneoParaTodos() { 
-            let tiempoFinal = Date.now() + 180000; 
-            firebase.database().ref(refSalaTorneo).update({ estado: 'jugando', tiempoFin: tiempoFinal }); 
+            if (!refSalaTorneo) return;
+            firebase.database().ref(refSalaTorneo + '/estado').once('value').then(snap => {
+                if (snap.val() !== 'jugando') {
+                    // 👇 EN LUGAR DE ESTAR FIJO A 3 MINUTOS, RECOGE EL TIEMPO REAL DESDE LA URL 👇
+                    let msTotales = (minutosGlobal * 60 * 1000); 
+                    let tiempoFinal = Date.now() + msTotales;
+                    firebase.database().ref(refSalaTorneo).update({ estado: 'jugando', tiempoFin: tiempoFinal }); 
+                }
+            });
         }
 
         function finalizarTorneoGlobal() {
@@ -632,7 +668,11 @@
             document.getElementById('pantalla-podio').classList.remove('oculto');
             
             firebase.database().ref(refSalaTorneo).update({ estado: 'finalizado' });
-            firebase.database().ref(refSalaTorneo + '/jugadores').once('value').then(snap => {
+           
+           document.getElementById('lista-podio').innerHTML = "<div style='color:#888; font-size:1.2em; text-align:center;'>Calculando resultados a ciegas...</div>";
+
+           setTimeout(() => {
+                firebase.database().ref(refSalaTorneo + '/jugadores').once('value').then(snap => {
                 let data = snap.val(); 
                 if(!data) return; 
                 let lista = []; 
@@ -646,13 +686,30 @@
                     htmlPodio += `<div class="podio-fila ${i === 0 ? "podio-oro" : ""}"><span>${i === 0 ? "👑" : "🏅"} ${j.nombre}</span> <strong>${j.puntos} pts</strong></div>`; 
                 });
                 document.getElementById('lista-podio').innerHTML = htmlPodio;
-            });
+                });
+            }, 1500);
         }
 
         function jugarRevancha() { 
             document.getElementById('pantalla-podio').classList.add('oculto'); 
             document.getElementById('lobby-torneo').classList.remove('oculto'); 
             firebase.database().ref(refSalaTorneo).update({ estado: 'esperando', tiempoFin: null }); 
+
+            let uid = localStorage.getItem('current_user_uid');
+            firebase.database().ref(`${refSalaTorneo}/jugadores/${uid}/puntos`).set(0);
+            puntosCiegosLocales = 0;        
+        }
+
+        // 👇 NUEVA FUNCIÓN DE SALIDA QUE DEVUELVE AL HUB 👇
+        function salirDelTorneo() {
+            if (refSalaTorneo) {
+                let uid = localStorage.getItem('current_user_uid');
+                firebase.database().ref(`${refSalaTorneo}/jugadores/${uid}`).remove().then(() => {
+                    window.location.href = 'hub_torneos.html';
+                }).catch(() => window.location.href = 'hub_torneos.html');
+            } else {
+                window.location.href = 'hub_torneos.html';
+            }
         }
 
     </script>
