@@ -94,6 +94,8 @@
         .msg-to { align-self: flex-start; background: #5a3e8c; color: #fff; border-bottom-left-radius: 0; }
         #chat-input-container { padding: 10px; display: flex; gap: 10px; border-top: 1px solid #444; background: #262421; border-radius: 0 0 10px 10px; }
         #chat-input { flex-grow: 1; padding: 10px; background: #111; border: 1px solid #555; color: #fff; border-radius: 5px; outline: none; }
+        
+        .oculto { display: none !important; }
     </style>
 </head>
 
@@ -203,6 +205,10 @@
         const modoTiempo = urlParams.get('tiempo') || 'libre';
         const minutosGlobal = parseInt(urlParams.get('minutos')) || 3;
 
+        // 👇 NUEVAS VARIABLES PARA SEPARAR EL RANKING 👇
+        const claveEstadistica = modoVis === 'vacio' ? 'eloFantasma' : 'eloNormal';
+        const claveJuego = modoVis === 'vacio' ? 'fantasma' : 'storm';
+
         let vidasTotales = modoVidas === 'tres' ? 3 : (modoVidas === 'muerte' ? 1 : 999);
         let vidasRestantes = vidasTotales;
         let tiempoRestante = minutosGlobal * 60;
@@ -217,12 +223,16 @@
             // 1. Mostrar la pantalla del juego vacía mientras carga
             document.getElementById('pantalla-juego').classList.remove('oculto');
             
+            // 👇 CAMBIA EL TÍTULO SI ESTAMOS EN MODO FANTASMA 👇
+            if (modoVis === 'vacio') {
+                document.getElementById('titulo-principal').innerText = "👻 Táctica Fantasma 👻";
+            }
+
             // 2. Comprobar si venimos de un duelo para activar el chat
             setTimeout(() => { if (typeof DueloManager !== 'undefined' && DueloManager.enDuelo) { refSalaChat = `duelos/${DueloManager.sala}/chat`; document.getElementById('btn-abrir-chat').style.display = 'block'; escucharChatSala(); } }, 1000); 
             
             todosLosPuzzles = {}; 
             
-            // 👇 NUEVO CÓDIGO DE DETECCIÓN DE TORNEO 👇
             const torneoId = urlParams.get('torneo');
             if (torneoId) {
                 abrirLobbyTorneo(torneoId);
@@ -232,8 +242,6 @@
         };
 
         function actualizarHUDEntrenamiento() {
-          //  if (TorneoManager.enTorneo || (typeof DueloManager !== 'undefined' && DueloManager.enDuelo)) return;
-
             if (modoVidas !== 'infinito') {
                 let corazones = "";
                 for(let i=0; i<vidasRestantes; i++) corazones += "❤️";
@@ -275,8 +283,8 @@
             document.getElementById('go-score').innerText = misPuntosLocales;
             document.getElementById('go-puzzles').innerText = totalPuzzlesResueltos;
 
-            actualizarEstadisticaGlobal('eloNormal', misPuntosLocales, false);
-            try { actualizarEloJuego('storm', misPuntosLocales, misPuntosLocales); } catch(e) {}
+            actualizarEstadisticaGlobal(claveEstadistica, misPuntosLocales, false);
+            try { actualizarEloJuego(claveJuego, misPuntosLocales, misPuntosLocales); } catch(e) {}
         }
 
 
@@ -313,7 +321,7 @@
                     misPuntosLocales = 0;
                     if(document.getElementById('btn-saltar')) document.getElementById('btn-saltar').style.display = 'none'; 
                 } else {
-                    misPuntosLocales = obtenerPerfil().eloNormal || 1700;
+                    misPuntosLocales = obtenerPerfil()[claveEstadistica] || 1700;
                     document.getElementById('ratingDisplay').innerText = misPuntosLocales;
                 }
                 actualizarHUDEntrenamiento();
@@ -415,7 +423,56 @@
         function onDrop(source, target, piece) {
             let move = game.move({ from: source, to: target, promotion: 'q' }); 
             
-// 1. Quitar vida si toca (sea torneo o no)
+            if (move === null) {
+                if (source !== target) { 
+                    let turn = game.turn();
+                    let pieceColor = piece.charAt(0);
+                    
+                    if (pieceColor !== turn) {
+                        document.getElementById('status').innerHTML = `⚠️ Ilegal: Juegan <strong style="color:var(--accent);">${turn === 'w' ? 'BLANCAS' : 'NEGRAS'}</strong>`;
+                    } else {
+                        document.getElementById('status').innerHTML = `⚠️ Movimiento ilegal`;
+                    }
+                    
+                    document.getElementById('status').className = "incorrecto";
+                    
+                    setTimeout(() => {
+                        let st = document.getElementById('status').innerText;
+                        if (st.includes("Ilegal") || st.includes("ilegal")) {
+                            let currentTurn = game.turn() === 'w' ? 'BLANCAS' : 'NEGRAS';
+                            document.getElementById('status').innerHTML = `Juegan <strong style="color:var(--accent);">${currentTurn}</strong>`;
+                            document.getElementById('status').className = "";
+                        }
+                    }, 1500);
+                }
+                return 'snapback'; 
+            }
+
+            if ((source + target + (move.promotion || "")).startsWith(puzzleActual.moves[indiceMovimiento])) {
+                if (indiceMovimiento < puzzleActual.moves.length - 1) reproducirSonido('correcto');
+                indiceMovimiento++;
+                if (indiceMovimiento < puzzleActual.moves.length) { 
+                    setTimeout(() => { 
+                        hacerMovimiento(puzzleActual.moves[indiceMovimiento]); 
+                        board.position(game.fen()); 
+                        if(modoVis === 'vacio') generarTextoPosicion(game.fen());
+                        indiceMovimiento++; 
+                        if (indiceMovimiento >= puzzleActual.moves.length) puzzleFinalizado(); 
+                    }, 250); 
+                } else { puzzleFinalizado(); }
+            } else {
+                reproducirSonido('incorrecto'); game.undo(); 
+                
+                if (typeof window.guardarFallo === 'function' && puzzleActual) {
+                    let nombreModo = (modoVis === 'vacio') ? "Tablero Fantasma" : "Asalto Visual";
+                    let movFallado = source + target; 
+                    if (move.promotion) movFallado += move.promotion;
+                    
+                    let solucionCompleta = puzzleActual.moves.slice(indiceMovimiento).join(' ');
+                    window.guardarFallo(nombreModo, game.fen(), solucionCompleta, movFallado, puzzleActual.id);                
+                }
+                
+                // 1. Quitar vida si toca (sea torneo o no)
                 if (modoVidas !== 'infinito') {
                     vidasRestantes--;
                     actualizarHUDEntrenamiento();
@@ -430,12 +487,16 @@
                     if(TorneoManager.enTorneo) TorneoManager.enviarPuntos(misPuntosLocales); 
                 } else if (modoVidas === 'infinito') { 
                     misPuntosLocales -= 10; 
-                    actualizarEstadisticaGlobal('eloNormal', misPuntosLocales, false); 
-                    try { actualizarEloJuego('storm', misPuntosLocales, -10); } catch(e) {} 
+                    actualizarEstadisticaGlobal(claveEstadistica, misPuntosLocales, false); 
+                    try { actualizarEloJuego(claveJuego, misPuntosLocales, -10); } catch(e) {} 
                 }
                 
                 // 3. Salir para que no haga el salto rápido si estás en modo vidas
                 if (modoVidas !== 'infinito') return 'snapback';
+                
+                racha = 0; document.getElementById('rachaDisplay').innerText = racha; document.getElementById('ratingDisplay').innerText = misPuntosLocales;
+                document.getElementById('status').innerText = "❌ Incorrecto. SALTANDO."; setTimeout(cargarNuevoPuzzle, 500); return 'snapback';
+            }
         }
 
         function puzzleFinalizado() {
@@ -446,7 +507,7 @@
             if (TorneoManager.enTorneo || (typeof DueloManager !== 'undefined' && DueloManager.enDuelo)) { 
                 if(TorneoManager.enTorneo) TorneoManager.enviarPuntos(misPuntosLocales); 
             } else if (modoVidas === 'infinito') { 
-                actualizarEstadisticaGlobal('eloNormal', misPuntosLocales, false); registrarXP('avanzado', true); try { actualizarEloJuego('storm', misPuntosLocales, pts); } catch(e) {} 
+                actualizarEstadisticaGlobal(claveEstadistica, misPuntosLocales, false); registrarXP('avanzado', true); try { actualizarEloJuego(claveJuego, misPuntosLocales, pts); } catch(e) {} 
             }
             setTimeout(cargarNuevoPuzzle, 600);
         }
@@ -461,7 +522,7 @@
             misPuntosLocales = Math.max(0, misPuntosLocales - 5); racha = 0;
             document.getElementById('rachaDisplay').innerText = racha; document.getElementById('ratingDisplay').innerText = misPuntosLocales;
             if (TorneoManager.enTorneo) { TorneoManager.enviarPuntos(misPuntosLocales); } 
-            else if (!DueloManager.enDuelo && modoVidas === 'infinito') { actualizarEstadisticaGlobal('eloNormal', misPuntosLocales, false); try { actualizarEloJuego('storm', misPuntosLocales, -5); } catch(e) {} }
+            else if (!DueloManager.enDuelo && modoVidas === 'infinito') { actualizarEstadisticaGlobal(claveEstadistica, misPuntosLocales, false); try { actualizarEloJuego(claveJuego, misPuntosLocales, -5); } catch(e) {} }
             cargarNuevoPuzzle();
         }
 
@@ -597,7 +658,6 @@
             misPuntosLocales = 0;        
         }
 
-        // 👇 NUEVA FUNCIÓN DE SALIDA QUE DEVUELVE AL HUB 👇
         function salirDelTorneo() {
             if (refSalaTorneo) {
                 let uid = localStorage.getItem('current_user_uid');
