@@ -321,16 +321,53 @@
             
             let inputElement = document.getElementById('jugadaInput');
             let textoUsuario = inputElement.value.trim();
+            // --- MAGIA PARA EL ENROQUE ---
+            // Convierte los ceros en letras "O" mayúsculas automáticamente
+            textoUsuario = textoUsuario.replace(/0/g, 'O');
             if (!textoUsuario) return;
 
+            // 1. Quitar la 'P' o 'p' inicial de los peones (Pe4 -> e4, Pxd4 -> xd4, Pexd4 -> exd4)
+            textoUsuario = textoUsuario.replace(/^[Pp]([a-hA-H]?[xX]?[a-hA-H][1-8].*)$/, '$1');
+
+            // 2. MAGIA PARA CAPTURAS MUDAS (xd4, Xd4)
+            let matchCapturaMuda = textoUsuario.match(/^[xX]([a-hA-H][1-8])$/);
+            if (matchCapturaMuda) {
+                let casillaDestino = matchCapturaMuda[1].toLowerCase();
+                let jugadasLegales = game.moves({ verbose: true });
+        
+                // Buscamos qué peones pueden comer en esa casilla
+                let capturasPeon = jugadasLegales.filter(m => 
+                    m.piece === 'p' && 
+                    m.to === casillaDestino && 
+                    (m.flags.includes('c') || m.flags.includes('e'))
+                );
+        
+                if (capturasPeon.length === 1) {
+                    // Si solo un peón puede comer ahí, autocompletamos la jugada (ej: la pasa a "exd4")
+                    textoUsuario = capturasPeon[0].san; 
+                } 
+                // Nota: Si hay 2 peones que pueden comer ahí, no hacemos nada para que falle
+                // y el sistema te obligue a especificar (ej: cxd4 o exd4) para evitar errores.
+            }
+
+            // 3. Arreglar mayúsculas en peones simples (E4 -> e4). 
+            // OJO: Solo lo hacemos con B, E, F, G, H para no romper tus piezas en español (A=Alfil, C=Caballo, D=Dama)
+            if (textoUsuario.length === 2 && textoUsuario.match(/^[BEFGH][1-8]$/)) {
+                textoUsuario = textoUsuario.toLowerCase();
+            }
+
+            // Reemplazo de letras de piezas en español a inglés
             let jugadaSAN = textoUsuario.replace(/^R/, 'K').replace(/^D/, 'Q').replace(/^T/, 'R').replace(/^A/, 'B').replace(/^C/, 'N');
-            
+    
             let move = game.move(jugadaSAN, {sloppy: true});
+    
+            // Si falla, intentamos asegurando la mayúscula inicial para las piezas
             if (move === null) {
                 let intento2 = jugadaSAN.charAt(0).toUpperCase() + jugadaSAN.slice(1);
                 move = game.move(intento2, {sloppy: true});
             }
 
+            // Resultado
             if (move === null) {
                 reproducirSonido('incorrecto');
                 document.getElementById('status').innerHTML = `<span style="color:var(--danger);">❌ Jugada ilegal o mal escrita.</span>`;
@@ -340,11 +377,10 @@
                 board.position(game.fen());
                 generarTextoPosicion(game.fen());
                 actualizarHistorial();
-                
+        
                 if (!verificarFinDeJuego()) { pedirJugadaAlBot(); }
             }
         }
-
         // ==========================================
         // 🔥 DESHACER JUGADA
         // ==========================================
