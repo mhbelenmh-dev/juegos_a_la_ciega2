@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Flash Memory Pro - Modo Torneo</title>
+    <title>Flash Memory Pro - Entrenamiento</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>♞</text></svg>">
     
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
@@ -44,12 +44,9 @@
         .mensaje { font-size: 1.3em; font-weight: bold; line-height: 1.4; }
         .text-ready { color: #888; } .text-mem { color: var(--blue); } .text-build { color: var(--accent); } .text-win { color: var(--success); } .text-fail { color: var(--danger); }
 
-        select { background: #262421; color: #fff; border: 1px solid #555; padding: 12px; border-radius: 6px; font-size: 1.1em; width: 100%; cursor: pointer; outline: none;}
-        select:focus { border-color: var(--accent); }
-
         button { border: none; border-radius: 6px; cursor: pointer; font-weight: bold; transition: 0.2s; width: 100%; margin-top: 15px; }
         .btn-inicio { background: var(--accent); color: #262421; font-size: 1.3em; padding: 15px; box-shadow: 0 4px 0 #b39500; }
-        .btn-inicio:hover { background: #ffe03d; transform: translateY(-2px); box-shadow: 0 6px 0 #b39500; }
+        .btn-inicio:hover { filter: brightness(1.1); transform: translateY(-2px); box-shadow: 0 6px 0 #b39500; }
         
         .btn-comprobar { background: var(--success); color: white; padding: 15px; font-size: 1.3em; box-shadow: 0 4px 0 #4a751b; }
         .btn-comprobar:hover { background: #76b82a; transform: translateY(-2px); box-shadow: 0 6px 0 #4a751b; }
@@ -63,9 +60,7 @@
         .border-win { border-color: var(--success) !important; }
 
         /* --- ESTILOS MODO TORNEO / ARCADE --- */
-        #pantalla-carga { background: var(--panel-bg); padding: 40px; border-radius: 10px; margin-top: 20px; max-width: 500px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.5); width: 100%;}
         #lobby-torneo { background: var(--panel-bg); padding: 40px; border-radius: 12px; border: 2px solid var(--accent); max-width: 600px; width: 100%; text-align: center; margin-top: 20px; box-shadow: 0 15px 40px rgba(0,0,0,0.8); }
-        /* Input transparente para que no sea editable */
         #codigo-input { background: transparent; color: var(--accent); border: none; font-size: 4em; font-family: 'Courier New', monospace; text-align: center; width: 200px; padding: 0; outline: none; margin: 10px 0 20px 0; font-weight: bold; pointer-events: none;}
         .jugador-lobby { display: inline-block; background: #262421; border: 1px solid #444; padding: 8px 15px; margin: 5px; border-radius: 20px; font-weight: bold; color: #fff; }
         .btn-gran-fuego { background: var(--success); color: white; font-size: 1.8em; font-weight: bold; padding: 20px; width: 100%; border: none; border-radius: 8px; cursor: pointer; box-shadow: 0 6px 0 #4a751b; margin-top: 30px; text-transform: uppercase;}
@@ -89,7 +84,6 @@
 
     <h1 id="flash-title">📸 Flash Memory Pro</h1>
     
-
     <div id="lobby-torneo" class="oculto">
         <h2 style="color: var(--accent); font-size: 2.5em; margin-top: 0;">SALA DE TORNEO</h2>
         <p style="color: #aaa; font-size: 1.1em;">Código de la sala:</p>
@@ -99,7 +93,7 @@
             <div id="lista-lobby">Cargando...</div>
         </div>
         <button class="btn-gran-fuego" onclick="empezarTorneoParaTodos()">🔥 ¡EMPEZAR AHORA! 🔥</button>
-        <button style="background:#444; color:white; padding:15px; width:100%; margin-top: 20px;" onclick="salirDelTorneo()">⬅ Salir del Lobby</button>
+        <button style="background:#444; color:white; padding:15px; width:100%; margin-top: 20px; font-size: 1.2em; font-weight: bold; border-radius: 8px; cursor: pointer;" onclick="salirDelTorneo()">⬅ Salir del Lobby</button>
     </div>
 
     <div id="contenedor-juego" class="oculto">
@@ -136,18 +130,10 @@
                 <div class="panel-box">
                     <div class="panel-title">Panel de Control</div>
                     <div id="status-panel">
-                        <div id="msg" class="mensaje text-ready">Selecciona dificultad y pulsa Memorizar.</div>
+                        <div id="msg" class="mensaje text-ready">Pulsa Generar y Memorizar.</div>
                     </div>
-                    <div id="diff-selector">
-                        <label style="color:#888; font-size:0.85em; display:block; margin-bottom:5px; text-transform:uppercase;">Dificultad (Piezas):</label>
-                        <select id="piezas-count">
-                            <option value="3">🟢 Fácil (3 piezas)</option>
-                            <option value="5" selected>🟡 Normal (5 piezas)</option>
-                            <option value="8">🔴 Difícil (8 piezas)</option>
-                            <option value="12">🔥 Locura (12 piezas)</option>
-                        </select>
-                    </div>
-                    <button id="btn-start" class="btn-inicio" onclick="empezarRonda()">MEMORIZAR (6s)</button>
+                    
+                    <button id="btn-start" class="btn-inicio" onclick="empezarRonda()">GENERAR Y MEMORIZAR</button>
                     <button id="btn-check" class="btn-comprobar oculto" onclick="comprobar()">✅ ¡COMPROBAR!</button>
                 </div>
 
@@ -198,32 +184,38 @@
     <script src="utils.js?v=2"></script>
 
     <script>
-        // ---------------- CEREBRO ARCADE VS ZEN Y TORNEOS ----------------
+        // ---------------- CEREBRO Y VARIABLES DE LA URL ----------------
         const urlParams = new URLSearchParams(window.location.search);
         const modoJuego = urlParams.get('modo') || 'zen'; 
         const arcTime = parseInt(urlParams.get('time')) || 120;
         const arcBonus = parseInt(urlParams.get('bonus')) || 5;
         const arcPenalty = parseInt(urlParams.get('penalty')) || 10;
 
+        // Nuevas lecturas desde el Hub
+        let numPiezas = parseInt(urlParams.get('piezas')) || 5;
+        let t_mem_param = urlParams.get('t_mem');
+        let esManual = (t_mem_param === 'manual');
+        let tiempoFlash = esManual ? 0 : (parseInt(t_mem_param) || 5000);
+
         let tiempoRestante = arcTime;
         let globalTimerArcade = null;
 
-        var userBoard = null; var solutionBoard = null; var solucionFEN = ''; var tiempoFlash = 6000; var pieceThemeUrl = 'https://chessboardjs.com/img/chesspieces/wikipedia/{piece}.png'; var intervaloNum = null;
+        var userBoard = null; var solutionBoard = null; var solucionFEN = ''; var pieceThemeUrl = 'https://chessboardjs.com/img/chesspieces/wikipedia/{piece}.png'; 
+        var intervaloNum = null; var temporizador = null;
         var rondasJugadas = 0; var misPuntosLocales = 0; var juegoActivo = false;
 
         let refSalaTorneo = null; let intervaloTorneo = null;
 
-        // Auto-iniciar directo desde el Hub
+        // Auto-iniciar directo
         window.onload = () => {
             const torneoId = urlParams.get('torneo');
             if (torneoId) {
-                // Venimos directos del Hub de Torneos
                 ejecutarLobby(torneoId);
             } else {
-                // Venimos del Hub normal en solitario
                 iniciarPantallaJuego(false);
             }
         };
+
         // ---------------- TORNEO LOBBY ----------------
         function ejecutarLobby(codigoSalaPredefinido = null) {
             document.getElementById('lobby-torneo').classList.remove('oculto');
@@ -282,7 +274,6 @@
             });
         }
 
-        // 👇 PROTECCIÓN DE DOBLE CLIC Y USO DE TIEMPO REAL 👇
         function empezarTorneoParaTodos() {
             if (!refSalaTorneo) return;
             firebase.database().ref(refSalaTorneo + '/estado').once('value').then(snap => {
@@ -294,7 +285,6 @@
             });
         }
 
-        // 👇 SALIDA LIMPIA 👇
         function salirDelTorneo() {
             if (refSalaTorneo) {
                 let uid = localStorage.getItem('current_user_uid');
@@ -346,9 +336,11 @@
                 TorneoManager.contador = 0;
                 document.getElementById('panel-leaderboard').style.display = 'block';
                 document.getElementById('timer-torneo').classList.remove('oculto');
-                document.getElementById('btn-back').style.display = 'none';
-                document.getElementById('piezas-count').value = "5"; 
-                document.getElementById('piezas-count').disabled = true;
+                
+                numPiezas = 5;
+                esManual = false;
+                tiempoFlash = 5000;
+
                 misPuntosLocales = 0;
                 
                 intervaloTorneo = setInterval(() => {
@@ -361,14 +353,12 @@
                 }, 1000);
             } else {
                 if (modoJuego === 'arcade') {
-                    // MODO ARCADE: Iniciar contador
                     document.getElementById('timer-torneo').classList.remove('oculto');
                     document.getElementById('label-pts').innerText = "Puntos Arcade";
                     misPuntosLocales = 0;
                     actualizarHUDArcade();
                     globalTimerArcade = setInterval(tickArcade, 1000);
                 } else {
-                    // MODO ZEN
                     let p = obtenerPerfil();
                     rondasJugadas = p.flashJugados || 0;
                     misPuntosLocales = p.flashAciertos || 0;
@@ -377,8 +367,11 @@
             
             document.getElementById('stat-rondas').innerText = rondasJugadas;
             document.getElementById('stat-aciertos').innerText = misPuntosLocales;
+
+            let btnStart = document.getElementById('btn-start');
+            btnStart.innerText = esManual ? "VER POSICIÓN" : "GENERAR Y MEMORIZAR";
             
-            if (esTorneo) setTimeout(() => { document.getElementById('btn-start').click(); }, 1500);
+            if (esTorneo) setTimeout(() => { btnStart.click(); }, 1500);
         }
 
         function getSincronizado(max) {
@@ -389,39 +382,65 @@
 
         function empezarRonda() {
             if (!juegoActivo) return;
-            document.getElementById('solution-container').classList.add('oculto'); document.getElementById('user-title').classList.remove('visible');
-            document.getElementById('myBoard').classList.remove('border-fail', 'border-win'); document.getElementById('btn-start').classList.add('oculto');
+            document.getElementById('solution-container').classList.add('oculto'); 
+            document.getElementById('user-title').classList.remove('visible');
+            document.getElementById('myBoard').classList.remove('border-fail', 'border-win'); 
+            
+            let btnStart = document.getElementById('btn-start');
+            btnStart.classList.add('oculto');
             document.getElementById('btn-check').classList.add('oculto'); 
             
-            let numPiezas = parseInt(document.getElementById('piezas-count').value);
             solucionFEN = generarPosicionAleatoria(numPiezas);
             
             if (userBoard) userBoard.destroy();
             userBoard = Chessboard('myBoard', { position: solucionFEN, draggable: false, sparePieces: false, showNotation: true, pieceTheme: pieceThemeUrl });
 
             let msg = document.getElementById('msg'); msg.innerText = "¡MEMORIZA LA POSICIÓN!"; msg.className = "mensaje text-mem";
-            document.getElementById('timer-header').classList.remove('oculto'); let barContainer = document.getElementById('barra-tiempo-container');
-            let barra = document.getElementById('barra-tiempo'); barContainer.style.display = 'block'; barra.style.transition = 'none'; barra.style.width = '100%';
-            
-            let t = tiempoFlash / 1000; const displayNum = document.getElementById('segundos-num'); displayNum.innerText = t + "s"; displayNum.style.color = "var(--accent)";
-            reproducirSonido('tick'); 
+            document.getElementById('timer-header').classList.remove('oculto'); 
 
-            if (intervaloNum) clearInterval(intervaloNum);
-            intervaloNum = setInterval(() => {
-                if(!juegoActivo) { clearInterval(intervaloNum); return; }
-                t--;
-                if (t > 0) { displayNum.innerText = t + "s"; reproducirSonido('tick'); if (t <= 1) displayNum.style.color = "var(--danger)"; } 
-                else if (t === 0) { displayNum.innerText = "0s"; }
-                if (t <= 0) clearInterval(intervaloNum);
-            }, 1000);
+            if (esManual) {
+                document.getElementById('segundos-num').innerText = "♾️";
+                document.getElementById('barra-tiempo-container').style.display = 'none';
+                btnStart.innerText = "OCULTAR TABLERO";
+                btnStart.style.background = "var(--blue)";
+                btnStart.onclick = faseReconstruccion;
+                btnStart.classList.remove('oculto');
+            } else {
+                let barContainer = document.getElementById('barra-tiempo-container');
+                let barra = document.getElementById('barra-tiempo'); 
+                barContainer.style.display = 'block'; 
+                barra.style.transition = 'none'; 
+                barra.style.width = '100%';
+                
+                let t = tiempoFlash / 1000; 
+                const displayNum = document.getElementById('segundos-num'); 
+                displayNum.innerText = t + "s"; displayNum.style.color = "var(--accent)";
+                reproducirSonido('tick'); 
 
-            setTimeout(() => { barra.style.transition = `width ${tiempoFlash}ms linear`; barra.style.width = '0%'; }, 50);
-            setTimeout(() => { faseReconstruccion(); }, tiempoFlash);
+                if (intervaloNum) clearInterval(intervaloNum);
+                intervaloNum = setInterval(() => {
+                    if(!juegoActivo) { clearInterval(intervaloNum); return; }
+                    t--;
+                    if (t > 0) { displayNum.innerText = t + "s"; reproducirSonido('tick'); if (t <= 1) displayNum.style.color = "var(--danger)"; } 
+                    else if (t === 0) { displayNum.innerText = "0s"; }
+                    if (t <= 0) clearInterval(intervaloNum);
+                }, 1000);
+
+                setTimeout(() => { barra.style.transition = `width ${tiempoFlash}ms linear`; barra.style.width = '0%'; }, 50);
+                
+                if (temporizador) clearTimeout(temporizador);
+                temporizador = setTimeout(() => { faseReconstruccion(); }, tiempoFlash);
+            }
         }
 
         function faseReconstruccion() {
             if (!juegoActivo) return;
-            let msg = document.getElementById('msg'); msg.innerText = "¡RECONSTRUYE!\\nArrastra las piezas al tablero."; msg.className = "mensaje text-build";
+            if (intervaloNum) clearInterval(intervaloNum);
+            if (temporizador) clearTimeout(temporizador);
+
+            document.getElementById('btn-start').classList.add('oculto');
+
+            let msg = document.getElementById('msg'); msg.innerText = "¡RECONSTRUYE!\nArrastra las piezas al tablero."; msg.className = "mensaje text-build";
             document.getElementById('timer-header').classList.add('oculto'); document.getElementById('barra-tiempo-container').style.display = 'none';
             document.getElementById('user-title').classList.add('visible');
 
@@ -498,24 +517,46 @@
             else if (modoJuego === 'zen') { actualizarEstadisticaGlobal('flashAciertos', puntosDeEstaRonda, true); registrarXP('medio', esPerfecto); }
 
             document.getElementById('btn-check').classList.add('oculto');
-            setTimeout(() => { if(juegoActivo){ let btnStart = document.getElementById('btn-start'); btnStart.innerText = "SIGUIENTE RONDA"; btnStart.classList.remove('oculto'); } }, 200);
+            
+            let btnStart = document.getElementById('btn-start');
+            btnStart.innerText = "SIGUIENTE RONDA ➡";
+            btnStart.style.background = "var(--accent)";
+            btnStart.onclick = empezarRonda;
+            
+            setTimeout(() => { if(juegoActivo) btnStart.classList.remove('oculto'); }, 200);
         }
 
-        function generarPosicionAleatoria(nPiezas) {
+function generarPosicionAleatoria(nPiezas) {
             let g = new Chess(); g.clear(); const piezasTipo = ['p', 'n', 'b', 'r', 'q']; let ocupadas = new Set();
+            
+            // 1. Colocamos los dos Reyes obligatorios
             let k1 = casSincronizada(); g.put({ type: 'k', color: 'w' }, k1); ocupadas.add(k1);
             let k2 = casSincronizada(); while (distanciaRey(k1, k2) <= 1 || ocupadas.has(k2)) { k2 = casSincronizada(); }
             g.put({ type: 'k', color: 'b' }, k2); ocupadas.add(k2);
-            for (let i = 0; i < nPiezas; i++) {
+            
+            // 2. Calculamos cuántas piezas extra faltan (Total pedido - 2 Reyes)
+            let piezasExtra = Math.max(0, nPiezas - 2);
+
+            // 3. Añadimos solo las piezas que faltan
+            for (let i = 0; i < piezasExtra; i++) {
                 let cas = casSincronizada(); while (ocupadas.has(cas)) { cas = casSincronizada(); }
                 let tipo = piezasTipo[getSincronizado(piezasTipo.length)]; 
                 let color = getSincronizado(2) === 0 ? 'w' : 'b';
                 if (tipo === 'p' && (cas.includes('1') || cas.includes('8'))) tipo = 'n';
                 g.put({ type: tipo, color: color }, cas); ocupadas.add(cas);
-            } return g.fen();
+            } 
+            return g.fen();
         }
-        function casSincronizada() { const c = ['a','b','c','d','e','f','g','h']; const f = [1,2,3,4,5,6,7,8]; return c[getSincronizado(8)] + f[getSincronizado(8)]; }
-        function distanciaRey(c1, c2) { let x1 = c1.charCodeAt(0), y1 = parseInt(c1[1]); let x2 = c2.charCodeAt(0), y2 = parseInt(c2[1]); return Math.max(Math.abs(x1-x2), Math.abs(y1-y2)); }
+        function casSincronizada() { 
+            const c = ['a','b','c','d','e','f','g','h']; 
+            const f = [1,2,3,4,5,6,7,8]; 
+            return c[getSincronizado(8)] + f[getSincronizado(8)]; 
+        }
+        function distanciaRey(c1, c2) { 
+            let x1 = c1.charCodeAt(0), y1 = parseInt(c1[1]); 
+            let x2 = c2.charCodeAt(0), y2 = parseInt(c2[1]); 
+            return Math.max(Math.abs(x1-x2), Math.abs(y1-y2)); 
+        }
 
         // ---------------- PODIO ----------------
         function finalizarTorneoGlobal() {

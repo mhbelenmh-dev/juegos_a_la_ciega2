@@ -109,6 +109,11 @@
             <div id="tablero-wrapper">
                 <div id="timer-torneo" class="oculto">03:00</div>
                 <div id="barra-tiempo-container"><div id="barra-tiempo" style="width: 100%;"></div></div>
+                
+                <div id="zona-manual" class="oculto" style="width: 100%; margin-bottom: 15px;">
+                    <button class="btn-siguiente" style="background: var(--blue); width: 100%; padding: 15px; margin-top: 0; box-shadow: 0 4px 0 #20629c;" onclick="lanzarPregunta()">👁️ OCULTAR Y RESPONDER</button>
+                </div>
+
                 <div id="tablero-container">
                     <div id="tablero"></div>
                     <div id="cortina">
@@ -190,22 +195,23 @@
         let tiempoRestante = arcTime;
         let globalTimerArcade = null;
 
-        // ---------------- VARIABLES GLOBALES JUEGO ----------------
-        let todosLosPuzzles = {}; let puzzleActual = null; let game = new Chess(); let board = null; let tiempoRadar = 3000; let temporizador = null; let casillaObjetivo = "";
+        // ---------------- VARIABLES GLOBALES JUEGO (CON MODO MANUAL) ----------------
+        let todosLosPuzzles = {}; let puzzleActual = null; let game = new Chess(); let board = null; let temporizador = null; let casillaObjetivo = "";
+        
+        let esManual = (urlParams.get('t_mem') === 'manual');
+        let tiempoRadar = esManual ? 0 : (parseInt(urlParams.get('t_mem')) || 3000);
+        
         let radaresCompletados = 0; let radaresAciertos = 0;
         let misPuntosLocales = 0; let juegoActivo = false;
 
         let refSalaTorneo = null; let intervaloTorneo = null;
 
-// 👇 AUTO-ARRANQUE AL ENTRAR DESDE EL HUB 👇
+        // 👇 AUTO-ARRANQUE AL ENTRAR DESDE EL HUB 👇
         window.onload = () => {
-            // 1. Descargamos la base de datos de puzzles invisiblemente
             fetch('memoria_gm.json')
                 .then(r => r.json())
                 .then(data => {
                     todosLosPuzzles = data;
-                    
-                    // 2. Comprobamos a dónde tiene que ir
                     const torneoId = urlParams.get('torneo');
                     if (torneoId) {
                         ejecutarLobby(torneoId);
@@ -284,7 +290,6 @@
             });
         }
 
-        // 👇 PREVENIR DOBLE CLIC Y USAR TIEMPO DEL HUB 👇
         function empezarTorneoParaTodos() {
             if (!refSalaTorneo) return;
             firebase.database().ref(refSalaTorneo + '/estado').once('value').then(snap => {
@@ -296,7 +301,6 @@
             });
         }
 
-        // 👇 SALIDA LIMPIA 👇
         function salirDelTorneo() {
             if (refSalaTorneo) {
                 let uid = localStorage.getItem('current_user_uid');
@@ -337,11 +341,10 @@
             document.getElementById('pantalla-game-over').classList.remove('oculto');
             document.getElementById('go-score').innerText = misPuntosLocales;
             
-            // Guardamos el récord 
             actualizarEstadisticaGlobal('radarAciertos', misPuntosLocales, false);
         }
 
-        // ---------------- JUEGO RADAR ----------------
+        // ---------------- JUEGO RADAR (CON MODO MANUAL) ----------------
         function iniciarPantallaJuego(esTorneo, tiempoFinMs = null) {
             juegoActivo = true;
             document.getElementById('lobby-torneo').classList.add('oculto');
@@ -366,14 +369,12 @@
                 }, 1000);
             } else {
                 if (modoJuego === 'arcade') {
-                    // MODO ARCADE: Iniciar contador
                     document.getElementById('timer-torneo').classList.remove('oculto');
                     document.getElementById('label-pts').innerText = "Puntos Arcade";
                     misPuntosLocales = 0;
                     actualizarHUDArcade();
                     globalTimerArcade = setInterval(tickArcade, 1000);
                 } else {
-                    // MODO ZEN: Cargar perfil y estadísticas acumuladas
                     let p = obtenerPerfil();
                     radaresCompletados = p.radarJugados || 0;
                     radaresAciertos = p.radarAciertos || 0;
@@ -384,14 +385,20 @@
             document.getElementById('radares-completados').innerText = radaresCompletados;
             document.getElementById('radares-aciertos').innerText = misPuntosLocales;
             
-            if (esTorneo) setTimeout(() => { document.getElementById('btn-empezar-radar').click(); }, 1500);
+            if (esTorneo) {
+                setTimeout(() => { document.getElementById('btn-empezar-radar').click(); }, 1500);
+            } else {
+                document.getElementById('btn-empezar-radar').innerText = esManual ? "ESCANEAR (Libre)" : `ESCANEAR (${tiempoRadar/1000}s)`;
+            }
         }
 
+        // 👇 FUNCIONES DE RONDA REESCRITAS PARA MODO MANUAL 👇
         function resetearInterfaz() {
             document.getElementById('cortina').classList.remove('oculto'); document.getElementById('tablero').style.opacity = '1';
-            document.getElementById('contenido-cortina').innerHTML = `<button class="btn-inicio" onclick="empezarRonda()">ESCANEAR (3s)</button>`;
+            let textoBtn = esManual ? "ESCANEAR (Libre)" : `ESCANEAR (${tiempoRadar/1000}s)`;
+            document.getElementById('contenido-cortina').innerHTML = `<button class="btn-inicio" onclick="empezarRonda()">${textoBtn}</button>`;
             document.getElementById('zona-respuesta').classList.add('oculto'); document.getElementById('zona-resultado').classList.add('oculto');
-            document.getElementById('instrucciones').classList.remove('oculto');
+            document.getElementById('instrucciones').classList.remove('oculto'); document.getElementById('zona-manual').classList.add('oculto');
             let barra = document.getElementById('barra-tiempo'); barra.style.transition = 'none'; barra.style.width = '100%';
             $('#tablero .square-55d63').removeClass('highlight-target highlight-center');
         }
@@ -400,9 +407,28 @@
             if(!juegoActivo) return;
             cargarPosicionAleatoria();
             document.getElementById('cortina').classList.add('oculto'); document.getElementById('instrucciones').classList.add('oculto'); 
-            let barra = document.getElementById('barra-tiempo');
-            setTimeout(() => { barra.style.transition = `width ${tiempoRadar}ms linear`; barra.style.width = '0%'; }, 50);
-            if (temporizador) clearTimeout(temporizador); temporizador = setTimeout(() => { lanzarPregunta(); }, tiempoRadar);
+            
+            if (esManual) {
+                document.getElementById('zona-manual').classList.remove('oculto');
+                document.getElementById('barra-tiempo-container').style.display = 'none';
+            } else {
+                document.getElementById('zona-manual').classList.add('oculto');
+                document.getElementById('barra-tiempo-container').style.display = 'block';
+                let barra = document.getElementById('barra-tiempo');
+                setTimeout(() => { barra.style.transition = `width ${tiempoRadar}ms linear`; barra.style.width = '0%'; }, 50);
+                if (temporizador) clearTimeout(temporizador); temporizador = setTimeout(() => { lanzarPregunta(); }, tiempoRadar);
+            }
+        }
+
+        function lanzarPregunta() {
+            if(!juegoActivo) return;
+            document.getElementById('zona-manual').classList.add('oculto');
+            casillaObjetivo = seleccionarCasillaActivaSegura();
+            document.getElementById('cortina').classList.remove('oculto'); document.getElementById('tablero').style.opacity = '0'; 
+            document.getElementById('contenido-cortina').innerHTML = ""; document.getElementById('casilla-target').innerText = casillaObjetivo.toUpperCase();
+            let htmlBotones = "";
+            for(let i=0; i<=5; i++) { let etiqueta = i === 5 ? "5+" : i; htmlBotones += `<button class="btn-numero" onclick="revelar(${i})">${etiqueta}</button>`; }
+            document.getElementById('grid-numeros').innerHTML = htmlBotones; document.getElementById('zona-respuesta').classList.remove('oculto');
         }
 
         function cargarPosicionAleatoria() {
@@ -418,16 +444,6 @@
             game.load(puzzleActual.fen); board.position(game.fen());
         }
 
-        function lanzarPregunta() {
-            if(!juegoActivo) return;
-            casillaObjetivo = seleccionarCasillaActivaSegura();
-            document.getElementById('cortina').classList.remove('oculto'); document.getElementById('tablero').style.opacity = '0'; 
-            document.getElementById('contenido-cortina').innerHTML = ""; document.getElementById('casilla-target').innerText = casillaObjetivo.toUpperCase();
-            let htmlBotones = "";
-            for(let i=0; i<=5; i++) { let etiqueta = i === 5 ? "5+" : i; htmlBotones += `<button class="btn-numero" onclick="revelar(${i})">${etiqueta}</button>`; }
-            document.getElementById('grid-numeros').innerHTML = htmlBotones; document.getElementById('zona-respuesta').classList.remove('oculto');
-        }
-
         function seleccionarCasillaActivaSegura() {
             let candidatos = []; const columnas = ['a','b','c','d','e','f','g','h']; const filas = ['1','2','3','4','5','6','7','8'];
             for (let c of columnas) { for (let f of filas) { let casilla = c + f; let pieza = game.get(casilla); if (pieza !== null) candidatos.push(casilla); } }
@@ -441,7 +457,6 @@
             return candidatos[indiceCasilla];
         }
 
-        // Lógica matemática de Radar
         function caminoDespejado(c1, f1, c2, f2) {
             let dc = Math.sign(c2 - c1); let df = Math.sign(f2 - f1); let c = c1 + dc; let f = f1 + df;
             while (c !== c2 || f !== f2) { let casIntermedia = String.fromCharCode(c + 97) + (f + 1); if (game.get(casIntermedia) !== null) return false; c += dc; f += df; }
@@ -485,14 +500,12 @@
                 if (TorneoManager.enTorneo) { misPuntosLocales += 15; TorneoManager.enviarPuntos(misPuntosLocales); } 
                 else if (typeof DueloManager !== 'undefined' && DueloManager.enDuelo) { misPuntosLocales++; DueloManager.enviarPuntos(misPuntosLocales); }
                 else if (modoJuego === 'arcade') {
-                    // Lógica Arcade Acierto
                     misPuntosLocales += 10;
                     tiempoRestante += arcBonus;
                     actualizarHUDArcade();
                     htmlStatus = `<strong style="color:var(--success); font-size:1.4em;">✅ ¡CORRECTO!</strong><br>Había ${piezasQueTocan} pieza(s).<br><span style="color:var(--green); font-weight:bold;">+10 pts | +${arcBonus}s</span>`;
                 }
                 else { 
-                    // Lógica Zen Acierto
                     misPuntosLocales++; actualizarEstadisticaGlobal('radarAciertos', 1, true); registrarXP('medio', true); 
                     htmlStatus = `<strong style="color:var(--success); font-size:1.4em;">✅ ¡CORRECTO!</strong><br>Había ${piezasQueTocan} pieza(s) vigilando la casilla.`;
                 }
@@ -502,7 +515,6 @@
                 reproducirSonido('incorrecto');
                 if (TorneoManager.enTorneo) { misPuntosLocales = Math.max(0, misPuntosLocales - 5); TorneoManager.enviarPuntos(misPuntosLocales); }
                 else if (modoJuego === 'arcade') {
-                    // Lógica Arcade Fallo
                     tiempoRestante -= arcPenalty;
                     actualizarHUDArcade();
                     htmlStatus = `<strong style="color:var(--danger); font-size:1.4em;">❌ FALLO</strong><br>Tú dijiste ${txtRespuesta}, pero hay ${piezasQueTocan}.<br><span style="color:var(--red); font-weight:bold;">-${arcPenalty}s</span>`;
@@ -510,7 +522,6 @@
                     if (tiempoRestante <= 0) { setTimeout(gameOverArcade, 1000); }
                 }
                 else if (!DueloManager.enDuelo) {
-                    // Lógica Zen Fallo
                     registrarXP('medio', false);
                     htmlStatus = `<strong style="color:var(--danger); font-size:1.4em;">❌ FALLO</strong><br>Tú dijiste ${txtRespuesta}, pero hay ${piezasQueTocan} pieza(s) vigilándola.`;
                 }
@@ -521,7 +532,6 @@
             document.getElementById('zona-respuesta').classList.add('oculto'); document.getElementById('zona-resultado').classList.remove('oculto');
         }
 
-        // 👇 RETRASO DE 1.5s EN PODIO (ANTI-LAG) 👇
         function finalizarTorneoGlobal() {
             juegoActivo = false; reproducirSonido('fin');
             document.getElementById('contenedor-juego').classList.add('oculto');

@@ -20,9 +20,6 @@
         .active { display: flex; }
         @media (max-width: 950px) { .screen { flex-direction: column; align-items: center; } .sidebar-panel { width: 100%; max-width: 450px; } }
         
-        select { padding: 10px; font-size: 1.1em; background: #222; color: #fff; border: 1px solid #555; border-radius: 5px; margin: 15px 0; width: 100%; box-sizing: border-box; cursor: pointer; outline: none; }
-        select:focus { border-color: var(--accent); }
-        
         #pgn-container { background: #eee; color: #111; padding: 30px; border-radius: 8px; font-size: 1.4em; line-height: 1.6; font-family: 'Georgia', serif; width: 100%; box-shadow: 0 10px 30px rgba(0,0,0,0.5); margin-bottom: 30px; max-height: 400px; overflow-y: auto; text-align: left; }
         
         #game-area { display: flex; justify-content: center; gap: 30px; width: 100%; flex-wrap: wrap; }
@@ -46,7 +43,6 @@
         .panel-box { background: var(--panel-bg); padding: 20px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); border: 1px solid #444; }
         .panel-title { font-weight: bold; color: var(--accent); margin-bottom: 15px; font-size: 1.2em; text-transform: uppercase; text-align: center; }
         
-        #pantalla-carga { background: var(--panel-bg); padding: 40px; border-radius: 10px; margin-top: 20px; max-width: 500px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.5); width: 100%; display: flex; flex-direction: column; align-items: center;}
         #lobby-torneo { background: var(--panel-bg); padding: 40px; border-radius: 12px; border: 2px solid var(--accent); max-width: 600px; width: 100%; text-align: center; margin-top: 20px; box-shadow: 0 15px 40px rgba(0,0,0,0.8); }
         /* Input transparente e ineditable */
         #codigo-input { background: transparent; color: var(--accent); border: none; font-size: 4em; font-family: 'Courier New', Courier, monospace; text-align: center; width: 200px; padding: 0; outline: none; margin: 10px 0 20px 0; font-weight: bold; pointer-events: none;}
@@ -80,7 +76,6 @@
         <div style="font-size: 1.5em; font-weight: bold; color: var(--blue);">Puntos: <span id="hud-pts" style="color:#fff;">0</span></div>
         <div id="hud-time" style="font-size: 2em; font-family: 'Courier New', monospace; font-weight: bold; color: var(--accent);">⏱️ 02:00</div>
     </div>
-
 
     <div id="lobby-torneo" class="oculto">
         <h2 style="color: var(--accent); font-size: 2.5em; margin-top: 0;">SALA DE TORNEO</h2>
@@ -176,16 +171,20 @@
         const arcBonus = parseInt(urlParams.get('bonus')) || 5;
         const arcPenalty = parseInt(urlParams.get('penalty')) || 10;
 
+        // 👇 NUEVA LECTURA DE JUGADAS CON LÍMITE (MÁXIMO 150) 👇
+        const paramJugadas = parseInt(urlParams.get('jugadas'));
+        let jugadasMeta = (paramJugadas && paramJugadas > 0) ? Math.min(paramJugadas, 150) : 15;
+
         let tiempoRestante = arcTime;
         let globalTimerArcade = null;
 
-        let partidas = []; let jugadasMeta = 15; let fenObjetivo = ""; let userBoard = null; let solutionBoard = null;
+        let partidas = []; let fenObjetivo = ""; let userBoard = null; let solutionBoard = null;
         let misPuntosLocales = 0; let juegoActivo = false;
         const pieceThemeUrl = 'https://chessboardjs.com/img/chesspieces/wikipedia/{piece}.png';
 
         let refSalaTorneo = null; let intervaloTorneo = null;
 
-// 👇 AUTO-ARRANQUE DIRECTO 👇
+        // 👇 AUTO-ARRANQUE DIRECTO 👇
         window.onload = () => {
             fetch('visualizacion.json')
                 .then(r => r.json())
@@ -194,11 +193,8 @@
                     
                     const torneoId = urlParams.get('torneo');
                     if (torneoId) {
-                        // Entramos a la sala de torneo
                         ejecutarLobby(torneoId);
                     } else {
-                        // Arrancamos juego en solitario
-                        if (modoJuego === 'arcade') jugadasMeta = 10;
                         iniciarPantallaJuego(false);
                     }
                 })
@@ -334,12 +330,11 @@
             
             if (esTorneo) {
                 TorneoManager.contador = 0;
-                jugadasMeta = 15; // Fijo para torneos
+                jugadasMeta = 15; // Fijo para torneos por seguridad
                 document.getElementById('panel-leaderboard-read').style.display = 'block';
                 document.getElementById('panel-leaderboard-build').style.display = 'block';
                 document.getElementById('timer-torneo-read').classList.remove('oculto');
                 document.getElementById('timer-torneo-build').classList.remove('oculto');
-                document.getElementById('btn-back-juego').style.display = 'none';
                 
                 intervaloTorneo = setInterval(() => {
                     let restante = Math.floor((tiempoFinMs - Date.now()) / 1000);
@@ -356,11 +351,6 @@
                     misPuntosLocales = 0;
                     actualizarHUDArcade();
                     globalTimerArcade = setInterval(tickArcade, 1000);
-                    jugadasMeta = parseInt(document.getElementById('move-count').value) || 10;
-                } else {
-                    // Si viene del modo Zen coge la profundidad del select
-                    let selectProfundidad = document.getElementById('move-count');
-                    if(selectProfundidad) jugadasMeta = parseInt(selectProfundidad.value) || 15;
                 }
             }
             

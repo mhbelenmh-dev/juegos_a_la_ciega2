@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Memoria Fotográfica</title>
+    <title>Central de Memoria</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>♞</text></svg>">
 
     <style>
@@ -38,7 +38,7 @@
 
         #brand-logo { margin: 0; font-size: 1.8em; color: var(--accent); letter-spacing: 1px; text-shadow: 2px 2px 0px rgba(0,0,0,0.5); text-decoration: none;}
 
-        #nav-menu { display: flex; gap: 25px; align-items: center; }
+        #nav-menu { display: flex; gap: 20px; align-items: center; }
         .nav-link { color: var(--green); text-decoration: none; font-weight: bold; font-size: 1.1em; text-transform: uppercase; letter-spacing: 1px; transition: 0.2s; padding: 5px 10px; border-radius: 5px; white-space: nowrap; }
         .nav-link:hover { color: #fff; background: rgba(98, 153, 36, 0.2); transform: scale(1.05); }
 
@@ -50,7 +50,7 @@
             align-items: center;
             padding: 20px;
             width: 100%;
-            max-width: 1200px;
+            max-width: 1000px;
             margin-left: auto;
             margin-right: auto;
             box-sizing: border-box;
@@ -58,79 +58,83 @@
         }
 
         .hub-title { color: #fff; font-size: 3em; margin: 0; text-transform: uppercase; letter-spacing: 2px; text-shadow: 0 4px 10px rgba(0,0,0,0.8); text-align: center;}
-        .hub-subtitle { color: #c0c0c0; font-size: 1.2em; margin-top: 5px; font-weight: bold; text-align: center; margin-bottom: 20px;}
+        .hub-subtitle { color: #c0c0c0; font-size: 1.2em; margin-top: 5px; font-weight: bold; text-align: center; margin-bottom: 30px;}
 
-        /* SECCIÓN 1: SELECTOR DE JUEGO */
-        .category-title { color: var(--accent); font-size: 1.3em; text-transform: uppercase; margin-bottom: 15px; border-bottom: 2px solid #333; padding-bottom: 5px; width: 100%; text-align: left; font-weight: bold;}
-
+        /* GRID DE JUEGOS */
         .options-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 15px;
             width: 100%;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
         }
 
         .option-card {
-            background: #1a1917; border: 2px solid #444; border-radius: 8px; padding: 20px 15px;
+            background: var(--panel); border: 2px solid #444; border-radius: 12px; padding: 20px;
             text-align: center; cursor: pointer; transition: 0.2s; user-select: none;
-            display: flex; flex-direction: column; justify-content: flex-start;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
-        .option-card:hover { border-color: #888; transform: translateY(-3px); }
-        .option-card.selected { border-color: var(--accent); background: rgba(229, 191, 0, 0.05); box-shadow: 0 0 15px rgba(229, 191, 0, 0.2); }
-        
-        .option-icon { font-size: 3em; margin-bottom: 10px; display: block; text-shadow: 2px 2px 0 #000; }
-        .option-name { font-weight: bold; color: #fff; font-size: 1.1em; text-transform: uppercase; margin-bottom: 5px; }
-        .option-desc { font-size: 0.85em; color: #888; line-height: 1.4; flex-grow: 1; }
 
-        /* SECCIÓN 2: ZEN VS ARCADE */
+        .option-card:hover { border-color: #888; transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.5); }
+        .option-card.selected { border-color: var(--accent); background: rgba(229, 191, 0, 0.1); box-shadow: 0 0 15px rgba(229, 191, 0, 0.4); transform: scale(1.02);}
+
+        .option-icon { font-size: 3em; margin-bottom: 10px; display: block; text-shadow: 2px 2px 0 #000; }
+        .option-name { font-weight: bold; color: #fff; font-size: 1.2em; text-transform: uppercase; letter-spacing: 1px;}
+        .option-desc { color: #aaa; font-size: 0.9em; margin-top: 8px; line-height: 1.3;}
+
+        /* AJUSTES CAMALEÓNICOS */
+        #ajustes-memoria {
+            background: #111; padding: 15px 25px; border-radius: 8px; border: 1px dashed var(--blue);
+            width: 100%; box-sizing: border-box; margin-bottom: 15px; display: flex; 
+            justify-content: center; align-items: center; gap: 20px; flex-wrap: wrap;
+        }
+        .ajuste-item { display: flex; align-items: center; gap: 10px; flex: 1; min-width: 250px;}
+        .ajuste-item label { color: var(--blue); font-weight: bold; white-space: nowrap; }
+        
+        .ajuste-item select, .ajuste-item input[type="number"] {
+            background: #222; color: #fff; border: 1px solid #555; padding: 10px; 
+            border-radius: 5px; flex: 1; outline: none; font-size: 1em; cursor: pointer;
+            font-weight: bold; text-align: center;
+        }
+        .ajuste-item select:focus, .ajuste-item input[type="number"]:focus { border-color: var(--blue); }
+
+        /* DISEÑO DE LAS DOS MITADES (ZEN VS ARCADE) */
         .modos-layout {
-            display: flex;
-            gap: 30px;
-            width: 100%;
-            flex-wrap: wrap;
-            justify-content: center;
-            align-items: stretch;
+            display: flex; gap: 30px; width: 100%; flex-wrap: wrap; justify-content: center; align-items: stretch;
         }
 
         .modo-card {
             background: var(--panel); border: 1px solid #444; border-radius: 12px; padding: 30px;
-            width: 100%; max-width: 500px; box-shadow: 0 15px 30px rgba(0,0,0,0.6);
-            display: flex; flex-direction: column; box-sizing: border-box;
+            width: 100%; max-width: 450px; box-shadow: 0 15px 30px rgba(0,0,0,0.6);
+            display: flex; flex-direction: column; box-sizing: border-box; text-align: center;
         }
 
         .modo-card.zen { border-top: 4px solid var(--blue); }
-        .modo-card.arcade { border-top: 4px solid var(--accent); }
+        /* 👇 ARCADE VUELVE AL DORADO 👇 */
+        .modo-card.arcade { border-top: 4px solid var(--accent); } 
 
-        .modo-title { font-size: 2em; font-weight: bold; margin-top: 0; display: flex; align-items: center; gap: 10px;}
+        .modo-title { font-size: 1.8em; font-weight: bold; margin-top: 0; margin-bottom: 10px; }
         .zen-title { color: var(--blue); }
-        .arcade-title { color: var(--accent); }
-        .modo-desc { color: #aaa; font-size: 1.1em; line-height: 1.5; margin-bottom: 25px; flex-grow: 1;}
+        .arcade-title { color: var(--accent); } /* Título Dorado */
+        .modo-desc { color: #aaa; font-size: 1em; line-height: 1.5; margin-bottom: 25px; flex-grow: 1;}
 
-        /* CONFIGURADORES ARCADE */
-        .config-grupo { background: #1a1917; padding: 15px; border-radius: 8px; border: 1px solid #333; margin-bottom: 20px;}
-        .config-grupo h3 { margin-top: 0; color: #fff; font-size: 1.1em; border-bottom: 1px solid #333; padding-bottom: 8px; margin-bottom: 15px;}
-        
-        .config-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;}
-        .config-item label { color: #ccc; font-weight: bold; font-size: 0.95em;}
-        
-        input.num-mini {
-            width: 70px; padding: 8px; background: #111; color: #fff; border: 1px solid #555;
-            border-radius: 6px; font-size: 1em; outline: none; text-align: center; transition: 0.2s; font-family: 'Consolas', monospace; font-weight: bold;
-        }
-        input.num-mini:focus { border-color: var(--accent); box-shadow: 0 0 10px rgba(229, 191, 0, 0.3); }
-        .num-verde { border-color: var(--green) !important; color: var(--green) !important; }
-        .num-rojo { border-color: var(--red) !important; color: #ff6666 !important; }
+        .ajustes-arcade { background: #1a1917; padding: 15px; border-radius: 8px; margin-bottom: 20px; text-align: left; border: 1px solid #333;}
+        .ajuste-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .ajuste-row:last-child { margin-bottom: 0; }
+        .ajuste-row label { font-size: 0.9em; font-weight: bold; color: #ccc;}
+        .ajuste-row input { background: #111; color: var(--accent); border: 1px solid #555; padding: 8px; width: 60px; text-align: center; border-radius: 4px; font-weight: bold; outline: none;}
 
         /* BOTONES */
-        .btn-jugar {
+        .btn-accion {
             width: 100%; color: white; border: none; padding: 20px; font-size: 1.3em; font-weight: bold;
-            border-radius: 8px; cursor: pointer; transition: 0.2s; text-transform: uppercase; letter-spacing: 1px; margin-top: auto;
+            border-radius: 8px; cursor: pointer; transition: 0.2s; text-transform: uppercase; letter-spacing: 1px;
         }
         .btn-zen { background: var(--blue); box-shadow: 0 6px 0 #20629c; }
         .btn-zen:hover { filter: brightness(1.2); transform: translateY(-2px); box-shadow: 0 8px 0 #20629c; }
         .btn-zen:active { transform: translateY(4px); box-shadow: 0 2px 0 #20629c; }
 
+        /* 👇 BOTÓN ARCADE DORADO 👇 */
         .btn-arcade { background: var(--accent); color: #000; box-shadow: 0 6px 0 #b39500; }
         .btn-arcade:hover { filter: brightness(1.1); transform: translateY(-2px); box-shadow: 0 8px 0 #b39500; }
         .btn-arcade:active { transform: translateY(4px); box-shadow: 0 2px 0 #b39500; }
@@ -146,10 +150,10 @@
             <a href="hub_basico.html" class="nav-link">TABLERO</a>
             <a href="hub_memoria.html" class="nav-link" style="color: #fff; border-bottom: 2px solid var(--accent);">MEMORIA</a>
             <a href="hub_tactica.html" class="nav-link">TÁCTICA</a>
-            <a href="hub_torneos.html" class="nav-link">TORNEOS</a>
             <a href="analisis.html" class="nav-link">ANÁLISIS</a>
             <a href="bot_ciego.html" class="nav-link">JUGAR</a>
             <a href="baul.html" class="nav-link">📦 BAÚL</a>
+            <a href="hub_torneos.html" class="nav-link">🏆 TORNEOS</a>
         </div>
         <div style="display: flex; align-items: center; gap: 15px;">
             <button onclick="window.location.href='index.html'" style="background: #444; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; transition: 0.2s;" onmouseover="this.style.background='#555'" onmouseout="this.style.background='#444'">⬅ Volver al Inicio</button>
@@ -159,84 +163,105 @@
     <div id="hub-container">
         
         <div>
-            <h1 class="hub-title">📸 Memoria Fotográfica</h1>
-            <p class="hub-subtitle">Entrena tu capacidad de retención visual y lectura a ciegas.</p>
+            <h1 class="hub-title">🧠 Central de Memoria</h1>
+            <p class="hub-subtitle">Elige tu entrenamiento y domina la visualización en el tablero.</p>
         </div>
 
-        <div style="width: 100%;">
-            <div class="category-title">1. Selecciona tu Entrenamiento</div>
-            <div class="options-grid">
-                <div class="option-card selected" onclick="seleccionar('juego_radar.html', 'RADAR', this)">
-                    <span class="option-icon">📡</span>
-                    <div class="option-name">Radar Visual</div>
-                    <div class="option-desc">Escaneo de 3s. Cuenta piezas que atacan una casilla.</div>
-                </div>
-                <div class="option-card" onclick="seleccionar('juego_flash.html', 'FLASH MEMORY', this)">
-                    <span class="option-icon">📸</span>
-                    <div class="option-name">Flash Memory</div>
-                    <div class="option-desc">Visto y no visto. Reconstruye el tablero de memoria.</div>
-                </div>
-                <div class="option-card" onclick="seleccionar('juego_memoria2.html', 'MEMORIA PRO', this)">
-                    <span class="option-icon">🧠</span>
-                    <div class="option-name">Memoria Pro</div>
-                    <div class="option-desc">Escribe la posición en texto usando coordenadas.</div>
-                </div>
-                <div class="option-card" onclick="seleccionar('juego_lectura.html', 'LECTOR PGN', this)">
-                    <span class="option-icon">📖</span>
-                    <div class="option-name">Lector PGN</div>
-                    <div class="option-desc">Lee la notación y monta la posición final en tu mente.</div>
-                </div>
+        <div class="options-grid">
+            <div class="option-card selected" onclick="seleccionar('juego_radar.html', 'Radar Visual', this)">
+                <span class="option-icon">📡</span>
+                <div class="option-name">Radar Visual</div>
+                <div class="option-desc">Cuenta piezas rápidamente.</div>
+            </div>
+            <div class="option-card" onclick="seleccionar('juego_flash.html', 'Flash Memory', this)">
+                <span class="option-icon">📸</span>
+                <div class="option-name">Flash Memory</div>
+                <div class="option-desc">Memoriza y coloca las piezas.</div>
+            </div>
+            <div class="option-card" onclick="seleccionar('juego_memoria2.html', 'Memoria Pro', this)">
+                <span class="option-icon">🧠</span>
+                <div class="option-name">Memoria Pro</div>
+                <div class="option-desc">Reconstruye dictando coordenadas.</div>
+            </div>
+            <div class="option-card" onclick="seleccionar('juego_lectura.html', 'Lector PGN', this)">
+                <span class="option-icon">📖</span>
+                <div class="option-name">Lector PGN</div>
+                <div class="option-desc">Visualiza partidas a ciegas.</div>
             </div>
         </div>
 
-        <div style="width: 100%;">
-            <div class="category-title">2. Elige cómo quieres jugar</div>
+        <div id="ajustes-memoria">
             
-            <div class="modos-layout">
-                
-                <div class="modo-card zen">
-                    <h2 class="modo-title zen-title">🧘 Modo Zen</h2>
-                    <div class="modo-desc">
-                        Ideal para aprender y asentar el conocimiento.<br><br>
-                        Juega sin cronómetro, sin vidas y sin penalizaciones. Tómate tu tiempo para visualizar correctamente cada detalle del tablero.
-                    </div>
-                    <button id="btn-zen" class="btn-jugar btn-zen" onclick="iniciarZen()">📘 INICIAR RADAR ZEN</button>
-                </div>
+            <div class="ajuste-item" id="box-modo" style="display: none;">
+                <label>Modo de Juego:</label>
+                <select id="mem-modo">
+                    <option value="random">✏️ Escrito (Aleatorio)</option>
+                    <option value="custom">♟️ Desplazar piezas (Creador)</option>
+                </select>
+            </div>
 
-                <div class="modo-card arcade">
-                    <h2 class="modo-title arcade-title">⚡ Modo Arcade</h2>
-                    <div class="modo-desc" style="margin-bottom: 15px;">
-                        Para mentes ágiles. Lucha contra el reloj y tus propios errores.
-                    </div>
+            <div class="ajuste-item" id="box-piezas" style="display: none;">
+                <label>Número de Piezas:</label>
+                <input type="number" id="mem-piezas" value="5" min="1" max="32">
+            </div>
 
-                    <div class="config-grupo">
-                        <h3>⏱️ Reloj y Reglas</h3>
-                        <div class="config-item">
-                            <label>Tiempo Inicial (segundos):</label>
-                            <input type="number" id="arc-time" class="num-mini" value="120" min="10">
-                        </div>
-                        <div class="config-item">
-                            <label>Bonificación por Acierto (+):</label>
-                            <input type="number" id="arc-bonus" class="num-mini num-verde" value="5" min="0">
-                        </div>
-                        <div class="config-item">
-                            <label>Penalización por Fallo (-):</label>
-                            <input type="number" id="arc-penalty" class="num-mini num-rojo" value="10" min="0">
-                        </div>
-                    </div>
+            <div class="ajuste-item" id="box-jugadas" style="display: none;">
+                <label>Profundidad (Jugadas):</label>
+                <input type="number" id="mem-jugadas" value="15" min="1" max="150">
+            </div>
 
-                    <button id="btn-arcade" class="btn-jugar btn-arcade" onclick="iniciarArcade()">🔥 JUGAR RADAR ARCADE</button>
-                </div>
-
+            <div class="ajuste-item" id="box-tiempo" style="display: none;">
+                <label>Tiempo Vistazo (s) <span style="font-size:0.8em; color:#888;">[0=Manual]</span>:</label>
+                <input type="number" id="mem-tiempo" value="5" min="0" max="300">
             </div>
         </div>
 
+        <div class="modos-layout">
+            
+            <div class="modo-card zen">
+                <h2 class="modo-title zen-title">Modo Zen</h2>
+                <div class="modo-desc">
+                    Entrena a tu propio ritmo. Sin cronómetro global. Ideal para estudiar posiciones y mejorar la precisión.
+                </div>
+                <button id="btn-zen" class="btn-accion btn-zen" onclick="iniciarZen()">📘 INICIAR RADAR VISUAL ZEN</button>
+            </div>
+
+            <div class="modo-card arcade">
+                <h2 class="modo-title arcade-title">Modo Arcade</h2>
+                <div class="modo-desc" style="margin-bottom: 10px;">
+                    Compite contra el reloj. Gana tiempo por aciertos y pierde por fallos.
+                </div>
+                
+                <div class="ajustes-arcade">
+                    <div class="ajuste-row">
+                        <label>Tiempo Inicial (segundos):</label>
+                        <input type="number" id="arc-time" value="120" min="30" max="600">
+                    </div>
+                    <div class="ajuste-row">
+                        <label style="color: var(--green);">Bonus por Acierto (+):</label>
+                        <input type="number" id="arc-bonus" value="5" min="0" max="30" style="color: var(--green); border-color: var(--green);">
+                    </div>
+                    <div class="ajuste-row">
+                        <label style="color: var(--red);">Castigo por Fallo (-):</label>
+                        <input type="number" id="arc-penalty" value="10" min="0" max="30" style="color: var(--red); border-color: var(--red);">
+                    </div>
+                </div>
+
+                <button id="btn-arcade" class="btn-accion btn-arcade" onclick="iniciarArcade()">🔥 JUGAR RADAR VISUAL ARCADE</button>
+            </div>
+
+        </div>
     </div>
 
     <script src="utils.js?v=2"></script>
     <script>
         // Archivo que se cargará por defecto
         let archivoSeleccionado = 'juego_radar.html';
+
+        // Al cargar la página, ejecutar seleccionar para el modo por defecto (Radar)
+        window.onload = () => {
+            seleccionar('juego_radar.html', 'Radar Visual', document.querySelector('.option-card'));
+        };
 
         function seleccionar(archivo, nombreJuego, elemento) {
             archivoSeleccionado = archivo;
@@ -251,11 +276,58 @@
             // Actualizar texto de los botones
             document.getElementById('btn-zen').innerText = "📘 INICIAR " + nombreJuego + " ZEN";
             document.getElementById('btn-arcade').innerText = "🔥 JUGAR " + nombreJuego + " ARCADE";
+
+            // LÓGICA CAMALEÓNICA: Mostrar/Ocultar ajustes según el juego
+            let panelAjustes = document.getElementById('ajustes-memoria');
+            let boxModo = document.getElementById('box-modo');
+            let boxPiezas = document.getElementById('box-piezas');
+            let boxJugadas = document.getElementById('box-jugadas');
+            let boxTiempo = document.getElementById('box-tiempo');
+
+            // Resetear todos
+            boxModo.style.display = 'none';
+            boxPiezas.style.display = 'none';
+            boxJugadas.style.display = 'none';
+            boxTiempo.style.display = 'none';
+            panelAjustes.style.display = 'flex'; // Mostrar el contenedor
+
+            if (archivo === 'juego_radar.html') {
+                boxTiempo.style.display = 'flex';
+            } else if (archivo === 'juego_flash.html') {
+                boxPiezas.style.display = 'flex';
+                boxTiempo.style.display = 'flex';
+            } else if (archivo === 'juego_memoria2.html') {
+                boxModo.style.display = 'flex';
+                boxTiempo.style.display = 'flex';
+            } else if (archivo === 'juego_lectura.html') {
+                boxJugadas.style.display = 'flex';
+            } else {
+                panelAjustes.style.display = 'none';
+            }
+        }
+
+        // Traduce el número escrito en el input a milisegundos, o manda 'manual' si ponen un 0
+        function obtenerParametrosAjustes() {
+            let params = "";
+            let valTiempo = document.getElementById('mem-tiempo').value;
+            let tiempoCalculado = (valTiempo == 0 || valTiempo === "") ? "manual" : (valTiempo * 1000);
+
+            if (archivoSeleccionado === 'juego_radar.html') {
+                params += `&t_mem=${tiempoCalculado}`;
+            } else if (archivoSeleccionado === 'juego_flash.html') {
+                params += `&piezas=${document.getElementById('mem-piezas').value}&t_mem=${tiempoCalculado}`;
+            } else if (archivoSeleccionado === 'juego_memoria2.html') {
+                params += `&tipo=${document.getElementById('mem-modo').value}&t_mem=${tiempoCalculado}`;
+            } else if (archivoSeleccionado === 'juego_lectura.html') {
+                params += `&jugadas=${document.getElementById('mem-jugadas').value}`;
+            }
+            return params;
         }
 
         // Lógica de redirección con parámetros
         function iniciarZen() {
-            window.location.href = archivoSeleccionado + '?modo=zen';
+            let url = archivoSeleccionado + '?modo=zen' + obtenerParametrosAjustes();
+            window.location.href = url;
         }
 
         function iniciarArcade() {
@@ -263,7 +335,18 @@
             let b = document.getElementById('arc-bonus').value || 5;
             let p = document.getElementById('arc-penalty').value || 10;
 
-            window.location.href = archivoSeleccionado + `?modo=arcade&time=${t}&bonus=${b}&penalty=${p}`;
+            let url = archivoSeleccionado + `?modo=arcade&time=${t}&bonus=${b}&penalty=${p}`;
+            
+            // Cogemos los ajustes actuales
+            let paramsExtra = obtenerParametrosAjustes();
+            
+            // En arcade forzamos que no puedan usar el creador (tipo=random)
+            if (archivoSeleccionado === 'juego_memoria2.html') {
+                paramsExtra = paramsExtra.replace('tipo=custom', 'tipo=random');
+            }
+
+            url += paramsExtra;
+            window.location.href = url;
         }
     </script>
 </body>
