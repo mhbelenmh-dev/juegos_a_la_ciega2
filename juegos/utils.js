@@ -576,13 +576,103 @@ window.obtenerInfoRango = function(xpTotal) {
     let xp = xpTotal || 0;
     
     let rangos = [
-        { nombre: "Iniciado", icono: "🪵", min: 0, max: 999, color: "#8b5a2b" },
-        { nombre: "Aficionado", icono: "🥉", min: 1000, max: 2499, color: "#cd7f32" },
-        { nombre: "Promesa", icono: "🥈", min: 2500, max: 4999, color: "#c0c0c0" },
-        { nombre: "Experto", icono: "🥇", min: 5000, max: 9999, color: "#ffd700" },
-        { nombre: "Maestro", icono: "💎", min: 10000, max: 24999, color: "#00ced1" },
-        { nombre: "Leyenda", icono: "👑", min: 25000, max: Infinity, color: "#ff4500" }
-    ];
+{ 
+    nombre: "Iniciado I", 
+    pieza: "Peón", // Opcional, pero útil si quieres mostrar el nombre de la pieza
+    imagen: "peon1.jpg", // Aquí pondrás la ruta a tu imagen sin fondo
+    min: 0, 
+    max: 499, 
+    color: "#8b5a2b" 
+  },
+  { 
+    nombre: "Iniciado II", 
+    pieza: "Peón Épico",
+    imagen: "peon2.jpg", 
+    min: 500, 
+    max: 999, 
+    color: "#a06f3d" // Un truco: puedes hacer que el color sea un poco más claro/brillante en la fase II
+  },
+  { 
+    nombre: "Aficionado I", 
+    pieza: "Caballo",
+    imagen: "caballo1.jpg", 
+    min: 1000, 
+    max: 1499, 
+    color: "#cd7f32" 
+  },
+  { 
+    nombre: "Aficionado II", 
+    pieza: "Caballo Épico",
+    imagen: "caballo2.jpg", 
+    min: 1500, 
+    max: 2499, 
+    color: "#e08b3d" 
+  },
+  { 
+    nombre: "Promesa I", 
+    pieza: "Alfil",
+    imagen: "alfil1.jpg", 
+    min: 2500, 
+    max: 2999, 
+    color: "#c0c0c0" 
+  },
+  { 
+    nombre: "Promesa II", 
+    pieza: "Alfil Épico",
+    imagen: "alfil2.jpg", 
+    min: 3000, 
+    max: 4999, 
+    color: "#d4c0c0" 
+  },
+  { 
+    nombre: "Experto I", 
+    pieza: "Torre",
+    imagen: "torre1.jpg", 
+    min: 5000, 
+    max: 5999, 
+    color: "#ffd700" 
+  },
+  { 
+    nombre: "Experto II", 
+    pieza: "Torre Épica",
+    imagen: "torre2.jpg", 
+    min: 6000, 
+    max: 9999, 
+    color: "#e8c300" 
+  },
+  { 
+    nombre: "Maestro I", 
+    pieza: "Dama",
+    imagen: "dama1.jpg", 
+    min: 10000, 
+    max: 14999, 
+    color: "#00ced1" 
+  },
+  { 
+    nombre: "Maestro II", 
+    pieza: "Dama Épica",
+    imagen: "dama2.jpg", 
+    min: 15000, 
+    max: 24999, 
+    color: "#00e0d1" 
+  },
+  { 
+    nombre: "Leyenda I", 
+    pieza: "Rey",
+    imagen: "rey1.jpg", 
+    min: 25000, 
+    max: 49999, 
+    color: "#ff4500" 
+  },
+  { 
+    nombre: "Leyenda II", 
+    pieza: "Rey Épico",
+    imagen: "rey2.jpg", 
+    min: 50000, 
+    max: Infinity, 
+    color: "#ff6b3d" 
+  }
+];
 
     let rangoActual = rangos[0];
     let rangoSiguiente = rangos[1];
@@ -601,9 +691,10 @@ window.obtenerInfoRango = function(xpTotal) {
 
     return {
         nombre: rangoActual.nombre,
-        icono: rangoActual.icono,
+        imagen: rangoActual.imagen, // <-- ¡ESTO ES LO QUE FALTABA!
         color: rangoActual.color,
-        xpFaltante: (rangoActual.nombre === "Leyenda") ? 0 : (rangoSiguiente.min - xp),
+        // He ajustado esto también porque tu nivel máximo ahora se llama "Leyenda II"
+        xpFaltante: (rangoActual.nombre === "Leyenda II") ? 0 : (rangoSiguiente.min - xp),
         porcentajeProgreso: porcentaje,
         siguienteRango: rangoSiguiente.nombre
     };
