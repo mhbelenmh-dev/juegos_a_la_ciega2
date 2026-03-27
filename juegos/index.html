@@ -81,6 +81,15 @@
         /* Estilos extra para los select del duelo */
         optgroup { background: #000; color: #888; font-style: normal; font-weight: bold; }
         option { background: #111; color: #fff; font-weight: normal; }
+        /* Ajustes específicos para el nuevo modal de perfil */
+        #modal-perfil .caja-modal {
+            padding: 25px;
+            max-width: 420px;
+            border: 2px solid var(--accent);
+        }
+        #modal-perfil .close-modal {
+    display: none; /* Ocultamos la X porque usamos el botón de Cerrar */
+}
     </style>
 </head>
 
@@ -129,7 +138,7 @@
                     
                     <div style="text-align: center; padding-bottom: 20px; border-bottom: 1px dashed #444;">
                         <div style="color: #aaa; font-size: 0.9em; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px;">Llevas de racha</div>
-                        <div style="color: #ff6600; font-size: 2.2em; font-weight: bold; text-shadow: 0 0 15px rgba(255,102,0,0.4); margin: 0;">🔥 <span id="racha-dias">1 Día</span></div>
+                        <div style="color: #ff6600; font-size: 2.2em; font-weight: bold; text-shadow: 0 0 15px rgba(255,102,0,0.4); margin: 0;"><img src="racha.png" style="height: 40px; width: auto; object-fit: contain;"> <span id="racha-dias">1 Día</span></div>
                         <div style="color: #888; font-size: 1.1em; margin-top: 10px;">Experiencia total: <span id="dash-xp" style="color: var(--green); font-weight: bold; font-size: 1.2em;">0 XP</span></div>
                     </div>
                     
@@ -158,14 +167,15 @@
 
                 <div class="dash-card" style="border-top: 4px solid var(--accent);">
                     <div class="dash-title">
-                        <span>🎯 Misión Diaria</span>
+                        <img src="misiondiaria.pnG" style="height: 38px; width: 38px; object-fit: contain;">
+                        <span> Misión Diaria</span> 
                     </div>
                     
                     <div style="display: flex; flex-direction: column; gap: 15px; margin-top: 5px;">
                         
                         <div onclick="window.location.href='hub_tactica.html'" style="cursor:pointer; background: #1a1917; padding: 12px 15px; border-radius: 8px; border: 1px solid #333; transition: 0.2s;" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='#333'">
                             <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                                <strong style="color: #fff;">⚡ Ejercicios de Táctica</strong> <span id="txt-m-tactica" style="color: var(--accent); font-weight: bold;">0/3</span>
+                                <strong style="color: #fff;"><img src="tactica.png" style="height: 30px; width: 38px; object-fit: contain;"> Ejercicios de Táctica</strong> <span id="txt-m-tactica" style="color: var(--accent); font-weight: bold;">0/3</span>
                             </div>
                             <div style="display: flex; gap: 5px;">
                                 <div class="box-m-tactica" style="flex:1; height:8px; background:#222; border-radius:4px;"></div>
@@ -176,7 +186,7 @@
 
                         <div onclick="window.location.href='hub_memoria.html'" style="cursor:pointer; background: #1a1917; padding: 12px 15px; border-radius: 8px; border: 1px solid #333; transition: 0.2s;" onmouseover="this.style.borderColor='var(--blue)'" onmouseout="this.style.borderColor='#333'">
                             <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                                <strong style="color: #fff;">📸 Ejercicios de Memoria</strong> <span id="txt-m-memoria" style="color: var(--blue); font-weight: bold;">0/3</span>
+                                <strong style="color: #fff;"><img src="memoria.png" style="height: 30px; width: 38px; object-fit: contain;"> Ejercicios de Memoria</strong> <span id="txt-m-memoria" style="color: var(--blue); font-weight: bold;">0/3</span>
                             </div>
                             <div style="display: flex; gap: 5px;">
                                 <div class="box-m-memoria" style="flex:1; height:8px; background:#222; border-radius:4px;"></div>
@@ -187,8 +197,7 @@
 
                         <div onclick="window.location.href='hub_basico.html'" style="cursor:pointer; background: #1a1917; padding: 12px 15px; border-radius: 8px; border: 1px solid #333; transition: 0.2s;" onmouseover="this.style.borderColor='var(--green)'" onmouseout="this.style.borderColor='#333'">
                             <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                                <strong style="color: #fff;">🌍 Tablero</strong> <span id="txt-m-geo" style="color: var(--green); font-weight: bold;">0/3</span>
-                            </div>
+                                <strong style="color: #fff; display: flex; align-items: center; gap: 8px;"><img src="tablero.png" style="height: 22px; width: auto; object-fit: contain;"> Tablero</strong> <span id="txt-m-geo" style="color: var(--green); font-weight: bold;">0/3</span>                            </div>
                             <div style="display: flex; gap: 5px;">
                                 <div class="box-m-geo" style="flex:1; height:8px; background:#222; border-radius:4px;"></div>
                                 <div class="box-m-geo" style="flex:1; height:8px; background:#222; border-radius:4px;"></div>
@@ -203,7 +212,8 @@
 
                 <div class="dash-card" style="border-top: 4px solid var(--green);">
                     <div class="dash-title">
-                        <span>🏆 Líderes de XP</span>
+                        <img src="TROFEO xp.png" style="height: 38px; width: 38px; object-fit: contain;">
+                        <span>Líderes de XP</span>
                     </div>
                     <div id="ranking-xp" style="display: flex; flex-direction: column; gap: 10px; margin-top: 10px; font-size: 1.1em;">
                         <div style="color:#888; text-align:center;">Cargando...</div>
@@ -274,13 +284,13 @@
                         <option value="storm_fantasma">Puzzle Storm (Con tablero pero sin piezas)</option>
                         <option value="storm_ciego">Puzzle Storm (Tablero Oculto)</option>
                     </optgroup>
-                    <optgroup label="📸 MEMORIA">
+                    <optgroup label=" MEMORIA">
                         <option value="radar">Visión Radar</option>
                         <option value="flash">Táctica Flash</option>
                         <option value="memoria_pro">Memoria Pro</option>
                         <option value="lector">Lector FEN</option>
                     </optgroup>
-                    <optgroup label="🌍 TABLERO">
+                    <optgroup label="TABLERO">
                         <option value="arcade_teclado">Arcade Coordenadas (Teclado)</option>
                          <option value="entrenamiento_ciego">Entrenamiento Ciego</option>
                     </optgroup>
@@ -303,7 +313,7 @@
                 </div>
             </div>
 
-            <button onclick="enviarRetoDuelo()" class="btn-modal" style="background:var(--accent); color:#000; box-shadow: 0 4px 0 #b39500; margin-bottom: 0; padding:15px; font-size:1.2em;">ENVIAR RETO 🔥</button>
+            <button onclick="enviarRetoDuelo()" class="btn-modal" style="background:var(--accent); color:#000; box-shadow: 0 4px 0 #b39500; margin-bottom: 0; padding:15px; font-size:1.2em;">ENVIAR RETO <img src="racha.png" style="height: 25px; width: auto; object-fit: contain;"></button>
         </div>
     </div>
 
@@ -601,45 +611,73 @@
 
         function abrirMiPerfil() {
             let p = obtenerPerfil(); 
-            let xpInfo = (typeof window.obtenerInfoRango === 'function') ? window.obtenerInfoRango(p.xpTotal || 0) : { nombre: 'Jugador', icono: '♟️', color: '#fff' };
+            let xpInfo = (typeof window.obtenerInfoRango === 'function') ? window.obtenerInfoRango(p.xpTotal || 0) : { nombre: 'Jugador', icono: '♟️', color: '#fff', porcentajeProgreso: 0, xpFaltante: 0 };
+            let xp = p.xpTotal || 0;
             
             let html = `
-                <div class="profile-header" style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #444; padding-bottom: 20px; margin-bottom: 20px;">
-                    <div style="flex: 1; text-align: left;">
-                        <h1 style="margin:0; color:var(--accent); font-size:2.5em; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${p.nombreJugador}</h1>
-                    </div>
-                    
-                    <div style="flex: 1; display: flex; justify-content: center;">
-                        <img src="${xpInfo.imagen}" style="height: 85px; filter: drop-shadow(0 0 15px ${xpInfo.color}80);">
+                <div style="display: flex; align-items: center; gap: 20px; margin-bottom: 25px;">
+                     <div style="width: 90px; height: 90px; border-radius: 50%; border: 2px solid var(--accent); overflow: hidden; flex-shrink: 0; background: #000; display: flex; justify-content: center; align-items: center; box-shadow: inset 0 0 15px rgba(0,0,0,0.8), 0 0 15px rgba(229,191,0,0.2);">
+                      <img src="${xpInfo.imagen}" style="height: 110%; object-fit: cover; filter: drop-shadow(0 0 8px ${xpInfo.color}80);">
                     </div>
 
-                    <div style="flex: 1; text-align: right;">
-                        <div style="color: ${xpInfo.color}; font-size: 1.2em; text-transform: uppercase; font-weight: bold;">
-                            ${xpInfo.nombre}
+                    <div style="flex-grow: 1; text-align: left;">
+                        <h2 style="margin: 0; color: var(--accent); font-size: 2em; font-weight: normal; letter-spacing: 1px;">${p.nombreJugador}</h2>
+                        <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-top: 5px;">
+                            <span style="color: #fff; font-size: 1.1em; text-transform: uppercase;">${xpInfo.nombre}</span>
+                            <span style="color: #00d2d3; font-size: 1.1em;">${xp} XP</span>
                         </div>
-                        <div style="color: var(--green); font-weight: bold; font-size: 1.5em; margin-top: 5px;">
-                            ${p.xpTotal || 0} XP
+                        <div style="width: 100%; height: 6px; background: #333; border-radius: 3px; margin: 8px 0; overflow: hidden;">
+                            <div style="width: ${xpInfo.porcentajeProgreso || 0}%; height: 100%; background: #00d2d3; border-radius: 3px;"></div>
                         </div>
-                        <div style="color: #888; font-size: 0.8em; margin-top: 3px; font-weight: bold;">
-                            ${xpInfo.xpFaltante > 0 ? `Faltan ${xpInfo.xpFaltante} XP` : '¡Nivel Máximo!'}
+                        <div style="display: flex; justify-content: space-between; color: #888; font-size: 0.95em;">
+                            <span>${xp} XP</span>
+                            <span>${xpInfo.xpFaltante > 0 ? `Faltan ${xpInfo.xpFaltante} XP` : '¡Nivel Máximo!'}</span>
                         </div>
                     </div>
                 </div>
-                <div class="activity-log" style="max-width: 500px; margin: 0 auto;">
-                    <h3 style="margin-top:0; color:var(--blue); border-bottom:1px solid #444; padding-bottom:10px; text-align:center;">📊 Estadísticas Principales</h3>
-                    <div class="activity-item"><span>🔥 Constancia:</span> <strong style="color:#ff6600;">Racha de ${p.rachaDias || 0} Días</strong></div>
-                    <div class="activity-item" style="border-bottom:none;"><span>⚡ Récord Arcade:</span> <strong style="color:var(--accent);">${p.arcadeGlobalMax || 0} Pts</strong></div>
-                </div>`; // <-- Aquí estaba el /div> roto, ¡ya está arreglado!
 
-            html += `
-                <div style="display: flex; gap: 15px; margin-top: 25px;">
-                    <button class="btn-modal" style="background:#444; color:white; width:100%; padding:15px; margin:0; transition:0.2s;" onmouseover="this.style.background='#555'" onmouseout="this.style.background='#444'" onclick="document.getElementById('btn-ajustes-flotante').click(); cerrarModal('modal-perfil');">⚙️ Ajustes</button>
-                    <button class="btn-modal" style="background:#444; color:white; width:100%; padding:15px; margin:0; transition:0.2s;" onmouseover="this.style.background='#555'" onmouseout="this.style.background='#444'" onclick="cerrarModal('modal-perfil')">Cerrar</button>
+                <div style="border: 1px solid var(--accent); border-radius: 8px; padding: 15px 20px; margin-bottom: 20px;">
+                
+                    <div style="display: flex; align-items: center; margin-bottom: 15px; gap: 15px;">
+                        <img src="estadisticas.png" style="height: 38px; width: 38px; object-fit: contain;">
+                        <span style="color: #fff; font-size: 1.2em; flex-grow: 1; text-align: left;">Estadísticas Principales</span>
+                    </div>
+                
+                    <div style="display: flex; align-items: center; margin-bottom: 15px; gap: 15px;">
+                        <img src="constancia.png" style="height: 38px; width: 38px; object-fit: contain;">
+                        <div style="flex-grow: 1; text-align: left;">
+                            <div style="color: #fff; font-size: 1.2em;">Constancia</div>
+                            <div style="color: #aaa; font-size: 0.9em;">Racha activa</div>
+                        </div>
+                        <div style="text-align: right; color: #ff6600; font-size: 1.6em; font-weight: bold;">
+                            ${p.rachaDias || 0} <span style="font-size: 0.6em; color: #aaa; font-weight: normal;">Días</span>
+                        </div>
+                    </div>
+                
+                    <div style="display: flex; align-items: center; gap: 15px;">
+                        <img src="record.png" style="height: 38px; width: 38px; object-fit: contain;">
+                        <div style="flex-grow: 1; text-align: left;">
+                            <div style="color: #fff; font-size: 1.2em;">Récord Arcade</div>
+                            <div style="color: #aaa; font-size: 0.9em;">Puntuación máxima</div>
+                        </div>
+                        <div style="text-align: right; color: #00d2d3; font-size: 1.4em; font-weight: bold;">
+                            ${p.arcadeGlobalMax || 0} <span style="font-size: 0.65em; color: #aaa; font-weight: normal;">Pts</span>
+                        </div>
+                    </div>
+
                 </div>
-                <div style="margin-top: 15px;">
-                    <button class="btn-modal" style="background:var(--red); color:white; width:100%; padding:15px; margin:0; font-weight:bold; transition:0.2s;" onmouseover="this.style.filter='brightness(1.2)'" onmouseout="this.style.filter='none'" onclick="cerrarSesion()">Salir de la cuenta</button>
-                </div>
-            `;            
+
+                <div style="display: flex; gap: 10px; justify-content: space-between;">
+                    <button style="background: var(--green); color: #fff; border: 1px solid var(--accent); border-radius: 6px; padding: 12px; cursor: pointer; flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 1.1em; transition: 0.2s;" onmouseover="this.style.filter='brightness(1.2)'" onmouseout="this.style.filter='none'" onclick="document.getElementById('btn-ajustes-flotante').click(); cerrarModal('modal-perfil');">
+                        ⚙️ Ajustes
+                    </button>
+                    <button style="background: var(--blue); color: #fff; border: 1px solid var(--accent); border-radius: 6px; padding: 12px; cursor: pointer; flex: 1; font-size: 1.1em; transition: 0.2s;" onmouseover="this.style.filter='brightness(1.2)'" onmouseout="this.style.filter='none'" onclick="cerrarModal('modal-perfil')">
+                        Cerrar
+                    </button>
+                    <button style="background: var(--red); color: #fff; border: none; border-radius: 6px; padding: 12px; cursor: pointer; flex: 1.3; font-weight: bold; font-size: 1.1em; transition: 0.2s;" onmouseover="this.style.filter='brightness(1.2)'" onmouseout="this.style.filter='none'" onclick="cerrarSesion()">
+                        Salir de la cuenta
+                    </button>
+                </div>            `;            
             document.getElementById('perfil-ajeno-body').innerHTML = html; 
             document.getElementById('modal-perfil').style.display = 'flex';
         }
@@ -647,42 +685,79 @@
         function verPerfilAjeno(uid) {
             document.getElementById('search-results').style.display = 'none'; document.getElementById('search-input').value = '';
             let miUid = localStorage.getItem('current_user_uid'); if (uid === miUid) { abrirMiPerfil(); return; }
+    
             firebase.database().ref('users/' + uid).once('value', snap => {
-                let u = snap.val(); if (!u) return; let colorOnline = u.isOnline ? 'var(--green)' : '#555';
-                let xpInfo = (typeof window.obtenerInfoRango === 'function') ? window.obtenerInfoRango(u.xpTotal || 0) : { nombre: 'Jugador', icono: '♟️', color: '#fff' };
+                let u = snap.val(); if (!u) return; 
+                let colorOnline = u.isOnline ? 'var(--green)' : '#555';
+                let xpInfo = (typeof window.obtenerInfoRango === 'function') ? window.obtenerInfoRango(u.xpTotal || 0) : { nombre: 'Jugador', icono: '♟️', color: '#fff', porcentajeProgreso: 0, xpFaltante: 0 };
+                let xp = u.xpTotal || 0;
+        
                 let html = `
-                    <div class="profile-header" style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #444; padding-bottom: 20px; margin-bottom: 20px;">
-                        <div style="flex: 1; text-align: left; display: flex; align-items: center; gap: 12px;">
-                            <div class="dot-online" style="background:${colorOnline}; min-width:15px; height:15px; box-shadow: 0 0 10px ${colorOnline}; border-radius: 50%;"></div>
-                            <h1 style="margin:0; color:var(--accent); font-size:2.5em; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${u.nombreJugador}</h1>
-                        </div>
-                        
-                        <div style="flex: 1; display: flex; justify-content: center;">
-                            <img src="${xpInfo.imagen}" style="height: 85px; filter: drop-shadow(0 0 15px ${xpInfo.color}80);">
+                    <div style="display: flex; align-items: center; gap: 20px; margin-bottom: 25px;">
+                        <div style="position: relative;">
+                            <div style="width: 90px; height: 90px; border-radius: 50%; border: 2px solid var(--accent); overflow: hidden; background: #000; display: flex; justify-content: center; align-items: center; box-shadow: inset 0 0 15px rgba(0,0,0,0.8), 0 0 15px rgba(229,191,0,0.2);">
+                                <img src="${xpInfo.imagen}" style="height: 110%; object-fit: cover; filter: drop-shadow(0 0 8px ${xpInfo.color}80);">
+                            </div>
+                            <div style="position: absolute; bottom: 0; right: 0; width: 18px; height: 18px; background: ${colorOnline}; border-radius: 50%; border: 2px solid var(--panel); box-shadow: 0 0 5px ${colorOnline};"></div>
                         </div>
 
-                        <div style="flex: 1; text-align: right;">
-                            <div style="color: ${xpInfo.color}; font-size: 1.2em; text-transform: uppercase; font-weight: bold;">
-                                ${xpInfo.nombre}
+                        <div style="flex-grow: 1; text-align: left;">
+                            <h2 style="margin: 0; color: var(--accent); font-size: 2em; font-weight: normal; letter-spacing: 1px;">${u.nombreJugador}</h2>
+                            <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-top: 5px;">
+                                <span style="color: #fff; font-size: 1.1em; text-transform: uppercase;">${xpInfo.nombre}</span>
+                                <span style="color: #00d2d3; font-size: 1.1em;">${xp} XP</span>
                             </div>
-                            <div style="color: var(--green); font-weight: bold; font-size: 1.5em; margin-top: 5px;">
-                                ${u.xpTotal || 0} XP
+                            <div style="width: 100%; height: 6px; background: #333; border-radius: 3px; margin: 8px 0; overflow: hidden;">
+                                <div style="width: ${xpInfo.porcentajeProgreso || 0}%; height: 100%; background: #00d2d3; border-radius: 3px;"></div>
                             </div>
-                            <div style="color: #888; font-size: 0.8em; margin-top: 3px; font-weight: bold;">
-                                ${xpInfo.xpFaltante > 0 ? `Faltan ${xpInfo.xpFaltante} XP` : '¡Nivel Máximo!'}
+                            <div style="display: flex; justify-content: space-between; color: #888; font-size: 0.95em;">
+                                <span>${xp} XP</span>
+                                <span>${xpInfo.xpFaltante > 0 ? `Faltan ${xpInfo.xpFaltante} XP` : '¡Nivel Máximo!'}</span>
                             </div>
                         </div>
                     </div>
-                    <div class="activity-log" style="max-width: 500px; margin: 0 auto; margin-bottom: 25px;">
-                        <h3 style="margin-top:0; color:var(--blue); border-bottom:1px solid #444; padding-bottom:10px; text-align:center;">📊 Estadísticas Principales</h3>
-                        <div class="activity-item"><span>🔥 Constancia:</span> <strong style="color:#ff6600;">Racha de ${u.rachaDias || 0} Días</strong></div>
-                        <div class="activity-item" style="border-bottom:none;"><span>⚡ Récord Arcade:</span> <strong style="color:var(--accent);">${u.arcadeGlobalMax || 0} Pts</strong></div>
+
+                    <div style="border: 1px solid var(--accent); border-radius: 8px; padding: 15px 20px; margin-bottom: 20px;">
+                        
+                        <div style="display: flex; align-items: center; margin-bottom: 15px; gap: 15px;">
+                            <img src="estadisticas.png" style="height: 38px; width: 38px; object-fit: contain;">
+                            <span style="color: #fff; font-size: 1.2em; flex-grow: 1; text-align: left;">Estadísticas Principales</span>
+                        </div>
+                        
+                        <div style="display: flex; align-items: center; margin-bottom: 15px; gap: 15px;">
+                            <img src="constancia.png" style="height: 38px; width: 38px; object-fit: contain;">
+                            <div style="flex-grow: 1; text-align: left;">
+                                <div style="color: #fff; font-size: 1.2em;">Constancia</div>
+                                <div style="color: #aaa; font-size: 0.9em;">Racha activa</div>
+                            </div>
+                            <div style="text-align: right; color: #ff6600; font-size: 1.6em; font-weight: bold;">
+                                ${u.rachaDias || 0} <span style="font-size: 0.6em; color: #aaa; font-weight: normal;">Días</span>
+                            </div>
+                        </div>
+                        
+                        <div style="display: flex; align-items: center; gap: 15px;">
+                            <img src="record.png" style="height: 38px; width: 38px; object-fit: contain;">
+                            <div style="flex-grow: 1; text-align: left;">
+                                <div style="color: #fff; font-size: 1.2em;">Récord Arcade</div>
+                                <div style="color: #aaa; font-size: 0.9em;">Puntuación máxima</div>
+                            </div>
+                            <div style="text-align: right; color: #00d2d3; font-size: 1.4em; font-weight: bold;">
+                                ${u.arcadeGlobalMax || 0} <span style="font-size: 0.65em; color: #aaa; font-weight: normal;">Pts</span>
+                            </div>
+                        </div>
                     </div>
-                    <div style="display: flex; gap: 15px; margin-bottom: 5px;">
-                        <button class="btn-modal" style="background:var(--accent); color:#000; width:100%; padding:15px; margin:0; box-shadow: 0 4px 0 #b39500;" onclick="abrirConfigDuelo('${uid}', '${u.nombreJugador}')">⚔️ Retar a Duelo</button>
-                        <button class="btn-modal" style="background:var(--blue); color:white; width:100%; padding:15px; margin:0;" onclick="abrirChat('${uid}', '${u.nombreJugador}')">💬 Chat</button>
-                    </div>
-                `;
+
+                    <div style="display: flex; gap: 10px; justify-content: space-between;">
+                        <button style="background: var(--red); color: #fff; border: 1px solid var(--accent); border-radius: 6px; padding: 12px; cursor: pointer; flex: 1; font-size: 1.1em; transition: 0.2s;" onmouseover="this.style.filter='brightness(1.2)'" onmouseout="this.style.filter='none'" onclick="cerrarModal('modal-perfil')">
+                            Cerrar
+                        </button>
+                        <button style="background: var(--green); color: #000; border: none; border-radius: 6px; padding: 12px; cursor: pointer; flex: 1.2; font-weight: bold; font-size: 1.1em; transition: 0.2s;" onmouseover="this.style.filter='brightness(1.1)'" onmouseout="this.style.filter='none'" onclick="abrirConfigDuelo('${uid}', '${u.nombreJugador}')">
+                            ⚔️ Retar
+                        </button>
+                        <button style="background: var(--blue); color: #fff; border: none; border-radius: 6px; padding: 12px; cursor: pointer; flex: 1.2; font-weight: bold; font-size: 1.1em; transition: 0.2s;" onmouseover="this.style.filter='brightness(1.1)'" onmouseout="this.style.filter='none'" onclick="abrirChat('${uid}', '${u.nombreJugador}')">
+                            💬 Chat
+                        </button>
+        </div>                `;
                 document.getElementById('perfil-ajeno-body').innerHTML = html; 
                 document.getElementById('modal-perfil').style.display = 'flex';
             });
@@ -759,7 +834,7 @@
                     let m = child.val(); 
                     let clase = m.from === miUid ? 'msg-me' : 'msg-to'; 
                     
-                    // 🔥 DISEÑO LIMPIO (Como en tu foto): Solo la burbuja, sin contenedores extra ni nombres
+                    //  DISEÑO LIMPIO (Como en tu foto): Solo la burbuja, sin contenedores extra ni nombres
                     html += `<div class="msg-bubble ${clase}">${m.text}</div>`; 
                 });                
                 
