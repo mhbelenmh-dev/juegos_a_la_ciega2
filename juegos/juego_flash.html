@@ -47,6 +47,7 @@
         button { border: none; border-radius: 6px; cursor: pointer; font-weight: bold; transition: 0.2s; width: 100%; margin-top: 15px; }
         .btn-inicio { background: var(--accent); color: #262421; font-size: 1.3em; padding: 15px; box-shadow: 0 4px 0 #b39500; }
         .btn-inicio:hover { filter: brightness(1.1); transform: translateY(-2px); box-shadow: 0 6px 0 #b39500; }
+        .btn-inicio:disabled { opacity: 0.5; cursor: not-allowed; transform: none !important; box-shadow: 0 4px 0 #b39500 !important; } /* Estado deshabilitado */
         
         .btn-comprobar { background: var(--success); color: white; padding: 15px; font-size: 1.3em; box-shadow: 0 4px 0 #4a751b; }
         .btn-comprobar:hover { background: #76b82a; transform: translateY(-2px); box-shadow: 0 6px 0 #4a751b; }
@@ -203,11 +204,20 @@
         var userBoard = null; var solutionBoard = null; var solucionFEN = ''; var pieceThemeUrl = 'https://chessboardjs.com/img/chesspieces/wikipedia/{piece}.png'; 
         var intervaloNum = null; var temporizador = null;
         var rondasJugadas = 0; var misPuntosLocales = 0; var juegoActivo = false;
+        
+        let rondaActiva = false; // <-- MEJORA 1: Anti-spam de clicks
 
         let refSalaTorneo = null; let intervaloTorneo = null;
+        
+        let serverOffset = 0; // <-- BUG 1: Variable de sincro de tiempo global
 
         // Auto-iniciar directo
         window.onload = () => {
+            // BUG 1: Inicializamos el serverOffset con Firebase
+            firebase.database().ref('.info/serverTimeOffset').on('value', function(snap) {
+                serverOffset = snap.val() || 0;
+            });
+
             const torneoId = urlParams.get('torneo');
             if (torneoId) {
                 ejecutarLobby(torneoId);
@@ -262,7 +272,10 @@
                     document.getElementById('leaderboard-list').innerHTML = htmlBoard;
                 }
                 if (data.estado === 'jugando' && !juegoActivo) {
-                    let restante = data.tiempoFin ? Math.floor((data.tiempoFin - Date.now()) / 1000) : 0;
+                    // BUG 1: Usar tiempo sincro global
+                    let tiempoActualReal = Date.now() + serverOffset;
+                    let restante = data.tiempoFin ? Math.floor((data.tiempoFin - tiempoActualReal) / 1000) : 0;
+                    
                     if (restante > 0) {
                         TorneoManager.semillaRonda = data.tiempoFin.toString();
                         document.getElementById('pantalla-podio').classList.add('oculto');
@@ -278,8 +291,10 @@
             if (!refSalaTorneo) return;
             firebase.database().ref(refSalaTorneo + '/estado').once('value').then(snap => {
                 if (snap.val() !== 'jugando') {
+                    // BUG 1: Tiempo final basado en tiempo global
+                    let tiempoActualReal = Date.now() + serverOffset;
                     let msTotales = arcTime * 1000; 
-                    let tiempoFinal = Date.now() + msTotales;
+                    let tiempoFinal = tiempoActualReal + msTotales;
                     firebase.database().ref(refSalaTorneo).update({ estado: 'jugando', tiempoFin: tiempoFinal });
                 }
             });
@@ -344,7 +359,10 @@
                 misPuntosLocales = 0;
                 
                 intervaloTorneo = setInterval(() => {
-                    let restante = Math.floor((tiempoFinMs - Date.now()) / 1000);
+                    // BUG 1: Actualización timer sincro torneo
+                    let tiempoActualReal = Date.now() + serverOffset;
+                    let restante = Math.floor((tiempoFinMs - tiempoActualReal) / 1000);
+                    
                     if (restante <= 0) { clearInterval(intervaloTorneo); finalizarTorneoGlobal(); return; }
                     let m = Math.floor(restante / 60); let s = restante % 60;
                     let timerEl = document.getElementById('timer-torneo');
@@ -381,13 +399,23 @@
         }
 
         function empezarRonda() {
-            if (!juegoActivo) return;
+            // MEJORA 1: Anti-Spam de doble click rápido
+            if (!juegoActivo || rondaActiva) return;
+            rondaActiva = true;
+
+            // BUG 2: Limpiamos la solución anterior de la memoria antes de ocultarla
+            if (solutionBoard) {
+                solutionBoard.destroy();
+                solutionBoard = null;
+            }
+
             document.getElementById('solution-container').classList.add('oculto'); 
             document.getElementById('user-title').classList.remove('visible');
             document.getElementById('myBoard').classList.remove('border-fail', 'border-win'); 
             
             let btnStart = document.getElementById('btn-start');
-            btnStart.classList.add('oculto');
+            btnStart.disabled = true; // Deshabilita el botón visualmente para más feedback
+
             document.getElementById('btn-check').classList.add('oculto'); 
             
             solucionFEN = generarPosicionAleatoria(numPiezas);
@@ -404,7 +432,8 @@
                 btnStart.innerText = "OCULTAR TABLERO";
                 btnStart.style.background = "var(--blue)";
                 btnStart.onclick = faseReconstruccion;
-                btnStart.classList.remove('oculto');
+                btnStart.disabled = false; // Reactivamos el botón para que pueda "ocultar" manual
+                rondaActiva = false; // Ya no hay timeout que bloquear
             } else {
                 let barContainer = document.getElementById('barra-tiempo-container');
                 let barra = document.getElementById('barra-tiempo'); 
@@ -438,7 +467,10 @@
             if (intervaloNum) clearInterval(intervaloNum);
             if (temporizador) clearTimeout(temporizador);
 
-            document.getElementById('btn-start').classList.add('oculto');
+            let btnStart = document.getElementById('btn-start');
+            btnStart.classList.add('oculto'); // Ocultamos el botón principal por ahora
+            btnStart.disabled = false; // Reseteamos su estado disabled para cuando vuelva
+            rondaActiva = false; // Fase terminada, la ronda se vuelve interactiva (drag & drop)
 
             let msg = document.getElementById('msg'); msg.innerText = "¡RECONSTRUYE!\nArrastra las piezas al tablero."; msg.className = "mensaje text-build";
             document.getElementById('timer-header').classList.add('oculto'); document.getElementById('barra-tiempo-container').style.display = 'none';
@@ -495,8 +527,15 @@
                 reproducirSonido('incorrecto');
                 document.getElementById('myBoard').classList.add('border-fail');
                 document.getElementById('solution-container').classList.remove('oculto');
-                userBoard.destroy(); userBoard = Chessboard('myBoard', { position: fenUsuario, draggable: false, showNotation: true, pieceTheme: pieceThemeUrl });
-                setTimeout(() => { userBoard.resize(); if (solutionBoard) solutionBoard.destroy(); solutionBoard = Chessboard('solutionBoard', { position: solucionFEN, draggable: false, showNotation: true, pieceTheme: pieceThemeUrl }); }, 50);
+                userBoard.destroy(); 
+                userBoard = Chessboard('myBoard', { position: fenUsuario, draggable: false, showNotation: true, pieceTheme: pieceThemeUrl });
+                
+                // Redibujado seguro del solutionBoard
+                setTimeout(() => { 
+                    userBoard.resize(); 
+                    if (solutionBoard) solutionBoard.destroy(); 
+                    solutionBoard = Chessboard('solutionBoard', { position: solucionFEN, draggable: false, showNotation: true, pieceTheme: pieceThemeUrl }); 
+                }, 50);
                 
                 // LÓGICA DE CASTIGO ARCADE
                 if (modoJuego === 'arcade' && !TorneoManager.enTorneo && !DueloManager.enDuelo) {
@@ -526,7 +565,7 @@
             setTimeout(() => { if(juegoActivo) btnStart.classList.remove('oculto'); }, 200);
         }
 
-function generarPosicionAleatoria(nPiezas) {
+        function generarPosicionAleatoria(nPiezas) {
             let g = new Chess(); g.clear(); const piezasTipo = ['p', 'n', 'b', 'r', 'q']; let ocupadas = new Set();
             
             // 1. Colocamos los dos Reyes obligatorios
@@ -565,10 +604,8 @@ function generarPosicionAleatoria(nPiezas) {
             document.getElementById('pantalla-podio').classList.remove('oculto');
             firebase.database().ref(refSalaTorneo).update({ estado: 'finalizado' });
             
-            // 👇 MEJORA: Texto de carga
             document.getElementById('lista-podio').innerHTML = "<div style='color:#888; font-size:1.2em; text-align:center;'>Calculando resultados fotográficos...</div>";
 
-            // 👇 MEJORA: Retraso anti-lag
             setTimeout(() => {
                 firebase.database().ref(refSalaTorneo + '/jugadores').once('value').then(snap => {
                     let data = snap.val(); if(!data) return;

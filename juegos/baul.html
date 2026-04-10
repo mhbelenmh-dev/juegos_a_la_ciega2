@@ -34,8 +34,11 @@
         
         .grid-errores { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 25px; margin-top: 20px; }
         
-        .error-card { background: var(--panel); border: 1px solid #333; border-radius: 12px; padding: 20px; box-shadow: 0 8px 20px rgba(0,0,0,0.4); border-top: 4px solid var(--red); display: flex; flex-direction: column; gap: 15px; transition: transform 0.2s, border-color 0.2s; }
+        .error-card { background: var(--panel); border: 1px solid #333; border-radius: 12px; padding: 20px; box-shadow: 0 8px 20px rgba(0,0,0,0.4); border-top: 4px solid var(--red); display: flex; flex-direction: column; gap: 15px; transition: all 0.3s ease; }
         .error-card:hover { transform: translateY(-5px); border-color: #555; box-shadow: 0 12px 25px rgba(0,0,0,0.6); }
+
+        /* Clase para la animación de borrado */
+        .card-borrando { transform: scale(0.8) !important; opacity: 0 !important; }
 
         .error-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #333; padding-bottom: 10px;}
         .error-modulo { color: var(--accent); font-weight: bold; font-size: 1.1em; text-transform: uppercase; letter-spacing: 1px; }
@@ -128,9 +131,10 @@
         let repasoGame = new Chess();
         let errorActualKey = null;
         
-        // Variables para la secuencia completa
+        // Variables para la secuencia completa y seguridad
         let repasoSolucion = []; 
         let repasoIndice = 0; 
+        let esperandoRival = false; // 🛡️ Bloqueo anti-spam
 
         window.onload = () => {
             if (typeof firebase === 'undefined') return;
@@ -165,7 +169,6 @@
                 errores.sort((a, b) => b.timestamp - a.timestamp);
 
                 errores.forEach(e => {
-                    // Si el error es antiguo y no tiene ID, le ponemos "Clásico"
                     let idMostrar = e.puzzleId ? `#${e.puzzleId}` : "Clásico";
 
                     html += `
@@ -206,14 +209,17 @@
         }
 
         function eliminarErrorBaseDatos(key) {
-            let uid = firebase.auth().currentUser.uid;
-            firebase.database().ref('users/' + uid + '/errores/' + key).remove()
-            .then(() => {
-                let card = document.getElementById('card-' + key);
-                if(card) card.remove();
-                console.log("Fallo borrado de Firebase con éxito.");
-            })
-            .catch(err => alert("Error al borrar de la base de datos: " + err.message));
+            let card = document.getElementById('card-' + key);
+            if(card) card.classList.add('card-borrando'); // ✨ Mejora visual: Desvanecimiento
+            
+            setTimeout(() => {
+                let uid = firebase.auth().currentUser.uid;
+                firebase.database().ref('users/' + uid + '/errores/' + key).remove()
+                .then(() => {
+                    console.log("Fallo borrado de Firebase con éxito.");
+                })
+                .catch(err => alert("Error al borrar de la base de datos: " + err.message));
+            }, 300);
         }
 
         function analizar(key) {
@@ -230,6 +236,7 @@
             if(!e) return;
             
             errorActualKey = key;
+            esperandoRival = false; // Reiniciamos el bloqueo
             
             if (!e.fen || !e.solucion) {
                 alert("Este error no contiene información de tablero. Posiblemente sea de otra categoría.");
@@ -274,7 +281,8 @@
                 orientation: orientacion,
                 pieceTheme: 'https://chessboardjs.com/img/chesspieces/wikipedia/{piece}.png',
                 onDragStart: function(source, piece) {
-                    if (repasoGame.game_over()) return false;
+                    // 🛡️ Bloqueo si el rival está pensando o el juego acabó
+                    if (repasoGame.game_over() || esperandoRival) return false;
                     if ((repasoGame.turn() === 'w' && piece.search(/^b/) !== -1) || (repasoGame.turn() === 'b' && piece.search(/^w/) !== -1)) { return false; }
                 },
                 onDrop: onDropRepaso,
@@ -287,8 +295,14 @@
             let tempGame = new Chess(repasoGame.fen());
             let expectedMove = tempGame.move(repasoSolucion[repasoIndice], {sloppy: true});
             
+            // 🧠 Coronación Inteligente: Si el jugador acierta las casillas, asignamos la promoción requerida.
+            let piezaCoronada = 'q'; 
+            if (expectedMove && expectedMove.promotion && source === expectedMove.from && target === expectedMove.to) {
+                piezaCoronada = expectedMove.promotion;
+            }
+
             // Intentamos hacer el movimiento que el usuario acaba de hacer
-            let moveAttempt = { from: source, to: target, promotion: 'q' };
+            let moveAttempt = { from: source, to: target, promotion: piezaCoronada };
             let actualMove = repasoGame.move(moveAttempt);
             
             if (actualMove === null) return 'snapback'; // Movimiento Ilegal de Ajedrez
@@ -310,7 +324,9 @@
                     document.getElementById('repaso-status').innerHTML = "¡Excelente! Has completado la línea.<br>Borrando error...";
                     document.getElementById('repaso-status').className = "r-success";
                     
-                    // Borrado 100% seguro de la base de datos
+                    // Bloqueamos el tablero mientras se borra
+                    esperandoRival = true; 
+                    
                     setTimeout(() => {
                         eliminarErrorBaseDatos(errorActualKey);
                         cerrarRepaso();
@@ -320,6 +336,8 @@
                     // TOCA MOVER AL RIVAL
                     document.getElementById('repaso-status').innerText = "¡Bien! El rival responde...";
                     document.getElementById('repaso-status').className = "";
+                    
+                    esperandoRival = true; // 🛡️ Bloqueamos que el jugador mueva cosas
                     
                     setTimeout(() => {
                         let oponenteMueve = repasoSolucion[repasoIndice];
@@ -339,6 +357,7 @@
                             }, 1500);
                         } else {
                             document.getElementById('repaso-status').innerText = "Sigue la variante. Tu turno...";
+                            esperandoRival = false; // 🔓 Desbloqueamos el tablero para el usuario
                         }
                     }, 700);
                 }

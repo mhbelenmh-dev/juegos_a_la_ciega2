@@ -59,8 +59,13 @@
             border-radius: 8px;
             cursor: pointer;
             font-weight: bold;
-            margin-top: 30px;
             text-decoration: none;
+            transition: 0.2s;
+        }
+        
+        .btn-salir:hover {
+            filter: brightness(1.2);
+            transform: translateY(-2px);
         }
 
         /* HUD SUPERIOR DEL DUELO */
@@ -131,17 +136,9 @@
         }
 
         @keyframes latido {
-            0% {
-                transform: scale(1);
-            }
-
-            50% {
-                transform: scale(1.1);
-            }
-
-            100% {
-                transform: scale(1);
-            }
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
         }
     </style>
 </head>
@@ -171,8 +168,12 @@
 
     <div id="pantalla-fin" class="pantalla-full" style="display: none; background: rgba(0,0,0,0.95);">
         <h1 id="texto-resultado" class="titulo-vs" style="font-size: 6em;">¡TIEMPO!</h1>
-        <h2 id="subtexto-resultado" style="color: #fff; font-size: 2em; margin-top: 0;">Calculando ganador...</h2>
-        <a href="index.html" class="btn-salir">Volver a la Plaza</a>
+        <h2 id="subtexto-resultado" style="color: #fff; font-size: 2em; margin-top: 0; margin-bottom: 40px;">Calculando ganador...</h2>
+        
+        <div style="display: flex; gap: 20px; justify-content: center;">
+            <button id="btn-revancha" onclick="pedirRevancha()" class="btn-salir" style="background: var(--green);">⚔️ Revancha</button>
+            <button onclick="salirDuelo()" class="btn-salir" style="background: #444;">⬅ Volver a la Plaza</button>
+        </div>
     </div>
 
     <script src="utils.js"></script>
@@ -185,11 +186,14 @@
         let esCreador = false;
         let datosSala = null;
         let intervaloReloj = null;
+        
+        // Reloj sincronizado universal
+        let serverOffset = 0;
 
-        // ESTE DICCIONARIO TRADUCE LO QUE ELIGES EN EL MENÚ AL ARCHIVO HTML REAL
+        // DICCIONARIO PARA CARGAR EL ARCHIVO CORRECTO
         const mapJuegos = {
             'storm': 'juego.html',
-            'storm_fantasma': 'juego.html?vis=vacio', // <--- Manda al juego normal a ocultar piezas
+            'storm_fantasma': 'juego.html?vis=vacio',
             'storm_ciego': 'juego_ciego.html',
             'radar': 'juego_radar.html',
             'flash': 'juego_flash.html',
@@ -203,6 +207,11 @@
 
         window.onload = () => {
             if (!salaId) { window.location.href = 'index.html'; return; }
+
+            // Obtenemos la desviación de tiempo de Firebase
+            firebase.database().ref('.info/serverTimeOffset').on('value', snap => {
+                serverOffset = snap.val() || 0;
+            });
 
             firebase.auth().onAuthStateChanged((user) => {
                 if (user) {
@@ -221,42 +230,56 @@
 
             refSala.on('value', (snap) => {
                 datosSala = snap.val();
+                
+                // Si la sala ha sido borrada (alguien le dio a "Volver a la Plaza")
                 if (!datosSala) {
-                    alert("La sala ha sido cerrada o no existe.");
+                    alert("La sala ha sido cerrada (el rival ha abandonado).");
                     window.location.href = 'index.html';
                     return;
                 }
 
-                // Identificamos quién es quién
                 esCreador = (datosSala.creador === miUid);
                 rivalUid = esCreador ? datosSala.rival : datosSala.creador;
 
-                // 1. Avisamos de que estamos listos para empezar
+                // 1. PRIMER INICIO: Avisamos de que estamos listos
                 if (datosSala.estado === 'aceptado' && !datosSala['listo_' + miUid]) {
                     refSala.child('listo_' + miUid).set(true);
                 }
 
-                // 2. Si ambos están listos, el creador da la orden de EMPEZAR a la vez
+                // 2. PRIMER INICIO: El creador da la orden de empezar
                 if (esCreador && datosSala.estado === 'aceptado' && datosSala['listo_' + datosSala.creador] && datosSala['listo_' + datosSala.rival]) {
+                    let tiempoActualReal = Date.now() + serverOffset;
                     refSala.update({
                         estado: 'jugando',
-                        tiempoFin: Date.now() + (parseInt(datosSala.tiempo) * 1000)
+                        tiempoFin: tiempoActualReal + (parseInt(datosSala.tiempo) * 1000)
                     });
                 }
 
-                // 3. ¡EL DUELO COMIENZA! (Quitamos la pantalla de espera)
+                // 3. BUCLE DE REVANCHA: Si ambos quieren jugar de nuevo, el creador reinicia la partida
+                if (esCreador && datosSala.estado === 'finalizado' && datosSala['revancha_' + datosSala.creador] && datosSala['revancha_' + datosSala.rival]) {
+                    let tiempoActualReal = Date.now() + serverOffset;
+                    refSala.update({
+                        estado: 'jugando',
+                        tiempoFin: tiempoActualReal + (parseInt(datosSala.tiempo) * 1000),
+                        ['revancha_' + datosSala.creador]: null, // Reseteamos la confirmación
+                        ['revancha_' + datosSala.rival]: null,
+                        puntos: null // Limpiamos los puntos de la partida anterior
+                    });
+                }
+
+                // 4. ¡EL DUELO COMIENZA! (Se oculta todo y arranca el iframe)
                 if (datosSala.estado === 'jugando' && document.getElementById('game-frame').style.display === 'none') {
                     iniciarArena();
                 }
 
-                // 4. ACTUALIZAR PUNTUACIONES EN EL MARCADOR EN DIRECTO
+                // 5. ACTUALIZAR MARCADORES EN DIRECTO
                 if (datosSala.puntos) {
                     document.getElementById('mis-puntos').innerText = datosSala.puntos[miUid] || 0;
                     document.getElementById('puntos-rival').innerText = datosSala.puntos[rivalUid] || 0;
                 }
             });
 
-            // Obtener el nombre del rival para ponerlo en el marcador rojo
+            // Obtener el nombre del rival
             firebase.database().ref('users/' + rivalUid + '/nombreJugador').once('value').then(s => {
                 document.getElementById('nombre-rival').innerText = s.val() || "Rival";
             });
@@ -264,27 +287,33 @@
 
         function iniciarArena() {
             document.getElementById('pantalla-espera').style.display = 'none';
+            document.getElementById('pantalla-fin').style.display = 'none'; // Importante para cuando hay revancha
             document.getElementById('hud-duelo').style.display = 'flex';
+
+            // Limpiamos los marcadores visuales para el nuevo duelo
+            document.getElementById('mis-puntos').innerText = "0";
+            document.getElementById('puntos-rival').innerText = "0";
 
             let frame = document.getElementById('game-frame');
             frame.style.display = 'block';
 
-            // LE AÑADIMOS "&sala=${salaId}" AL FINAL PARA QUE EL JUEGO SEPA LA CONTRASEÑA
             let archivoJuego = mapJuegos[datosSala.juego] || 'juego.html';
-            // TRUCO MÁGICO: Si el archivo ya tiene un '?', usamos '&' para añadir lo del duelo
             let separador = archivoJuego.includes('?') ? '&' : '?';
-            frame.src = `${archivoJuego}${separador}duelo=true&sala=${salaId}`;
+            
+            // LA MAGIA DE LA REVANCHA: Añadimos un número aleatorio (rnd) para obligar 
+            // al navegador a recargar el iframe del mini-juego por completo desde cero.
+            frame.src = `${archivoJuego}${separador}duelo=true&sala=${salaId}&rnd=${Date.now()}`;
 
-            // Arrancar el cronómetro global
             arrancarReloj();
         }
 
         function arrancarReloj() {
             let timerBox = document.getElementById('timer-box');
+            timerBox.classList.remove('timer-danger'); // Reiniciar color rojo
 
             intervaloReloj = setInterval(() => {
-                // Sincronizamos el tiempo con Firebase para que ambos terminen en el mismo milisegundo
-                let restante = Math.floor((datosSala.tiempoFin - Date.now()) / 1000);
+                let tiempoActualReal = Date.now() + serverOffset;
+                let restante = Math.floor((datosSala.tiempoFin - tiempoActualReal) / 1000);
 
                 if (restante <= 0) {
                     clearInterval(intervaloReloj);
@@ -303,6 +332,10 @@
         function finalizarDuelo() {
             document.getElementById('game-frame').style.display = 'none';
             document.getElementById('pantalla-fin').style.display = 'flex';
+            
+            // Mostramos el botón de revancha por si lo habíamos ocultado en la ronda anterior
+            document.getElementById('btn-revancha').style.display = 'block';
+
             reproducirSonido('fin');
 
             let misPts = datosSala.puntos ? (datosSala.puntos[miUid] || 0) : 0;
@@ -315,7 +348,7 @@
                 texto.innerText = "¡VICTORIA!";
                 texto.style.color = "var(--green)";
                 sub.innerText = `Has destrozado a tu rival (${misPts} a ${rivalPts})`;
-                registrarXP('maestro', true); // Premio gordo por ganar el duelo
+                registrarXP('maestro', true); 
             } else if (misPts < rivalPts) {
                 texto.innerText = "DERROTA";
                 texto.style.color = "var(--red)";
@@ -326,18 +359,38 @@
                 sub.innerText = `Ambos hicisteis ${misPts} puntos`;
             }
 
-            // El creador de la sala es el encargado de borrarla de la base de datos después de 5 segundos
+            // Cambiamos el estado de la sala, ¡pero NO LA BORRAMOS!
             if (esCreador) {
-                setTimeout(() => { firebase.database().ref('duelos/' + salaId).remove(); }, 5000);
+                firebase.database().ref('duelos/' + salaId).update({ estado: 'finalizado' });
             }
         }
 
         // =========================================================
-        // COMUNICACIÓN CON EL JUEGO (EL JUEGO AVISA DE LOS PUNTOS)
+        // NUEVAS FUNCIONES DE BUCLE INFINITO DE DUELO
+        // =========================================================
+        function pedirRevancha() {
+            document.getElementById('btn-revancha').style.display = 'none';
+            document.getElementById('subtexto-resultado').innerText = "Esperando a que el rival acepte...";
+            document.getElementById('subtexto-resultado').style.color = "var(--accent)";
+            
+            // Avisamos a Firebase que queremos jugar otra vez
+            firebase.database().ref('duelos/' + salaId + '/revancha_' + miUid).set(true);
+        }
+
+        function salirDuelo() {
+            // Si le damos a salir, destruimos la sala para expulsar también al rival
+            firebase.database().ref('duelos/' + salaId).remove().then(() => {
+                window.location.href = 'index.html';
+            }).catch(() => {
+                window.location.href = 'index.html';
+            });
+        }
+
+        // =========================================================
+        // COMUNICACIÓN CON EL IFRAME
         // =========================================================
         window.addEventListener('message', (evento) => {
-            if (datosSala && datosSala.estado === 'jugando' && evento.data.action === 'actualizarPuntos') {
-                // Cuando el juego nos manda un mensaje con los puntos, lo subimos a la sala de Firebase
+            if (datosSala && datosSala.estado === 'jugando' && evento.data && evento.data.action === 'actualizarPuntos') {
                 firebase.database().ref(`duelos/${salaId}/puntos/${miUid}`).set(evento.data.puntos);
             }
         });

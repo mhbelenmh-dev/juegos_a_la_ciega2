@@ -257,21 +257,29 @@
             }
         };
 
-        // Recoge todas las opciones y monta la URL hacia el arcade
+        // Recoge todas las opciones, las sanea y monta la URL hacia el arcade
         function iniciarArcade() {
-            let tInit = document.getElementById('config-t-init').value || 120;
+            // Saneamos el tiempo inicial (entre 10 y 3600 segundos)
+            let tRaw = parseInt(document.getElementById('config-t-init').value);
+            let tInit = isNaN(tRaw) ? 120 : Math.max(10, Math.min(3600, tRaw));
             
-            let b1 = document.getElementById('c-b1').value || 0;
-            let p1 = document.getElementById('c-p1').value || 0;
+            // Función auxiliar anti-hackers para bonos y penalizaciones (nunca negativos)
+            const sanear = (id, porDefecto) => {
+                let val = parseInt(document.getElementById(id).value);
+                return isNaN(val) ? porDefecto : Math.max(0, val);
+            };
+
+            let b1 = sanear('c-b1', 2);
+            let p1 = sanear('c-p1', 5);
             
-            let b2 = document.getElementById('c-b2').value || 0;
-            let p2 = document.getElementById('c-p2').value || 0;
+            let b2 = sanear('c-b2', 5);
+            let p2 = sanear('c-p2', 10);
             
-            let b3 = document.getElementById('c-b3').value || 0;
-            let p3 = document.getElementById('c-p3').value || 0;
+            let b3 = sanear('c-b3', 10);
+            let p3 = sanear('c-p3', 15);
             
-            let b4 = document.getElementById('c-b4').value || 0;
-            let p4 = document.getElementById('c-p4').value || 0;
+            let b4 = sanear('c-b4', 15);
+            let p4 = sanear('c-p4', 20);
             
             let query = `?time=${tInit}&b1=${b1}&p1=${p1}&b2=${b2}&p2=${p2}&b3=${b3}&p3=${p3}&b4=${b4}&p4=${p4}`;
 

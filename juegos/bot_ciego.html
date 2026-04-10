@@ -13,7 +13,6 @@
     <link rel="stylesheet" href="styles.css">
 
     <style>
-        /* 🔥 AQUÍ ESTABA EL ERROR: Faltaban tus colores oficiales de Ajedrez Gym */
         :root { --bg: #1a1917; --panel: #262421; --accent: #e5bf00; --blue: #3692e7; --green: #629924; --red: #cc3333; --danger: #cc3333; --success: #629924; --text: #bababa; --bot-color: #00ced1; }
         
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--bg); color: var(--text); margin: 0; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
@@ -58,7 +57,9 @@
         #input-container { display: flex; gap: 10px; width: 100%; }
         #jugadaInput { flex-grow: 1; padding: 15px; font-size: 1.2em; border-radius: 6px; border: 2px solid #555; background: #1e1e1e; color: white; text-align: center; outline: none; transition: 0.3s; }
         #jugadaInput:focus { border-color: var(--bot-color); box-shadow: 0 0 10px rgba(0, 206, 209, 0.3); }
+        #jugadaInput:disabled { opacity: 0.5; cursor: not-allowed; }
         #btn-enviar { background: var(--bot-color); color: #000; padding: 0 25px; box-shadow: 0 4px 0 #008b8b; margin: 0; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 1.2em;}
+        #btn-enviar:disabled { opacity: 0.5; cursor: not-allowed; }
         
         #status-box { width: 100%; background: var(--panel); padding: 15px; border-radius: 8px; text-align: center; box-sizing: border-box; border: 1px solid #444; min-height: 60px; display: flex; align-items: center; justify-content: center; }
         #status { font-weight: bold; font-size: 1.2em; }
@@ -172,9 +173,12 @@
         let nivelBotActual = 10;
         let stockfish = null;
         let juegoTerminado = false;
+        
+        // --- VARIABLE DE SEGURIDAD PARA CARRERAS DEL WORKER ---
+        let ignorandoBot = false; 
 
         document.getElementById("jugadaInput").addEventListener("keyup", function(event) { 
-            if (event.key === "Enter") enviarJugadaTexto(); 
+            if (event.key === "Enter" && !this.disabled) enviarJugadaTexto(); 
         });
 
         // ==========================================
@@ -264,6 +268,10 @@
             if (juegoTerminado) return;
             document.getElementById('status').innerHTML = `🤖 La máquina está pensando...`;
             
+            // Bloqueamos el input para que no manden jugadas mientras el bot piensa
+            document.getElementById('jugadaInput').disabled = true;
+            document.getElementById('btn-enviar').disabled = true;
+
             let profundidad = Math.max(1, Math.ceil(nivelBotActual / 2));
             stockfish.postMessage('position fen ' + game.fen());
             stockfish.postMessage('go depth ' + profundidad); 
@@ -272,6 +280,13 @@
         function manejarRespuestaBot(event) {
             let linea = event.data;
             if (linea.startsWith('bestmove')) {
+                
+                // --- SEGURIDAD: Evita aplicar la jugada si el usuario pulsó Deshacer ---
+                if (ignorandoBot) {
+                    ignorandoBot = false;
+                    return; 
+                }
+
                 let movimientoUCI = linea.split(' ')[1]; 
                 if (movimientoUCI === '(none)') { verificarFinDeJuego(); return; }
 
@@ -292,13 +307,19 @@
                     } else {
                         actualizarStatus();
                     }
+                    
+                    // Reactivamos el input porque es el turno del jugador
+                    document.getElementById('jugadaInput').disabled = false;
+                    document.getElementById('btn-enviar').disabled = false;
+                    if (modoVisual === 'ciego') document.getElementById('jugadaInput').focus();
+
                     verificarFinDeJuego();
                 }
             }
         }
 
         // ==========================================
-        // MOVIMIENTOS DEL USUARIO
+        // MOVIMIENTOS DEL USUARIO (TABLERO GRÁFICO)
         // ==========================================
         function onDragStart(source, piece) {
             if (juegoTerminado || game.turn() !== userColor) return false; 
@@ -306,7 +327,28 @@
         }
 
         function onDrop(source, target) {
-            let move = game.move({ from: source, to: target, promotion: 'q' });
+            // --- NUEVO: Inteligencia para coronar ---
+            let esCoronacion = false;
+            let pieza = game.get(source);
+            if (pieza && pieza.type === 'p') {
+                if ((pieza.color === 'w' && target.charAt(1) === '8') || 
+                    (pieza.color === 'b' && target.charAt(1) === '1')) {
+                    esCoronacion = true;
+                }
+            }
+
+            let piezaCoronada = 'q'; // Reina por defecto
+            if (esCoronacion) {
+                let respuesta = prompt("¿Qué pieza quieres? (D=Dama, T=Torre, C=Caballo, A=Alfil)", "D");
+                if (respuesta) {
+                    let inicial = respuesta.toLowerCase().charAt(0);
+                    if (inicial === 't' || inicial === 'r') piezaCoronada = 'r';
+                    else if (inicial === 'c' || inicial === 'n') piezaCoronada = 'n';
+                    else if (inicial === 'a' || inicial === 'b') piezaCoronada = 'b';
+                }
+            }
+
+            let move = game.move({ from: source, to: target, promotion: piezaCoronada });
             if (move === null) return 'snapback'; 
 
             reproducirSonido('mover');
@@ -318,17 +360,20 @@
 
         function onSnapEnd() { board.position(game.fen()); }
 
+        // ==========================================
+        // MOVIMIENTOS DEL USUARIO (TEXTO)
+        // ==========================================
         function enviarJugadaTexto() {
             if (juegoTerminado || game.turn() !== userColor) return;
             
             let inputElement = document.getElementById('jugadaInput');
             let textoUsuario = inputElement.value.trim();
+            
             // --- MAGIA PARA EL ENROQUE ---
-            // Convierte los ceros en letras "O" mayúsculas automáticamente
-            textoUsuario = textoUsuario.replace(/0/g, 'O');
+            textoUsuario = textoUsuario.replace(/0/g, 'O').replace(/^o-o/i, 'O-O').replace(/^o-o-o/i, 'O-O-O');
             if (!textoUsuario) return;
 
-            // 1. Quitar la 'P' o 'p' inicial de los peones (Pe4 -> e4, Pxd4 -> xd4, Pexd4 -> exd4)
+            // 1. Quitar la 'P' o 'p' inicial de los peones
             textoUsuario = textoUsuario.replace(/^[Pp]([a-hA-H]?[xX]?[a-hA-H][1-8].*)$/, '$1');
 
             // 2. MAGIA PARA CAPTURAS MUDAS (xd4, Xd4)
@@ -336,30 +381,19 @@
             if (matchCapturaMuda) {
                 let casillaDestino = matchCapturaMuda[1].toLowerCase();
                 let jugadasLegales = game.moves({ verbose: true });
-        
-                // Buscamos qué peones pueden comer en esa casilla
-                let capturasPeon = jugadasLegales.filter(m => 
-                    m.piece === 'p' && 
-                    m.to === casillaDestino && 
-                    (m.flags.includes('c') || m.flags.includes('e'))
-                );
-        
-                if (capturasPeon.length === 1) {
-                    // Si solo un peón puede comer ahí, autocompletamos la jugada (ej: la pasa a "exd4")
-                    textoUsuario = capturasPeon[0].san; 
-                } 
-                // Nota: Si hay 2 peones que pueden comer ahí, no hacemos nada para que falle
-                // y el sistema te obligue a especificar (ej: cxd4 o exd4) para evitar errores.
+                let capturasPeon = jugadasLegales.filter(m => m.piece === 'p' && m.to === casillaDestino && (m.flags.includes('c') || m.flags.includes('e')));
+                if (capturasPeon.length === 1) { textoUsuario = capturasPeon[0].san; } 
             }
 
             // 3. Arreglar mayúsculas en peones simples (E4 -> e4). 
-            // OJO: Solo lo hacemos con B, E, F, G, H para no romper tus piezas en español (A=Alfil, C=Caballo, D=Dama)
             if (textoUsuario.length === 2 && textoUsuario.match(/^[BEFGH][1-8]$/)) {
                 textoUsuario = textoUsuario.toLowerCase();
             }
 
-            // Reemplazo de letras de piezas en español a inglés
-            let jugadaSAN = textoUsuario.replace(/^R/, 'K').replace(/^D/, 'Q').replace(/^T/, 'R').replace(/^A/, 'B').replace(/^C/, 'N');
+            // --- NUEVO: Reemplazo integral (Piezas + Coronación Ciega) ---
+            let jugadaSAN = textoUsuario
+                .replace(/^R/i, 'K').replace(/^D/i, 'Q').replace(/^T/i, 'R').replace(/^A/i, 'B').replace(/^C/i, 'N')
+                .replace(/=?D$/i, '=Q').replace(/=?T$/i, '=R').replace(/=?A$/i, '=B').replace(/=?C$/i, '=N');
     
             let move = game.move(jugadaSAN, {sloppy: true});
     
@@ -383,11 +417,16 @@
                 if (!verificarFinDeJuego()) { pedirJugadaAlBot(); }
             }
         }
+        
         // ==========================================
         // 🔥 DESHACER JUGADA
         // ==========================================
         function deshacerJugada() {
             if (game.history().length === 0) return; 
+
+            // --- NUEVO: Detenemos a Stockfish y activamos el escudo ---
+            ignorandoBot = true; 
+            if (stockfish) stockfish.postMessage('stop'); 
 
             // Deshacemos la última jugada (sea de quien sea)
             game.undo(); 
@@ -403,6 +442,10 @@
             generarTextoPosicion(game.fen());
             actualizarStatus();
             actualizarHistorial();
+
+            // Reactivamos el input si lo habíamos desactivado
+            document.getElementById('jugadaInput').disabled = false;
+            document.getElementById('btn-enviar').disabled = false;
 
             // Caso especial: Si deshacemos todo hasta la jugada 1 y la máquina tiene blancas
             if (game.history().length === 0 && botColor === 'w') {
@@ -441,7 +484,6 @@
             document.getElementById('status').innerHTML = `Turno de: <strong style="color:${colorSt}; text-transform:uppercase;">${turnoTxt}</strong>`;
         }
 
-        // Genera el historial leyendo las jugadas reales desde cero (para soportar "Deshacer")
         function actualizarHistorial() {
             let html = "";
             let historico = game.history();
@@ -469,7 +511,7 @@
             
             let divHist = document.getElementById('historial-jugadas');
             divHist.innerHTML = html;
-            divHist.scrollTop = divHist.scrollHeight;
+            divHist.scrollTop = divHist.scrollHeight; // Auto-scroll
         }
 
         function generarTextoPosicion(fen) {

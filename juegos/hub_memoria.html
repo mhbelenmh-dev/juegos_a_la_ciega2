@@ -308,20 +308,31 @@
             }
         }
 
-        // Traduce el número escrito en el input a milisegundos, o manda 'manual' si ponen un 0
+        // Traduce el número escrito en el input a milisegundos y SANEA los datos
         function obtenerParametrosAjustes() {
             let params = "";
-            let valTiempo = document.getElementById('mem-tiempo').value;
-            let tiempoCalculado = (valTiempo == 0 || valTiempo === "") ? "manual" : (valTiempo * 1000);
+            
+            // Saneamos Tiempo de Vistazo (entre 0 y 300 segundos)
+            let rawTiempo = parseInt(document.getElementById('mem-tiempo').value);
+            let valTiempo = isNaN(rawTiempo) ? 5 : Math.max(0, Math.min(300, rawTiempo));
+            let tiempoCalculado = (valTiempo === 0) ? "manual" : (valTiempo * 1000);
+
+            // Saneamos Número de Piezas (entre 1 y 32, que es el máximo en ajedrez)
+            let rawPiezas = parseInt(document.getElementById('mem-piezas').value);
+            let valPiezas = isNaN(rawPiezas) ? 5 : Math.max(1, Math.min(32, rawPiezas));
+
+            // Saneamos Profundidad de Jugadas (entre 1 y 150)
+            let rawJugadas = parseInt(document.getElementById('mem-jugadas').value);
+            let valJugadas = isNaN(rawJugadas) ? 15 : Math.max(1, Math.min(150, rawJugadas));
 
             if (archivoSeleccionado === 'juego_radar.html') {
                 params += `&t_mem=${tiempoCalculado}`;
             } else if (archivoSeleccionado === 'juego_flash.html') {
-                params += `&piezas=${document.getElementById('mem-piezas').value}&t_mem=${tiempoCalculado}`;
+                params += `&piezas=${valPiezas}&t_mem=${tiempoCalculado}`;
             } else if (archivoSeleccionado === 'juego_memoria2.html') {
                 params += `&tipo=${document.getElementById('mem-modo').value}&t_mem=${tiempoCalculado}`;
             } else if (archivoSeleccionado === 'juego_lectura.html') {
-                params += `&jugadas=${document.getElementById('mem-jugadas').value}`;
+                params += `&jugadas=${valJugadas}`;
             }
             return params;
         }
@@ -333,13 +344,20 @@
         }
 
         function iniciarArcade() {
-            let t = document.getElementById('arc-time').value || 120;
-            let b = document.getElementById('arc-bonus').value || 5;
-            let p = document.getElementById('arc-penalty').value || 10;
+            // Función auxiliar anti-hackers
+            const sanear = (id, porDefecto, min, max = Infinity) => {
+                let val = parseInt(document.getElementById(id).value);
+                return isNaN(val) ? porDefecto : Math.max(min, Math.min(max, val));
+            };
+
+            // Saneamos Tiempo (30 a 3600), Bonus (0 en adelante), y Penalty (0 en adelante)
+            let t = sanear('arc-time', 120, 30, 3600);
+            let b = sanear('arc-bonus', 5, 0);
+            let p = sanear('arc-penalty', 10, 0);
 
             let url = archivoSeleccionado + `?modo=arcade&time=${t}&bonus=${b}&penalty=${p}`;
             
-            // Cogemos los ajustes actuales
+            // Cogemos los ajustes actuales (ya saneados)
             let paramsExtra = obtenerParametrosAjustes();
             
             // En arcade forzamos que no puedan usar el creador (tipo=random)

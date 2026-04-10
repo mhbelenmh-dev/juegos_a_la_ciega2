@@ -254,7 +254,7 @@
         </div>
     </div>
 
-    <script src="utils.js?v=3"></script>
+<script src="utils.js?v=3"></script>
     <script>
         let juegoSeleccionado = 'juego.html?vis=completo'; // Modo por defecto
 
@@ -287,8 +287,11 @@
             btn.innerText = "CREANDO...";
             btn.disabled = true;
 
-            // 1. Recogemos los valores elegidos libremente por el Host
-            let mins = document.getElementById('ajuste-minutos').value || 3;
+            // 1. Recogemos los valores elegidos y los SANEAMOS (ANTI-HACKER)
+            let minsRaw = parseInt(document.getElementById('ajuste-minutos').value);
+            // Forzamos a que el tiempo de sala esté estrictamente entre 1 y 60 minutos
+            let mins = isNaN(minsRaw) ? 3 : Math.max(1, Math.min(60, minsRaw));
+            
             let vidasSeleccionadas = document.getElementById('ajuste-vidas').value;
 
             // 2. Generamos código de 4 dígitos
@@ -327,8 +330,9 @@
             let codigo = document.getElementById('codigo-input').value.trim();
             let errorMsg = document.getElementById('error-unirse');
             
-            if (codigo.length < 4) {
-                errorMsg.innerText = "El código debe tener 4 dígitos.";
+            // SANITIZACIÓN: Comprobar que sean exactamente 4 dígitos numéricos
+            if (!/^\d{4}$/.test(codigo)) {
+                errorMsg.innerText = "El código debe ser de 4 números exactos.";
                 return;
             }
 
