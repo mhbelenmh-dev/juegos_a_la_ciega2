@@ -205,7 +205,7 @@
         const modoTiempo = urlParams.get('tiempo') || 'libre';
         const minutosGlobal = parseInt(urlParams.get('minutos')) || 3;
 
-        // 👇 NUEVAS VARIABLES PARA SEPARAR EL RANKING 👇
+        // NUEVAS VARIABLES PARA SEPARAR EL RANKING 
         const claveEstadistica = modoVis === 'vacio' ? 'eloFantasma' : 'eloNormal';
         const claveJuego = modoVis === 'vacio' ? 'fantasma' : 'storm';
 
@@ -214,21 +214,27 @@
         let tiempoRestante = minutosGlobal * 60;
         let timerEntrenamiento = null;
 
+        // MEJORA: Variables de seguridad y tiempo real
+        let tableroBloqueado = false; 
+        let serverOffset = 0; 
+
         let totalPuzzlesResueltos = 0;
         let todosLosPuzzles = {}; let puzzleActual = null; let game = new Chess(); let board = null; let racha = 0; let indiceMovimiento = 0;
         let misPuntosLocales = 0; let juegoActivo = false; let refSalaTorneo = null; let intervaloTorneo = null; let refSalaChat = null;
 
-        // INICIALIZADOR AUTOMÁTICO AL ENTRAR (Sin botones intermedios)
+        // INICIALIZADOR AUTOMÁTICO AL ENTRAR
         window.onload = () => { 
-            // 1. Mostrar la pantalla del juego vacía mientras carga
+            // MEJORA: Sincronizamos el tiempo local con los servidores de Google/Firebase
+            firebase.database().ref('.info/serverTimeOffset').on('value', function(snap) {
+                serverOffset = snap.val() || 0;
+            });
+
             document.getElementById('pantalla-juego').classList.remove('oculto');
             
-            // 👇 CAMBIA EL TÍTULO SI ESTAMOS EN MODO FANTASMA 👇
             if (modoVis === 'vacio') {
                 document.getElementById('titulo-principal').innerText = "👻 Táctica Fantasma 👻";
             }
 
-            // 2. Comprobar si venimos de un duelo para activar el chat
             setTimeout(() => { if (typeof DueloManager !== 'undefined' && DueloManager.enDuelo) { refSalaChat = `duelos/${DueloManager.sala}/chat`; document.getElementById('btn-abrir-chat').style.display = 'block'; escucharChatSala(); } }, 1000); 
             
             todosLosPuzzles = {}; 
@@ -287,7 +293,6 @@
             try { actualizarEloJuego(claveJuego, misPuntosLocales, misPuntosLocales); } catch(e) {}
         }
 
-
         // ==========================================
         // LÓGICA CORE (TABLERO Y MOVIMIENTOS)
         // ==========================================
@@ -297,7 +302,6 @@
             document.getElementById('lobby-torneo').classList.add('oculto'); 
             document.getElementById('pantalla-juego').classList.remove('oculto');
             
-            // CONFIGURAR TABLERO FANTASMA
             if (modoVis === 'vacio') {
                 document.getElementById('tablero').classList.add('tablero-vacio');
                 document.getElementById('info-fantasma').classList.remove('oculto');
@@ -307,14 +311,16 @@
                 TorneoManager.contador = 0; document.getElementById('panel-leaderboard').style.display = 'block'; document.getElementById('timer-torneo').classList.remove('oculto');
                 actualizarHUDEntrenamiento();
                 intervaloTorneo = setInterval(() => {
-                    let restante = Math.floor((tiempoFinMs - Date.now()) / 1000);
+                    // MEJORA: Calculamos el restante basándonos en la hora real del servidor
+                    let tiempoActualReal = Date.now() + serverOffset;
+                    let restante = Math.floor((tiempoFinMs - tiempoActualReal) / 1000);
+                    
                     if (restante <= 0) { clearInterval(intervaloTorneo); finalizarTorneoGlobal(); return; }
                     let m = Math.floor(restante / 60); let s = restante % 60;
                     document.getElementById('timer-torneo').innerText = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
                 }, 1000);
                 misPuntosLocales = 0;
             } else {
-                // Modo solitario: Inicializamos contadores visuales
                 if (modoVidas !== 'infinito') {
                     document.getElementById('ratingDisplay').innerText = "0";
                     document.getElementById('label-pts-racha').innerText = "Puntos Logrados";
@@ -333,7 +339,6 @@
             cargarNuevoPuzzle();
         }
 
-        // Traduce la posición FEN a texto para el modo fantasma
         function generarTextoPosicion(fen) {
             let partes = fen.split(' ')[0]; let filas = partes.split('/'); let blancas = []; let negras = []; const columnas = ['a','b','c','d','e','f','g','h'];
             for (let i = 0; i < 8; i++) {
@@ -358,7 +363,9 @@
             if (!juegoActivo) return; 
             document.getElementById('status').innerText = "Pensando..."; 
             
-            // CALCULAMOS LOS PUNTOS EXACTOS
+            // MEJORA: Desbloqueamos el tablero al cargar un nuevo puzzle
+            tableroBloqueado = false;
+            
             let puntosCalculados;
             if (TorneoManager.enTorneo) { 
                 puntosCalculados = 1200 + Math.floor(TorneoManager.contador / 2) * 50; 
@@ -371,18 +378,15 @@
             // LA MAGIA: Forzamos a que nunca pida menos de 350 ni más de 3300
             puntosCalculados = Math.max(350, Math.min(puntosCalculados, 3300));
             
-            // Redondeamos de 50 en 50
             let rango = (Math.floor(puntosCalculados / 50) * 50).toString();
             let lista = [];
 
-            // --- MAGIA SMART LOAD MEJORADA ---
             if (!todosLosPuzzles[rango]) {
                 try {
                     let res = await fetch('puzzles_db/puzzles_' + rango + '.json');
                     if (res.ok) {
                         todosLosPuzzles[rango] = await res.json();
                     } else {
-                        // Si falla, probamos con el mínimo garantizado
                         rango = "350";
                         if (!todosLosPuzzles["350"]) {
                             let resMin = await fetch('puzzles_db/puzzles_350.json');
@@ -393,17 +397,15 @@
                     rango = "350";
                 }
             }
-            // ------------------------
 
             lista = todosLosPuzzles[rango]; 
             
-            // Si por algún desastre en el servidor la lista sigue vacía, cogemos cualquier nivel que ya se haya cargado antes
             if (!lista || lista.length === 0) {
                 let nivelesCargados = Object.keys(todosLosPuzzles);
                 if (nivelesCargados.length > 0) {
                     lista = todosLosPuzzles[nivelesCargados[0]];
                 } else {
-                    // El puzzle de ultimísima emergencia (corregido por si literalmente no existe la carpeta puzzles_db)
+                    // MEJORA: Puzzle de emergencia arreglado con formato correcto de coordenadas
                     lista = [{ fen: "r1bqkbnr/pppp1ppp/2n5/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R w KQkq - 2 3", moves: ["f3e5", "c6e5"] }];
                 }
             }
@@ -438,11 +440,21 @@
         function hacerMovimiento(m) { let f = m.substring(0, 2); let t = m.substring(2, 4); let p = m.length > 4 ? m.substring(4, 5) : 'q'; game.move({ from: f, to: t, promotion: p }); }
         
         function onDragStart(s, p) { 
-            if (!juegoActivo || game.game_over()) return false; 
+            // MEJORA: Escudo activado contra movimientos múltiples
+            if (!juegoActivo || game.game_over() || tableroBloqueado) return false; 
         }
 
         function onDrop(source, target, piece) {
-            let move = game.move({ from: source, to: target, promotion: 'q' }); 
+            // MEJORA: Coronación Inteligente. Leemos si el puzzle espera una pieza concreta
+            let movEsperado = puzzleActual.moves[indiceMovimiento];
+            let coronacionAutomatica = 'q'; // Por defecto reina
+            
+            // Si el movimiento tiene 5 letras (ej: "e7e8n"), extraemos la última
+            if (movEsperado && movEsperado.length === 5) {
+                coronacionAutomatica = movEsperado.charAt(4); 
+            }
+
+            let move = game.move({ from: source, to: target, promotion: coronacionAutomatica }); 
             
             if (move === null) {
                 if (source !== target) { 
@@ -484,6 +496,9 @@
             } else {
                 reproducirSonido('incorrecto'); game.undo(); 
                 
+                // MEJORA: Bloqueamos el tablero tras fallar
+                tableroBloqueado = true;
+                
                 if (typeof window.guardarFallo === 'function' && puzzleActual) {
                     let nombreModo = (modoVis === 'vacio') ? "Tablero Fantasma" : "Asalto Visual";
                     let movFallado = source + target; 
@@ -493,7 +508,6 @@
                     window.guardarFallo(nombreModo, game.fen(), solucionCompleta, movFallado, puzzleActual.id);                
                 }
                 
-                // 1. Quitar vida si toca (sea torneo o no)
                 if (modoVidas !== 'infinito') {
                     vidasRestantes--;
                     actualizarHUDEntrenamiento();
@@ -502,7 +516,6 @@
                     setTimeout(cargarNuevoPuzzle, 800); 
                 }
 
-                // 2. Restar puntos de torneo o racha
                 if (TorneoManager.enTorneo || (typeof DueloManager !== 'undefined' && DueloManager.enDuelo)) { 
                     misPuntosLocales = Math.max(0, misPuntosLocales - 5); 
                     if(TorneoManager.enTorneo) TorneoManager.enviarPuntos(misPuntosLocales); 
@@ -512,7 +525,6 @@
                     try { actualizarEloJuego(claveJuego, misPuntosLocales, -10); } catch(e) {} 
                 }
                 
-                // 3. Salir para que no haga el salto rápido si estás en modo vidas
                 if (modoVidas !== 'infinito') return 'snapback';
                 
                 racha = 0; document.getElementById('rachaDisplay').innerText = racha; document.getElementById('ratingDisplay').innerText = misPuntosLocales;
@@ -521,6 +533,9 @@
         }
 
         function puzzleFinalizado() {
+            // MEJORA: Bloqueamos el tablero tras acertar
+            tableroBloqueado = true;
+            
             avanzarMisionDiaria('tactica');
             reproducirSonido('fin'); let pts = 15 + (racha * 5); racha++; misPuntosLocales += pts; totalPuzzlesResueltos++;
             document.getElementById('rachaDisplay').innerText = racha; document.getElementById('ratingDisplay').innerText = misPuntosLocales;
@@ -534,6 +549,9 @@
         }
 
         function saltarPuzzle() {
+            // MEJORA: Bloqueamos el tablero al pulsar saltar
+            tableroBloqueado = true;
+            
             if (typeof window.guardarFallo === 'function' && puzzleActual) {
                 let nombreModo = (modoVis === 'vacio') ? "Tablero Fantasma" : "Asalto Visual";
                 let solucionCompleta = puzzleActual.moves.slice(indiceMovimiento).join(' ');
@@ -575,7 +593,6 @@
             }
         }
 
-        // 👇 ADAPTADA PARA LEER EL CÓDIGO DE LA URL Y NO DEJAR EDITARLO 👇
         function abrirLobbyTorneo(codigoSalaPredefinido = null) {
             juegoActivo = false;
             if (timerEntrenamiento) clearInterval(timerEntrenamiento);
@@ -624,7 +641,7 @@
                     document.getElementById('leaderboard-list').innerHTML = htmlBoard;
                 }
                 if (data.estado === 'jugando' && !juegoActivo) {
-                    let restante = data.tiempoFin ? Math.floor((data.tiempoFin - Date.now()) / 1000) : 0;
+                    let restante = data.tiempoFin ? Math.floor((data.tiempoFin - (Date.now() + serverOffset)) / 1000) : 0;
                     if (restante > 0) { TorneoManager.semillaRonda = data.tiempoFin.toString(); document.getElementById('pantalla-podio').classList.add('oculto'); iniciarPantallaJuego(true, data.tiempoFin); }
                 }
             });
@@ -634,9 +651,11 @@
             if (!refSalaTorneo) return;
             firebase.database().ref(refSalaTorneo + '/estado').once('value').then(snap => {
                 if (snap.val() !== 'jugando') {
-                    // 👇 EN LUGAR DE ESTAR FIJO A 3 MINUTOS, RECOGE EL TIEMPO REAL DESDE LA URL 👇
+                    // MEJORA: Calculamos el final del torneo usando el tiempo real del servidor
+                    let tiempoActualReal = Date.now() + serverOffset;
                     let msTotales = (minutosGlobal * 60 * 1000); 
-                    let tiempoFinal = Date.now() + msTotales;
+                    let tiempoFinal = tiempoActualReal + msTotales;
+                    
                     firebase.database().ref(refSalaTorneo).update({ estado: 'jugando', tiempoFin: tiempoFinal }); 
                 }
             });
