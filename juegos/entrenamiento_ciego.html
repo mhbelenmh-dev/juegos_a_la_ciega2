@@ -103,8 +103,8 @@
             <div class="instruccion">¿De qué color es esta casilla?</div>
             <div id="ej1-casilla" class="casilla-objetivo">E4</div>
             <div id="botones-color">
-                <button class="btn-casilla btn-negra" onclick="verificarEj1('negra')">NEGRA</button>
-                <button class="btn-casilla btn-blanca" onclick="verificarEj1('blanca')">BLANCA</button>
+                <button class="btn-casilla btn-negra" onclick="verificarEj1('negra')">NEGRA (🡄)</button>
+                <button class="btn-casilla btn-blanca" onclick="verificarEj1('blanca')">BLANCA (🡆)</button>
             </div>
         </div>
 
@@ -112,7 +112,7 @@
             <div class="instruccion">Escribe dónde acaban las diagonales:<br><span style="font-size: 0.7em; color: #888;">(Ej: e5 Solucion: a1 h8 b8 h2)</span></div>
             <div id="ej2-casilla" class="casilla-objetivo">D4</div>
             <input type="text" id="ej2-input" placeholder="a1 h8 b8 h2" autocomplete="off">
-            <button class="btn-accion" onclick="verificarEj2()">Comprobar</button>
+            <button class="btn-accion" onclick="verificarEj2()">Comprobar (Enter)</button>
         </div>
 
         <div id="ej3" class="ejercicio">
@@ -121,7 +121,7 @@
                 <span id="ej3-inicio">A1</span> <span class="flecha">➡</span> <span id="ej3-fin">D4</span>
             </div>
             <input type="text" id="ej3-input" placeholder="c3 a4" autocomplete="off">
-            <button class="btn-accion" onclick="verificarEj3()">Verificar Ruta</button>
+            <button class="btn-accion" onclick="verificarEj3()">Verificar Ruta (Enter)</button>
         </div>
 
         <div id="ej4" class="ejercicio">
@@ -136,7 +136,7 @@
                 </div>
             </div>
             <input type="text" id="ej4-input" placeholder="c3 a4" autocomplete="off">
-            <button class="btn-accion" onclick="verificarEj4()">Verificar Ruta</button>
+            <button class="btn-accion" onclick="verificarEj4()">Verificar Ruta (Enter)</button>
         </div>
 
         <div id="status"></div>
@@ -158,6 +158,18 @@
         let puntosLocales = 0; let juegoActivo = true;
         let refSalaTorneo = null; let intervaloTorneo = null;
         
+        // --- NUEVAS VARIABLES DE SEGURIDAD Y TIEMPO ---
+        let isProcessing = false;
+        let serverOffset = 0;
+
+        window.onload = () => { 
+            // Sincronización del tiempo con Firebase
+            firebase.database().ref('.info/serverTimeOffset').on('value', function(snap) {
+                serverOffset = snap.val() || 0;
+            });
+            cambiarEjercicio(1); 
+        };
+
         function casSincro() {
             let cIdx = (TorneoManager.enTorneo) ? TorneoManager.obtenerIndiceSincronizado(8) : Math.floor(Math.random() * 8);
             let fIdx = (TorneoManager.enTorneo) ? TorneoManager.obtenerIndiceSincronizado(8) : Math.floor(Math.random() * 8);
@@ -216,7 +228,9 @@
                 }
                 
                 if (data.estado === 'jugando' && document.getElementById('pantalla-torneo').style.display !== 'none') {
-                    let restante = data.tiempoFin ? Math.floor((data.tiempoFin - Date.now()) / 1000) : 0;
+                    // CÁLCULO TIEMPO SINCRONIZADO
+                    let tiempoActualReal = Date.now() + serverOffset;
+                    let restante = data.tiempoFin ? Math.floor((data.tiempoFin - tiempoActualReal) / 1000) : 0;
                     if (restante > 0) {
                         TorneoManager.semillaRonda = data.tiempoFin.toString();
                         iniciarPartidaTorneo(data.tiempoFin);
@@ -227,7 +241,8 @@
 
         function empezarTorneoParaTodos() {
             if (!TorneoManager.codigoSala) return;
-            let tiempoFinal = Date.now() + 180000; // 3 Minutos
+            // TIEMPO FINAL SINCRONIZADO: 3 MINUTOS (180000ms)
+            let tiempoFinal = Date.now() + serverOffset + 180000; 
             firebase.database().ref(refSalaTorneo).update({ estado: 'jugando', tiempoFin: tiempoFinal });
         }
 
@@ -238,7 +253,8 @@
             juegoActivo = true; puntosLocales = 0;
             
             intervaloTorneo = setInterval(() => {
-                let restante = Math.floor((tiempoFinMs - Date.now()) / 1000);
+                let tiempoActualReal = Date.now() + serverOffset;
+                let restante = Math.floor((tiempoFinMs - tiempoActualReal) / 1000);
                 if (restante <= 0) { clearInterval(intervaloTorneo); finalizarTorneoGlobal(); return; }
                 let m = Math.floor(restante / 60); let s = restante % 60;
                 let timerEl = document.getElementById('timer-torneo');
@@ -246,21 +262,29 @@
                 if(restante <= 10) timerEl.style.color = "var(--danger)"; else timerEl.style.color = "var(--accent)";
             }, 1000);
             
-            cambiarEjercicio(1); // Todos empiezan en el ejercicio 1
+            cambiarEjercicio(1);
         }
 
         // ---------------- EJERCICIOS ----------------
         let ej1_cas = "";
         function iniciarEj1() { if(!juegoActivo) return; ej1_cas = casSincro(); document.getElementById('ej1-casilla').innerText = ej1_cas; }
+        
         function verificarEj1(eleccion) {
-            if(!juegoActivo) return;
+            if(!juegoActivo || isProcessing) return;
+            isProcessing = true;
+
             let col = ej1_cas.charCodeAt(0) - 96; let fil = parseInt(ej1_cas.charAt(1));
             let real = ((col + fil) % 2 === 0) ? 'negra' : 'blanca';
             if (eleccion === real) {
                 reproducirSonido('correcto'); mostrarStatus("✅ Correcto", "correcto");
                 avanzarMisionDiaria('geo');
-                sumarPuntosDuelo(50, 'basico', true); setTimeout(iniciarEj1, 600);
-            } else { reproducirSonido('incorrecto'); mostrarStatus("❌ Fallo", "incorrecto"); sumarPuntosDuelo(-10, 'basico', false); }
+                sumarPuntosDuelo(50, 'basico', true); 
+                setTimeout(() => { isProcessing = false; iniciarEj1(); }, 600);
+            } else { 
+                reproducirSonido('incorrecto'); mostrarStatus("❌ Fallo", "incorrecto"); 
+                sumarPuntosDuelo(-10, 'basico', false); 
+                isProcessing = false; // Liberamos si falla para que intente de nuevo
+            }
         }
 
         let ej2_cas = "", ej2_soluciones = [];
@@ -274,30 +298,26 @@
                 if(cf !== f || cr !== r) ej2_soluciones.push(String.fromCharCode(96+cf)+cr);
             });
         }
-function verificarEj2() {
-    if(!juegoActivo) return;
-    
-    let input = document.getElementById('ej2-input').value.toLowerCase();
-    
-    // Extraemos todas las casillas que escribió el usuario
-    let userBruto = input.match(/[a-h][1-8]/g) || [];
-    
-    // NUEVO: Filtramos la casilla de inicio. Si el usuario la puso, la quitamos para comparar.
-    let user = userBruto.filter(casilla => casilla !== ej2_cas);
+        
+        function verificarEj2() {
+            if(!juegoActivo || isProcessing) return;
+            isProcessing = true;
+            
+            let input = document.getElementById('ej2-input').value.toLowerCase();
+            let userBruto = input.match(/[a-h][1-8]/g) || [];
+            let user = userBruto.filter(casilla => casilla !== ej2_cas);
 
-    // Comparamos usando el array filtrado, pero validamos que haya escrito al menos algo (userBruto.length > 0)
-    if (ej2_soluciones.slice().sort().join(',') === user.slice().sort().join(',') && userBruto.length > 0) {
-        reproducirSonido('correcto'); 
-        mostrarStatus("✅ Perfecto", "correcto");
-        avanzarMisionDiaria('geo');
-        sumarPuntosDuelo(100, 'medio', true); 
-        setTimeout(iniciarEj2, 800);
-    } else { 
-        reproducirSonido('incorrecto'); 
-        mostrarStatus("❌ Revisa", "incorrecto"); 
-        sumarPuntosDuelo(-20, 'medio', false); 
-    }
-}
+            if (ej2_soluciones.slice().sort().join(',') === user.slice().sort().join(',') && userBruto.length > 0) {
+                reproducirSonido('correcto'); mostrarStatus("✅ Perfecto", "correcto");
+                avanzarMisionDiaria('geo'); sumarPuntosDuelo(100, 'medio', true); 
+                setTimeout(() => { isProcessing = false; iniciarEj2(); }, 800);
+            } else { 
+                reproducirSonido('incorrecto'); mostrarStatus("❌ Revisa", "incorrecto"); 
+                sumarPuntosDuelo(-20, 'medio', false); 
+                isProcessing = false; 
+            }
+        }
+
         let ej3_ini = "", ej3_fin = "";
         function iniciarEj3() {
             if(!juegoActivo) return;
@@ -345,18 +365,13 @@ function verificarEj2() {
         }
 
         function validarCamino(id, ini, fin, block, cb, pts, dif) {
-            if(!juegoActivo) return;
+            if(!juegoActivo || isProcessing) return;
+            isProcessing = true;
+
             let ruta = document.getElementById(id).value.toLowerCase().match(/[a-h][1-8]/g) || [];
 
-            // 1. Si la PRIMERA casilla es la de INICIO, la quitamos
-            if (ruta.length > 0 && ruta[0] === ini) {
-                ruta.shift();
-            }
-            
-            // 2. Si la ÚLTIMA casilla es la de FIN, la quitamos
-            if (ruta.length > 0 && ruta[ruta.length - 1] === fin) {
-                ruta.pop();
-            }
+            if (ruta.length > 0 && ruta[0] === ini) { ruta.shift(); }
+            if (ruta.length > 0 && ruta[ruta.length - 1] === fin) { ruta.pop(); }
 
             let full = [ini, ...ruta, fin];
             
@@ -364,28 +379,22 @@ function verificarEj2() {
                 let d = full[i], a = full[i+1];
                 let c1=d.charCodeAt(0), r1=parseInt(d.charAt(1)), c2=a.charCodeAt(0), r2=parseInt(a.charAt(1));
                 
-                // Verificamos si es un salto de caballo en "L"
                 if(!((Math.abs(c1-c2)===1 && Math.abs(r1-r2)===2) || (Math.abs(c1-c2)===2 && Math.abs(r1-r2)===1))) {
-                    reproducirSonido('incorrecto'); 
-                    mostrarStatus("❌ Salto ilegal", "incorrecto"); 
+                    reproducirSonido('incorrecto'); mostrarStatus("❌ Salto ilegal", "incorrecto"); 
                     sumarPuntosDuelo(-20, dif, false); 
-                    return;
+                    isProcessing = false; return;
                 }
                 
-                // Verificamos si la casilla está bloqueada/vigilada
                 if(block.has(a)) { 
-                    reproducirSonido('incorrecto'); 
-                    mostrarStatus("❌ Casilla vigilada", "incorrecto"); 
+                    reproducirSonido('incorrecto'); mostrarStatus("❌ Casilla vigilada", "incorrecto"); 
                     sumarPuntosDuelo(-20, dif, false); 
-                    return; 
+                    isProcessing = false; return; 
                 }
             }
             
-            reproducirSonido('correcto'); 
-            mostrarStatus("✅ Ruta válida", "correcto");
-            avanzarMisionDiaria('geo');
-            sumarPuntosDuelo(pts, dif, true); 
-            setTimeout(cb, 1000);
+            reproducirSonido('correcto'); mostrarStatus("✅ Ruta válida", "correcto");
+            avanzarMisionDiaria('geo'); sumarPuntosDuelo(pts, dif, true); 
+            setTimeout(() => { isProcessing = false; cb(); }, 1000);
         }
 
         function rutaBFS(s, e, b) {
@@ -397,6 +406,22 @@ function verificarEj2() {
                 for(let x of m){ let nc = c+x[0], nf = f+x[1]; if(nc>=1 && nc<=8 && nf>=1 && nf<=8){ let n = String.fromCharCode(nc+96)+nf; if(!v.has(n) && !b.has(n)){ v.add(n); q.push(n); } } }
             } return false;
         }
+
+        // --- MANEJADOR DE TECLADO MÁGICO ---
+        document.addEventListener('keydown', function(event) {
+            if (!juegoActivo || isProcessing) return;
+            
+            if (document.getElementById('ej1').classList.contains('activo')) {
+                if (event.key === 'ArrowLeft') verificarEj1('negra');
+                else if (event.key === 'ArrowRight') verificarEj1('blanca');
+            } else if (document.getElementById('ej2').classList.contains('activo')) {
+                if (event.key === 'Enter') verificarEj2();
+            } else if (document.getElementById('ej3').classList.contains('activo')) {
+                if (event.key === 'Enter') verificarEj3();
+            } else if (document.getElementById('ej4').classList.contains('activo')) {
+                if (event.key === 'Enter') verificarEj4();
+            }
+        });
 
         // ---------------- PODIO ----------------
         function finalizarTorneoGlobal() {
@@ -426,7 +451,6 @@ function verificarEj2() {
             puntosLocales = 0; juegoActivo = false;
         }
 
-        window.onload = () => { cambiarEjercicio(1); };
     </script>
 </body>
 </html>
