@@ -358,33 +358,54 @@
             if (!juegoActivo) return; 
             document.getElementById('status').innerText = "Pensando..."; 
             
-            let rango = "1700"; 
-            let lista = [];
-            
-            if (TorneoManager.enTorneo) { rango = (Math.floor(Math.min(1200 + Math.floor(TorneoManager.contador / 2) * 50, 2500) / 50) * 50).toString(); } 
-            else if (modoVidas !== 'infinito') { rango = (Math.floor(Math.min(1200 + (totalPuzzlesResueltos * 50), 2500) / 50) * 50).toString(); } 
-            else { rango = (Math.floor(Math.min(misPuntosLocales, 2500) / 50) * 50).toString(); } 
+            // CALCULAMOS LOS PUNTOS EXACTOS
+            let puntosCalculados;
+            if (TorneoManager.enTorneo) { 
+                puntosCalculados = 1200 + Math.floor(TorneoManager.contador / 2) * 50; 
+            } else if (modoVidas !== 'infinito') { 
+                puntosCalculados = 1200 + (totalPuzzlesResueltos * 50); 
+            } else { 
+                puntosCalculados = misPuntosLocales; 
+            } 
 
-            // --- MAGIA SMART LOAD ---
+            // LA MAGIA: Forzamos a que nunca pida menos de 350 ni más de 3300
+            puntosCalculados = Math.max(350, Math.min(puntosCalculados, 3300));
+            
+            // Redondeamos de 50 en 50
+            let rango = (Math.floor(puntosCalculados / 50) * 50).toString();
+            let lista = [];
+
+            // --- MAGIA SMART LOAD MEJORADA ---
             if (!todosLosPuzzles[rango]) {
                 try {
-                    // Descargamos solo el archivo de este nivel desde la nueva carpeta
                     let res = await fetch('puzzles_db/puzzles_' + rango + '.json');
                     if (res.ok) {
                         todosLosPuzzles[rango] = await res.json();
                     } else {
-                        rango = Object.keys(todosLosPuzzles)[0] || "1700";
+                        // Si falla, probamos con el mínimo garantizado
+                        rango = "350";
+                        if (!todosLosPuzzles["350"]) {
+                            let resMin = await fetch('puzzles_db/puzzles_350.json');
+                            if(resMin.ok) todosLosPuzzles["350"] = await resMin.json();
+                        }
                     }
                 } catch(e) {
-                    rango = Object.keys(todosLosPuzzles)[0] || "1700";
+                    rango = "350";
                 }
             }
             // ------------------------
 
             lista = todosLosPuzzles[rango]; 
+            
+            // Si por algún desastre en el servidor la lista sigue vacía, cogemos cualquier nivel que ya se haya cargado antes
             if (!lista || lista.length === 0) {
-                // Si aún así no hay lista, cargamos uno por defecto
-                lista = [{ fen: "r1bqkbnr/pppp1ppp/2n5/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R w KQkq - 2 3", moves: ["Nxe5", "Nxe5"] }];
+                let nivelesCargados = Object.keys(todosLosPuzzles);
+                if (nivelesCargados.length > 0) {
+                    lista = todosLosPuzzles[nivelesCargados[0]];
+                } else {
+                    // El puzzle de ultimísima emergencia (corregido por si literalmente no existe la carpeta puzzles_db)
+                    lista = [{ fen: "r1bqkbnr/pppp1ppp/2n5/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R w KQkq - 2 3", moves: ["f3e5", "c6e5"] }];
+                }
             }
             
             let indice;
