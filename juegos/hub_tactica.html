@@ -330,10 +330,11 @@
             
             // Añadimos los minutos si hace falta
             if (config.tiempo === 'global') {
-                let mins = document.getElementById('input-minutos').value || 3;
+                let mins = parseInt(document.getElementById('input-minutos').value) || 3;
+                // Cortafuegos: Forzamos a que el número esté siempre entre 1 y 60
+                mins = Math.max(1, Math.min(60, mins)); 
                 url += `&minutos=${mins}`;
-            }
-            
+            }            
             window.location.href = url;
         }
     </script>

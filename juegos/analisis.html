@@ -121,6 +121,7 @@
         let jugadasFuturas = [];
         let engine = null;
         let engineActive = false;
+        let timerMotor = null; 
 
         const statusBox = document.getElementById('status-box');
         const pgnData = document.getElementById('pgn-data');
@@ -185,7 +186,29 @@
         }
 
         function onDrop(source, target) {
-            let move = game.move({ from: source, to: target, promotion: 'q' });
+            // Comprobamos si es una coronación
+            let esCoronacion = false;
+            let pieza = game.get(source);
+            if (pieza && pieza.type === 'p') {
+                if ((pieza.color === 'w' && target.charAt(1) === '8') || 
+                    (pieza.color === 'b' && target.charAt(1) === '1')) {
+                    esCoronacion = true;
+                }
+            }
+
+            let piezaCoronada = 'q'; // Reina por defecto
+            if (esCoronacion) {
+                let respuesta = prompt("¿Qué pieza quieres? (D=Dama, T=Torre, C=Caballo, A=Alfil)", "D");
+                if (respuesta) {
+                    let inicial = respuesta.toLowerCase().charAt(0);
+                    if (inicial === 't' || inicial === 'r') piezaCoronada = 'r';
+                    else if (inicial === 'c' || inicial === 'n') piezaCoronada = 'n';
+                    else if (inicial === 'a' || inicial === 'b') piezaCoronada = 'b';
+                }
+            }
+
+            let move = game.move({ from: source, to: target, promotion: piezaCoronada });
+            
             if (move === null) return 'snapback';
             reproducirSonido('correcto');
             jugadasFuturas = []; 
@@ -298,11 +321,19 @@
 
         function analizarPosicion() {
             if(!engine || !engineActive) return;
-            engine.postMessage("stop");
+            
             document.getElementById('eval-score').innerText = "Pensando...";
             document.getElementById('eval-bestmove').innerText = "...";
-            engine.postMessage("position fen " + game.fen());
-            engine.postMessage("go depth 20"); 
+            
+            // Limpiamos el temporizador anterior si el usuario ha hecho otro movimiento rápido
+            clearTimeout(timerMotor);
+            
+            // Le damos 300 milisegundos de "respiro" antes de forzarle a calcular
+            timerMotor = setTimeout(() => {
+                engine.postMessage("stop");
+                engine.postMessage("position fen " + game.fen());
+                engine.postMessage("go depth 20"); 
+            }, 300);
         }
 
         let config = {

@@ -36,6 +36,7 @@
         #input-container { display: flex; gap: 10px; width: 100%; }
         #jugadaInput { flex-grow: 1; padding: 15px; font-size: 1.2em; border-radius: 6px; border: 2px solid #555; background: #1e1e1e; color: white; text-align: center; outline: none; transition: 0.3s; }
         #jugadaInput:focus { border-color: var(--purple); box-shadow: 0 0 10px rgba(138, 43, 226, 0.3); }
+        #jugadaInput:disabled { opacity: 0.5; cursor: not-allowed; }
         #btn-enviar { background: var(--purple); padding: 0 25px; box-shadow: 0 4px 0 #5c1b99; margin: 0; border: none; border-radius: 6px; color: white; font-weight: bold; cursor: pointer;}
         #btn-enviar:hover { filter: brightness(1.2); transform: translateY(-2px); }
 
@@ -71,7 +72,6 @@
 
         /* --- ESTILOS MODO TORNEO --- */
         #lobby-torneo { background: var(--panel-bg); padding: 40px; border-radius: 12px; border: 2px solid var(--accent); max-width: 600px; width: 100%; margin: 0 auto; box-shadow: 0 15px 40px rgba(0,0,0,0.8); }
-        /* Actualizado para que no parezca un input editable */
         #codigo-input { background: transparent; color: var(--accent); border: none; font-size: 4em; font-family: 'Courier New', monospace; text-align: center; width: 200px; padding: 0; outline: none; margin: 10px 0 20px 0; font-weight: bold; pointer-events: none;}
         .jugador-lobby { display: inline-block; background: #262421; border: 1px solid #444; padding: 8px 15px; margin: 5px; border-radius: 20px; font-weight: bold; color: #fff; }
         .btn-gran-fuego { background: var(--success); color: white; font-size: 1.8em; padding: 20px; width: 100%; border: none; border-radius: 8px; cursor: pointer; box-shadow: 0 6px 0 #4a751b; margin-top: 20px; text-transform: uppercase;}
@@ -234,18 +234,23 @@
         let aciertosTotal = 0; let puntosCiegosLocales = 0; let puzzleResuelto = false; let indiceMovimiento = 0; let juegoActivo = false;
         
         let refSalaTorneo = null; let intervaloTorneo = null; let refSalaChat = null;
+        let serverOffset = 0; // MEJORA: Variable para sincro de tiempo
 
         document.getElementById("jugadaInput").addEventListener("keyup", function(event) { if (event.key === "Enter") verificarJugada(); });
 
         // INICIALIZADOR AUTOMÁTICO AL ENTRAR
         window.onload = () => { 
+            // MEJORA: Sincronizamos el tiempo local con Firebase
+            firebase.database().ref('.info/serverTimeOffset').on('value', function(snap) {
+                serverOffset = snap.val() || 0;
+            });
+
             document.getElementById('interfaz-juego').classList.remove('oculto');
             
             setTimeout(() => { if (typeof DueloManager !== 'undefined' && DueloManager.enDuelo) { refSalaChat = `duelos/${DueloManager.sala}/chat`; document.getElementById('btn-abrir-chat').style.display = 'block'; escucharChatSala(); } }, 1000); 
             
             todosLosPuzzles = {};
 
-            // 👇 NUEVO CÓDIGO DE DETECCIÓN DE TORNEO 👇
             const torneoId = urlParams.get('torneo');
             if (torneoId) {
                 abrirLobbyTorneo(torneoId);
@@ -255,11 +260,9 @@
         };
 
         // ==========================================
-        // GESTIÓN HUD Y GAME OVER (SURVIVAL Y TIEMPO)
+        // GESTIÓN HUD Y GAME OVER
         // ==========================================
         function actualizarHUDEntrenamiento() {
-        //    if (TorneoManager.enTorneo || (typeof DueloManager !== 'undefined' && DueloManager.enDuelo)) return;
-
             if (modoVidas !== 'infinito') {
                 let corazones = "";
                 for(let i=0; i<vidasRestantes; i++) corazones += "❤️";
@@ -327,7 +330,10 @@
                 actualizarHUDEntrenamiento();
 
                 intervaloTorneo = setInterval(() => {
-                    let tiempoRestante = Math.floor((tiempoFinMs - Date.now()) / 1000);
+                    // MEJORA: Tiempo sincronizado
+                    let tiempoActualReal = Date.now() + serverOffset;
+                    let tiempoRestante = Math.floor((tiempoFinMs - tiempoActualReal) / 1000);
+                    
                     if (tiempoRestante <= 0) { clearInterval(intervaloTorneo); finalizarTorneoGlobal(); return; }
                     let m = Math.floor(tiempoRestante / 60); let s = tiempoRestante % 60;
                     document.getElementById('timer-torneo').innerText = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
@@ -358,37 +364,50 @@
             document.getElementById('descripcion-posicion').classList.remove('oculto'); document.getElementById('tablero-container').classList.add('oculto'); 
             document.getElementById('btn-siguiente').classList.add('oculto'); document.getElementById('btn-rendirse').classList.remove('oculto'); document.getElementById('input-container').classList.remove('oculto');
 
-            let rango = "1700"; let lista = [];
-            if (TorneoManager.enTorneo) {
-                let eloTorneo = 1200 + Math.floor(TorneoManager.contador / 2) * 50;
-                rango = (Math.floor(Math.min(eloTorneo, 2500) / 50) * 50).toString();
-            } else if (modoVidas !== 'infinito') {
-                rango = (Math.floor(Math.min(1200 + (aciertosTotal * 50), 2500) / 50) * 50).toString();
-            } else {
-                rango = (Math.floor(Math.min(puntosCiegosLocales, 2500) / 50) * 50).toString();
-            }
+            // MEJORA: Cortafuegos de nivel
+            let puntosCalculados;
+            if (TorneoManager.enTorneo) { 
+                puntosCalculados = 1200 + Math.floor(TorneoManager.contador / 2) * 50; 
+            } else if (modoVidas !== 'infinito') { 
+                puntosCalculados = 1200 + (aciertosTotal * 50); 
+            } else { 
+                puntosCalculados = puntosCiegosLocales; 
+            } 
+            
+            puntosCalculados = Math.max(350, Math.min(puntosCalculados, 3300));
+            let rango = (Math.floor(puntosCalculados / 50) * 50).toString();
+            let lista = [];
 
-            // --- MAGIA SMART LOAD ---
+            // --- MAGIA SMART LOAD MEJORADA ---
             if (!todosLosPuzzles[rango]) {
                 try {
                     let res = await fetch('puzzles_db/puzzles_' + rango + '.json');
                     if (res.ok) {
                         todosLosPuzzles[rango] = await res.json();
                     } else {
-                        rango = Object.keys(todosLosPuzzles)[0] || "1700";
+                        rango = "350";
+                        if (!todosLosPuzzles["350"]) {
+                            let resMin = await fetch('puzzles_db/puzzles_350.json');
+                            if(resMin.ok) todosLosPuzzles["350"] = await resMin.json();
+                        }
                     }
                 } catch(e) {
-                    rango = Object.keys(todosLosPuzzles)[0] || "1700";
+                    rango = "350";
                 }
             }
             // ------------------------
 
             lista = todosLosPuzzles[rango];
             if (!lista || lista.length === 0) {
-                lista = [{ fen: "r1bqkbnr/pppp1ppp/2n5/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R w KQkq - 2 3", moves: ["Nxe5", "Nxe5"] }];
+                let nivelesCargados = Object.keys(todosLosPuzzles);
+                if (nivelesCargados.length > 0) {
+                    lista = todosLosPuzzles[nivelesCargados[0]];
+                } else {
+                    // MEJORA: Puzzle emergencia corregido
+                    lista = [{ fen: "r1bqkbnr/pppp1ppp/2n5/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R w KQkq - 2 3", moves: ["f3e5", "c6e5"] }];
+                }
             }
             
-            // --- NUEVA LÓGICA DE SEMILLA ---
             let indice;
             if (TorneoManager.enTorneo) {
                 indice = TorneoManager.obtenerIndiceSincronizado(lista.length);
@@ -398,14 +417,13 @@
                 indice = Math.floor(Math.random() * lista.length);
             }
             puzzleActual = lista[indice];
-            // -------------------------------
 
             if (typeof puzzleActual.moves === 'string') puzzleActual.moves = puzzleActual.moves.split(' ');            
             document.getElementById('eloDisplay').innerText = puntosCiegosLocales;
 
             game.load(puzzleActual.fen); let moveRival = puzzleActual.moves[0]; hacerMovimiento(moveRival); indiceMovimiento++; 
             generarTextoPosicion(game.fen()); actualizarTurnoVisual();
-            document.getElementById('status').innerText = ""; // Limpiamos el status de carga
+            document.getElementById('status').innerText = ""; 
         }
 
         function generarTextoPosicion(fen) {
@@ -428,23 +446,46 @@
 
         function verificarJugada() {
             if (puzzleResuelto || !juegoActivo) return;
-            let textoUsuario = document.getElementById('jugadaInput').value.trim(); if (!textoUsuario) return;
-            let jugadaParaChessJS = textoUsuario.replace(/^R/, 'K').replace(/^D/, 'Q').replace(/^T/, 'R').replace(/^A/, 'B').replace(/^C/, 'N');
+            
+            let inputEl = document.getElementById('jugadaInput');
+            let textoUsuario = inputEl.value.trim(); 
+            if (!textoUsuario) return;
+            
+            // MEJORA: Bloqueo Anti-Spam para evitar fallos múltiples si aporrean 'Enter'
+            inputEl.disabled = true;
+
+            // MEJORA: Coronación Inteligente. Detecta "e8=C" o "e8C" en español y lo traduce al inglés para chess.js
+            let jugadaParaChessJS = textoUsuario
+                .replace(/^R/i, 'K').replace(/^D/i, 'Q').replace(/^T/i, 'R').replace(/^A/i, 'B').replace(/^C/i, 'N') // Traducción de pieza movida
+                .replace(/=?D$/i, '=Q').replace(/=?T$/i, '=R').replace(/=?A$/i, '=B').replace(/=?C$/i, '=N'); // Traducción de coronación
+
             let move = game.move(jugadaParaChessJS);
-            if (move === null) { let intento2 = jugadaParaChessJS.charAt(0).toUpperCase() + jugadaParaChessJS.slice(1); move = game.move(intento2); }
-            if (move === null) { reproducirSonido('incorrecto'); document.getElementById('status').innerText = "❌ Jugada ilegal o no entendida (Usa: Ce5, h4...)"; document.getElementById('status').className = "incorrecto"; return; }
+            if (move === null) { 
+                let intento2 = jugadaParaChessJS.charAt(0).toUpperCase() + jugadaParaChessJS.slice(1); 
+                move = game.move(intento2); 
+            }
+            
+            if (move === null) { 
+                reproducirSonido('incorrecto'); 
+                document.getElementById('status').innerText = "❌ Jugada ilegal o no entendida (Usa: Ce5, h4...)"; 
+                document.getElementById('status').className = "incorrecto"; 
+                inputEl.disabled = false; inputEl.focus(); // Reactivamos si era un error tipográfico
+                return; 
+            }
 
             let movimientoHecho = move.from + move.to; if (move.promotion) movimientoHecho += move.promotion;
             let solucionCorrecta = puzzleActual.moves[indiceMovimiento];
 
             if (movimientoHecho === solucionCorrecta) {
                 reproducirSonido('correcto');
-                indiceMovimiento++; document.getElementById('jugadaInput').value = ""; 
+                indiceMovimiento++; inputEl.value = ""; 
                 if (indiceMovimiento < puzzleActual.moves.length) {
                     let jugadaRival = puzzleActual.moves[indiceMovimiento]; let jugadaRivalSan = hacerMovimiento(jugadaRival); indiceMovimiento++;
                     let divUltimo = document.getElementById('ultimo-movimiento'); divUltimo.classList.remove('oculto'); 
                     divUltimo.innerHTML = `✅ ¡Bien! El rival responde:<br><strong style="font-size:1.4em; color:#fff;">${jugadaRivalSan}</strong><br>¿Qué haces?`;
                     generarTextoPosicion(game.fen());
+                    
+                    inputEl.disabled = false; inputEl.focus(); // Turno del usuario otra vez
                 } else { 
                     aciertosTotal++;
                     avanzarMisionDiaria('tactica'); 
@@ -467,7 +508,6 @@
                     window.guardarFallo("Cálculo Puro", game.fen(), solucionCompleta, textoUsuario, puzzleActual.id);
                 }
 
-                // 👇 AQUI ESTÁ LA CORRECCIÓN DE LAS VIDAS 👇
                 if (modoVidas !== 'infinito') {
                     vidasRestantes--; 
                     actualizarHUDEntrenamiento();
@@ -483,7 +523,6 @@
                     registrarXP('maestro', false); 
                     try { actualizarEloJuego('ciego', puntosCiegosLocales, -10); } catch(e) {}
                 }
-                // 👆 =================================== 👆
                 
                 mostrarResultado(false, `❌ Fallaste. Tú dijiste ${textoUsuario}.\n\nSolución correcta:\n${solucionTexto}`);
             }
@@ -502,7 +541,7 @@
 
         function hacerMovimiento(moveString) { let from = moveString.substring(0,2); let to = moveString.substring(2,4); let promotion = moveString.length > 4 ? moveString.substring(4,5) : 'q'; let move = game.move({ from: from, to: to, promotion: promotion }); return move ? move.san : moveString; }
 
-            function rendirse() { 
+        function rendirse() { 
             if(!juegoActivo) return;
             reproducirSonido('incorrecto');
             
@@ -513,7 +552,6 @@
                 window.guardarFallo("Cálculo Puro", game.fen(), solucionCompleta, "Me rendí", puzzleActual.id);
             }
 
-            // 👇 AQUI ESTÁ LA CORRECCIÓN DE LAS VIDAS 👇
             if (modoVidas !== 'infinito') {
                 vidasRestantes--; 
                 actualizarHUDEntrenamiento();
@@ -529,7 +567,6 @@
                 registrarXP('maestro', false); 
                 try { actualizarEloJuego('ciego', puntosCiegosLocales, -5); } catch(e) {}
             }
-            // 👆 =================================== 👆
             
             mostrarResultado(false, `Te has rendido.\nSolución completa:\n${solucionTexto}`); 
         }
@@ -578,7 +615,6 @@
             }
         }
 
-        // 👇 ADAPTADA PARA LEER EL CÓDIGO DE LA URL Y NO DEJAR EDITARLO 👇
         function abrirLobbyTorneo(codigoSalaPredefinido = null) {
             juegoActivo = false;
             if (timerEntrenamiento) clearInterval(timerEntrenamiento);
@@ -639,7 +675,8 @@
                     document.getElementById('leaderboard-list').innerHTML = htmlBoard;
                 }
                 if (data.estado === 'jugando' && !juegoActivo) {
-                    let restante = data.tiempoFin ? Math.floor((data.tiempoFin - Date.now()) / 1000) : 0;
+                    // MEJORA: Tiempo sincronizado
+                    let restante = data.tiempoFin ? Math.floor((data.tiempoFin - (Date.now() + serverOffset)) / 1000) : 0;
                     if (restante > 0) { 
                         TorneoManager.semillaRonda = data.tiempoFin.toString(); 
                         document.getElementById('pantalla-podio').classList.add('oculto'); 
@@ -653,9 +690,11 @@
             if (!refSalaTorneo) return;
             firebase.database().ref(refSalaTorneo + '/estado').once('value').then(snap => {
                 if (snap.val() !== 'jugando') {
-                    // 👇 EN LUGAR DE ESTAR FIJO A 3 MINUTOS, RECOGE EL TIEMPO REAL DESDE LA URL 👇
+                    // MEJORA: Tiempo final sincronizado
+                    let tiempoActualReal = Date.now() + serverOffset;
                     let msTotales = (minutosGlobal * 60 * 1000); 
-                    let tiempoFinal = Date.now() + msTotales;
+                    let tiempoFinal = tiempoActualReal + msTotales;
+                    
                     firebase.database().ref(refSalaTorneo).update({ estado: 'jugando', tiempoFin: tiempoFinal }); 
                 }
             });
@@ -700,7 +739,6 @@
             puntosCiegosLocales = 0;        
         }
 
-        // 👇 NUEVA FUNCIÓN DE SALIDA QUE DEVUELVE AL HUB 👇
         function salirDelTorneo() {
             if (refSalaTorneo) {
                 let uid = localStorage.getItem('current_user_uid');

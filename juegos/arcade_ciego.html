@@ -169,14 +169,19 @@
         const b4 = parseInt(urlParams.get('b4')) || 15;
         const p4 = parseInt(urlParams.get('p4')) || 20;
 
+        let serverOffset = 0; // MEJORA 1: Variable para sincronizar tiempo
+
         // ---------------- INICIO AUTOMÁTICO ----------------
         window.onload = () => { 
+            // MEJORA 1: Sincronización del tiempo con Firebase
+            firebase.database().ref('.info/serverTimeOffset').on('value', function(snap) {
+                serverOffset = snap.val() || 0;
+            });
+
             const torneoId = urlParams.get('torneo');
             if (torneoId) {
-                // Si venimos del hub con código, vamos directo a la sala
                 abrirLobbyTorneo(torneoId);
             } else {
-                // Si NO hay código, arranca el juego en solitario automáticamente
                 Game.start(false);
             }
         };
@@ -228,7 +233,9 @@
                     document.getElementById('leaderboard-list').innerHTML = htmlBoard;
                 }
                 if (data.estado === 'jugando' && !Game.isPlaying) {
-                    let restante = data.tiempoFin ? Math.floor((data.tiempoFin - Date.now()) / 1000) : 0;
+                    // MEJORA 1: Cálculo del restante usando el reloj de Firebase
+                    let tiempoActualReal = Date.now() + serverOffset;
+                    let restante = data.tiempoFin ? Math.floor((data.tiempoFin - tiempoActualReal) / 1000) : 0;
                     if (restante > 0) {
                         TorneoManager.semillaRonda = data.tiempoFin.toString();
                         document.getElementById('pantalla-podio').style.display = 'none';
@@ -245,8 +252,10 @@
             if (!refSalaTorneo) return;
             firebase.database().ref(refSalaTorneo + '/estado').once('value').then(snap => {
                 if (snap.val() !== 'jugando') {
+                    // MEJORA 1: Asignar el fin del torneo en base al tiempo real sincronizado
+                    let tiempoActualReal = Date.now() + serverOffset;
                     let msTotales = initTime * 1000;
-                    let tiempoFinal = Date.now() + msTotales;
+                    let tiempoFinal = tiempoActualReal + msTotales;
                     firebase.database().ref(refSalaTorneo).update({ estado: 'jugando', tiempoFin: tiempoFinal });
                 }
             });
@@ -266,6 +275,7 @@
         // ---------------- JUEGO ARCADE TECLADO ----------------
         const Game = {
             score: 0, time: initTime, streak: 0, timerInterval: null, currentExercise: null, isPlaying: false,
+            isProcessing: false, // MEJORA 2: Escudo Anti-Spam
 
             types: [
                 { id: 'color', name: 'Color de Casilla', pts: 50, bonus: b1, penalty: p1, dif: 'basico' },
@@ -279,6 +289,7 @@
                 this.time = initTime; 
                 this.streak = 0; 
                 this.isPlaying = true;
+                this.isProcessing = false;
                 
                 document.getElementById('play-screen').classList.add('active');
                 this.updateHUD(); 
@@ -288,7 +299,9 @@
                     document.getElementById('panel-leaderboard').style.display = 'block';
                     
                     this.timerInterval = setInterval(() => {
-                        let restante = Math.floor((tiempoFinMs - Date.now()) / 1000);
+                        // MEJORA 1: Restante del timer usando tiempo sincronizado
+                        let tiempoActualReal = Date.now() + serverOffset;
+                        let restante = Math.floor((tiempoFinMs - tiempoActualReal) / 1000);
                         if (restante <= 0) { clearInterval(this.timerInterval); this.gameOver(true); return; }
                         document.getElementById('timer-val').innerText = restante;
                         if(restante <= 10) document.getElementById('timer-val').classList.add('danger');
@@ -399,7 +412,10 @@
             },
 
             check: function(userVal) {
-                if (!this.isPlaying) return;
+                // MEJORA 2: Cortafuegos. Si ya se está procesando una respuesta o no estamos jugando, ignora el Enter/Click.
+                if (!this.isPlaying || this.isProcessing) return;
+                this.isProcessing = true;
+
                 let isCorrect = false; const ex = this.currentExercise;
 
                 if (ex.type === 'color') { isCorrect = (userVal === ex.answer); }
@@ -415,6 +431,7 @@
                     if (userRoute.length > 0 && userRoute[0] === ex.start) { userRoute.shift(); }
                     if (userRoute.length > 0 && userRoute[userRoute.length - 1] === ex.end) { userRoute.pop(); }
 
+                    // La mecánica de "suerte" original se mantiene aquí
                     let full = [ex.start, ...userRoute, ex.end]; 
                     isCorrect = true;                    
                     for(let i=0; i<full.length-1; i++) {
@@ -431,7 +448,11 @@
                 if (!TorneoManager.enTorneo) { let typeInfo = this.types.find(t => t.id === ex.type); registrarXP(typeInfo.dif, isCorrect); }
 
                 if (isCorrect) this.processCorrect(); else this.processWrong();
+                
                 this.nextRound();
+
+                // MEJORA 2: Liberar el cortafuegos con un milisegundo de retraso para anular dobles pulsaciones simultáneas.
+                setTimeout(() => { this.isProcessing = false; }, 150);
             },
 
             processCorrect: function() {
