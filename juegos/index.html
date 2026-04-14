@@ -826,15 +826,16 @@
                     let m = child.val(); 
                     let clase = m.from === miUid ? 'msg-me' : 'msg-to'; 
                     
-                    html += `<div class="msg-bubble ${clase}">${m.text}</div>`; 
+                    // 🛡️ CORRECCIÓN DE SEGURIDAD (ANTI-XSS): Usamos escaparHTML(m.text)
+                    html += `<div class="msg-bubble ${clase}">${escaparHTML(m.text)}</div>`; 
                 });                
                 
                 const div = document.getElementById('chat-messages'); 
                 div.innerHTML = html || '<div style="color:#555;text-align:center;margin-top:20px;">¡Di hola!</div>'; 
                 setTimeout(() => div.scrollTop = div.scrollHeight, 100);
             });
-        }        
-        
+        }
+
         function mandarMensaje() { let input = document.getElementById('chat-input'); if (input.value.trim() !== '') { ChatManager.enviarMensaje(chatActivoUid, input.value); input.value = ''; } }
 
         // ==========================================

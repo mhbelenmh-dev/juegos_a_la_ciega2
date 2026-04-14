@@ -64,6 +64,19 @@ const firebaseConfig = {
 try { if (typeof firebase !== 'undefined' && !firebase.apps.length) firebase.initializeApp(firebaseConfig); } catch(e) {}
 
 // =======================================================
+// === SEGURIDAD: LIMPIADOR DE HTML (ANTI-XSS) ===========
+// =======================================================
+window.escaparHTML = function(texto) {
+    if (!texto) return "";
+    return texto
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+};
+
+// =======================================================
 // === GESTOR DE PERFIL Y ATRIBUTOS INDIVIDUALES =========
 // =======================================================
 

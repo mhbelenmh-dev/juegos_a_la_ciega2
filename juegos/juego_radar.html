@@ -206,8 +206,16 @@
 
         let refSalaTorneo = null; let intervaloTorneo = null;
 
+        // 🔥 AÑADIMOS ESTA VARIABLE PARA SINCRONIZAR EL TIEMPO CON FIREBASE
+        let serverOffset = 0;
+
         // 👇 AUTO-ARRANQUE AL ENTRAR DESDE EL HUB 👇
         window.onload = () => {
+            // Obtenemos el desfase de tiempo con el servidor
+            firebase.database().ref('.info/serverTimeOffset').on('value', function(snap) {
+                serverOffset = snap.val() || 0;
+            });
+
             fetch('memoria_gm.json')
                 .then(r => r.json())
                 .then(data => {
@@ -278,7 +286,10 @@
                     document.getElementById('leaderboard-list').innerHTML = htmlBoard;
                 }
                 if (data.estado === 'jugando' && !juegoActivo) {
-                    let restante = data.tiempoFin ? Math.floor((data.tiempoFin - Date.now()) / 1000) : 0;
+                    // 🔥 USAMOS EL OFFSET DE TIEMPO
+                    let tiempoActualReal = Date.now() + serverOffset;
+                    let restante = data.tiempoFin ? Math.floor((data.tiempoFin - tiempoActualReal) / 1000) : 0;
+                    
                     if (restante > 0) {
                         TorneoManager.semillaRonda = data.tiempoFin.toString();
                         document.getElementById('pantalla-podio').classList.add('oculto');
@@ -295,7 +306,8 @@
             firebase.database().ref(refSalaTorneo + '/estado').once('value').then(snap => {
                 if (snap.val() !== 'jugando') {
                     let msTotales = arcTime * 1000;
-                    let tiempoFinal = Date.now() + msTotales;
+                    // 🔥 USAMOS EL OFFSET DE TIEMPO AL CREAR LA SALA
+                    let tiempoFinal = (Date.now() + serverOffset) + msTotales;
                     firebase.database().ref(refSalaTorneo).update({ estado: 'jugando', tiempoFin: tiempoFinal });
                 }
             });
@@ -355,12 +367,21 @@
                 TorneoManager.contador = 0;
                 document.getElementById('panel-leaderboard').classList.remove('oculto');
                 document.getElementById('timer-torneo').classList.remove('oculto');
-                document.getElementById('btn-salir-radar').style.display = 'none';
+                
+                // 🔥 SOLUCIÓN 1: Eliminada la línea que daba error
+                // document.getElementById('btn-salir-radar').style.display = 'none';
+                
                 document.getElementById('label-pts').innerText = "Puntos";
                 misPuntosLocales = 0;
                 
+                // 🔥 SOLUCIÓN 2: Eliminamos el intervalo anterior si lo hubiera
+                if (intervaloTorneo) clearInterval(intervaloTorneo);
+
                 intervaloTorneo = setInterval(() => {
-                    let restante = Math.floor((tiempoFinMs - Date.now()) / 1000);
+                    // 🔥 SOLUCIÓN 3: El tiempo se sincroniza perfectamente
+                    let tiempoActualReal = Date.now() + serverOffset;
+                    let restante = Math.floor((tiempoFinMs - tiempoActualReal) / 1000);
+                    
                     if (restante <= 0) { clearInterval(intervaloTorneo); finalizarTorneoGlobal(); return; }
                     let m = Math.floor(restante / 60); let s = restante % 60;
                     let timerEl = document.getElementById('timer-torneo');
@@ -373,6 +394,9 @@
                     document.getElementById('label-pts').innerText = "Puntos Arcade";
                     misPuntosLocales = 0;
                     actualizarHUDArcade();
+                    
+                    // 🔥 SOLUCIÓN 2: También evitamos doble reloj en arcade
+                    if (globalTimerArcade) clearInterval(globalTimerArcade);
                     globalTimerArcade = setInterval(tickArcade, 1000);
                 } else {
                     let p = obtenerPerfil();
