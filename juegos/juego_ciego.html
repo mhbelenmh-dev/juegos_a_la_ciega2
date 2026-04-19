@@ -171,7 +171,8 @@
                     <div id="ultimo-movimiento" class="oculto"></div>
                     <button id="btn-rendirse" class="btn-skip" onclick="rendirse()">🏳️ Me rindo (-5 pts)</button>
                     <button id="btn-siguiente" class="btn-verde oculto" onclick="cargarNuevoPuzzle()">Siguiente Puzzle ➡</button>
-                </div>
+                    <button class="btn-skip" style="background: #444; box-shadow: 0 4px 0 #222; margin-top: 15px;" onclick="window.location.href='hub_tactica.html'">🚪 Salir al Menú</button>
+                </div>            
             </div>
         </div>
     </div>
@@ -318,11 +319,15 @@
             document.getElementById('interfaz-juego').classList.remove('oculto');
             board = Chessboard('tablero', { pieceTheme: 'https://chessboardjs.com/img/chesspieces/wikipedia/{piece}.png' });
             
-            aciertosTotal = 0;
+            // CARGAR RACHA GUARDADA (Solo si no es torneo y es modo infinito)
+            if (esTorneo || modoVidas !== 'infinito') {
+                aciertosTotal = 0;
+            } else {
+                aciertosTotal = parseInt(localStorage.getItem('racha_ciega_guardada')) || 0;
+            }
             document.getElementById('score').innerText = aciertosTotal;
 
-            if (esTorneo) {
-                TorneoManager.contador = 0;
+            if (esTorneo) {                TorneoManager.contador = 0;
                 document.getElementById('panel-leaderboard').style.display = 'block';
                 document.getElementById('btn-volver').style.display = 'none';
                 document.getElementById('btn-torneo-sidebar').style.display = 'none';
@@ -488,8 +493,8 @@
                     inputEl.disabled = false; inputEl.focus(); // Turno del usuario otra vez
                 } else { 
                     aciertosTotal++;
-                    avanzarMisionDiaria('tactica'); 
-                    if (TorneoManager.enTorneo || (typeof DueloManager !== 'undefined' && DueloManager.enDuelo)) { 
+                    localStorage.setItem('racha_ciega_guardada', aciertosTotal); // GUARDAR RACHA EN MEMORIA
+                    avanzarMisionDiaria('tactica');                    if (TorneoManager.enTorneo || (typeof DueloManager !== 'undefined' && DueloManager.enDuelo)) { 
                         puntosCiegosLocales += 15; if(TorneoManager.enTorneo) TorneoManager.enviarPuntos(puntosCiegosLocales); 
                     } else if (modoVidas === 'infinito') { 
                         puntosCiegosLocales += 15; actualizarEstadisticaGlobal('eloCiego', puntosCiegosLocales, false); registrarXP('maestro', true); try { actualizarEloJuego('ciego', puntosCiegosLocales, 15); } catch(e) {}
@@ -522,10 +527,11 @@
                     actualizarEstadisticaGlobal('eloCiego', puntosCiegosLocales, false); 
                     registrarXP('maestro', false); 
                     try { actualizarEloJuego('ciego', puntosCiegosLocales, -10); } catch(e) {}
+                    
+                    aciertosTotal = 0; localStorage.setItem('racha_ciega_guardada', aciertosTotal); // BORRAR RACHA
                 }
                 
-                mostrarResultado(false, `❌ Fallaste. Tú dijiste ${textoUsuario}.\n\nSolución correcta:\n${solucionTexto}`);
-            }
+                mostrarResultado(false, `❌ Fallaste. Tú dijiste ${textoUsuario}.\n\nSolución correcta:\n${solucionTexto}`);            }
         }
 
         function generarSolucionCompleta() {
@@ -566,10 +572,11 @@
                 actualizarEstadisticaGlobal('eloCiego', puntosCiegosLocales, false); 
                 registrarXP('maestro', false); 
                 try { actualizarEloJuego('ciego', puntosCiegosLocales, -5); } catch(e) {}
+                
+                aciertosTotal = 0; localStorage.setItem('racha_ciega_guardada', aciertosTotal); // BORRAR RACHA
             }
             
-            mostrarResultado(false, `Te has rendido.\nSolución completa:\n${solucionTexto}`); 
-        }
+            mostrarResultado(false, `Te has rendido.\nSolución completa:\n${solucionTexto}`);        }
 
         function mostrarResultado(esCorrecto, mensaje) {
             puzzleResuelto = true; document.getElementById('status').innerText = mensaje; document.getElementById('status').className = esCorrecto ? "correcto" : "incorrecto";

@@ -260,7 +260,7 @@
                 <h2 style="color:var(--green); margin-top:0; text-transform: uppercase; letter-spacing: 2px;">Nuevo Usuario</h2>
                 <form onsubmit="event.preventDefault(); ejecutarRegistroReal();">
                     <input type="text" id="reg-user" class="input-modal" placeholder="Nombre de Usuario" required>
-                    <input type="email" id="reg-email" class="input-modal" placeholder="Correo Electrónico" required>
+                    <input type="email" id="reg-email" class="input-modal" placeholder="Correo Electrónico (Opcional)">                    
                     <input type="password" id="reg-pass" class="input-modal" placeholder="Contraseña (mín. 6 caracteres)" required>
                     <div id="reg-error" style="color:var(--red); margin-bottom:15px; font-weight:bold;"></div>
                     <button type="submit" class="btn-modal" style="background:var(--green);">CREAR CUENTA</button>
@@ -368,7 +368,7 @@
 
         function ejecutarRegistroReal() {
             const u = document.getElementById('reg-user').value.trim();
-            const e = document.getElementById('reg-email').value.trim();
+            let e = document.getElementById('reg-email').value.trim();
             const p = document.getElementById('reg-pass').value;
             const errorDiv = document.getElementById('reg-error');
 
@@ -376,28 +376,49 @@
             if (p.length < 6) return errorDiv.innerText = "La contraseña debe tener 6 caracteres";
 
             let nombreMinusculas = u.toLowerCase();
+            let correoProporcionado = false;
 
-            // 1. COMPROBAR SI EL USUARIO YA EXISTE EN LA BASE DE DATOS
+            // --- LÓGICA DE CORREO OPCIONAL Y FILTRO ANTI-FALSOS ---
+            if (e === "") {
+                // Si lo deja en blanco, le creamos el correo oculto del sistema
+                e = generarEmailFalso(u);
+            } else {
+                // Si escribe algo, comprobamos que tenga formato real (usuario@dominio.com)
+                const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!regexEmail.test(e)) {
+                    return errorDiv.innerText = "El formato del correo no es válido.";
+                }
+                
+                // Lista negra de dominios típicos que la gente usa para inventarse correos
+                const dominiosFalsos = ['test.com', 'ejemplo.com', 'fake.com', 'correo.com', 'nada.com', 'asdasd.com', '123.com'];
+                let dominio = e.split('@')[1].toLowerCase();
+                
+                if (dominiosFalsos.includes(dominio)) {
+                    return errorDiv.innerText = "Ese proveedor de correo no parece real. Déjalo en blanco o usa el tuyo de verdad.";
+                }
+                
+                correoProporcionado = true;
+            }
+
+            // 1. COMPROBAR SI EL USUARIO YA EXISTE
             firebase.database().ref('users').orderByChild('nombreJugadorLower').equalTo(nombreMinusculas).once('value', snap => {
                 if (snap.exists()) {
-                    // Si entra aquí, es que alguien ya tiene ese nombre
                     errorDiv.innerText = "Ese nombre de usuario ya está ocupado. ¡Elige otro!";
                 } else {
-                    // 2. Si el nombre está libre, creamos la cuenta en Firebase Auth
+                    // 2. Si el nombre está libre, creamos la cuenta en Firebase
                     firebase.auth().createUserWithEmailAndPassword(e, p)
                         .then((cred) => {
-                            // Actualizar el perfil con el nombre de usuario
                             return cred.user.updateProfile({ displayName: u }).then(() => {
-                                // Crear el registro inicial en la base de datos
+                                // 3. Lo guardamos en la base de datos
                                 return firebase.database().ref('users/' + cred.user.uid).set({
                                     nombreJugador: u,
                                     nombreJugadorLower: nombreMinusculas,
-                                    emailReal: e,
+                                    emailReal: correoProporcionado ? e : "", // Si no puso, lo dejamos vacío
                                     xpTotal: 0,
                                     rachaDias: 1,
                                     ultimaConexion: new Date().toDateString(),
                                     isOnline: true,
-                                    cuentaProtegida: true
+                                    cuentaProtegida: correoProporcionado // Será false si lo dejó en blanco
                                 });
                             });
                         })
@@ -407,7 +428,7 @@
                         .catch(err => {
                             console.error(err);
                             if (err.code === 'auth/email-already-in-use') {
-                                errorDiv.innerText = "Ese email ya está registrado.";
+                                errorDiv.innerText = "Ese email ya está registrado en otra cuenta.";
                             } else {
                                 errorDiv.innerText = "Error: " + err.message;
                             }
@@ -693,6 +714,7 @@
                     <div class="activity-item"><span>🔥 Constancia:</span> <strong style="color:#ff6600;">Racha de ${p.rachaDias || 0} Días</strong></div>
                     <div class="activity-item" style="border-bottom:none;"><span>⚡ Récord Arcade:</span> <strong style="color:var(--accent);">${p.arcadeGlobalMax || 0} Pts</strong></div>
                 </div>`; 
+                
 
             html += `
                 <div style="display: flex; gap: 15px; margin-top: 25px;">
@@ -1006,6 +1028,38 @@
             `;
             document.body.appendChild(banner);
         }
+        
+        function ejecutarBorradoCuenta() {
+            const user = firebase.auth().currentUser;
+            if (!user) return;
+
+            const confirmacion = confirm("⚠️ ¿ESTÁS TOTALMENTE SEGURA?\n\nEsta acción es irreversible:\n1. Se borrarán tus puntos y rangos.\n2. Tu nombre de usuario quedará LIBRE para otros.\n3. Perderás el acceso a esta cuenta para siempre.");
+
+            if (confirmacion) {
+                const uid = user.uid;
+
+                // 1. Borramos los datos de la base de datos (libera el nombre de usuario)
+                firebase.database().ref('users/' + uid).remove()
+                .then(() => {
+                    // 2. Intentamos borrar el usuario de la autenticación de Firebase
+                return user.delete();
+                })
+                .then(() => {
+                    alert("Cuenta eliminada con éxito. ¡Esperamos volver a verte pronto!");
+                    localStorage.clear();
+                    window.location.reload();
+                })
+                .catch(err => {
+                    console.error(err);
+                    if (err.code === 'auth/requires-recent-login') {
+                        alert("⚠️ Por seguridad, debes haber iniciado sesión RECIENTEMENTE para borrar tu cuenta. Por favor, sal de la cuenta e inicia sesión de nuevo antes de intentarlo.");
+                    } else {
+                        alert("Error al eliminar la cuenta: " + err.message);
+                    }
+                });
+            }
+        }
+
     </script>
 </body>
 </html>

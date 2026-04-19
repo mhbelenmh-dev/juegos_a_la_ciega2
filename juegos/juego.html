@@ -151,8 +151,9 @@
                 </div>
                 <div class="panel-box">
                     <button id="btn-saltar" class="btn-skip" onclick="saltarPuzzle()">⏭️ Saltar (-5 pts)</button>
+                    <button class="btn-skip" style="background: #444; box-shadow: 0 4px 0 #222; margin-top: 15px;" onclick="window.location.href='hub_tactica.html'">🚪 Salir al Menú</button>
                 </div>
-            </div>
+            </div>        
         </div>
     </div>
 
@@ -335,8 +336,16 @@
             }
 
             board = Chessboard('tablero', { draggable: true, position: 'start', pieceTheme: 'https://chessboardjs.com/img/chesspieces/wikipedia/{piece}.png', onDragStart: onDragStart, onDrop: onDrop, onSnapEnd: onSnapEnd });
-            racha = 0; document.getElementById('rachaDisplay').innerText = racha; 
-            cargarNuevoPuzzle();
+            
+            // CARGAR RACHA GUARDADA (Solo si no es torneo y es modo infinito)
+            if (esTorneo || modoVidas !== 'infinito') {
+                racha = 0;
+            } else {
+                racha = parseInt(localStorage.getItem('racha_guardada_64sombras')) || 0;
+            }
+            document.getElementById('rachaDisplay').innerText = racha; 
+            
+            cargarNuevoPuzzle();        
         }
 
         function generarTextoPosicion(fen) {
@@ -527,9 +536,9 @@
                 
                 if (modoVidas !== 'infinito') return 'snapback';
                 
-                racha = 0; document.getElementById('rachaDisplay').innerText = racha; document.getElementById('ratingDisplay').innerText = misPuntosLocales;
-                document.getElementById('status').innerText = "❌ Incorrecto. SALTANDO."; setTimeout(cargarNuevoPuzzle, 500); return 'snapback';
-            }
+                racha = 0; localStorage.setItem('racha_guardada_64sombras', racha); // BORRAR RACHA EN MEMORIA
+                document.getElementById('rachaDisplay').innerText = racha; document.getElementById('ratingDisplay').innerText = misPuntosLocales;
+                document.getElementById('status').innerText = "❌ Incorrecto. SALTANDO."; setTimeout(cargarNuevoPuzzle, 500); return 'snapback';            }
         }
 
         function puzzleFinalizado() {
@@ -539,7 +548,7 @@
             avanzarMisionDiaria('tactica');
             reproducirSonido('fin'); let pts = 15 + (racha * 5); racha++; misPuntosLocales += pts; totalPuzzlesResueltos++;
             document.getElementById('rachaDisplay').innerText = racha; document.getElementById('ratingDisplay').innerText = misPuntosLocales;
-            
+            localStorage.setItem('racha_guardada_64sombras', racha); // GUARDAR RACHA EN MEMORIA            
             if (TorneoManager.enTorneo || (typeof DueloManager !== 'undefined' && DueloManager.enDuelo)) { 
                 if(TorneoManager.enTorneo) TorneoManager.enviarPuntos(misPuntosLocales); 
             } else if (modoVidas === 'infinito') { 
@@ -558,9 +567,8 @@
                 window.guardarFallo(nombreModo, game.fen(), solucionCompleta, "Saltado", puzzleActual.id);            
             }
             
-            misPuntosLocales = Math.max(0, misPuntosLocales - 5); racha = 0;
-            document.getElementById('rachaDisplay').innerText = racha; document.getElementById('ratingDisplay').innerText = misPuntosLocales;
-            if (TorneoManager.enTorneo) { TorneoManager.enviarPuntos(misPuntosLocales); } 
+            misPuntosLocales = Math.max(0, misPuntosLocales - 5); racha = 0; localStorage.setItem('racha_guardada_64sombras', racha); // BORRAR RACHA EN MEMORIA
+            document.getElementById('rachaDisplay').innerText = racha; document.getElementById('ratingDisplay').innerText = misPuntosLocales;            if (TorneoManager.enTorneo) { TorneoManager.enviarPuntos(misPuntosLocales); } 
             else if (!DueloManager.enDuelo && modoVidas === 'infinito') { actualizarEstadisticaGlobal(claveEstadistica, misPuntosLocales, false); try { actualizarEloJuego(claveJuego, misPuntosLocales, -5); } catch(e) {} }
             cargarNuevoPuzzle();
         }
