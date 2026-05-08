@@ -81,6 +81,46 @@
         /* Estilos extra para los select del duelo */
         optgroup { background: #000; color: #888; font-style: normal; font-weight: bold; }
         option { background: #111; color: #fff; font-weight: normal; }
+    /* --- NUEVOS ESTILOS PARA EL CHAT --- */
+    .chat-date-separator {
+        text-align: center;
+        margin: 15px 0 10px 0;
+        font-size: 0.8em;
+        color: #888;
+        background: rgba(0, 0, 0, 0.4);
+        padding: 5px 12px;
+        border-radius: 15px;
+        align-self: center;
+        display: inline-block;
+        text-transform: uppercase;
+        font-weight: bold;
+    }
+
+    .msg-bubble { 
+        /* Modificamos tu msg-bubble actual para que la hora encaje bien abajo a la derecha */
+        display: flex; 
+        flex-direction: column;
+    }
+
+    .msg-time {
+        font-size: 0.75em;
+        color: rgba(255, 255, 255, 0.6);
+        align-self: flex-end;
+        margin-top: 4px;
+        margin-left: 10px;
+    }
+
+    .unread-badge {
+        background: var(--red);
+        color: #fff;
+        font-size: 0.75em;
+        padding: 3px 8px;
+        border-radius: 12px;
+        margin-left: auto; /* Empuja el recuadro a la derecha */
+        font-weight: bold;
+        box-shadow: 0 0 8px rgba(204, 51, 51, 0.5);
+    }
+
     </style>
 </head>
 
@@ -817,15 +857,29 @@
                 let contenedor = document.getElementById('lista-chats-mini');
                 if (!snap.exists()) { contenedor.innerHTML = '<div style="color:#555; font-style:italic; padding: 10px;">No hay chats activos.</div>'; return; }
                 contenedor.innerHTML = "";
+        
                 snap.forEach(child => {
                     let userToId = child.key;
+                    let timeUltimoMensaje = child.val(); // Tu código ya guarda aquí el timestamp
+            
+                    // Leemos cuándo fue la última vez que vimos este chat
+                    let timeUltimaLectura = localStorage.getItem('chat_leido_' + userToId) || 0;
+                    let hayMensajesNuevos = timeUltimoMensaje > timeUltimaLectura;
+
                     firebase.database().ref(`users/${userToId}/nombreJugador`).once('value', nSnap => {
                         let nombre = nSnap.val() || "Usuario"; let idElemento = `chat-item-${userToId}`;
-                        if (!document.getElementById(idElemento)) {
-                            let div = document.createElement('div'); div.id = idElemento; div.className = "user-online-mini"; div.style.borderLeft = "3px solid var(--blue)";
-                            div.onclick = () => abrirChat(userToId, nombre);
-                            div.innerHTML = `<span style="color:#ddd; font-weight:bold;">💬 ${nombre}</span>`; contenedor.appendChild(div);
-                        }
+                
+                        let div = document.createElement('div'); 
+                        div.id = idElemento; 
+                        div.className = "user-online-mini"; 
+                        div.style.borderLeft = "3px solid var(--blue)";
+                        div.onclick = () => abrirChat(userToId, nombre);
+                
+                        // Si hay nuevos, le ponemos el globito rojo
+                        let badgeHtml = hayMensajesNuevos ? `<span class="unread-badge" id="badge-${userToId}">Nuevo</span>` : '';
+                
+                        div.innerHTML = `<span style="color:#ddd; font-weight:bold; display:flex; align-items:center; width:100%;">💬 ${nombre} ${badgeHtml}</span>`; 
+                        contenedor.appendChild(div);
                     });
                 });
             });
@@ -839,24 +893,56 @@
             
             document.getElementById('chat-modal').style.display = 'flex';
             document.getElementById('chat-messages').innerHTML = '<div style="color:#888;text-align:center;">Cargando mensajes...</div>';
-            
+        
             ChatManager.escucharConversacion(uid, snap => {
-                let html = ''; 
-                let miUid = localStorage.getItem('current_user_uid');
-                
-                snap.forEach(child => { 
-                    let m = child.val(); 
-                    let clase = m.from === miUid ? 'msg-me' : 'msg-to'; 
-                    
-                    // 🛡️ CORRECCIÓN DE SEGURIDAD (ANTI-XSS): Usamos escaparHTML(m.text)
-                    html += `<div class="msg-bubble ${clase}">${escaparHTML(m.text)}</div>`; 
-                });                
-                
+            let html = ''; 
+            let miUid = localStorage.getItem('current_user_uid');
+            let fechaAnteriorStr = ""; // Para saber cuándo cambiar de día
+        
+            // --- MARCAR COMO LEÍDO ---
+            // Guardamos el momento actual como última lectura de este chat
+            localStorage.setItem('chat_leido_' + uid, Date.now() + 1000); 
+            
+            // Si el recuadro rojo estaba en la interfaz, lo escondemos al momento
+            let badgeVisual = document.getElementById(`badge-${uid}`);
+            if(badgeVisual) badgeVisual.style.display = 'none';
+
+            snap.forEach(child => { 
+                let m = child.val(); 
+                let clase = m.from === miUid ? 'msg-me' : 'msg-to'; 
+            
+                // --- CÁLCULO DE FECHA Y HORA ---
+                let fechaObj = new Date(m.time);
+                let fechaMensaje = fechaObj.toLocaleDateString('es-ES'); // ej: "24/10/2023"
+            
+                let hoy = new Date().toLocaleDateString('es-ES');
+                let ayerObj = new Date(); ayerObj.setDate(ayerObj.getDate() - 1);
+                let ayer = ayerObj.toLocaleDateString('es-ES');
+            
+                let diaMostrado = fechaMensaje;
+                if (fechaMensaje === hoy) diaMostrado = "Hoy";
+                else if (fechaMensaje === ayer) diaMostrado = "Ayer";
+
+                let horaMostrada = fechaObj.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
+
+                // Si cambiamos de día, imprimimos el separador central
+                if (diaMostrado !== fechaAnteriorStr) {
+                    html += `<div class="chat-date-separator">${diaMostrado}</div>`;
+                    fechaAnteriorStr = diaMostrado;
+                }
+            
+                // 🛡️ Burbuja con mensaje y hora
+                html += `<div class="msg-bubble ${clase}">
+                        <div>${escaparHTML(m.text)}</div>
+                        <span class="msg-time">${horaMostrada}</span>
+                    </div>`; 
+            });                
+        
                 const div = document.getElementById('chat-messages'); 
                 div.innerHTML = html || '<div style="color:#555;text-align:center;margin-top:20px;">¡Di hola!</div>'; 
                 setTimeout(() => div.scrollTop = div.scrollHeight, 100);
             });
-        }
+        }   
 
         function mandarMensaje() { let input = document.getElementById('chat-input'); if (input.value.trim() !== '') { ChatManager.enviarMensaje(chatActivoUid, input.value); input.value = ''; } }
 
