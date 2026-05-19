@@ -262,6 +262,12 @@
             }
         };
 
+        function traducirSAN(san, idioma) {
+            if (idioma === 'en') return san;
+            return san.replace(/^N/, 'C').replace(/^B/, 'A').replace(/^R/, 'T').replace(/^Q/, 'D').replace(/^K/, 'R')
+                      .replace(/=N/, '=C').replace(/=B/, '=A').replace(/=R/, '=T').replace(/=Q/, '=D');
+        }
+
         // ==========================================
         // GESTIÓN HUD Y GAME OVER
         // ==========================================
@@ -578,12 +584,20 @@
             for (let i = 1; i < puzzleActual.moves.length; i++) {
                 let rawMove = puzzleActual.moves[i]; let f = rawMove.substring(0,2); let t = rawMove.substring(2,4); let p = rawMove.length > 4 ? rawMove.substring(4,5) : 'q';
                 let moveObj = tempGame.move({ from: f, to: t, promotion: p });
-                if (moveObj) { let numero = ""; if (tempGame.turn() === 'b') { let moveNumber = Math.ceil(tempGame.history().length / 2); numero = moveNumber + ". "; } listaSolucion.push(numero + moveObj.san); }
+                if (moveObj) {
+                    let numero = ""; 
+                    if (tempGame.turn() === 'b') { let moveNumber = Math.ceil(tempGame.history().length / 2); numero = moveNumber + ". "; } 
+                    listaSolucion.push(numero + traducirSAN(moveObj.san, idiomaNotacion)); 
+                }
             } return listaSolucion.join(" ");
         }
 
-        function hacerMovimiento(moveString) { let from = moveString.substring(0,2); let to = moveString.substring(2,4); let promotion = moveString.length > 4 ? moveString.substring(4,5) : 'q'; let move = game.move({ from: from, to: to, promotion: promotion }); return move ? move.san : moveString; }
-
+        function hacerMovimiento(moveString) { 
+            let from = moveString.substring(0,2); let to = moveString.substring(2,4); let promotion = moveString.length > 4 ? moveString.substring(4,5) : 'q'; 
+            let move = game.move({ from: from, to: to, promotion: promotion }); 
+            return move ? traducirSAN(move.san, idiomaNotacion) : moveString; 
+        }
+        
         function rendirse() { 
             if(!juegoActivo) return;
             reproducirSonido('incorrecto');

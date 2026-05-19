@@ -452,12 +452,12 @@
                     generarTextoPosicion(game.fen());
                     actualizarHistorial();
                     
+                    let sanTraducido = traducirSAN(mov.san, idiomaNotacion);
                     if (modoVisual === 'ciego') {
-                        document.getElementById('status').innerHTML = `🤖 El bot jugó: <strong style="color:var(--bot-color); font-size:1.5em;">${mov.san}</strong>. Tu turno.`;
+                        document.getElementById('status').innerHTML = `🤖 El bot jugó: <strong style="color:var(--bot-color); font-size:1.5em;">${sanTraducido}</strong>. Tu turno.`;
                     } else {
                         actualizarStatus();
-                    }
-                    
+                    }                    
                     document.getElementById('jugadaInput').disabled = false;
                     document.getElementById('btn-enviar').disabled = false;
                     if (modoVisual === 'ciego') document.getElementById('jugadaInput').focus();
@@ -667,25 +667,27 @@ function enviarJugadaTexto() {
                     html = `<div class="historial-linea" style="justify-content: center; color: #666;">Sin movimientos aún</div>`;
                 } else {
                     let ultimoMov = historico[historico.length - 1];
+                    let sanTraducido = traducirSAN(ultimoMov, idiomaNotacion);
                     let turnoAnterior = game.turn() === 'w' ? 'Negras' : 'Blancas';
                     html = `<div style="text-align: center; margin-bottom: 10px; color: #888; font-size: 0.8em; text-transform: uppercase;">Último movimiento</div>`;
                     html += `<div class="historial-linea" style="justify-content: center;">
-                                <span style="color: var(--accent); font-size: 1.2em;">${turnoAnterior}: ${ultimoMov}</span>
+                                <span style="color: var(--accent); font-size: 1.2em;">${turnoAnterior}: ${sanTraducido}</span>
                             </div>`;
                 }
             } else {
                 for(let i = 0; i < historico.length; i++) {
                     let turnoActual = simulador.turn();
                     simulador.move(historico[i]);
+                    let sanTraducido = traducirSAN(historico[i], idiomaNotacion);
                     
                     let numJugada = Math.ceil((i + 1) / 2);
                     let clase = turnoActual === 'w' ? 'mov-blancas' : 'mov-negras';
                     
                     if (turnoActual === 'w') {
-                        html += `<div class="historial-linea"><span class="historial-num">${numJugada}.</span><span class="${clase}">${historico[i]}</span>`;
+                        html += `<div class="historial-linea"><span class="historial-num">${numJugada}.</span><span class="${clase}">${sanTraducido}</span>`;
                     } else {
                         if (i === 0) html += `<div class="historial-linea"><span class="historial-num">1.</span><span class="mov-blancas">...</span>`; 
-                        html += `<span class="${clase}">${historico[i]}</span></div>`;
+                        html += `<span class="${clase}">${sanTraducido}</span></div>`;
                     }
                 }
                 if (historico.length > 0 && simulador.turn() === 'b') { html += `</div>`; }
@@ -733,6 +735,13 @@ function enviarJugadaTexto() {
                 $('#tablero .square-' + to).addClass('highlight-mov');
             }
         }
+        // TRADUCTOR DE NOTACIÓN
+        function traducirSAN(san, idioma) {
+            if (idioma === 'en') return san;
+            return san.replace(/^N/, 'C').replace(/^B/, 'A').replace(/^R/, 'T').replace(/^Q/, 'D').replace(/^K/, 'R')
+                      .replace(/=N/, '=C').replace(/=B/, '=A').replace(/=R/, '=T').replace(/=Q/, '=D');
+        }
+
         function toggleIdioma() {
             let btn = document.getElementById('btn-idioma');
             if (idiomaNotacion === 'es') {
@@ -748,6 +757,7 @@ function enviarJugadaTexto() {
             }
             localStorage.setItem('idiomaPreferido', idiomaNotacion);
             generarTextoPosicion(game.fen()); // Actualiza el texto de ubicación inmediatamente
+            actualizarHistorial();
         }
 
         function cargarIdiomaDesdeMochila() {
