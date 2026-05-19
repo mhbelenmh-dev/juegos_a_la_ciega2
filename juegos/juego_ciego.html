@@ -230,6 +230,7 @@
         let vidasRestantes = vidasTotales;
         let tiempoRestante = minutosGlobal * 60;
         let timerEntrenamiento = null;
+        let idiomaNotacion = 'es'; // Por defecto
 
         let todosLosPuzzles = {}; let eloActual = 1700; let puzzleActual = null; let game = new Chess(); let board = null; 
         let aciertosTotal = 0; let puntosCiegosLocales = 0; let puzzleResuelto = false; let indiceMovimiento = 0; let juegoActivo = false;
@@ -241,6 +242,7 @@
 
         // INICIALIZADOR AUTOMÁTICO AL ENTRAR
         window.onload = () => { 
+            idiomaNotacion = localStorage.getItem('idiomaPreferido') || 'es';
             // MEJORA: Sincronizamos el tiempo local con Firebase
             firebase.database().ref('.info/serverTimeOffset').on('value', function(snap) {
                 serverOffset = snap.val() || 0;
@@ -440,13 +442,22 @@
                     if (!isNaN(char)) { colIndex += parseInt(char); } else {
                         let casilla = columnas[colIndex] + filaNum; let esBlanca = (char === char.toUpperCase());
                         let tipo = char.toLowerCase(); let nombrePieza = "";
-                        switch(tipo) { case 'p': nombrePieza = "P"; break; case 'r': nombrePieza = "T"; break; case 'n': nombrePieza = "C"; break; case 'b': nombrePieza = "A"; break; case 'q': nombrePieza = "D"; break; case 'k': nombrePieza = "R"; break; }
+                        
+                        // LÓGICA DE IDIOMA
+                        if (idiomaNotacion === 'es') {
+                            switch(tipo) { case 'p': nombrePieza = "P"; break; case 'r': nombrePieza = "T"; break; case 'n': nombrePieza = "C"; break; case 'b': nombrePieza = "A"; break; case 'q': nombrePieza = "D"; break; case 'k': nombrePieza = "R"; break; }
+                        } else {
+                            nombrePieza = tipo.toUpperCase(); // En inglés, las iniciales coinciden con el FEN (P, R, N, B, Q, K)
+                        }
+                        
                         let textoPieza = nombrePieza + casilla; 
                         if (esBlanca) blancas.push(textoPieza); else negras.push(textoPieza); colIndex++;
                     }
                 }
             }
-            blancas.sort(); negras.sort(); document.getElementById('txt-blancas').innerText = blancas.join(', '); document.getElementById('txt-negras').innerText = negras.join(', ');
+            blancas.sort(); negras.sort(); 
+            document.getElementById('txt-blancas').innerText = blancas.join(', '); 
+            document.getElementById('txt-negras').innerText = negras.join(', ');
         }
 
         function verificarJugada() {
@@ -456,25 +467,51 @@
             let textoUsuario = inputEl.value.trim(); 
             if (!textoUsuario) return;
             
-            // MEJORA: Bloqueo Anti-Spam para evitar fallos múltiples si aporrean 'Enter'
             inputEl.disabled = true;
 
-            // MEJORA: Coronación Inteligente. Detecta "e8=C" o "e8C" en español y lo traduce al inglés para chess.js
-            let jugadaParaChessJS = textoUsuario
-                .replace(/^R/i, 'K').replace(/^D/i, 'Q').replace(/^T/i, 'R').replace(/^A/i, 'B').replace(/^C/i, 'N') // Traducción de pieza movida
-                .replace(/=?D$/i, '=Q').replace(/=?T$/i, '=R').replace(/=?A$/i, '=B').replace(/=?C$/i, '=N'); // Traducción de coronación
+            // NORMALIZACIÓN ANTI-ERRORES
+            textoUsuario = textoUsuario.replace(/0/g, 'O').replace(/^o-o/i, 'O-O').replace(/^o-o-o/i, 'O-O-O');
+            textoUsuario = textoUsuario.replace(/^[Pp]([a-hA-H]?[xX]?[a-hA-H][1-8].*)$/, '$1');
 
-            let move = game.move(jugadaParaChessJS);
-            if (move === null) { 
-                let intento2 = jugadaParaChessJS.charAt(0).toUpperCase() + jugadaParaChessJS.slice(1); 
-                move = game.move(intento2); 
+            let matchCapturaMuda = textoUsuario.match(/^[xX]([a-hA-H][1-8])$/);
+            if (matchCapturaMuda) {
+                let casillaDestino = matchCapturaMuda[1].toLowerCase();
+                let jugadasLegales = game.moves({ verbose: true });
+                let capturasPeon = jugadasLegales.filter(m => m.piece === 'p' && m.to === casillaDestino && (m.flags.includes('c') || m.flags.includes('e')));
+                if (capturasPeon.length === 1) { textoUsuario = capturasPeon[0].san; } 
+            }
+
+            if (textoUsuario.length === 2 && textoUsuario.match(/^[BEFGH][1-8]$/)) {
+                textoUsuario = textoUsuario.toLowerCase();
+            }
+
+            let move = null;
+
+            // LÓGICA DE TRADUCCIÓN SEGÚN LA MOCHILA
+            if (idiomaNotacion === 'es') {
+                let jugadaEspanol = textoUsuario.replace(/^R/i, 'K').replace(/^D/i, 'Q').replace(/^T/i, 'R').replace(/^A/i, 'B').replace(/^C/i, 'N')
+                    .replace(/=?D$/i, '=Q').replace(/=?T$/i, '=R').replace(/=?A$/i, '=B').replace(/=?C$/i, '=N');
+                move = game.move(jugadaEspanol, {sloppy: true});
+        
+                if (move === null) {
+                    let capitalizado = textoUsuario.charAt(0).toUpperCase() + textoUsuario.slice(1);
+                    let intento2 = capitalizado.replace(/^R/i, 'K').replace(/^D/i, 'Q').replace(/^T/i, 'R').replace(/^A/i, 'B').replace(/^C/i, 'N')
+                        .replace(/=?D$/i, '=Q').replace(/=?T$/i, '=R').replace(/=?A$/i, '=B').replace(/=?C$/i, '=N');
+                    move = game.move(intento2, {sloppy: true});
+                }
+            } else {
+                move = game.move(textoUsuario, {sloppy: true});
+                if (move === null) {
+                    let capitalizado = textoUsuario.charAt(0).toUpperCase() + textoUsuario.slice(1);
+                    move = game.move(capitalizado, {sloppy: true});
+                }
             }
             
             if (move === null) { 
                 reproducirSonido('incorrecto'); 
                 document.getElementById('status').innerText = "❌ Jugada ilegal o no entendida (Usa: Ce5, h4...)"; 
                 document.getElementById('status').className = "incorrecto"; 
-                inputEl.disabled = false; inputEl.focus(); // Reactivamos si era un error tipográfico
+                inputEl.disabled = false; inputEl.focus(); 
                 return; 
             }
 
@@ -490,22 +527,22 @@
                     divUltimo.innerHTML = `✅ ¡Bien! El rival responde:<br><strong style="font-size:1.4em; color:#fff;">${jugadaRivalSan}</strong><br>¿Qué haces?`;
                     generarTextoPosicion(game.fen());
                     
-                    inputEl.disabled = false; inputEl.focus(); // Turno del usuario otra vez
+                    inputEl.disabled = false; inputEl.focus(); 
                 } else { 
                     aciertosTotal++;
-                    localStorage.setItem('racha_ciega_guardada', aciertosTotal); // GUARDAR RACHA EN MEMORIA
-                    avanzarMisionDiaria('tactica');                    if (TorneoManager.enTorneo || (typeof DueloManager !== 'undefined' && DueloManager.enDuelo)) { 
+                    localStorage.setItem('racha_ciega_guardada', aciertosTotal); 
+                    avanzarMisionDiaria('tactica');                    
+                    if (TorneoManager.enTorneo || (typeof DueloManager !== 'undefined' && DueloManager.enDuelo)) { 
                         puntosCiegosLocales += 15; if(TorneoManager.enTorneo) TorneoManager.enviarPuntos(puntosCiegosLocales); 
                     } else if (modoVidas === 'infinito') { 
                         puntosCiegosLocales += 15; actualizarEstadisticaGlobal('eloCiego', puntosCiegosLocales, false); registrarXP('maestro', true); try { actualizarEloJuego('ciego', puntosCiegosLocales, 15); } catch(e) {}
                     } else {
-                        puntosCiegosLocales += 15; // En survival solo acumulamos para el Game Over
+                        puntosCiegosLocales += 15; 
                     }
                     mostrarResultado(true, "✅ ¡Puzzle Completado!"); 
                 }
             } else {
                 reproducirSonido('incorrecto'); game.undo();
-                
                 let solucionTexto = generarSolucionCompleta();
 
                 if (typeof window.guardarFallo === 'function' && puzzleActual) {
@@ -528,10 +565,10 @@
                     registrarXP('maestro', false); 
                     try { actualizarEloJuego('ciego', puntosCiegosLocales, -10); } catch(e) {}
                     
-                    aciertosTotal = 0; localStorage.setItem('racha_ciega_guardada', aciertosTotal); // BORRAR RACHA
+                    aciertosTotal = 0; localStorage.setItem('racha_ciega_guardada', aciertosTotal);
                 }
-                
-                mostrarResultado(false, `❌ Fallaste. Tú dijiste ${textoUsuario}.\n\nSolución correcta:\n${solucionTexto}`);            }
+                mostrarResultado(false, `❌ Fallaste. Tú dijiste ${textoUsuario}.\n\nSolución correcta:\n${solucionTexto}`);            
+            }
         }
 
         function generarSolucionCompleta() {

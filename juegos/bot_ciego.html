@@ -17,7 +17,6 @@
         
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--bg); color: var(--text); margin: 0; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
         
-        /* HEADER UNIFICADO (Exacto a Análisis) */
         #top-bar { position: fixed; top: 0; left: 0; width: 100%; height: 70px; background: #000; border-bottom: 1px solid #333; display: flex; align-items: center; justify-content: space-between; padding: 0 30px; box-sizing: border-box; z-index: 100; }
         #brand-logo { margin: 0; font-size: 1.8em; color: var(--accent); letter-spacing: 1px; text-shadow: 2px 2px 0px rgba(0,0,0,0.5); text-decoration: none; }
         #nav-menu { display: flex; gap: 25px; align-items: center; }
@@ -46,8 +45,9 @@
         #tablero-container { width: 100%; max-width: 450px; border: 6px solid #3d3a37; border-radius: 4px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         #tablero { width: 100%; touch-action: none !important; }
         
-        /* MAGIA FANTASMA */
         .tablero-vacio img[src*="chesspieces"] { opacity: 0 !important; cursor: pointer !important; }
+
+        .highlight-mov { box-shadow: inset 0 0 0 4px rgba(229, 191, 0, 0.7); background-color: rgba(229, 191, 0, 0.3) !important; }
 
         #descripcion-posicion { background: #1a1917; padding: 25px; border-radius: 8px; width: 100%; box-sizing: border-box; text-align: left; font-family: 'Consolas', monospace; font-size: 1.1em; line-height: 1.6; border: 1px solid #444; border-left: 5px solid var(--bot-color); box-shadow: inset 0 0 15px rgba(0,0,0,0.8); }
         .bando-titulo { font-weight: bold; color: var(--blue); margin-bottom: 5px; display: block; text-transform: uppercase;}
@@ -67,7 +67,6 @@
         .sidebar-panel { flex: 0 0 400px; display: flex; flex-direction: column; gap: 20px; width: 400px; }
         .panel-box { background: var(--panel); padding: 20px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); border: 1px solid #444; text-align: center;}
         
-        /* HISTORIAL FLEXIBLE */
         #historial-jugadas { height: 260px; overflow-y: auto; background: #111; padding: 15px 20px; border-radius: 6px; border: 1px solid #333; text-align: left; font-family: monospace; font-size: 1.5em; font-weight: bold;}
         .historial-linea { display: flex; width: 100%; border-bottom: 1px solid #222; padding: 5px 0;}
         .historial-linea:last-child { border-bottom: none; }
@@ -103,6 +102,11 @@
 
     <div id="setup-menu">
         <div class="setup-group">
+            <label>Idioma de Notación (Piezas):</label>
+            <button id="btn-idioma" onclick="toggleIdioma()" style="width: 100%; padding: 15px; font-size: 1.2em; font-weight: bold; border: none; border-radius: 6px; cursor: pointer; transition: all 0.3s ease; text-transform: uppercase; background: #8a1f1f; color: #fff; box-shadow: 0 4px 0 #5c1414;">🇪🇸 Español</button>
+        </div>
+
+        <div class="setup-group">
             <label>Jugar con:</label>
             <select id="color-select">
                 <option value="w">Blancas</option>
@@ -130,8 +134,14 @@
             <div id="tablero-wrapper">
                 
                 <div id="descripcion-posicion" class="oculto">
-                    <span class="bando-titulo">Blancas:</span> <span id="txt-blancas" class="lista-piezas">...</span>
-                    <span class="bando-titulo negras">Negras:</span> <span id="txt-negras" class="lista-piezas">...</span>
+                    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #444; padding-bottom: 10px; margin-bottom: 10px;">
+                        <span style="color: var(--accent); font-weight: bold; text-transform: uppercase; font-family: 'Segoe UI', sans-serif; font-size: 0.9em;">Ubicación de piezas</span>
+                        <button onclick="toggleListaPiezas()" style="background: none; border: none; color: #888; cursor: pointer; font-size: 1.2em;" title="Ocultar/Mostrar texto">👁️</button>
+                    </div>
+                    <div id="texto-piezas-listado">
+                        <span class="bando-titulo">Blancas:</span> <span id="txt-blancas" class="lista-piezas">...</span>
+                        <span class="bando-titulo negras">Negras:</span> <span id="txt-negras" class="lista-piezas">...</span>
+                    </div>
                 </div>
                 
                 <div id="tablero-container"><div id="tablero"></div></div>
@@ -148,14 +158,27 @@
                 <div class="panel-box">
                     <h3 style="margin-top:0; color:var(--accent); text-transform:uppercase;">Historial</h3>
                     <div id="historial-jugadas"></div>
+                    <button id="btn-toggle-historial" class="btn-azul" style="margin-top: 10px; font-size: 0.9em; padding: 10px;" onclick="toggleHistorialCiego()">🙈 Ocultar historial</button>
                 </div>
                 <div class="panel-box" style="padding: 15px;">
                     <button id="btn-toggle-tablero" class="btn-azul" onclick="alternarTablero()">👁️ Mostrar Tablero</button>
                     <button id="btn-undo" class="btn-azul" style="background: #e67e22; box-shadow: 0 4px 0 #d35400; margin-top: 10px;" onclick="deshacerJugada()">↩️ Deshacer Jugada</button>
                     
-                    <button class="btn-gran-fuego" style="margin-top: 15px; background: var(--danger); box-shadow: 0 4px 0 #8a1f1f; color: white;" onclick="location.reload()">🏳️ Rendirse / Reiniciar</button>
+                    <button id="btn-rendirse" class="btn-gran-fuego" style="margin-top: 15px; background: var(--danger); box-shadow: 0 4px 0 #8a1f1f; color: white;" onclick="rendirse()">🏳️ Rendirse / Reiniciar</button>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <div id="modal-fin" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(10,10,10,0.9); z-index: 1000; justify-content: center; align-items: center;">
+        <div style="background: var(--panel); border: 2px solid var(--accent); border-radius: 12px; padding: 30px; width: 90%; max-width: 450px; text-align: center; position: relative; box-shadow: 0 20px 50px rgba(0,0,0,0.8);">
+            <span onclick="cerrarModalFin()" style="position: absolute; top: 15px; right: 20px; font-size: 2em; color: #888; cursor: pointer; line-height: 1;">&times;</span>
+            <h2 style="color: var(--accent); margin-top: 0; text-transform: uppercase;">Partida Terminada</h2>
+            <p id="modal-mensaje" style="font-size: 1.2em; margin-bottom: 25px; color: #fff;">...</p>
+            
+            <button class="btn-azul" style="margin-bottom: 15px;" onclick="irAAnalisis()">🔍 Analizar Partida</button>
+            <button class="btn-gran-fuego" style="margin-top: 0; box-shadow: 0 4px 0 #008b8b;" onclick="empezarNueva()">🔄 Nueva Partida</button>
+            <button class="btn-skip" style="margin-top: 15px;" onclick="cerrarModalFin()">👁️ Ver Tablero Final</button>
         </div>
     </div>
 
@@ -173,13 +196,63 @@
         let nivelBotActual = 10;
         let stockfish = null;
         let juegoTerminado = false;
+        let idiomaNotacion = 'es'; // Por defecto Español
         
-        // --- VARIABLE DE SEGURIDAD PARA CARRERAS DEL WORKER ---
         let ignorandoBot = false; 
+        let modoCiegoEstricto = true; 
 
         document.getElementById("jugadaInput").addEventListener("keyup", function(event) { 
             if (event.key === "Enter" && !this.disabled) enviarJugadaTexto(); 
         });
+
+        // ==========================================
+        // 💾 SISTEMA DE AUTOGUARDADO (LA MOCHILA)
+        // ==========================================
+        function guardarPartida() {
+            let estado = {
+                userColor: userColor,
+                nivel: nivelBotActual,
+                modoVisual: modoVisual,
+                modoCiegoEstricto: modoCiegoEstricto,
+                historial: game.history(), // Guardamos todas las jugadas exactas
+                terminado: juegoTerminado,
+                mensajeFin: document.getElementById('status').innerHTML
+            };
+            localStorage.setItem('partidaCiegaEstado', JSON.stringify(estado));
+        }
+
+        function cargarPartida() {
+            let guardado = localStorage.getItem('partidaCiegaEstado');
+            if (guardado) {
+                let data = JSON.parse(guardado);
+                userColor = data.userColor;
+                botColor = userColor === 'w' ? 'b' : 'w';
+                modoVisual = data.modoVisual;
+                nivelBotActual = data.nivel;
+                modoCiegoEstricto = data.modoCiegoEstricto;
+                
+                // Reconstruimos el juego jugada a jugada para que el historial sea exacto
+                game.reset();
+                data.historial.forEach(mov => game.move(mov));
+                juegoTerminado = data.terminado;
+
+                // Actualizamos visualmente el menú por si acaso
+                document.getElementById('color-select').value = userColor;
+                document.getElementById('bot-level').value = nivelBotActual;
+                document.getElementById('modo-select').value = modoVisual;
+
+                prepararInterfazJuego();
+                
+                if (juegoTerminado) {
+                    document.getElementById('status').innerHTML = data.mensajeFin;
+                    document.getElementById('modal-mensaje').innerHTML = data.mensajeFin;
+                } else {
+                    if (game.turn() === botColor) {
+                        pedirJugadaAlBot();
+                    }
+                }
+            }
+        }
 
         // ==========================================
         // INICIO DE LA MÁQUINA
@@ -189,13 +262,24 @@
             botColor = userColor === 'w' ? 'b' : 'w';
             modoVisual = document.getElementById('modo-select').value;
             nivelBotActual = parseInt(document.getElementById('bot-level').value) || 10;
+            modoCiegoEstricto = (modoVisual === 'ciego'); 
 
+            game.reset();
+            juegoTerminado = false;
+
+            prepararInterfazJuego();
+            guardarPartida(); // Guardamos el estado inicial
+
+            if (botColor === 'w') { pedirJugadaAlBot(); }
+        }
+
+        function prepararInterfazJuego() {
             document.getElementById('setup-menu').classList.add('oculto');
             document.getElementById('interfaz-juego').classList.remove('oculto');
 
             let configTablero = {
                 draggable: true,
-                position: 'start',
+                position: game.fen(),
                 orientation: userColor === 'w' ? 'white' : 'black',
                 pieceTheme: 'https://chessboardjs.com/img/chesspieces/wikipedia/{piece}.png',
                 onDragStart: onDragStart,
@@ -213,26 +297,91 @@
                 document.getElementById('tablero-container').classList.add('oculto');
                 document.getElementById('descripcion-posicion').classList.remove('oculto');
                 document.getElementById('input-container').classList.remove('oculto');
-                document.getElementById('jugadaInput').focus();
+                if(!juegoTerminado) document.getElementById('jugadaInput').focus();
                 btnToggle.innerHTML = "👁️ Mostrar Tablero";
             } else {
                 btnToggle.innerHTML = "🙈 Ocultar Tablero";
             }
 
+            if(juegoTerminado) {
+                document.getElementById('btn-rendirse').innerHTML = "📋 Ver Opciones Finales";
+            } else {
+                document.getElementById('btn-rendirse').innerHTML = "🏳️ Rendirse / Reiniciar";
+            }
+
             generarTextoPosicion(game.fen());
             actualizarStatus();
             actualizarHistorial();
+            
+            // Resaltar última jugada tras cargar
+            setTimeout(() => {
+                let hist = game.history({verbose: true});
+                if(hist.length > 0) {
+                    let last = hist[hist.length - 1];
+                    resaltarUltimaCasillas(last.from, last.to);
+                }
+            }, 50);
 
             try {
+                if(stockfish) stockfish.terminate(); // Matamos el viejo si venimos de recargar
                 stockfish = new Worker('stockfish.js');
                 stockfish.onmessage = manejarRespuestaBot;
                 stockfish.postMessage('uci');
                 stockfish.postMessage('setoption name Skill Level value ' + nivelBotActual);
                 stockfish.postMessage('ucinewgame');
-                
-                if (botColor === 'w') { pedirJugadaAlBot(); }
             } catch (e) {
-                alert("⚠️ Error al cargar stockfish.js. Asegúrate de que el archivo está en la misma carpeta.");
+                alert("⚠️ Error al cargar stockfish.js.");
+            }
+        }
+
+        // ==========================================
+        // NUEVAS FUNCIONES: MODAL Y REDIRECCIONES
+        // ==========================================
+        function mostrarModalFin() { document.getElementById('modal-fin').style.display = 'flex'; }
+        
+        function cerrarModalFin() { document.getElementById('modal-fin').style.display = 'none'; }
+        
+        function empezarNueva() {
+            localStorage.removeItem('partidaCiegaEstado');
+            location.reload();
+        }
+
+        function irAAnalisis() {
+            // Pasamos el historial entero a la URL para que el Baúl/Análisis lo lea automáticamente
+            let pgnMoves = game.history().join(' ');
+            let fenInicial = encodeURIComponent("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+            let solucionCodificada = encodeURIComponent(pgnMoves);
+            
+            // Si el usuario vuelve atrás, que la partida ya esté borrada para no atascarle
+            localStorage.removeItem('partidaCiegaEstado'); 
+            
+            window.location.href = `analisis.html?fen=${fenInicial}&solucion=${solucionCodificada}`;
+        }
+
+        function rendirse() {
+            if (juegoTerminado) {
+                mostrarModalFin();
+                return;
+            }
+            if (confirm("¿Estás seguro de que quieres abandonar la partida?")) {
+                juegoTerminado = true;
+                ignorandoBot = true;
+                if (stockfish) stockfish.postMessage('stop');
+                
+                let msj = "🏳️ Has abandonado la partida.";
+                document.getElementById('status').innerHTML = msj;
+                document.getElementById('modal-mensaje').innerHTML = msj;
+                
+                document.getElementById('btn-rendirse').innerHTML = "📋 Ver Opciones Finales";
+                
+                if(modoVisual === 'ciego') {
+                    document.getElementById('tablero-container').classList.remove('oculto');
+                    document.getElementById('btn-toggle-tablero').innerHTML = "🙈 Ocultar Tablero";
+                    board.resize();
+                }
+                
+                mostrarModalFin();
+                guardarPartida();
             }
         }
 
@@ -261,14 +410,19 @@
             }
         }
 
+        function toggleListaPiezas() {
+            let div = document.getElementById('texto-piezas-listado');
+            if (div.classList.contains('oculto')) { div.classList.remove('oculto'); } 
+            else { div.classList.add('oculto'); }
+        }
+
         // ==========================================
         // COMUNICACIÓN CON STOCKFISH
         // ==========================================
         function pedirJugadaAlBot() {
             if (juegoTerminado) return;
+            ignorandoBot = false; 
             document.getElementById('status').innerHTML = `🤖 La máquina está pensando...`;
-            
-            // Bloqueamos el input para que no manden jugadas mientras el bot piensa
             document.getElementById('jugadaInput').disabled = true;
             document.getElementById('btn-enviar').disabled = true;
 
@@ -280,12 +434,7 @@
         function manejarRespuestaBot(event) {
             let linea = event.data;
             if (linea.startsWith('bestmove')) {
-                
-                // --- SEGURIDAD: Evita aplicar la jugada si el usuario pulsó Deshacer ---
-                if (ignorandoBot) {
-                    ignorandoBot = false;
-                    return; 
-                }
+                if (ignorandoBot) { ignorandoBot = false; return; }
 
                 let movimientoUCI = linea.split(' ')[1]; 
                 if (movimientoUCI === '(none)') { verificarFinDeJuego(); return; }
@@ -297,8 +446,9 @@
                 let mov = game.move({ from: from, to: to, promotion: promo });
                 
                 if (mov) {
-                    reproducirSonido('mover');
+                    if(typeof reproducirSonido === "function") reproducirSonido('mover');
                     board.position(game.fen());
+                    resaltarUltimaCasillas(from, to); 
                     generarTextoPosicion(game.fen());
                     actualizarHistorial();
                     
@@ -308,11 +458,11 @@
                         actualizarStatus();
                     }
                     
-                    // Reactivamos el input porque es el turno del jugador
                     document.getElementById('jugadaInput').disabled = false;
                     document.getElementById('btn-enviar').disabled = false;
                     if (modoVisual === 'ciego') document.getElementById('jugadaInput').focus();
 
+                    guardarPartida(); // GUARDAMOS TRAS EL BOT
                     verificarFinDeJuego();
                 }
             }
@@ -327,17 +477,14 @@
         }
 
         function onDrop(source, target) {
-            // --- NUEVO: Inteligencia para coronar ---
             let esCoronacion = false;
             let pieza = game.get(source);
             if (pieza && pieza.type === 'p') {
                 if ((pieza.color === 'w' && target.charAt(1) === '8') || 
-                    (pieza.color === 'b' && target.charAt(1) === '1')) {
-                    esCoronacion = true;
-                }
+                    (pieza.color === 'b' && target.charAt(1) === '1')) { esCoronacion = true; }
             }
 
-            let piezaCoronada = 'q'; // Reina por defecto
+            let piezaCoronada = 'q';
             if (esCoronacion) {
                 let respuesta = prompt("¿Qué pieza quieres? (D=Dama, T=Torre, C=Caballo, A=Alfil)", "D");
                 if (respuesta) {
@@ -351,9 +498,11 @@
             let move = game.move({ from: source, to: target, promotion: piezaCoronada });
             if (move === null) return 'snapback'; 
 
-            reproducirSonido('mover');
+            if(typeof reproducirSonido === "function") reproducirSonido('mover');
+            resaltarUltimaCasillas(source, target); 
             generarTextoPosicion(game.fen());
             actualizarHistorial();
+            guardarPartida(); // GUARDAMOS TRAS EL USUARIO
             
             if (!verificarFinDeJuego()) { pedirJugadaAlBot(); }
         }
@@ -361,22 +510,16 @@
         function onSnapEnd() { board.position(game.fen()); }
 
         // ==========================================
-        // MOVIMIENTOS DEL USUARIO (TEXTO)
+        // MOVIMIENTOS DEL USUARIO (TEXTO & SPANGLISH)
         // ==========================================
-        function enviarJugadaTexto() {
+function enviarJugadaTexto() {
             if (juegoTerminado || game.turn() !== userColor) return;
-            
             let inputElement = document.getElementById('jugadaInput');
             let textoUsuario = inputElement.value.trim();
-            
-            // --- MAGIA PARA EL ENROQUE ---
             textoUsuario = textoUsuario.replace(/0/g, 'O').replace(/^o-o/i, 'O-O').replace(/^o-o-o/i, 'O-O-O');
             if (!textoUsuario) return;
-
-            // 1. Quitar la 'P' o 'p' inicial de los peones
             textoUsuario = textoUsuario.replace(/^[Pp]([a-hA-H]?[xX]?[a-hA-H][1-8].*)$/, '$1');
 
-            // 2. MAGIA PARA CAPTURAS MUDAS (xd4, Xd4)
             let matchCapturaMuda = textoUsuario.match(/^[xX]([a-hA-H][1-8])$/);
             if (matchCapturaMuda) {
                 let casillaDestino = matchCapturaMuda[1].toLowerCase();
@@ -385,69 +528,75 @@
                 if (capturasPeon.length === 1) { textoUsuario = capturasPeon[0].san; } 
             }
 
-            // 3. Arreglar mayúsculas en peones simples (E4 -> e4). 
             if (textoUsuario.length === 2 && textoUsuario.match(/^[BEFGH][1-8]$/)) {
                 textoUsuario = textoUsuario.toLowerCase();
             }
 
-            // --- NUEVO: Reemplazo integral (Piezas + Coronación Ciega) ---
-            let jugadaSAN = textoUsuario
-                .replace(/^R/i, 'K').replace(/^D/i, 'Q').replace(/^T/i, 'R').replace(/^A/i, 'B').replace(/^C/i, 'N')
-                .replace(/=?D$/i, '=Q').replace(/=?T$/i, '=R').replace(/=?A$/i, '=B').replace(/=?C$/i, '=N');
-    
-            let move = game.move(jugadaSAN, {sloppy: true});
-    
-            // Si falla, intentamos asegurando la mayúscula inicial para las piezas
-            if (move === null) {
-                let intento2 = jugadaSAN.charAt(0).toUpperCase() + jugadaSAN.slice(1);
-                move = game.move(intento2, {sloppy: true});
+            let move = null;
+
+            if (idiomaNotacion === 'es') {
+                // --- MODO ESPAÑOL: Traduce estricto y luego intenta mayúsculas ---
+                let jugadaEspanol = textoUsuario.replace(/^R/, 'K').replace(/^D/, 'Q').replace(/^T/, 'R').replace(/^A/, 'B').replace(/^C/, 'N')
+                    .replace(/=?D$/i, '=Q').replace(/=?T$/i, '=R').replace(/=?A$/i, '=B').replace(/=?C$/i, '=N');
+                move = game.move(jugadaEspanol, {sloppy: true});
+        
+                if (move === null) {
+                    let capitalizado = textoUsuario.charAt(0).toUpperCase() + textoUsuario.slice(1);
+                    let intento2 = capitalizado.replace(/^R/, 'K').replace(/^D/, 'Q').replace(/^T/, 'R').replace(/^A/, 'B').replace(/^C/, 'N')
+                        .replace(/=?D$/i, '=Q').replace(/=?T$/i, '=R').replace(/=?A$/i, '=B').replace(/=?C$/i, '=N');
+                    move = game.move(intento2, {sloppy: true});
+                }
+            } else {
+                // --- MODO INGLÉS: Pasa la jugada tal cual (o capitalizada) sin traducir nada ---
+                move = game.move(textoUsuario, {sloppy: true});
+                if (move === null) {
+                    let capitalizado = textoUsuario.charAt(0).toUpperCase() + textoUsuario.slice(1);
+                    move = game.move(capitalizado, {sloppy: true});
+                }
             }
 
-            // Resultado
             if (move === null) {
-                reproducirSonido('incorrecto');
+                if(typeof reproducirSonido === "function") reproducirSonido('incorrecto');
                 document.getElementById('status').innerHTML = `<span style="color:var(--danger);">❌ Jugada ilegal o mal escrita.</span>`;
             } else {
-                reproducirSonido('mover');
+                if(typeof reproducirSonido === "function") reproducirSonido('mover');
                 inputElement.value = "";
                 board.position(game.fen());
+                resaltarUltimaCasillas(move.from, move.to); 
                 generarTextoPosicion(game.fen());
                 actualizarHistorial();
+                guardarPartida(); 
         
                 if (!verificarFinDeJuego()) { pedirJugadaAlBot(); }
             }
         }
-        
+
         // ==========================================
         // 🔥 DESHACER JUGADA
         // ==========================================
         function deshacerJugada() {
             if (game.history().length === 0) return; 
-
-            // --- NUEVO: Detenemos a Stockfish y activamos el escudo ---
             ignorandoBot = true; 
             if (stockfish) stockfish.postMessage('stop'); 
 
-            // Deshacemos la última jugada (sea de quien sea)
             game.undo(); 
-            
-            // Si después de deshacer resulta que le toca al bot, deshacemos otra más
-            // para que nos devuelva el turno a nosotros y podamos pensar de nuevo.
             if (game.turn() !== userColor && game.history().length > 0) {
                 game.undo();
             }
 
             juegoTerminado = false;
             board.position(game.fen());
+            resaltarUltimaCasillas(null, null); 
             generarTextoPosicion(game.fen());
             actualizarStatus();
             actualizarHistorial();
 
-            // Reactivamos el input si lo habíamos desactivado
             document.getElementById('jugadaInput').disabled = false;
             document.getElementById('btn-enviar').disabled = false;
+            document.getElementById('btn-rendirse').innerHTML = "🏳️ Rendirse / Reiniciar";
 
-            // Caso especial: Si deshacemos todo hasta la jugada 1 y la máquina tiene blancas
+            guardarPartida(); // GUARDAMOS AL DESHACER
+
             if (game.history().length === 0 && botColor === 'w') {
                 pedirJugadaAlBot();
             }
@@ -457,21 +606,33 @@
         // UTILIDADES Y TEXTOS
         // ==========================================
         function verificarFinDeJuego() {
-            if (game.game_over()) {
+            if (game.game_over() && !juegoTerminado) {
                 juegoTerminado = true;
-                reproducirSonido('fin');
+                if(typeof reproducirSonido === "function") reproducirSonido('fin');
+                
+                let msj = "";
                 if (game.in_checkmate()) {
                     let ganador = game.turn() === 'w' ? 'Negras' : 'Blancas';
-                    document.getElementById('status').innerHTML = `🏆 ¡Jaque Mate! Ganan las <strong>${ganador}</strong>.`;
+                    msj = `🏆 ¡Jaque Mate! Ganan las <strong>${ganador}</strong>.`;
                 } else if (game.in_draw()) {
-                    document.getElementById('status').innerHTML = `🤝 Empate.`;
+                    msj = `🤝 Empate.`;
                 }
+                
+                document.getElementById('status').innerHTML = msj;
+                document.getElementById('modal-mensaje').innerHTML = msj;
                 
                 if(modoVisual === 'ciego') {
                     document.getElementById('tablero-container').classList.remove('oculto');
                     document.getElementById('btn-toggle-tablero').innerHTML = "🙈 Ocultar Tablero";
                     board.resize();
                 }
+                
+                document.getElementById('btn-rendirse').innerHTML = "📋 Ver Opciones Finales";
+                
+                mostrarModalFin();
+                guardarPartida();
+                return true;
+            } else if (juegoTerminado) {
                 return true;
             }
             return false;
@@ -484,34 +645,55 @@
             document.getElementById('status').innerHTML = `Turno de: <strong style="color:${colorSt}; text-transform:uppercase;">${turnoTxt}</strong>`;
         }
 
+        function toggleHistorialCiego() {
+            modoCiegoEstricto = !modoCiegoEstricto;
+            actualizarHistorial();
+            let btn = document.getElementById('btn-toggle-historial');
+            btn.innerHTML = modoCiegoEstricto ? "👀 Ver todo el historial" : "🙈 Ocultar historial";
+            guardarPartida(); // Guardar preferencia de visualización
+        }
+
         function actualizarHistorial() {
             let html = "";
             let historico = game.history();
             let simulador = new Chess();
+            let btnToggleHist = document.getElementById('btn-toggle-historial');
             
-            for(let i = 0; i < historico.length; i++) {
-                let turnoActual = simulador.turn();
-                simulador.move(historico[i]);
-                
-                let numJugada = Math.ceil((i + 1) / 2);
-                let clase = turnoActual === 'w' ? 'mov-blancas' : 'mov-negras';
-                
-                if (turnoActual === 'w') {
-                    html += `<div class="historial-linea"><span class="historial-num">${numJugada}.</span><span class="${clase}">${historico[i]}</span>`;
+            btnToggleHist.classList.remove('oculto');
+            btnToggleHist.innerHTML = modoCiegoEstricto ? "👀 Ver todo el historial" : "🙈 Ocultar historial";
+
+            if (modoCiegoEstricto) {
+                if (historico.length === 0) {
+                    html = `<div class="historial-linea" style="justify-content: center; color: #666;">Sin movimientos aún</div>`;
                 } else {
-                    if (i === 0) html += `<div class="historial-linea"><span class="historial-num">1.</span><span class="mov-blancas">...</span>`; 
-                    html += `<span class="${clase}">${historico[i]}</span></div>`;
+                    let ultimoMov = historico[historico.length - 1];
+                    let turnoAnterior = game.turn() === 'w' ? 'Negras' : 'Blancas';
+                    html = `<div style="text-align: center; margin-bottom: 10px; color: #888; font-size: 0.8em; text-transform: uppercase;">Último movimiento</div>`;
+                    html += `<div class="historial-linea" style="justify-content: center;">
+                                <span style="color: var(--accent); font-size: 1.2em;">${turnoAnterior}: ${ultimoMov}</span>
+                            </div>`;
                 }
-            }
-            
-            // Si la partida se queda en el turno de las negras pero sin mover aún, cerramos el div
-            if (historico.length > 0 && simulador.turn() === 'b') {
-                html += `</div>`;
+            } else {
+                for(let i = 0; i < historico.length; i++) {
+                    let turnoActual = simulador.turn();
+                    simulador.move(historico[i]);
+                    
+                    let numJugada = Math.ceil((i + 1) / 2);
+                    let clase = turnoActual === 'w' ? 'mov-blancas' : 'mov-negras';
+                    
+                    if (turnoActual === 'w') {
+                        html += `<div class="historial-linea"><span class="historial-num">${numJugada}.</span><span class="${clase}">${historico[i]}</span>`;
+                    } else {
+                        if (i === 0) html += `<div class="historial-linea"><span class="historial-num">1.</span><span class="mov-blancas">...</span>`; 
+                        html += `<span class="${clase}">${historico[i]}</span></div>`;
+                    }
+                }
+                if (historico.length > 0 && simulador.turn() === 'b') { html += `</div>`; }
             }
             
             let divHist = document.getElementById('historial-jugadas');
             divHist.innerHTML = html;
-            divHist.scrollTop = divHist.scrollHeight; // Auto-scroll
+            divHist.scrollTop = divHist.scrollHeight; 
         }
 
         function generarTextoPosicion(fen) {
@@ -522,8 +704,18 @@
                     let char = contenidoFila[j];
                     if (!isNaN(char)) { colIndex += parseInt(char); } else {
                         let casilla = columnas[colIndex] + filaNum; let esBlanca = (char === char.toUpperCase());
-                        let tipo = char.toLowerCase(); let nombrePieza = "";
-                        switch(tipo) { case 'p': nombrePieza = "P"; break; case 'r': nombrePieza = "T"; break; case 'n': nombrePieza = "C"; break; case 'b': nombrePieza = "A"; break; case 'q': nombrePieza = "D"; break; case 'k': nombrePieza = "R"; break; }
+                        let tipo = char.toLowerCase(); 
+                        let nombrePieza = "";
+
+                        // --- LÓGICA DE IDIOMA PARA LA UBICACIÓN DE PIEZAS ---
+                        if (idiomaNotacion === 'es') {
+                            // Mapeo Español (硬编码 - Hardcoded)
+                            switch(tipo) { case 'p': nombrePieza = "P"; break; case 'r': nombrePieza = "T"; break; case 'n': nombrePieza = "C"; break; case 'b': nombrePieza = "A"; break; case 'q': nombrePieza = "D"; break; case 'k': nombrePieza = "R"; break; }
+                        } else {
+                            // Mapeo Inglés (Es simplemente la mayúscula del FEN: P, R, N, B, Q, K)
+                            nombrePieza = tipo.toUpperCase();
+                        }
+                        
                         let textoPieza = nombrePieza + casilla; 
                         if (esBlanca) blancas.push(textoPieza); else negras.push(textoPieza); colIndex++;
                     }
@@ -533,6 +725,44 @@
             document.getElementById('txt-blancas').innerText = blancas.join(', '); 
             document.getElementById('txt-negras').innerText = negras.join(', ');
         }
+
+        function resaltarUltimaCasillas(from, to) {
+            $('#tablero .square-55d63').removeClass('highlight-mov'); 
+            if (from && to) {
+                $('#tablero .square-' + from).addClass('highlight-mov');
+                $('#tablero .square-' + to).addClass('highlight-mov');
+            }
+        }
+        function toggleIdioma() {
+            let btn = document.getElementById('btn-idioma');
+            if (idiomaNotacion === 'es') {
+                idiomaNotacion = 'en';
+                btn.style.background = '#1a365d'; // Azul marino
+                btn.style.boxShadow = '0 4px 0 #0f223f';
+                btn.innerHTML = '🇬🇧 English';
+            } else {
+                idiomaNotacion = 'es';
+                btn.style.background = '#8a1f1f'; // Rojo oscuro
+                btn.style.boxShadow = '0 4px 0 #5c1414';
+                btn.innerHTML = '🇪🇸 Español';
+            }
+            localStorage.setItem('idiomaPreferido', idiomaNotacion);
+            generarTextoPosicion(game.fen()); // Actualiza el texto de ubicación inmediatamente
+        }
+
+        function cargarIdiomaDesdeMochila() {
+            let guardado = localStorage.getItem('idiomaPreferido');
+            if (guardado === 'en') {
+                // Simulamos un clic rápido para ponerlo en inglés si así lo tenía
+                idiomaNotacion = 'es'; // Lo forzamos a español temporalmente
+                toggleIdioma(); // Y usamos la función para que haga el cambio visual y lógico
+            }
+        }
+
+        // CARGAMOS LA PARTIDA AL ABRIR LA PÁGINA
+        cargarPartida();
+        cargarIdiomaDesdeMochila();
+
     </script>
 </body>
 </html>

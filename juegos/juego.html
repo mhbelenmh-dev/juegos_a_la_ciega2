@@ -214,7 +214,7 @@
         let vidasRestantes = vidasTotales;
         let tiempoRestante = minutosGlobal * 60;
         let timerEntrenamiento = null;
-
+        let idiomaNotacion = 'es'; // Por defecto
         // MEJORA: Variables de seguridad y tiempo real
         let tableroBloqueado = false; 
         let serverOffset = 0; 
@@ -225,6 +225,7 @@
 
         // INICIALIZADOR AUTOMÁTICO AL ENTRAR
         window.onload = () => { 
+            idiomaNotacion = localStorage.getItem('idiomaPreferido') || 'es';
             // MEJORA: Sincronizamos el tiempo local con los servidores de Google/Firebase
             firebase.database().ref('.info/serverTimeOffset').on('value', function(snap) {
                 serverOffset = snap.val() || 0;
@@ -357,7 +358,14 @@
                     if (!isNaN(char)) { colIndex += parseInt(char); } else {
                         let casilla = columnas[colIndex] + filaNum; let esBlanca = (char === char.toUpperCase());
                         let tipo = char.toLowerCase(); let nombrePieza = "";
-                        switch(tipo) { case 'p': nombrePieza = "P"; break; case 'r': nombrePieza = "T"; break; case 'n': nombrePieza = "C"; break; case 'b': nombrePieza = "A"; break; case 'q': nombrePieza = "D"; break; case 'k': nombrePieza = "R"; break; }
+                        
+                        // LÓGICA DE IDIOMA
+                        if (idiomaNotacion === 'es') {
+                            switch(tipo) { case 'p': nombrePieza = "P"; break; case 'r': nombrePieza = "T"; break; case 'n': nombrePieza = "C"; break; case 'b': nombrePieza = "A"; break; case 'q': nombrePieza = "D"; break; case 'k': nombrePieza = "R"; break; }
+                        } else {
+                            nombrePieza = tipo.toUpperCase(); // En inglés, las iniciales coinciden con el FEN (P, R, N, B, Q, K)
+                        }
+                        
                         let textoPieza = nombrePieza + casilla; 
                         if (esBlanca) blancas.push(textoPieza); else negras.push(textoPieza); colIndex++;
                     }
