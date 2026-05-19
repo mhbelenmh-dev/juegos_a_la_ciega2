@@ -331,8 +331,9 @@
             if (esTorneo || modoVidas !== 'infinito') {
                 aciertosTotal = 0;
             } else {
-                aciertosTotal = parseInt(localStorage.getItem('racha_ciega_guardada')) || 0;
-            }
+                let miUid = localStorage.getItem('current_user_uid') || 'invitado';
+                aciertosTotal = parseInt(localStorage.getItem('racha_ciega_guardada_' + miUid)) || 0;
+            }            
             document.getElementById('score').innerText = aciertosTotal;
 
             if (esTorneo) {                TorneoManager.contador = 0;
@@ -536,7 +537,8 @@
                     inputEl.disabled = false; inputEl.focus(); 
                 } else { 
                     aciertosTotal++;
-                    localStorage.setItem('racha_ciega_guardada', aciertosTotal); 
+                    let miUid = localStorage.getItem('current_user_uid') || 'invitado';
+                    localStorage.setItem('racha_ciega_guardada_' + miUid, aciertosTotal); 
                     avanzarMisionDiaria('tactica');                    
                     if (TorneoManager.enTorneo || (typeof DueloManager !== 'undefined' && DueloManager.enDuelo)) { 
                         puntosCiegosLocales += 15; if(TorneoManager.enTorneo) TorneoManager.enviarPuntos(puntosCiegosLocales); 
@@ -571,7 +573,8 @@
                     registrarXP('maestro', false); 
                     try { actualizarEloJuego('ciego', puntosCiegosLocales, -10); } catch(e) {}
                     
-                    aciertosTotal = 0; localStorage.setItem('racha_ciega_guardada', aciertosTotal);
+                    let miUid = localStorage.getItem('current_user_uid') || 'invitado';
+                    aciertosTotal = 0; localStorage.setItem('racha_ciega_guardada_' + miUid, aciertosTotal);
                 }
                 mostrarResultado(false, `❌ Fallaste. Tú dijiste ${textoUsuario}.\n\nSolución correcta:\n${solucionTexto}`);            
             }
@@ -624,10 +627,12 @@
                 registrarXP('maestro', false); 
                 try { actualizarEloJuego('ciego', puntosCiegosLocales, -5); } catch(e) {}
                 
-                aciertosTotal = 0; localStorage.setItem('racha_ciega_guardada', aciertosTotal); // BORRAR RACHA
+                let miUid = localStorage.getItem('current_user_uid') || 'invitado';
+                aciertosTotal = 0; localStorage.setItem('racha_ciega_guardada_' + miUid, aciertosTotal); // BORRAR RACHA
             }
             
-            mostrarResultado(false, `Te has rendido.\nSolución completa:\n${solucionTexto}`);        }
+            mostrarResultado(false, `Te has rendido.\nSolución completa:\n${solucionTexto}`);
+        }
 
         function mostrarResultado(esCorrecto, mensaje) {
             puzzleResuelto = true; document.getElementById('status').innerText = mensaje; document.getElementById('status').className = esCorrecto ? "correcto" : "incorrecto";

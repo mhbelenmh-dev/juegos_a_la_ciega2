@@ -342,7 +342,8 @@
             if (esTorneo || modoVidas !== 'infinito') {
                 racha = 0;
             } else {
-                racha = parseInt(localStorage.getItem('racha_guardada_64sombras')) || 0;
+                let miUid = localStorage.getItem('current_user_uid') || 'invitado';
+                racha = parseInt(localStorage.getItem('racha_guardada_64sombras_' + miUid)) || 0;            
             }
             document.getElementById('rachaDisplay').innerText = racha; 
             
@@ -544,9 +545,11 @@
                 
                 if (modoVidas !== 'infinito') return 'snapback';
                 
-                racha = 0; localStorage.setItem('racha_guardada_64sombras', racha); // BORRAR RACHA EN MEMORIA
+                let miUid = localStorage.getItem('current_user_uid') || 'invitado';
+                racha = 0; localStorage.setItem('racha_guardada_64sombras_' + miUid, racha);
                 document.getElementById('rachaDisplay').innerText = racha; document.getElementById('ratingDisplay').innerText = misPuntosLocales;
-                document.getElementById('status').innerText = "❌ Incorrecto. SALTANDO."; setTimeout(cargarNuevoPuzzle, 500); return 'snapback';            }
+                document.getElementById('status').innerText = "❌ Incorrecto. SALTANDO."; setTimeout(cargarNuevoPuzzle, 500); return 'snapback';            
+            }
         }
 
         function puzzleFinalizado() {
@@ -556,7 +559,8 @@
             avanzarMisionDiaria('tactica');
             reproducirSonido('fin'); let pts = 15 + (racha * 5); racha++; misPuntosLocales += pts; totalPuzzlesResueltos++;
             document.getElementById('rachaDisplay').innerText = racha; document.getElementById('ratingDisplay').innerText = misPuntosLocales;
-            localStorage.setItem('racha_guardada_64sombras', racha); // GUARDAR RACHA EN MEMORIA            
+            let miUid = localStorage.getItem('current_user_uid') || 'invitado';
+            localStorage.setItem('racha_guardada_64sombras_' + miUid, racha);            
             if (TorneoManager.enTorneo || (typeof DueloManager !== 'undefined' && DueloManager.enDuelo)) { 
                 if(TorneoManager.enTorneo) TorneoManager.enviarPuntos(misPuntosLocales); 
             } else if (modoVidas === 'infinito') { 
@@ -575,9 +579,13 @@
                 window.guardarFallo(nombreModo, game.fen(), solucionCompleta, "Saltado", puzzleActual.id);            
             }
             
-            misPuntosLocales = Math.max(0, misPuntosLocales - 5); racha = 0; localStorage.setItem('racha_guardada_64sombras', racha); // BORRAR RACHA EN MEMORIA
-            document.getElementById('rachaDisplay').innerText = racha; document.getElementById('ratingDisplay').innerText = misPuntosLocales;            if (TorneoManager.enTorneo) { TorneoManager.enviarPuntos(misPuntosLocales); } 
-            else if (!DueloManager.enDuelo && modoVidas === 'infinito') { actualizarEstadisticaGlobal(claveEstadistica, misPuntosLocales, false); try { actualizarEloJuego(claveJuego, misPuntosLocales, -5); } catch(e) {} }
+            misPuntosLocales = Math.max(0, misPuntosLocales - 5); 
+            let miUid = localStorage.getItem('current_user_uid') || 'invitado';
+            racha = 0; localStorage.setItem('racha_guardada_64sombras_' + miUid, racha); // BORRAR RACHA EN MEMORIA
+            document.getElementById('rachaDisplay').innerText = racha; document.getElementById('ratingDisplay').innerText = misPuntosLocales;            
+            if (TorneoManager.enTorneo) { TorneoManager.enviarPuntos(misPuntosLocales); } 
+            else if (!DueloManager.enDuelo && modoVidas === 'infinito') { actualizarEstadisticaGlobal(claveEstadistica, misPuntosLocales, false); 
+                try { actualizarEloJuego(claveJuego, misPuntosLocales, -5); } catch(e) {} }
             cargarNuevoPuzzle();
         }
 

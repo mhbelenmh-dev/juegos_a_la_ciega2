@@ -514,7 +514,15 @@
         function cerrarSesion() { 
             let user = firebase.auth().currentUser; 
             if (user) firebase.database().ref('users/' + user.uid + '/isOnline').set(false); 
-            firebase.auth().signOut().then(() => { localStorage.clear(); window.location.reload();}); 
+            
+            firebase.auth().signOut().then(() => { 
+                // En lugar de vaciar TODO, solo borramos tu identidad:
+                localStorage.removeItem('current_user_uid');
+                localStorage.removeItem('current_user_name');
+                localStorage.removeItem('nombre_temporal');
+                
+                window.location.reload();
+            }); 
         }
 
         function cerrarModal(id) { 
@@ -636,12 +644,13 @@
         // MISIÓN DIARIA (Cajas)
         // ==========================================
         function actualizarUICajasMision() {
+            let miUid = localStorage.getItem('current_user_uid') || 'invitado';
             let hoy = new Date().toDateString();
-            let mision = JSON.parse(localStorage.getItem('mision_diaria'));
+            let mision = JSON.parse(localStorage.getItem('mision_diaria_' + miUid));
             
             if (!mision || mision.fecha !== hoy) {
                 mision = { fecha: hoy, tactica: 0, memoria: 0, geo: 0, reclamado: false };
-                localStorage.setItem('mision_diaria', JSON.stringify(mision));
+                localStorage.setItem('mision_diaria_' + miUid, JSON.stringify(mision));
             }
 
             pintarCajas('tactica', mision.tactica, 'var(--accent)');
@@ -682,9 +691,10 @@
         }
 
         function reclamarMision() {
-            let mision = JSON.parse(localStorage.getItem('mision_diaria'));
+            let miUid = localStorage.getItem('current_user_uid') || 'invitado';
+            let mision = JSON.parse(localStorage.getItem('mision_diaria_' + miUid));
             mision.reclamado = true;
-            localStorage.setItem('mision_diaria', JSON.stringify(mision));
+            localStorage.setItem('mision_diaria_' + miUid, JSON.stringify(mision));
             actualizarEstadisticaGlobal('xpTotal', 100, true);
             
             let p = obtenerPerfil();
@@ -863,7 +873,7 @@
                     let timeUltimoMensaje = child.val(); // Tu código ya guarda aquí el timestamp
             
                     // Leemos cuándo fue la última vez que vimos este chat
-                    let timeUltimaLectura = localStorage.getItem('chat_leido_' + userToId) || 0;
+                    let timeUltimaLectura = localStorage.getItem('chat_leido_' + miUid + '_' + userToId) || 0;
                     let hayMensajesNuevos = timeUltimoMensaje > timeUltimaLectura;
 
                     firebase.database().ref(`users/${userToId}/nombreJugador`).once('value', nSnap => {
@@ -901,8 +911,7 @@
         
             // --- MARCAR COMO LEÍDO ---
             // Guardamos el momento actual como última lectura de este chat
-            localStorage.setItem('chat_leido_' + uid, Date.now() + 1000); 
-            
+            localStorage.setItem('chat_leido_' + miUid + '_' + uid, Date.now() + 1000);            
             // Si el recuadro rojo estaba en la interfaz, lo escondemos al momento
             let badgeVisual = document.getElementById(`badge-${uid}`);
             if(badgeVisual) badgeVisual.style.display = 'none';
@@ -1079,8 +1088,9 @@
 
                 if (anuncios.length > 0) {
                     const data = anuncios[anuncios.length - 1];
-                    const ultimoLeido = localStorage.getItem('ultimo_anuncio_id');
-                    
+                    let miUid = localStorage.getItem('current_user_uid') || 'invitado';
+                    const ultimoLeido = localStorage.getItem('ultimo_anuncio_id_' + miUid); 
+
                     if (ultimoLeido !== data.id) {
                         let textoLimpio = (data.texto || "").replace(/`/g, "'");
                         mostrarBannerAdmin(textoLimpio, data.id);
@@ -1090,6 +1100,7 @@
         }
 
         function mostrarBannerAdmin(texto, id) {
+            let miUid = localStorage.getItem('current_user_uid') || 'invitado'; // AÑADE ESTA LÍNEA
             const viejo = document.getElementById('admin-banner');
             if(viejo) viejo.remove();
 
@@ -1109,7 +1120,7 @@
                     <strong style="color: var(--accent); display: block; margin-bottom: 3px;">MENSAJE DE BELÉN:</strong>
                     ${texto}
                 </div>
-                <button onclick="this.parentElement.remove(); localStorage.setItem('ultimo_anuncio_id', '${id}')" 
+                <button onclick="this.parentElement.remove(); localStorage.setItem('ultimo_anuncio_id_${miUid}', '${id}')" 
                 style="background: transparent; border: none; color: #888; cursor: pointer; font-size: 1.5em;">&times;</button>
             `;
             document.body.appendChild(banner);

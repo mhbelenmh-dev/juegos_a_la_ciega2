@@ -209,28 +209,29 @@
         // 💾 SISTEMA DE AUTOGUARDADO (LA MOCHILA)
         // ==========================================
         function guardarPartida() {
+            let uid = localStorage.getItem('current_user_uid') || 'invitado';
             let estado = {
                 userColor: userColor,
                 nivel: nivelBotActual,
                 modoVisual: modoVisual,
                 modoCiegoEstricto: modoCiegoEstricto,
-                historial: game.history(), // Guardamos todas las jugadas exactas
+                historial: game.history(), 
                 terminado: juegoTerminado,
                 mensajeFin: document.getElementById('status').innerHTML
             };
-            localStorage.setItem('partidaCiegaEstado', JSON.stringify(estado));
+            localStorage.setItem('partidaCiegaEstado_' + uid, JSON.stringify(estado));
         }
 
         function cargarPartida() {
-            let guardado = localStorage.getItem('partidaCiegaEstado');
+            let uid = localStorage.getItem('current_user_uid') || 'invitado';
+            let guardado = localStorage.getItem('partidaCiegaEstado_' + uid);
             if (guardado) {
                 let data = JSON.parse(guardado);
                 userColor = data.userColor;
                 botColor = userColor === 'w' ? 'b' : 'w';
                 modoVisual = data.modoVisual;
                 nivelBotActual = data.nivel;
-                modoCiegoEstricto = data.modoCiegoEstricto;
-                
+                modoCiegoEstricto = data.modoCiegoEstricto;                
                 // Reconstruimos el juego jugada a jugada para que el historial sea exacto
                 game.reset();
                 data.historial.forEach(mov => game.move(mov));
@@ -342,22 +343,22 @@
         function cerrarModalFin() { document.getElementById('modal-fin').style.display = 'none'; }
         
         function empezarNueva() {
-            localStorage.removeItem('partidaCiegaEstado');
+            let uid = localStorage.getItem('current_user_uid') || 'invitado';
+            localStorage.removeItem('partidaCiegaEstado_' + uid);
             location.reload();
         }
 
         function irAAnalisis() {
-            // Pasamos el historial entero a la URL para que el Baúl/Análisis lo lea automáticamente
             let pgnMoves = game.history().join(' ');
             let fenInicial = encodeURIComponent("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
             let solucionCodificada = encodeURIComponent(pgnMoves);
             
-            // Si el usuario vuelve atrás, que la partida ya esté borrada para no atascarle
-            localStorage.removeItem('partidaCiegaEstado'); 
+            // Borramos usando la etiqueta del usuario
+            let uid = localStorage.getItem('current_user_uid') || 'invitado';
+            localStorage.removeItem('partidaCiegaEstado_' + uid); 
             
             window.location.href = `analisis.html?fen=${fenInicial}&solucion=${solucionCodificada}`;
         }
-
         function rendirse() {
             if (juegoTerminado) {
                 mostrarModalFin();

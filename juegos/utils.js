@@ -744,8 +744,11 @@ window.borrarFallo = function(key) {
    SISTEMA DE MISIÓN DIARIA
    ========================================== */
 function avanzarMisionDiaria(categoria) {
+    let miUid = localStorage.getItem('current_user_uid') || 'invitado';
     let hoy = new Date().toDateString();
-    let mision = JSON.parse(localStorage.getItem('mision_diaria'));
+    
+    // Leemos la mochila con la etiqueta del usuario
+    let mision = JSON.parse(localStorage.getItem('mision_diaria_' + miUid));
     
     if (!mision || mision.fecha !== hoy) {
         mision = { fecha: hoy, tactica: 0, memoria: 0, geo: 0, reclamado: false };
@@ -755,6 +758,7 @@ function avanzarMisionDiaria(categoria) {
 
     if (mision[categoria] < 3) {
         mision[categoria]++;
-        localStorage.setItem('mision_diaria', JSON.stringify(mision));
+        // Guardamos en la mochila con la etiqueta del usuario
+        localStorage.setItem('mision_diaria_' + miUid, JSON.stringify(mision));
     }
 }
