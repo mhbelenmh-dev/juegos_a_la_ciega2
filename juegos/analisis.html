@@ -36,8 +36,19 @@
         .info-panel { background: var(--panel); border: 1px solid #444; border-radius: 12px; padding: 25px; width: 100%; max-width: 450px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         #status-box { font-size: 1.4em; font-weight: bold; color: #fff; background: #111; padding: 15px; border-radius: 8px; text-align: center; border: 1px solid #333; margin-bottom: 20px; border-left: 5px solid var(--accent); }
         .data-label { color: #888; font-size: 0.9em; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; display: block; font-weight: bold;}
+        
+        #historial-container { background: #1a1917; padding: 8px; border-radius: 6px; border: 1px solid #444; max-height: 300px; overflow-y: auto; margin-bottom: 15px; box-shadow: inset 0 2px 10px rgba(0,0,0,0.5); }
+        
+        /* LA MAGIA DEL GRID (ESTILO LICHESS) */
+        .grid-historial { display: grid; grid-template-columns: 45px 1fr 1fr; gap: 4px; align-items: center; font-family: 'Segoe UI', Tahoma, sans-serif; font-size: 1.05em; }
+        .hist-num { background: #262421; color: #888; text-align: center; padding: 6px 0; border-radius: 4px; font-size: 0.9em; user-select: none; font-weight: bold; }
+        .hist-move { padding: 6px 10px; border-radius: 4px; cursor: pointer; color: var(--text); transition: 0.1s; text-align: center; }
+        .hist-move:hover { background: rgba(255, 255, 255, 0.1); }
+        .hist-move.selected { background: var(--accent); color: #000; font-weight: bold; box-shadow: 0 2px 0 rgba(0,0,0,0.5); }
+        
         textarea, input[type="text"] { width: 100%; background: #1a1917; color: var(--accent); border: 1px solid #555; padding: 12px; border-radius: 6px; font-family: 'Consolas', monospace; font-size: 1.1em; box-sizing: border-box; margin-bottom: 10px; outline: none; resize: vertical; }
         textarea:focus, input[type="text"]:focus { border-color: var(--blue); }
+        
         .btn-cargar { background: var(--blue); color: white; border: none; padding: 10px 15px; font-size: 1em; border-radius: 6px; cursor: pointer; font-weight: bold; width: 100%; box-shadow: 0 4px 0 #20629c; transition: 0.2s; margin-bottom: 20px; text-transform: uppercase;}
         .btn-cargar:hover { filter: brightness(1.1); transform: translateY(-2px); }
 
@@ -74,8 +85,8 @@
         <div id="board-wrapper">
             <div id="tablero"></div>
             <div class="controls-row">
-                <button class="btn-ctrl" onclick="irAtras()" title="Deshacer Movimiento">⏮️ Atrás</button>
-                <button class="btn-ctrl" onclick="irAdelante()" title="Avanzar Solución">⏭️ Adelante</button>
+                <button class="btn-ctrl" onclick="retroceder()" title="Deshacer Movimiento">⏮️ Atrás</button>
+                <button class="btn-ctrl" onclick="avanzar()" title="Avanzar Solución">⏭️ Adelante</button>
                 <button class="btn-ctrl" onclick="girarTablero()">🔃 Girar</button>
                 <button class="btn-ctrl" style="background: var(--danger); box-shadow: 0 4px 0 #8a1f1f;" onclick="reiniciarTablero()">🔄 Reset</button>
             </div>
@@ -96,8 +107,12 @@
                 </div>
             </div>
 
-            <label class="data-label">📝 Notación de la Partida:</label>
-            <textarea id="pgn-data" rows="5" placeholder="Aquí aparecerá toda la solución..."></textarea>
+            <label class="data-label">📝 Historial de Jugadas (Árbol):</label>
+            <div id="historial-container">Sin movimientos...</div>
+            <div id="subvariantes-container" style="display: none;"></div>
+
+            <label class="data-label" style="margin-top: 15px;">📥 Exportar/Importar PGN:</label>
+            <textarea id="pgn-data" rows="3" placeholder="Pega un PGN aquí..."></textarea>
             <button class="btn-cargar" onclick="cargarPGNUsuario()">Cargar Partida PGN</button>
 
             <div style="padding-top: 10px; border-top: 1px solid #444;">
@@ -118,10 +133,15 @@
         let board = null;
         let game = new Chess();
         
-        let jugadasFuturas = [];
         let engine = null;
         let engineActive = false;
         let timerMotor = null; 
+
+        // --- EL NUEVO ÁRBOL DE MULTIVERSOS ---
+        let arbolVariantes = { id: 0, fen: "start", san: "START", color: null, hijos: [], padre: null };
+        let nodoActual = arbolVariantes;
+        let nodoCounter = 0;
+        let mapaNodos = { 0: arbolVariantes };
 
         const statusBox = document.getElementById('status-box');
         const pgnData = document.getElementById('pgn-data');
@@ -177,6 +197,52 @@
                 .catch(e => console.warn("El motor de análisis no se pudo cargar."));
         }
 
+        // ==========================================
+        // LA NAVEGACIÓN POR EL ÁRBOL
+        // ==========================================
+        function saltarANodo(id) {
+            let destino = mapaNodos[id];
+            if (!destino) return;
+            
+            game.load(arbolVariantes.fen); // Volvemos al origen del árbol
+            let camino = [];
+            let temp = destino;
+            while(temp.padre !== null) {
+                camino.unshift(temp.san);
+                temp = temp.padre;
+            }
+            for(let san of camino) {
+                game.move(san); // Reconstruimos la historia hasta el nodo
+            }
+            nodoActual = destino;
+            board.position(game.fen());
+            actualizarUI();
+        }
+
+        // Retroceder en la historia (Atrás)
+        function retroceder() {
+            if (nodoActual.padre !== null) {
+                game.undo();
+                nodoActual = nodoActual.padre;
+                board.position(game.fen());
+                actualizarUI();
+            }
+        }
+
+        // Avanzar en la historia (Adelante)
+        function avanzar(indiceVariante = 0) {
+            if (nodoActual.hijos.length > 0) {
+                let hijo = nodoActual.hijos[indiceVariante]; 
+                game.move(hijo.san);
+                nodoActual = hijo;
+                board.position(game.fen());
+                actualizarUI();
+            }
+        }
+
+        // ==========================================
+        // LÓGICA DEL TABLERO
+        // ==========================================
         function onDragStart(source, piece, position, orientation) {
             if (game.game_over()) return false;
             if ((game.turn() === 'w' && piece.search(/^b/) !== -1) ||
@@ -186,7 +252,6 @@
         }
 
         function onDrop(source, target) {
-            // Comprobamos si es una coronación
             let esCoronacion = false;
             let pieza = game.get(source);
             if (pieza && pieza.type === 'p') {
@@ -196,7 +261,7 @@
                 }
             }
 
-            let piezaCoronada = 'q'; // Reina por defecto
+            let piezaCoronada = 'q';
             if (esCoronacion) {
                 let respuesta = prompt("¿Qué pieza quieres? (D=Dama, T=Torre, C=Caballo, A=Alfil)", "D");
                 if (respuesta) {
@@ -207,22 +272,41 @@
                 }
             }
 
-            let move = game.move({ from: source, to: target, promotion: piezaCoronada });
+            let testMove = game.move({ from: source, to: target, promotion: piezaCoronada });
+            if (testMove === null) return 'snapback';
+
+            // --- MAGIA DEL MULTIVERSO: RAMIFICAMOS ---
+            let varianteExistente = nodoActual.hijos.find(h => h.san === testMove.san);
             
-            if (move === null) return 'snapback';
-            reproducirSonido('correcto');
-            jugadasFuturas = []; 
-            actualizarEstado();
+            if (varianteExistente) {
+                nodoActual = varianteExistente;
+            } else {
+                nodoCounter++;
+                let nuevoNodo = { 
+                    id: nodoCounter, fen: game.fen(), san: testMove.san, 
+                    color: testMove.color, hijos: [], padre: nodoActual 
+                };
+                nodoActual.hijos.push(nuevoNodo);
+                mapaNodos[nuevoNodo.id] = nuevoNodo;
+                nodoActual = nuevoNodo; 
+            }
+
+            if(typeof reproducirSonido === 'function') reproducirSonido('correcto');
+            actualizarUI();
         }
 
         function onSnapEnd() { board.position(game.fen()); }
 
-        function actualizarEstado() {
+        // ==========================================
+        // LA INTERFAZ INTELIGENTE (ESTILO LICHESS COMPLETO)
+        // ==========================================
+        function actualizarUI() {
+            // 1. TEXTO DE ESTADO
             let statusHTML = '';
             let bando = (game.turn() === 'w') ? 'Blancas' : 'Negras';
             let colorTexto = (game.turn() === 'w') ? '#fff' : 'var(--danger)';
 
-            if (game.in_checkmate()) { statusHTML = `🏆 Jaque Mate. Pierden <span style="color:${colorTexto};">${bando}</span>`; reproducirSonido('fin'); } 
+            if (game.in_checkmate()) { statusHTML = `🏆 Jaque Mate. Pierden <span style="color:${colorTexto};">${bando}</span>`; if(typeof reproducirSonido === 'function') reproducirSonido('fin'); } 
             else if (game.in_draw()) { statusHTML = "🤝 Tablas / Empate"; } 
             else {
                 statusHTML = `Juegan <span style="color:${colorTexto}; text-transform:uppercase;">${bando}</span>`;
@@ -231,52 +315,113 @@
 
             statusBox.innerHTML = statusHTML;
             fenData.value = game.fen();
-            
-            // --- GENERADOR DEL PGN COMPLETO (PASADO + FUTURO) ---
-            let basePgn = game.pgn();
-            if (jugadasFuturas.length > 0) {
-                let clone = new Chess();
-                clone.load_pgn(basePgn || ""); 
-                if (clone.fen() !== game.fen()) clone.load(game.fen());
+
+            // 2. CONSTRUIR EL CAMINO ENTERO (PASADO + FUTURO DE LA LÍNEA PRINCIPAL)
+            let pasado = [];
+            let temp = nodoActual;
+            while(temp.padre !== null) {
+                pasado.unshift(temp);
+                temp = temp.padre;
+            }
+
+            let futuro = [];
+            let tempFuturo = nodoActual;
+            while(tempFuturo.hijos && tempFuturo.hijos.length > 0) {
+                tempFuturo = tempFuturo.hijos[0]; // Caminamos hacia el futuro por la primera variante
+                futuro.push(tempFuturo);
+            }
+
+            // Unimos pasado y futuro en una sola tira de movimientos continuos
+            let camino = pasado.concat(futuro);
+
+            let html = "<div class='grid-historial'>"; 
+            let pgnExport = "";
+            let moveNum = parseInt(arbolVariantes.fen.split(' ')[5]) || 1;
+
+            if (camino.length === 0) {
+                html += "<div style='grid-column: 1 / -1; color: #666; text-align: center; padding: 15px;'>Posición inicial</div>";
+            }
+
+            let idx = 0;
+            // Si el FEN inicial arranca en el turno de las negras
+            if (camino.length > 0 && camino[0].color === 'b') {
+                let n = camino[0];
+                let isSelected = (n.id === nodoActual.id) ? "selected" : "";
+                html += `<div class="hist-num">${moveNum}</div>`;
+                html += `<div class="hist-move" style="color: #444; pointer-events: none;">...</div>`;
+                html += `<div class="hist-move ${isSelected}" onclick="saltarANodo(${n.id})">${n.san}</div>`;
+                pgnExport += `${moveNum}... ${n.san} `;
+                moveNum++;
+                idx = 1;
+            }
+
+            // Renderizado por parejas en columnas (Grid) sin recortar nada por ir hacia atrás
+            while (idx < camino.length) {
+                let nBlanca = camino[idx];
+                let isSelectedB = (nBlanca.id === nodoActual.id) ? "selected" : "";
                 
-                for (let i = jugadasFuturas.length - 1; i >= 0; i--) {
-                    clone.move(jugadasFuturas[i].san);
+                html += `<div class="hist-num">${moveNum}</div>`;
+                html += `<div class="hist-move ${isSelectedB}" onclick="saltarANodo(${nBlanca.id})">${nBlanca.san}</div>`;
+                pgnExport += `${moveNum}. ${nBlanca.san} `;
+                
+                if (idx + 1 < camino.length) {
+                    let nNegra = camino[idx + 1];
+                    let isSelectedN = (nNegra.id === nodoActual.id) ? "selected" : "";
+                    html += `<div class="hist-move ${isSelectedN}" onclick="saltarANodo(${nNegra.id})">${nNegra.san}</div>`;
+                    pgnExport += `${nNegra.san} `;
+                } else {
+                    html += `<div class="hist-move" style="pointer-events: none;"></div>`;
                 }
-                pgnData.value = clone.pgn();
+                
+                moveNum++;
+                idx += 2;
+            }
+            
+            html += "</div>"; 
+            
+            let contenedor = document.getElementById('historial-container');
+            contenedor.innerHTML = html;
+            
+            // Auto-scroll inteligente: persigue y centra suavemente la jugada activa, esté arriba o abajo
+            let elementoSeleccionado = contenedor.querySelector('.hist-move.selected');
+            if (elementoSeleccionado) {
+                elementoSeleccionado.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
             } else {
-                pgnData.value = basePgn || "";
+                contenedor.scrollTop = contenedor.scrollHeight;
             }
-            pgnData.scrollTop = pgnData.scrollHeight;
 
+            pgnData.value = pgnExport.trim();
+
+            // 3. CAJA DE SUBVARIANTES (Se activa solo cuando hay cruces de caminos)
+            let contenedorSub = document.getElementById('subvariantes-container');
+            if (nodoActual.hijos.length > 1) {
+                let subHtml = "<div style='color:var(--blue); font-size:0.9em; margin-bottom:8px; text-transform:uppercase;'>Subvariantes desde aquí:</div>";
+                for (let i = 0; i < nodoActual.hijos.length; i++) {
+                    let hijo = nodoActual.hijos[i];
+                    let colorBtn = (i === 0) ? "var(--green)" : "#444"; 
+                    subHtml += `<button onclick="avanzar(${i})" style="background:${colorBtn}; color:#fff; border:none; padding:8px 12px; border-radius:4px; margin:2px; cursor:pointer; font-weight:bold; box-shadow: 0 3px 0 rgba(0,0,0,0.5);">${hijo.san}</button> `;
+                }
+                contenedorSub.innerHTML = subHtml;
+                contenedorSub.style.display = 'block';
+            } else {
+                contenedorSub.style.display = 'none';
+            }
+
+            // 4. DISPARAR STOCKFISH
             analizarPosicion();
-        }
-
-        function irAtras() {
-            let moveUndo = game.undo();
-            if (moveUndo) {
-                jugadasFuturas.push(moveUndo); 
-                board.position(game.fen());
-                actualizarEstado();
-            }
-        }
-
-        function irAdelante() {
-            if (jugadasFuturas.length > 0) {
-                let moveRehacer = jugadasFuturas.pop();
-                game.move(moveRehacer.san); // Uso estricto de notación corta para evitar fallos
-                board.position(game.fen());
-                actualizarEstado();
-            }
         }
 
         function girarTablero() { board.flip(); }
 
         function reiniciarTablero() {
             game.reset();
-            jugadasFuturas = [];
+            arbolVariantes = { id: 0, fen: game.fen(), san: "START", color: null, hijos: [], padre: null };
+            nodoActual = arbolVariantes;
+            nodoCounter = 0;
+            mapaNodos = { 0: arbolVariantes };
             board.position('start');
             board.orientation('white');
-            actualizarEstado();
+            actualizarUI();
         }
 
         function cargarFENUsuario() {
@@ -284,21 +429,45 @@
             if(inputFen === '') return;
             let valid = game.load(inputFen);
             if (valid) {
-                jugadasFuturas = [];
+                arbolVariantes = { id: 0, fen: game.fen(), san: "START", color: null, hijos: [], padre: null };
+                nodoActual = arbolVariantes;
+                nodoCounter = 0;
+                mapaNodos = { 0: arbolVariantes };
                 board.position(game.fen());
-                actualizarEstado();
+                actualizarUI();
             } else { alert("Código FEN inválido."); fenData.value = game.fen(); }
         }
 
         function cargarPGNUsuario() {
             let inputPgn = pgnData.value.trim();
             if(inputPgn === '') { reiniciarTablero(); return; }
-            let valid = game.load_pgn(inputPgn);
-            if (valid) {
-                jugadasFuturas = [];
+            
+            let tempGame = new Chess();
+            if(tempGame.load_pgn(inputPgn)) {
+                let moves = tempGame.history({verbose:true});
+                let head = tempGame.header();
+                let startFen = head.FEN || "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+                
+                game.load(startFen);
+                
+                arbolVariantes = { id: 0, fen: game.fen(), san: "START", color: null, hijos: [], padre: null };
+                nodoActual = arbolVariantes;
+                nodoCounter = 0;
+                mapaNodos = { 0: arbolVariantes };
+
+                for(let m of moves) {
+                    game.move(m.san);
+                    nodoCounter++;
+                    let nuevoNodo = { id: gateway = nodoCounter, fen: game.fen(), san: m.san, color: m.color, padre: nodoActual, hijos: [] };
+                    nodoActual.hijos.push(nuevoNodo);
+                    mapaNodos[nuevoNodo.id] = nuevoNodo;
+                    nodoActual = nuevoNodo;
+                }
                 board.position(game.fen());
-                actualizarEstado();
-            } else { alert("Notación PGN inválida o contiene movimientos ilegales."); }
+                actualizarUI();
+            } else {
+                alert("Notación PGN inválida o contiene movimientos ilegales.");
+            }
         }
 
         function toggleMotor() {
@@ -325,10 +494,8 @@
             document.getElementById('eval-score').innerText = "Pensando...";
             document.getElementById('eval-bestmove').innerText = "...";
             
-            // Limpiamos el temporizador anterior si el usuario ha hecho otro movimiento rápido
             clearTimeout(timerMotor);
             
-            // Le damos 300 milisegundos de "respiro" antes de forzarle a calcular
             timerMotor = setTimeout(() => {
                 engine.postMessage("stop");
                 engine.postMessage("position fen " + game.fen());
@@ -336,6 +503,9 @@
             }, 300);
         }
 
+        // ==========================================
+        // INICIO AL CARGAR LA PÁGINA
+        // ==========================================
         let config = {
             draggable: true,
             position: 'start',
@@ -348,7 +518,9 @@
         board = Chessboard('tablero', config);
         cargarMotor(); 
         
-        // --- LECTURA MÁGICA DEL BAÚL ---
+        arbolVariantes.fen = game.fen(); 
+
+        // --- ENRUTADOR DESDE EL BAÚL (DE ERRORES) ---
         const urlParams = new URLSearchParams(window.location.search);
         const fenParam = urlParams.get('fen');
         const solParam = urlParams.get('solucion');
@@ -357,10 +529,11 @@
             let valid = game.load(fenParam);
             if (valid) {
                 board.position(game.fen());
+                arbolVariantes.fen = game.fen(); 
+                nodoActual = arbolVariantes; 
                 
                 if (solParam) {
                     let moves = solParam.trim().split(/\s+/);
-                    let validMoves = [];
                     
                     for (let m of moves) {
                         if (!m) continue;
@@ -370,24 +543,27 @@
                             moveResult = game.move({ from: f, to: t, promotion: p });
                         }
                         if (moveResult) {
-                            validMoves.push(moveResult);
+                            nodoCounter++;
+                            let nuevoNodo = { id: nodoCounter, fen: game.fen(), san: moveResult.san, color: moveResult.color, padre: nodoActual, hijos: [] };
+                            nodoActual.hijos.push(nuevoNodo);
+                            mapaNodos[nuevoNodo.id] = nuevoNodo;
+                            nodoActual = nuevoNodo;
                         } else {
-                            console.warn("La solución contenía un movimiento no válido para este turno:", m);
                             break;
                         }
                     }
 
-                    // Rebubinamos para dejar los movimientos listos en el botón Adelante
-                    while (validMoves.length > 0) {
-                        let undone = game.undo();
-                        jugadasFuturas.push(undone);
-                        validMoves.pop();
+                    // Rebobinamos al origen para que empiece desde la posición inicial del fallo
+                    while (nodoActual.padre !== null) {
+                        game.undo();
+                        nodoActual = nodoActual.padre;
                     }
+                    board.position(game.fen());
                 }
             }
         }
         
-        actualizarEstado();
+        actualizarUI();
 
     </script>
 </body>
