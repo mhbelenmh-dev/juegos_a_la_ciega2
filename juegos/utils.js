@@ -281,36 +281,50 @@ window.seleccionarColorVisual = function(color) {
 };
 
 // 2. Modificación de Seguridad (Nombre, Correo, Pass)
-// 2. Modificación de Seguridad (Nombre, Correo, Pass)
 window.cambiarNombreUsuario = function() {
     let nuevo = document.getElementById('ajuste-nuevo-nombre').value.trim();
     if(nuevo.length < 3) return alert("El nombre debe tener al menos 3 letras.");
     
+    let nombreMinusculas = nuevo.toLowerCase();
     let user = firebase.auth().currentUser;
+    
     if(user) {
-        user.updateProfile({ displayName: nuevo }).then(() => {
-            let uid = user.uid;
+        // 1. EL SEGURATA: Comprobamos si alguien ya tiene este nombre
+        firebase.database().ref('users').orderByChild('nombreJugadorLower').equalTo(nombreMinusculas).once('value', snap => {
             
-            firebase.database().ref('users/' + uid).update({ 
-                nombreJugador: nuevo, 
-                nombreJugadorLower: nuevo.toLowerCase() 
-            }).then(() => {
-                // 🔥 EL TRUCO: Actualizamos todas las "memorias" del navegador para que no lo machaque
-                localStorage.setItem('current_user_name', nuevo);
-                localStorage.setItem('nombre_temporal', nuevo); 
-                
-                // Actualizamos también su perfil guardado en caché
-                let perfilLocal = localStorage.getItem('chess_gym_profile_' + uid);
-                if (perfilLocal) {
-                    let p = JSON.parse(perfilLocal);
-                    p.nombreJugador = nuevo;
-                    localStorage.setItem('chess_gym_profile_' + uid, JSON.stringify(p));
+            if (snap.exists()) {
+                // Si existe, verificamos que no sea nuestro propio nombre (por si le damos a guardar sin cambiar nada)
+                let datos = snap.val();
+                let uidsQueTienenElNombre = Object.keys(datos);
+                if (uidsQueTienenElNombre.length > 1 || uidsQueTienenElNombre[0] !== user.uid) {
+                    return alert("❌ Ese nombre ya está en uso por otro jugador. ¡Elige otro!");
                 }
+            }
+
+            // 2. Si está libre, lo cambiamos sin problema
+            user.updateProfile({ displayName: nuevo }).then(() => {
+                let uid = user.uid;
                 
-                alert("¡Nombre cambiado con éxito!");
-                location.reload();
-            });
-        }).catch(e => alert("Error al cambiar el nombre: " + e.message));
+                firebase.database().ref('users/' + uid).update({ 
+                    nombreJugador: nuevo, 
+                    nombreJugadorLower: nombreMinusculas 
+                }).then(() => {
+                    // Actualizamos las memorias
+                    localStorage.setItem('current_user_name', nuevo);
+                    localStorage.setItem('nombre_temporal', nuevo); 
+                    
+                    let perfilLocal = localStorage.getItem('chess_gym_profile_' + uid);
+                    if (perfilLocal) {
+                        let p = JSON.parse(perfilLocal);
+                        p.nombreJugador = nuevo;
+                        localStorage.setItem('chess_gym_profile_' + uid, JSON.stringify(p));
+                    }
+                    
+                    alert("✅ ¡Nombre cambiado con éxito!");
+                    location.reload();
+                });
+            }).catch(e => alert("Error al cambiar el nombre: " + e.message));
+        });
     } else { 
         alert("Debes iniciar sesión para cambiar tu nombre."); 
     }
